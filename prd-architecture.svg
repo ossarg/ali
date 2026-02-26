@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 850" font-family="'Segoe UI', system-ui, -apple-system, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#00000020"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f87171"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="850" fill="#fafaf9" rx="12"/>
+
+  <!-- Title -->
+  <text x="550" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Libra Legal AI — PRD: Arquitectura y Flujo</text>
+  <text x="550" y="58" text-anchor="middle" font-size="12" fill="#94a3b8">Cómo una demanda se transforma en un caso listo para el abogado</text>
+
+  <!-- ═══════════ INPUT ═══════════ -->
+  <text x="60" y="105" font-size="11" fill="#94a3b8" font-weight="600">INPUT</text>
+
+  <rect x="380" y="80" width="340" height="55" rx="10" fill="#1e1b4b" filter="url(#shadow)"/>
+  <text x="550" y="105" text-anchor="middle" font-size="15" font-weight="600" fill="#e0e7ff">Demanda Judicial (PDF)</text>
+  <text x="550" y="122" text-anchor="middle" font-size="10" fill="#a5b4fc">~100-200 por mes · Formato variable</text>
+
+  <!-- Arrow -->
+  <line x1="550" y1="135" x2="550" y2="163" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ═══════════ LAYER 1: Ingesta ═══════════ -->
+  <text x="60" y="195" font-size="11" fill="#94a3b8" font-weight="600">INGESTA</text>
+
+  <rect x="300" y="165" width="500" height="55" rx="10" fill="#312e81" filter="url(#shadow)"/>
+  <text x="550" y="190" text-anchor="middle" font-size="14" font-weight="600" fill="#e0e7ff">Sub-agente: Ingesta y Revisión Formal</text>
+  <text x="550" y="208" text-anchor="middle" font-size="10" fill="#a5b4fc">Extracción de texto · Validación de formalidades procesales</text>
+
+  <!-- Gate: Formalidades -->
+  <rect x="830" y="170" width="180" height="45" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1"/>
+  <text x="920" y="190" text-anchor="middle" font-size="10" font-weight="600" fill="#991b1b">Irregularidades?</text>
+  <text x="920" y="204" text-anchor="middle" font-size="9" fill="#b91c1c">→ Alerta revisión humana</text>
+  <line x1="800" y1="192" x2="830" y2="192" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Arrow -->
+  <line x1="550" y1="220" x2="550" y2="248" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ═══════════ LAYER 2: Extracción ═══════════ -->
+  <text x="60" y="280" font-size="11" fill="#94a3b8" font-weight="600">EXTRACCIÓN</text>
+
+  <rect x="300" y="250" width="500" height="70" rx="10" fill="#3730a3" filter="url(#shadow)"/>
+  <text x="550" y="275" text-anchor="middle" font-size="14" font-weight="600" fill="#e0e7ff">Sub-agente: Extracción de Datos</text>
+  <text x="550" y="295" text-anchor="middle" font-size="10" fill="#a5b4fc">Demandante · Jurisdicción · Monto · Tribunal · Póliza · Plazo</text>
+  <text x="550" y="310" text-anchor="middle" font-size="10" fill="#a5b4fc">Confidence score por campo</text>
+
+  <!-- Gate: Confidence -->
+  <rect x="830" y="255" width="180" height="45" rx="6" fill="#fefce8" stroke="#eab308" stroke-width="1"/>
+  <text x="920" y="275" text-anchor="middle" font-size="10" font-weight="600" fill="#713f12">Score bajo?</text>
+  <text x="920" y="289" text-anchor="middle" font-size="9" fill="#92400e">→ Validación humana</text>
+  <line x1="800" y1="277" x2="830" y2="277" stroke="#eab308" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Arrows: Extracción splits to Tabular + Triage -->
+  <line x1="470" y1="320" x2="300" y2="353" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <line x1="630" y1="320" x2="800" y2="353" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ═══════════ LAYER 3: Procesamiento (side by side) ═══════════ -->
+  <text x="60" y="385" font-size="11" fill="#94a3b8" font-weight="600">ANÁLISIS</text>
+
+  <!-- Tabular View -->
+  <rect x="100" y="355" width="370" height="55" rx="10" fill="#4338ca" filter="url(#shadow)"/>
+  <text x="285" y="380" text-anchor="middle" font-size="14" font-weight="600" fill="#e0e7ff">Tabular View + Base de Datos</text>
+  <text x="285" y="398" text-anchor="middle" font-size="10" fill="#a5b4fc">Registro estructurado · Filtros · Búsqueda · Export</text>
+
+  <!-- Triage -->
+  <rect x="630" y="355" width="370" height="55" rx="10" fill="#4338ca" filter="url(#shadow)"/>
+  <text x="815" y="380" text-anchor="middle" font-size="14" font-weight="600" fill="#e0e7ff">Sub-agente: Triage</text>
+  <text x="815" y="398" text-anchor="middle" font-size="10" fill="#a5b4fc">Alta / Media / Baja · Resumen ejecutivo</text>
+
+  <!-- Arrows merge to Fichero -->
+  <line x1="285" y1="410" x2="450" y2="443" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <line x1="815" y1="410" x2="650" y2="443" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ═══════════ LAYER 4: Fichero ═══════════ -->
+  <text x="60" y="475" font-size="11" fill="#94a3b8" font-weight="600">COMPILACIÓN</text>
+
+  <rect x="350" y="445" width="400" height="55" rx="10" fill="#6d28d9" filter="url(#shadow)"/>
+  <text x="550" y="470" text-anchor="middle" font-size="14" font-weight="600" fill="#f5f3ff">Sub-agente: Generación de Fichero</text>
+  <text x="550" y="488" text-anchor="middle" font-size="10" fill="#ddd6fe">Demanda + Póliza + Triage + Antecedentes → Carpeta</text>
+
+  <!-- Integración con sistemas internos -->
+  <rect x="80" y="450" width="240" height="45" rx="6" fill="#f0fdf4" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="200" y="470" text-anchor="middle" font-size="10" font-weight="600" fill="#14532d">Sistemas internos</text>
+  <text x="200" y="484" text-anchor="middle" font-size="9" fill="#166534">Pólizas · Siniestros · Asegurado</text>
+  <line x1="320" y1="472" x2="350" y2="472" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Arrow -->
+  <line x1="550" y1="500" x2="550" y2="528" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ═══════════ LAYER 5: Borrador ═══════════ -->
+  <text x="60" y="560" font-size="11" fill="#94a3b8" font-weight="600">REDACCIÓN</text>
+
+  <rect x="300" y="530" width="500" height="70" rx="10" fill="#7c3aed" filter="url(#shadow)"/>
+  <text x="550" y="555" text-anchor="middle" font-size="14" font-weight="600" fill="#f5f3ff">Sub-agente: Borrador de Contestación</text>
+  <text x="550" y="575" text-anchor="middle" font-size="10" fill="#ddd6fe">Estático: reserva federal · petitorio · encabezamiento</text>
+  <text x="550" y="590" text-anchor="middle" font-size="10" fill="#ddd6fe">Dinámico: negativas · hechos · cláusulas de póliza</text>
+
+  <!-- Templates -->
+  <rect x="830" y="540" width="180" height="45" rx="6" fill="#f0fdf4" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="920" y="560" text-anchor="middle" font-size="10" font-weight="600" fill="#14532d">Templates</text>
+  <text x="920" y="574" text-anchor="middle" font-size="9" fill="#166534">Modelos de contestación</text>
+  <line x1="800" y1="562" x2="830" y2="562" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Arrow -->
+  <line x1="550" y1="600" x2="550" y2="628" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ═══════════ LAYER 6: Asignación ═══════════ -->
+  <text x="60" y="655" font-size="11" fill="#94a3b8" font-weight="600">ASIGNACIÓN</text>
+
+  <rect x="350" y="630" width="400" height="55" rx="10" fill="#9333ea" filter="url(#shadow)"/>
+  <text x="550" y="655" text-anchor="middle" font-size="14" font-weight="600" fill="#faf5ff">Sub-agente: Asignación</text>
+  <text x="550" y="673" text-anchor="middle" font-size="10" fill="#e9d5ff">Expertise · Seniority · Carga → Sugerencia</text>
+
+  <!-- Arrow -->
+  <line x1="550" y1="685" x2="550" y2="713" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ═══════════ LAYER 7: Human-in-the-Loop ═══════════ -->
+  <text x="60" y="745" font-size="11" fill="#94a3b8" font-weight="600">SUPERVISIÓN</text>
+
+  <rect x="250" y="715" width="600" height="60" rx="10" fill="#dc2626" filter="url(#shadow)"/>
+  <text x="550" y="743" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">Human-in-the-Loop</text>
+  <text x="550" y="763" text-anchor="middle" font-size="11" fill="#fecaca">Validación · Aprobación de asignación · Revisión de borrador · Decisión final</text>
+
+  <!-- ═══════════ OUTPUT ═══════════ -->
+  <text x="60" y="810" font-size="11" fill="#94a3b8" font-weight="600">OUTPUT</text>
+
+  <rect x="120" y="792" width="200" height="35" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+  <text x="220" y="814" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">Ficha estructurada</text>
+
+  <rect x="340" y="792" width="200" height="35" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+  <text x="440" y="814" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">Fichero del caso</text>
+
+  <rect x="560" y="792" width="200" height="35" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+  <text x="660" y="814" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">Borrador contestación</text>
+
+  <rect x="780" y="792" width="200" height="35" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+  <text x="880" y="814" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">Dashboard / Analytics</text>
+
+  <!-- Footer -->
+  <text x="550" y="845" text-anchor="middle" font-size="10" fill="#cbd5e1">Libra Legal AI — PRD Architecture — Feb 2026</text>
+</svg>

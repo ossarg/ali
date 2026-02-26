@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 820" font-family="'Segoe UI', system-ui, -apple-system, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#00000020"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4ade80"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="820" fill="#fafaf9" rx="12"/>
+
+  <!-- Title -->
+  <text x="550" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1e293b">Libra Legal AI — Scope of Work</text>
+  <text x="550" y="58" text-anchor="middle" font-size="12" fill="#94a3b8">Sistema de agentes de IA para gestión de litigios</text>
+
+  <!-- ═══════════ ROW 1: Problema ═══════════ -->
+  <text x="60" y="105" font-size="11" fill="#94a3b8" font-weight="600">PROBLEMA</text>
+
+  <rect x="160" y="80" width="250" height="55" rx="8" fill="#7f1d1d" filter="url(#shadow)"/>
+  <text x="285" y="105" text-anchor="middle" font-size="13" font-weight="600" fill="#fecaca">Procesos manuales</text>
+  <text x="285" y="122" text-anchor="middle" font-size="10" fill="#fca5a5">Excel, categorización a criterio, sin datos</text>
+
+  <rect x="430" y="80" width="250" height="55" rx="8" fill="#7f1d1d" filter="url(#shadow)"/>
+  <text x="555" y="105" text-anchor="middle" font-size="13" font-weight="600" fill="#fecaca">Costos altos</text>
+  <text x="555" y="122" text-anchor="middle" font-size="10" fill="#fca5a5">10-12 estudios jurídicos externos</text>
+
+  <rect x="700" y="80" width="250" height="55" rx="8" fill="#7f1d1d" filter="url(#shadow)"/>
+  <text x="825" y="105" text-anchor="middle" font-size="13" font-weight="600" fill="#fecaca">Sin trazabilidad</text>
+  <text x="825" y="122" text-anchor="middle" font-size="10" fill="#fca5a5">Data dispersa, sin base unificada</text>
+
+  <!-- Arrow Problema → Solución -->
+  <line x1="550" y1="140" x2="550" y2="168" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ═══════════ ROW 2: Solución ═══════════ -->
+  <text x="60" y="200" font-size="11" fill="#94a3b8" font-weight="600">SOLUCIÓN</text>
+
+  <rect x="200" y="170" width="700" height="55" rx="10" fill="#1e1b4b" filter="url(#shadow)"/>
+  <text x="550" y="198" text-anchor="middle" font-size="16" font-weight="600" fill="#e0e7ff">Co-worker Legal IA</text>
+  <text x="550" y="215" text-anchor="middle" font-size="11" fill="#a5b4fc">Agentes especializados · Modular · Agnóstico en modelo · Auditable</text>
+
+  <!-- Arrow Solución → Funciones -->
+  <line x1="550" y1="225" x2="550" y2="253" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ═══════════ ROW 3: Funciones (3x3 grid) ═══════════ -->
+  <text x="60" y="290" font-size="11" fill="#94a3b8" font-weight="600">FUNCIONES</text>
+
+  <!-- Row 1 of grid -->
+  <rect x="100" y="255" width="270" height="55" rx="8" fill="#312e81" filter="url(#shadow)"/>
+  <text x="235" y="278" text-anchor="middle" font-size="12" font-weight="600" fill="#e0e7ff">1. Ingesta y revisión formal</text>
+  <text x="235" y="298" text-anchor="middle" font-size="10" fill="#a5b4fc">Recepción PDF · Validación de formalidades</text>
+
+  <rect x="400" y="255" width="300" height="55" rx="8" fill="#312e81" filter="url(#shadow)"/>
+  <text x="550" y="278" text-anchor="middle" font-size="12" font-weight="600" fill="#e0e7ff">2. Extracción de datos</text>
+  <text x="550" y="298" text-anchor="middle" font-size="10" fill="#a5b4fc">Demandante · Monto · Tribunal · Póliza</text>
+
+  <rect x="730" y="255" width="270" height="55" rx="8" fill="#312e81" filter="url(#shadow)"/>
+  <text x="865" y="278" text-anchor="middle" font-size="12" font-weight="600" fill="#e0e7ff">3. Tabular view</text>
+  <text x="865" y="298" text-anchor="middle" font-size="10" fill="#a5b4fc">Base de datos estructurada de litigios</text>
+
+  <!-- Row 2 of grid -->
+  <rect x="100" y="325" width="270" height="55" rx="8" fill="#3730a3" filter="url(#shadow)"/>
+  <text x="235" y="348" text-anchor="middle" font-size="12" font-weight="600" fill="#e0e7ff">4. Triage</text>
+  <text x="235" y="368" text-anchor="middle" font-size="10" fill="#a5b4fc">Prioridad · Resumen ejecutivo</text>
+
+  <rect x="400" y="325" width="300" height="55" rx="8" fill="#3730a3" filter="url(#shadow)"/>
+  <text x="550" y="348" text-anchor="middle" font-size="12" font-weight="600" fill="#e0e7ff">5. Generación de fichero</text>
+  <text x="550" y="368" text-anchor="middle" font-size="10" fill="#a5b4fc">Caso individual · Demanda + Póliza + Metadata</text>
+
+  <rect x="730" y="325" width="270" height="55" rx="8" fill="#3730a3" filter="url(#shadow)"/>
+  <text x="865" y="348" text-anchor="middle" font-size="12" font-weight="600" fill="#e0e7ff">6. Borrador de contestación</text>
+  <text x="865" y="368" text-anchor="middle" font-size="10" fill="#a5b4fc">Template: estático + dinámico</text>
+
+  <!-- Row 3 of grid -->
+  <rect x="100" y="395" width="270" height="55" rx="8" fill="#4338ca" filter="url(#shadow)"/>
+  <text x="235" y="418" text-anchor="middle" font-size="12" font-weight="600" fill="#e0e7ff">7. Asignación a abogados</text>
+  <text x="235" y="438" text-anchor="middle" font-size="10" fill="#a5b4fc">Expertise · Seniority · Carga</text>
+
+  <rect x="400" y="395" width="300" height="55" rx="8" fill="#4338ca" filter="url(#shadow)"/>
+  <text x="550" y="418" text-anchor="middle" font-size="12" font-weight="600" fill="#e0e7ff">8. Seguimiento de casos</text>
+  <text x="550" y="438" text-anchor="middle" font-size="10" fill="#a5b4fc">SAIJ · Sistemas judiciales públicos</text>
+
+  <rect x="730" y="395" width="270" height="55" rx="8" fill="#4338ca" filter="url(#shadow)"/>
+  <text x="865" y="418" text-anchor="middle" font-size="12" font-weight="600" fill="#e0e7ff">9. Analytics y reporting</text>
+  <text x="865" y="438" text-anchor="middle" font-size="10" fill="#a5b4fc">Dashboards · Métricas · Tendencias</text>
+
+  <!-- Arrow Funciones → Fases -->
+  <line x1="550" y1="455" x2="550" y2="488" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ═══════════ ROW 4: Fases ═══════════ -->
+  <text x="60" y="530" font-size="11" fill="#94a3b8" font-weight="600">FASES</text>
+
+  <!-- PoC -->
+  <rect x="80" y="490" width="290" height="90" rx="10" fill="#14532d" filter="url(#shadow)"/>
+  <text x="225" y="516" text-anchor="middle" font-size="14" font-weight="700" fill="#bbf7d0">Fase 1 — PoC</text>
+  <text x="225" y="536" text-anchor="middle" font-size="10" fill="#86efac">Ingesta · Extracción · Tabular · Triage</text>
+  <line x1="120" y1="548" x2="330" y2="548" stroke="#22c55e" stroke-width="0.5" opacity="0.3"/>
+  <text x="225" y="566" text-anchor="middle" font-size="10" fill="#6ee7b7">1-2 demandas reales</text>
+
+  <!-- Arrow PoC → MVP -->
+  <line x1="370" y1="535" x2="398" y2="535" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arrowhead-green)"/>
+
+  <!-- MVP -->
+  <rect x="400" y="490" width="290" height="90" rx="10" fill="#1a2e05" filter="url(#shadow)"/>
+  <text x="545" y="516" text-anchor="middle" font-size="14" font-weight="700" fill="#d9f99d">Fase 2 — MVP</text>
+  <text x="545" y="536" text-anchor="middle" font-size="10" fill="#bef264">Fichero · Borrador · Asignación básica</text>
+  <line x1="440" y1="548" x2="650" y2="548" stroke="#84cc16" stroke-width="0.5" opacity="0.3"/>
+  <text x="545" y="566" text-anchor="middle" font-size="10" fill="#a3e635">Sistema funcional interno</text>
+
+  <!-- Arrow MVP → Prod -->
+  <line x1="690" y1="535" x2="718" y2="535" stroke="#4ade80" stroke-width="1.5" marker-end="url(#arrowhead-green)"/>
+
+  <!-- Producción -->
+  <rect x="720" y="490" width="290" height="90" rx="10" fill="#0c1a2e" filter="url(#shadow)"/>
+  <text x="865" y="516" text-anchor="middle" font-size="14" font-weight="700" fill="#bfdbfe">Fase 3 — Producción</text>
+  <text x="865" y="536" text-anchor="middle" font-size="10" fill="#93c5fd">Seguimiento · Analytics · Mission Control</text>
+  <line x1="760" y1="548" x2="970" y2="548" stroke="#3b82f6" stroke-width="0.5" opacity="0.3"/>
+  <text x="865" y="566" text-anchor="middle" font-size="10" fill="#60a5fa">100-200 demandas/mes</text>
+
+  <!-- ═══════════ ROW 5: Objetivos ═══════════ -->
+  <text x="60" y="630" font-size="11" fill="#94a3b8" font-weight="600">OBJETIVOS</text>
+
+  <rect x="80" y="610" width="155" height="50" rx="8" fill="#fefce8" stroke="#eab308" stroke-width="1"/>
+  <text x="157" y="633" text-anchor="middle" font-size="11" font-weight="600" fill="#713f12">Reducir costos</text>
+  <text x="157" y="649" text-anchor="middle" font-size="9" fill="#92400e">Menos externos</text>
+
+  <rect x="250" y="610" width="155" height="50" rx="8" fill="#fefce8" stroke="#eab308" stroke-width="1"/>
+  <text x="327" y="633" text-anchor="middle" font-size="11" font-weight="600" fill="#713f12">Productividad</text>
+  <text x="327" y="649" text-anchor="middle" font-size="9" fill="#92400e">Automatizar lo repetitivo</text>
+
+  <rect x="420" y="610" width="155" height="50" rx="8" fill="#fefce8" stroke="#eab308" stroke-width="1"/>
+  <text x="497" y="633" text-anchor="middle" font-size="11" font-weight="600" fill="#713f12">Calidad</text>
+  <text x="497" y="649" text-anchor="middle" font-size="9" fill="#92400e">Estandarización</text>
+
+  <rect x="590" y="610" width="155" height="50" rx="8" fill="#fefce8" stroke="#eab308" stroke-width="1"/>
+  <text x="667" y="633" text-anchor="middle" font-size="11" font-weight="600" fill="#713f12">Tiempos</text>
+  <text x="667" y="649" text-anchor="middle" font-size="9" fill="#92400e">Recepción → contestación</text>
+
+  <rect x="760" y="610" width="155" height="50" rx="8" fill="#fefce8" stroke="#eab308" stroke-width="1"/>
+  <text x="837" y="633" text-anchor="middle" font-size="11" font-weight="600" fill="#713f12">Trazabilidad</text>
+  <text x="837" y="649" text-anchor="middle" font-size="9" fill="#92400e">Base de datos unificada</text>
+
+  <!-- ═══════════ ROW 6: Puntos abiertos ═══════════ -->
+  <text x="60" y="710" font-size="11" fill="#94a3b8" font-weight="600">ABIERTOS</text>
+
+  <rect x="80" y="690" width="930" height="45" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="550" y="712" text-anchor="middle" font-size="10" font-weight="600" fill="#9a3412">Pendientes: Sistemas internos · Templates de contestación · Muestras de demandas · Stack técnico · Deployment · Regulación SSN</text>
+  <text x="550" y="726" text-anchor="middle" font-size="9" fill="#c2410c">Estos puntos deben resolverse progresivamente antes de cada fase</text>
+
+  <!-- Footer -->
+  <text x="550" y="800" text-anchor="middle" font-size="10" fill="#cbd5e1">Libra Legal AI — Scope of Work — Feb 2026</text>
+</svg>
