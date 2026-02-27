@@ -17,7 +17,7 @@ from google.auth.transport.requests import Request
 # ── Config ──────────────────────────────────────────────────────────────────
 WORKSPACE = '/home/legales/.openclaw/workspace-rachel'
 TOKEN_FILE = f'{WORKSPACE}/gmail_token.json'
-DB_URL = 'os.environ.get("NEON_DB_URL")'
+DB_URL = 'postgresql://neondb_owner:npg_09lhJkLNDKfr@ep-cold-bar-ai32e4c6-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require'
 
 # ── Gmail ────────────────────────────────────────────────────────────────────
 def get_gmail_service():
