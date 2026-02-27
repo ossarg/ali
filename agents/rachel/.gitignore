@@ -1,0 +1,4 @@
+gmail_token.json
+sheets_ids.json
+*.log
+__pycache__/
