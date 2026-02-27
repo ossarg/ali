@@ -10,6 +10,10 @@ project: "[[Libra]]"
 
 # PRD — Libra Legal AI
 
+## Misión
+
+> Transformar la gestión de litigios de Libra Seguros de un proceso manual, fragmentado y reactivo en una operación legal estructurada, inteligente y proactiva — donde cada demanda se procesa en minutos, cada decisión se toma con datos, y el equipo legal dedica su tiempo a pensar en lugar de a administrar.
+
 ## 1. Problema
 
 El área de litigios de Libra Seguros opera con procesos manuales y fragmentados. Las demandas judiciales se reciben en papel o PDF, se categorizan a criterio del gerente de legales, se distribuyen entre estudios jurídicos externos según expertise informal, y se rastrean en planillas Excel con estructura variable. No existe una base de datos unificada de litigios, no hay estandarización en las contestaciones, y la visibilidad sobre el estado de los casos es limitada.
@@ -23,22 +27,69 @@ Un sistema de agentes de IA que actúa como co-worker legal del equipo de litigi
 ### Arquitectura conceptual
 
 ```
-┌─────────────────────────────────────────────────┐
-│              Agente Coordinador                  │
-│     (orquesta el flujo, valida, reporta)        │
-└──────────┬──────┬──────┬──────┬──────┬──────────┘
-           │      │      │      │      │
-      ┌────▼─┐ ┌──▼──┐ ┌▼────┐ ┌▼───┐ ┌▼────────┐
-      │Ingesta│ │Extra-│ │Tria-│ │Fi- │ │Borrador │
-      │  y    │ │cción │ │ ge  │ │che-│ │Contesta-│
-      │Revi-  │ │Datos │ │     │ │ro  │ │ción     │
-      │sión   │ │      │ │     │ │    │ │         │
-      └───────┘ └──────┘ └─────┘ └────┘ └─────────┘
+                    PDF / mail entrante
+                           │
+              ┌────────────▼────────────┐
+              │    Agente Coordinador    │
+              │  [modo síncrono]         │
+              └──┬───────────────────────┘
+                 │  handoff estructurado (JSON)
+    ┌────────────▼──────────────────────────────────┐
+    │                  Pipeline                      │
+    │                                                │
+    │  [1] Intake Specialist                         │
+    │      → texto extraído + validación formal      │
+    │                  │                             │
+    │  [2] Data Processing Specialist                │
+    │      → objeto estructurado + confidence scores │
+    │                  │                             │
+    │  [3] Triage Analyst                            │
+    │      → prioridad + resumen ejecutivo           │
+    │                  │                             │
+    │  [4] Agente de Fichero                         │
+    │      → carpeta digital + póliza vinculada      │
+    │                  │                             │
+    │  [5] Agente de Borrador                        │
+    │      → draft de contestación                   │
+    └───────────────────────────────────────────────┘
+                 │
+              ┌──▼──────────────────────────┐
+              │    Agente Coordinador        │
+              │  [modo asíncrono / auditor]  │
+              │  - calidad y métricas        │
+              │  - detección de errores      │
+              │  - escalamiento humano       │
+              └─────────────────────────────┘
 ```
 
-- **Agente coordinador**: recibe la demanda, orquesta la secuencia de sub-agentes, valida que cada etapa se complete correctamente, genera el output final.
-- **Sub-agentes especializados**: cada uno con un skill set acotado y optimizado para su tarea. Operan con el contexto mínimo necesario (eficiencia en tokens).
-- **Modelo agnóstico**: el sistema no depende de un proveedor de LLM específico.
+#### Agente Coordinador — dos modos de operación
+
+**Modo síncrono (runtime):**
+- Orquesta el flujo end-to-end caso por caso
+- Pasa handoffs estructurados (JSON mínimo) entre sub-agentes
+- Detecta fallas y decide si reintentar o escalar a revisión humana
+- Define qué pasa si un sub-agente no completa su tarea
+
+**Modo asíncrono (auditor):**
+- Audita outputs de los sub-agentes en batch
+- Valida consistencia de datos entre etapas
+- Detecta errores sistemáticos y patrones de fallo
+- Calcula SLAs: tiempo de carga, precisión de extracción, tiempos de resolución
+- Genera alertas de calidad para el equipo legal
+
+#### Sub-agentes especializados
+
+| Agente | Rol | Input | Output |
+|--------|-----|-------|--------|
+| Intake Specialist | Recibe el documento, extrae texto, verifica formalidades procesales | PDF | Texto + flags de validación |
+| Data Processing Specialist | Produce objeto estructurado a partir del texto | Texto | JSON con campos + confidence scores |
+| Triage Analyst | Clasifica prioridad y genera resumen ejecutivo | JSON + texto | Prioridad + resumen 3-5 líneas |
+| Agente de Fichero | Crea carpeta digital, vincula póliza y antecedentes | JSON + docs | Carpeta organizada |
+| Agente de Borrador | Genera draft de contestación sobre templates | JSON + contexto | Draft editable marcado |
+
+**Principio clave**: cada sub-agente recibe **solo el contexto mínimo necesario** para su tarea. No accede al documento completo si no lo necesita. Esto mantiene las ventanas de contexto pequeñas y los costos controlados.
+
+- **Modelo agnóstico**: la arquitectura permite intercambiar el LLM sin modificar la lógica de negocio.
 
 ## 3. Usuarios
 
@@ -169,15 +220,17 @@ Un sistema de agentes de IA que actúa como co-worker legal del equipo de litigi
 
 **Objetivo**: demostrar viabilidad técnica procesando 1-2 demandas reales.
 
-**Alcance**: ingesta de PDF → extracción de datos → tabular view → triage.
+**Alcance**: ingesta de PDF → extracción de datos → tabular view → triage. Frontend React como interfaz de demo (mock data + primer caso real).
 
 **Criterio de éxito**: el sistema procesa una demanda real y produce una ficha estructurada con datos extraídos correctamente y un triage coherente, sin intervención manual.
+
+**Nota**: el backend (API + base de datos) se define con Nacho en función del stack elegido.
 
 ### Fase 2 — MVP
 
 **Objetivo**: sistema funcional para uso interno con volumen limitado.
 
-**Alcance**: agrega generación de fichero, borrador de contestación y asignación básica.
+**Alcance**: agrega generación de fichero, borrador de contestación, asignación básica e integración con sistemas internos de Libra (pólizas, siniestros).
 
 **Criterio de éxito**: un abogado interno puede recibir un caso procesado por el sistema y trabajar directamente sobre el borrador generado.
 
@@ -189,15 +242,26 @@ Un sistema de agentes de IA que actúa como co-worker legal del equipo de litigi
 
 **Criterio de éxito**: el equipo legal opera con el sistema como herramienta principal de gestión de litigios.
 
+### Fase 4 — Expansión (módulos adicionales)
+
+Módulos independientes del flujo principal de demandas. Se planifican ahora, se ejecutan en orden de prioridad a definir.
+
+| Módulo | Descripción |
+|--------|-------------|
+| **Pericias** | Gestión del flujo de pericias judiciales: solicitud, seguimiento, recepción de informes, integración al expediente. |
+| **Trámite de oficios** | Automatización del seguimiento de oficios judiciales: envío, acuse de recibo, respuesta. |
+| **Updates regulatorios SSN** | Monitoreo de la Superintendencia de Seguros de la Nación: nuevas resoluciones, circulares, cambios normativos. Alertas proactivas al equipo legal. |
+
 ## 7. Puntos abiertos
 
-| # | Punto | Impacto | Necesario para |
-|---|-------|---------|----------------|
-| 1 | Sistemas internos existentes (ERP, gestión de siniestros, pólizas) | Define integraciones y acceso a datos | MVP |
-| 2 | Template de contestación de demanda | Define lógica de generación de borradores | MVP |
-| 3 | Muestras de demandas reales (anonimizadas) | Desarrollo y testing | PoC |
-| 4 | Planillas Excel actuales de seguimiento | Define schema de datos y migración | PoC |
-| 5 | Stack técnico y framework agentic | Define arquitectura de implementación | PoC |
-| 6 | Entorno de deployment | Define infraestructura | MVP |
-| 7 | Restricciones regulatorias SSN sobre IA | Puede condicionar arquitectura | MVP |
-| 8 | Métricas de éxito cuantificables por fase | Define criterios de aceptación | Todas |
+| # | Punto | Impacto | Necesario para | Owner |
+|---|-------|---------|----------------|-------|
+| 1 | Sistemas internos de Libra: API o acceso a BD de pólizas/siniestros | Define integraciones y acceso a datos | MVP | Nacho |
+| 2 | Template de contestación de demanda | Define lógica de generación de borradores | MVP | Equipo legal |
+| 3 | Muestras de demandas reales (anonimizadas) | Desarrollo y testing | PoC | Equipo legal |
+| 4 | Planillas Excel actuales de seguimiento | Define schema de datos y migración | PoC | Nacho |
+| 5 | Stack técnico y framework agentic | Define arquitectura de implementación | PoC | Juan + Nacho |
+| 6 | Backend: API + base de datos | Define infraestructura del PoC y más allá | PoC | Juan + Nacho |
+| 7 | Entorno de deployment | Define infraestructura productiva | MVP | Nacho |
+| 8 | Restricciones regulatorias SSN sobre IA | Puede condicionar arquitectura | MVP | Equipo legal |
+| 9 | Métricas de éxito cuantificables por fase | Define criterios de aceptación | Todas | Nacho + Juan |
