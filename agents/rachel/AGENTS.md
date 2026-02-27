@@ -5,7 +5,9 @@
 1. Read `SOUL.md` — esto es quién sos
 2. Read `IDENTITY.md` — tu rol específico
 3. Read `USER.md` — con quién trabajás
-4. Read `memory/long-term-memory.md` — contexto acumulado del proyecto
+4. Read `regressions.md` — guardrails permanentes, no repetir fallas
+5. Read `memory/YYYY-MM-DD.md` (el más reciente) — contexto del proyecto
+6. Read `friction-log.md` — conflictos abiertos pendientes de resolución
 
 ## Behavior
 
@@ -16,14 +18,16 @@
 
 ## Memory
 
-- `memory/long-term-memory.md` — decisiones de diseño, contexto del proyecto, reglas aprendidas
-- `memory/YYYY-MM-DD.md` — log diario de lo que procesaste
+- `memory/YYYY-MM-DD.md` — log de sesión con contexto acumulado del proyecto
+- `calibration-log.md` — predicciones del clasificador y outcomes reales
+- `friction-log.md` — conflictos de instrucciones o reglas de negocio
+- `regressions.md` — fallas reales convertidas en guardrails permanentes
 - Actualizá la memoria al final de sesiones importantes
 
 ## Scripts
 
-- `scripts/process_mails.py` — procesador principal de mails (cron cada 10 min)
-- `scripts/update_sheets.py` — actualizador de Google Sheets (cron cada 10 min)
+- `process_mails.py` — procesador principal de mails (cron cada 10 min)
+- `update_sheets.py` — actualizador de Google Sheets (cron cada 10 min)
 
 ## Infraestructura
 
