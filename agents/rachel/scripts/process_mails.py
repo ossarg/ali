@@ -32,7 +32,9 @@ def get_gmail_service():
     return build('gmail', 'v1', credentials=creds), token_data.get('processed_label_id')
 
 def get_unread_mails(service):
-    results = service.users().messages().list(userId='me', labelIds=['INBOX'], q='is:unread').execute()
+    # Busca todos los mails en INBOX (leídos y no leídos)
+    # La deduplicación por mail_origen_id protege contra reprocesar
+    results = service.users().messages().list(userId='me', labelIds=['INBOX']).execute()
     return results.get('messages', [])
 
 def get_mail_content(service, msg_id):
@@ -117,9 +119,9 @@ def classify_mail(subject, body):
         return 'sentencia'
     if any(w in text for w in ['EMBARGO', 'OFICIO']):
         return 'embargo'
-    if any(w in text for w in ['CONVENIO', 'ACUERDO', 'MINUTA DE PAGO', 'MINUTA']):
-        if 'MINUTA' in text:
-            return 'minuta_pago'
+    if any(w in text for w in ['MINUTA DE PAGO', 'MINUTA']):
+        return 'minuta_pago'
+    if any(w in text for w in ['CONVENIO', 'ACUERDO']):
         return 'acuerdo'
     if any(w in text for w in ['RECLAMO', 'INTIMA', 'INTIMACIÓN', 'URGENTE', 'COMPROBANTE']):
         return 'reclamo_pago'
@@ -128,19 +130,58 @@ def classify_mail(subject, body):
 
     return None  # no clasificado → revisión humana
 
-def find_estudio(cur, from_email):
-    """Busca estudio por email/dominio del remitente."""
-    email = re.search(r'<(.+?)>', from_email)
-    email = email.group(1) if email else from_email.strip()
+INTERNAL_SENDERS = ['libraseguros.com.ar']
+
+def extract_email_address(from_str):
+    """Extrae la dirección de email de un string 'Nombre <email>'."""
+    m = re.search(r'<(.+?)>', from_str)
+    return m.group(1).strip() if m else from_str.strip()
+
+def extract_forwarded_sender(body):
+    """
+    Extrae el remitente original de un mail reenviado por Outlook.
+    Busca el patrón: 'De: Nombre <email>' en el cuerpo.
+    """
+    # Formato Outlook: "De: Nombre <email>"
+    patterns = [
+        r'De:\s+.+?<([^>]+@[^>]+)>',
+        r'From:\s+.+?<([^>]+@[^>]+)>',
+        r'De:\s+([^\s<>\n]+@[^\s<>\n]+)',
+        r'From:\s+([^\s<>\n]+@[^\s<>\n]+)',
+    ]
+    for pattern in patterns:
+        m = re.search(pattern, body)
+        if m:
+            email = m.group(1).strip()
+            # Ignorar si es interno
+            domain = email.split('@')[-1]
+            if not any(internal in domain for internal in INTERNAL_SENDERS):
+                return email
+    return None
+
+def find_estudio(cur, from_email, body=''):
+    """
+    Busca estudio por email/dominio del remitente.
+    Si el remitente es interno (ej: Axel), busca en el cuerpo del mail reenviado.
+    """
+    email = extract_email_address(from_email)
     domain = email.split('@')[-1] if '@' in email else ''
+
+    # Si el remitente es interno, buscar el remitente original en el cuerpo
+    is_internal = any(internal in domain for internal in INTERNAL_SENDERS)
+    if is_internal and body:
+        forwarded_email = extract_forwarded_sender(body)
+        if forwarded_email:
+            email = forwarded_email
+            domain = email.split('@')[-1]
 
     for alias in [email, domain]:
         if alias:
             cur.execute("SELECT estudio_id FROM estudios_aliases WHERE LOWER(alias) = LOWER(%s)", (alias,))
             row = cur.fetchone()
             if row:
-                return row[0]
-    return None
+                return row[0], email
+    return None, email
 
 # ── Procesamiento ────────────────────────────────────────────────────────────
 def process_mail(mail, cur, service):
@@ -160,7 +201,7 @@ def process_mail(mail, cur, service):
     poliza = extract_poliza(full_text)
     expediente = extract_expediente(full_text)
     tipo_evento = classify_mail(subject, body)
-    estudio_id = find_estudio(cur, mail['from'])
+    estudio_id, estudio_email = find_estudio(cur, mail['from'], body)
 
     # Si no se puede clasificar → revisión humana
     if not tipo_evento:
@@ -204,7 +245,7 @@ def process_mail(mail, cur, service):
         if not estudio_id:
             cur.execute("""INSERT INTO revision_queue (caso_id, tipo_revision, descripcion)
                 VALUES (%s, 'estudio_nuevo', %s)""",
-                (caso_id, f'Estudio no identificado. Remitente: {mail["from"]}'))
+                (caso_id, f'Estudio no identificado. Remitente original: {estudio_email} (reenviado por: {mail["from"]})'))
 
     # Registrar evento
     cur.execute("""INSERT INTO eventos (caso_id, tipo, fecha_evento, descripcion, mail_origen_id, payload)
