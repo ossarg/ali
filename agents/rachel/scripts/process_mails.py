@@ -32,7 +32,9 @@ def get_gmail_service():
     return build('gmail', 'v1', credentials=creds), token_data.get('processed_label_id')
 
 def get_unread_mails(service):
-    results = service.users().messages().list(userId='me', labelIds=['INBOX'], q='is:unread').execute()
+    # Busca todos los mails en INBOX (leídos y no leídos)
+    # La deduplicación por mail_origen_id protege contra reprocesar
+    results = service.users().messages().list(userId='me', labelIds=['INBOX']).execute()
     return results.get('messages', [])
 
 def get_mail_content(service, msg_id):
@@ -117,9 +119,9 @@ def classify_mail(subject, body):
         return 'sentencia'
     if any(w in text for w in ['EMBARGO', 'OFICIO']):
         return 'embargo'
-    if any(w in text for w in ['CONVENIO', 'ACUERDO', 'MINUTA DE PAGO', 'MINUTA']):
-        if 'MINUTA' in text:
-            return 'minuta_pago'
+    if any(w in text for w in ['MINUTA DE PAGO', 'MINUTA']):
+        return 'minuta_pago'
+    if any(w in text for w in ['CONVENIO', 'ACUERDO']):
         return 'acuerdo'
     if any(w in text for w in ['RECLAMO', 'INTIMA', 'INTIMACIÓN', 'URGENTE', 'COMPROBANTE']):
         return 'reclamo_pago'
