@@ -1,68 +1,29 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: libra-legal-postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: libra_legal_dev
+      POSTGRES_USER: libra
+      POSTGRES_PASSWORD: libra
+      POSTGRES_DB: libra_legal
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./migrations:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U libra -d libra_legal"]
       interval: 5s
       timeout: 5s
       retries: 5
-    networks:
-      - libra-legal-network
-
-  redis:
-    image: redis:7-alpine
-    container_name: libra-legal-redis
-    ports:
-      - "6380:6379"
-    command: redis-server --appendonly yes
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-    networks:
-      - libra-legal-network
 
   server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: libra-legal:latest
-    container_name: libra-legal-server
+    build: .
     ports:
       - "8080:8080"
     env_file:
       - .env
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/libra_legal_dev?sslmode=disable
-      - REDIS_URL=redis://redis:6379/0
     depends_on:
       postgres:
         condition: service_healthy
-      redis:
-        condition: service_healthy
-    restart: unless-stopped
-    networks:
-      - libra-legal-network
 
 volumes:
   postgres_data:
-  redis_data:
-
-networks:
-  libra-legal-network:
-    driver: bridge

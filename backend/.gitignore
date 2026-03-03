@@ -1,6 +1,5 @@
-bin/
-coverage.out
-coverage.html
 .env
-*.env.local
-docs/
+*.exe
+*.test
+/tmp/
+vendor/
