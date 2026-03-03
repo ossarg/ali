@@ -30,6 +30,7 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController) 
 	// Auth (public)
 	auth := e.Group("/api/v1/auth")
 	auth.POST("/login", authController.Login)
+	auth.POST("/logout", authController.Logout, appMiddleware.JWTMiddleware())
 
 	// Protected routes
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())

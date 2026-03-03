@@ -17,6 +17,12 @@ func NewAuthController(authService services.AuthService) *AuthController {
 	return &AuthController{authService: authService}
 }
 
+func (ac *AuthController) Logout(c echo.Context) error {
+	// TODO: implement JWT blacklist (Redis or revoked_tokens table)
+	// For now, logout is client-side only — client must discard the token
+	return c.JSON(http.StatusOK, map[string]string{"message": "logged out"})
+}
+
 func (ac *AuthController) Login(c echo.Context) error {
 	var req dto.LoginRequest
 	if err := c.Bind(&req); err != nil {

@@ -47,3 +47,6 @@ go run cmd/server/main.go
 | SERVER_PORT | no | 8080 | HTTP port |
 | ENVIRONMENT | no | development | development/production |
 | CORS_ALLOWED_ORIGINS | no | http://localhost:5173 | Comma-separated allowed origins |
+
+## Pendientes de seguridad
+- [ ] **JWT blacklist**: implementar invalidación de tokens en logout (Redis o tabla `revoked_tokens`). Por ahora logout es client-side only.
