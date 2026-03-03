@@ -5,12 +5,15 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	appMiddleware "github.com/ossarg/ali/backend/internal/middleware"
+	"github.com/ossarg/ali/backend/internal/apierrors"
 	"github.com/ossarg/ali/backend/internal/config"
+	"github.com/ossarg/ali/backend/internal/controllers"
+	appMiddleware "github.com/ossarg/ali/backend/internal/middleware"
 )
 
-func InitRouter(cfg *config.Config) *echo.Echo {
+func InitRouter(cfg *config.Config, authController *controllers.AuthController) *echo.Echo {
 	e := echo.New()
+	e.HTTPErrorHandler = apierrors.Handler
 
 	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
@@ -24,17 +27,16 @@ func InitRouter(cfg *config.Config) *echo.Echo {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 	})
 
-	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
+	// Auth (public)
+	auth := e.Group("/api/v1/auth")
+	auth.POST("/login", authController.Login)
 
-	// Cases
+	// Protected routes
+	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
 	api.GET("/cases", placeholder("cases.list"))
 	api.GET("/cases/:id", placeholder("cases.get"))
-
-	// Triage
 	api.GET("/triage/rules", placeholder("triage.rules.get"))
 	api.PUT("/triage/rules", placeholder("triage.rules.update"), appMiddleware.RequireCapability("triage:config"))
-
-	// Metrics
 	api.GET("/metrics", placeholder("metrics.get"))
 
 	return e

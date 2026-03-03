@@ -12,8 +12,11 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/ossarg/ali/backend/internal/config"
+	"github.com/ossarg/ali/backend/internal/controllers"
 	"github.com/ossarg/ali/backend/internal/database"
+	"github.com/ossarg/ali/backend/internal/repositories"
 	"github.com/ossarg/ali/backend/internal/router"
+	"github.com/ossarg/ali/backend/internal/services"
 )
 
 func main() {
@@ -24,11 +27,21 @@ func main() {
 		log.Fatalf("Failed to load configuration: %v", err)
 	}
 
-	if _, err := database.Connect(); err != nil {
+	db, err := database.Connect()
+	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	e := router.InitRouter(cfg)
+	// Repositories
+	userRepo := repositories.NewUserRepository(db)
+
+	// Services
+	authService := services.NewAuthService(userRepo, cfg.JWT.Secret)
+
+	// Controllers
+	authController := controllers.NewAuthController(authService)
+
+	e := router.InitRouter(cfg, authController)
 
 	addr := fmt.Sprintf(":%s", cfg.Server.Port)
 
