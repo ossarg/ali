@@ -1,59 +1,52 @@
-# CLAUDE.md — Backend Libra Legal AI (Go)
+# CLAUDE.md - Backend
 
 ## Stack
-- **Lenguaje:** Go 1.25
-- **Framework:** Echo v4
-- **ORM:** GORM + postgres driver
-- **Cache:** Redis
-- **Config:** Viper
-- **Docs:** Swagger (swaggo)
-- **Entry point:** `cmd/server/main.go`
+- Go (1.23+) + Echo v4 + GORM
+- PostgreSQL via Neon (managed, serverless)
+- JWT authentication with role + capabilities
 
-## Estructura
+## Structure
 ```
 backend/
-├── cmd/server/main.go         — entry point
-├── pkg/
-│   ├── app/
-│   │   ├── config/            — Viper, singleton Load/Get
-│   │   ├── controllers/       — Echo handlers (bind/validate/respond)
-│   │   ├── middleware/        — JWT auth, roles
-│   │   ├── router/            — InitRouter()
-│   │   └── services/          — Orchestrators (lógica + coordinación)
-│   └── services/
-│       ├── db/                — GORM + PostgreSQL
-│       ├── cache/             — Redis
-│       └── libra/             — Cliente sistema Libra (futuro)
-├── migrations/                — SQL migrations
-├── Dockerfile                 — Multi-stage Alpine
-├── docker-compose.yml         — postgres + redis + server
-└── Makefile
+├── cmd/server/main.go          # Entrypoint
+├── internal/
+│   ├── config/config.go        # Viper-based config (DATABASE_URL, JWT_SECRET, CORS)
+│   ├── database/postgres.go    # GORM connection to Neon
+│   ├── middleware/jwt.go       # JWT validation + RequireCapability
+│   └── router/router.go        # Echo router, all routes defined here
+├── go.mod
+├── .env.example
+└── .gitignore
 ```
 
-## Comandos
+## Auth
+- All `/api/v1/*` routes require `Authorization: Bearer <token>`
+- JWT claims: `user_id`, `email`, `role` (abogado|gerente|admin), `capabilities` ([]string)
+- `RequireCapability("cap")` middleware used per-route for granular access control
+- Example capabilities: `cases:read`, `cases:write`, `triage:config`
+
+## Rules
+- **English only**: file names, folders, variables, functions, structs
+- Never commit `.env` or credentials
+- Never modify Rachel's tables without Nacho approval
+- No Redis for PoC — add when needed
+- Placeholders in router until controllers are implemented
+
+## Running locally
 ```bash
-make run          # levanta todo con Docker
-make run-detached # detached mode
-make stop         # baja todo
-make test         # tests
-make swagger      # genera docs
-make fmt && make tidy
+cp .env.example .env
+# fill in DATABASE_URL and JWT_SECRET
+go run cmd/server/main.go
 ```
 
-## Variables de entorno requeridas
-- DATABASE_URL
-- JWT_SECRET (mín. 32 chars)
-- REDIS_URL (default: redis://localhost:6379/0)
+## Environment variables
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| DATABASE_URL | yes | — | Neon PostgreSQL connection string |
+| JWT_SECRET | yes | — | Secret for signing/verifying JWTs |
+| SERVER_PORT | no | 8080 | HTTP port |
+| ENVIRONMENT | no | development | development/production |
+| CORS_ALLOWED_ORIGINS | no | http://localhost:5173 | Comma-separated allowed origins |
 
-## Roles
-- abogado — solo lectura
-- gerente — lectura + editar reglas de triage
-- admin   — todo
-
-## Convenciones DB
-- Estados como SMALLINT: 1=Baja, 2=Media, 3=Alta
-- Nunca modificar tablas de Rachel sin aprobación de Nacho
-
-## Reglas
-- Nunca commitear .env ni credenciales
-- Para cambios de schema: agregar SQL en migrations/ y avisar antes de ejecutar
+## Pendientes de seguridad
+- [ ] **JWT blacklist**: implementar invalidación de tokens en logout (Redis o tabla `revoked_tokens`). Por ahora logout es client-side only.

@@ -1,40 +1,25 @@
-.PHONY: run run-detached stop build test test-coverage lint fmt tidy swagger
+.PHONY: up down build logs migrate fmt tidy
 
-run:
-	docker compose up --build
-
-run-detached:
+up:
 	docker compose up --build -d
 
-stop:
+down:
 	docker compose down
 
 build:
-	go build -o bin/libra-legal ./cmd/server/main.go
+	docker compose build
 
-test:
-	go test -v ./pkg/...
+logs:
+	docker compose logs -f server
 
-test-coverage:
-	go test ./pkg/... -coverprofile=coverage.out
-	go tool cover -func=coverage.out
-	go tool cover -html=coverage.out -o coverage.html
+migrate:
+	DATABASE_URL=postgresql://libra:libra@localhost:5432/libra_legal ./scripts/migrate.sh
 
-lint:
-	@if command -v golangci-lint &> /dev/null; then \
-		golangci-lint run ./...; \
-	else \
-		echo "golangci-lint not installed. Skipping lint."; \
-	fi
+swagger:
+	$(shell go env GOPATH)/bin/swag init -g cmd/server/main.go -o docs
 
 fmt:
 	go fmt ./...
 
 tidy:
 	go mod tidy
-	go mod verify
-
-swagger:
-	@go install github.com/swaggo/swag/cmd/swag@latest
-	@swag init -g cmd/server/main.go -o docs
-	@echo "✅ Swagger docs generados"

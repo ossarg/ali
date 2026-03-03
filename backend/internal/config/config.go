@@ -9,9 +9,8 @@ import (
 type Config struct {
 	Server   ServerConfig
 	Database DatabaseConfig
-	Redis    RedisConfig
 	JWT      JWTConfig
-	Log      LogConfig
+	CORS     CORSConfig
 }
 
 type ServerConfig struct {
@@ -23,17 +22,12 @@ type DatabaseConfig struct {
 	URL string
 }
 
-type RedisConfig struct {
-	URL string
-}
-
 type JWTConfig struct {
 	Secret string
 }
 
-type LogConfig struct {
-	Level  string
-	Format string
+type CORSConfig struct {
+	AllowedOrigins []string
 }
 
 var cfg *Config
@@ -50,9 +44,7 @@ func Load() (*Config, error) {
 
 	viper.SetDefault("SERVER_PORT", "8080")
 	viper.SetDefault("ENVIRONMENT", "development")
-	viper.SetDefault("LOG_LEVEL", "info")
-	viper.SetDefault("LOG_FORMAT", "json")
-	viper.SetDefault("REDIS_URL", "redis://localhost:6379/0")
+	viper.SetDefault("CORS_ALLOWED_ORIGINS", "http://localhost:5173")
 
 	_ = viper.ReadInConfig()
 
@@ -64,15 +56,11 @@ func Load() (*Config, error) {
 		Database: DatabaseConfig{
 			URL: viper.GetString("DATABASE_URL"),
 		},
-		Redis: RedisConfig{
-			URL: viper.GetString("REDIS_URL"),
-		},
 		JWT: JWTConfig{
 			Secret: viper.GetString("JWT_SECRET"),
 		},
-		Log: LogConfig{
-			Level:  viper.GetString("LOG_LEVEL"),
-			Format: viper.GetString("LOG_FORMAT"),
+		CORS: CORSConfig{
+			AllowedOrigins: viper.GetStringSlice("CORS_ALLOWED_ORIGINS"),
 		},
 	}
 
@@ -100,9 +88,6 @@ func (c *Config) validate() error {
 	}
 	if c.JWT.Secret == "" {
 		return fmt.Errorf("JWT_SECRET is required")
-	}
-	if len(c.JWT.Secret) < 32 {
-		return fmt.Errorf("JWT_SECRET must be at least 32 characters")
 	}
 	return nil
 }
