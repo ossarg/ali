@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings } from 'lucide-react';
+import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -14,6 +14,7 @@ export default function Layout() {
     { name: 'Agentes', path: '/agentes', icon: Bot },
     { name: 'Equipo', path: '/equipo', icon: Users },
     { name: 'Métricas', path: '/metricas', icon: BarChart3 },
+    { name: 'Documentos', path: '/documentos', icon: FileText },
   ];
 
   return (
@@ -26,7 +27,7 @@ export default function Layout() {
         </div>
         
         <div className="px-4 py-6">
-          <div className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-4 px-2">Mission Control</div>
+          <div className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-4 px-2">Panel de Control</div>
           <nav className="space-y-1">
             {navItems.map((item) => {
               const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));

@@ -8,6 +8,7 @@ import AgentDetail from './pages/AgentDetail';
 import Team from './pages/Team';
 import LawyerDetail from './pages/LawyerDetail';
 import Metrics from './pages/Metrics';
+import Documentos from './pages/Documentos';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="equipo" element={<Team />} />
         <Route path="equipo/:id" element={<LawyerDetail />} />
         <Route path="metricas" element={<Metrics />} />
+        <Route path="documentos" element={<Documentos />} />
       </Route>
     </Routes>
   );

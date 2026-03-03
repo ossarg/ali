@@ -1,20 +1,38 @@
-import { useState } from 'react';
-import { MOCK_CASES, type Stage, type Priority } from '../data/mockData';
+import { useState, useEffect } from 'react';
+import { type Stage } from '../data/mockData';
 import { LayoutGrid, List, Search, Filter, Clock, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
+import { getCasos } from '../lib/api';
+
+const RelevanciaLabel: Record<number, string> = { 1: 'Baja', 2: 'Media', 3: 'Alta' }
 
 export default function Cases() {
   const [view, setView] = useState<'pipeline' | 'table'>('pipeline');
   const [searchQuery, setSearchQuery] = useState('');
+  const [casos, setCasos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const stages: Stage[] = ['Ingesta', 'Extracción', 'Triage', 'Fichero', 'Borrador', 'Revisión Humana', 'Completado'];
 
-  const filteredCases = MOCK_CASES.filter(c => 
-    c.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    c.id.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    getCasos(searchQuery ? { search: searchQuery } : undefined)
+      .then(r => setCasos(r.data))
+      .catch(() => setCasos([]))
+      .finally(() => setLoading(false))
+  }, [searchQuery]);
+
+  const filteredCases = casos.map(c => ({
+    id: c.nro_siniestro || c.id,
+    title: c.caratula,
+    amount: c.monto_estimado || 0,
+    priority: RelevanciaLabel[c.triage_relevancia] || 'Baja',
+    stage: c.pipeline_stage ? (c.pipeline_stage.charAt(0).toUpperCase() + c.pipeline_stage.slice(1)) as Stage : 'Ingesta',
+    deadline: c.pipeline_updated_at || new Date().toISOString(),
+    lawyerId: c.estudio_id || null,
+    dataExtraction: { fields: { 'Tipo de Siniestro': { value: c.tipo_accion || 'N/A' } } }
+  }));
 
   return (
     <div className="space-y-6 h-full flex flex-col">
