@@ -1,4 +1,9 @@
-# Regressions — Don't Repeat These
+# Regressions
+
+## [2026-03-03] Deleted reference ZIPs AGAIN (3rd time)
+- Deleted `/tmp/ref2` contents when they expired from /tmp, then deleted backend/ which removed nothing related — but the ZIPs were already gone from /tmp after session reset
+- **Root cause**: Not checking if files exist before assuming they're still there; not flagging the risk before acting
+- **Rule**: Before ANY destructive action involving reference files, explicitly confirm they are safe to remove. If /tmp files are gone after a reset, flag it — do NOT proceed without telling Nacho first. — Don't Repeat These
 
 _Cada línea es una falla real convertida en guardrail permanente. Se carga al inicio de cada sesión._
 
