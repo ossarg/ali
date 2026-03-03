@@ -17,12 +17,17 @@ func NewAuthController(authService services.AuthService) *AuthController {
 	return &AuthController{authService: authService}
 }
 
-func (ac *AuthController) Logout(c echo.Context) error {
-	// TODO: implement JWT blacklist (Redis or revoked_tokens table)
-	// For now, logout is client-side only — client must discard the token
-	return c.JSON(http.StatusOK, map[string]string{"message": "logged out"})
-}
-
+// Login godoc
+// @Summary      Login
+// @Description  Authenticates a user and returns a JWT token
+// @Tags         auth
+// @Accept       json
+// @Produce      json
+// @Param        body  body      dto.LoginRequest   true  "Credentials"
+// @Success      200   {object}  dto.LoginResponse
+// @Failure      400   {object}  map[string]string
+// @Failure      401   {object}  map[string]string
+// @Router       /api/v1/auth/login [post]
 func (ac *AuthController) Login(c echo.Context) error {
 	var req dto.LoginRequest
 	if err := c.Bind(&req); err != nil {
@@ -39,4 +44,18 @@ func (ac *AuthController) Login(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, resp)
+}
+
+// Logout godoc
+// @Summary      Logout
+// @Description  Invalidates the session (client-side). JWT blacklist pending.
+// @Tags         auth
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {object}  map[string]string
+// @Failure      401  {object}  map[string]string
+// @Router       /api/v1/auth/logout [post]
+func (ac *AuthController) Logout(c echo.Context) error {
+	// TODO: implement JWT blacklist (Redis or revoked_tokens table)
+	return c.JSON(http.StatusOK, map[string]string{"message": "logged out"})
 }

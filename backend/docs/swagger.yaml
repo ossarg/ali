@@ -1,0 +1,111 @@
+basePath: /
+definitions:
+  dto.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.LoginResponse:
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/dto.UserInfo'
+    type: object
+  dto.UserInfo:
+    properties:
+      capabilities:
+        items:
+          type: string
+        type: array
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      role:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: Libra Seguros Tech
+  description: Backend service for Libra Legal AI — legal case management platform
+  title: Libra Legal API
+  version: "1.0"
+paths:
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns a JWT token
+      parameters:
+      - description: Credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login
+      tags:
+      - auth
+  /api/v1/auth/logout:
+    post:
+      description: Invalidates the session (client-side). JWT blacklist pending.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Logout
+      tags:
+      - auth
+schemes:
+- http
+- https
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and the JWT token
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

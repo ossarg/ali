@@ -9,6 +9,9 @@ import (
 	"github.com/ossarg/ali/backend/internal/config"
 	"github.com/ossarg/ali/backend/internal/controllers"
 	appMiddleware "github.com/ossarg/ali/backend/internal/middleware"
+	_ "github.com/ossarg/ali/backend/docs"
+	echoSwagger "github.com/swaggo/echo-swagger"
+	_ "github.com/swaggo/files"
 )
 
 func InitRouter(cfg *config.Config, authController *controllers.AuthController) *echo.Echo {
@@ -22,6 +25,8 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController) 
 		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
 		AllowHeaders: []string{echo.HeaderContentType, echo.HeaderAuthorization},
 	}))
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	e.GET("/health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})

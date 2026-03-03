@@ -15,6 +15,9 @@ logs:
 migrate:
 	DATABASE_URL=postgresql://libra:libra@localhost:5432/libra_legal ./scripts/migrate.sh
 
+swagger:
+	$(shell go env GOPATH)/bin/swag init -g cmd/server/main.go -o docs
+
 fmt:
 	go fmt ./...
 

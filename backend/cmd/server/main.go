@@ -1,3 +1,15 @@
+// @title           Libra Legal API
+// @version         1.0
+// @description     Backend service for Libra Legal AI — legal case management platform
+// @contact.name    Libra Seguros Tech
+// @host            localhost:8080
+// @BasePath        /
+// @schemes         http https
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and the JWT token
+
 package main
 
 import (
