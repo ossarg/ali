@@ -1,4 +1,6 @@
-node_modules/
-dist/
+bin/
+coverage.out
+coverage.html
 .env
 *.env.local
+docs/

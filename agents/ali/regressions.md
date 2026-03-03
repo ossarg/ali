@@ -19,5 +19,8 @@ _Cada línea es una falla real convertida en guardrail permanente. Se carga al i
 - El canal `#rachel` es exclusivo de Rachel. Ali no tiene acceso.
 - `requireMention: false` en el canal `#ali` — Ali responde sin mención en ese canal.
 
+## Archivos de referencia
+- Nunca eliminar archivos enviados por Nacho/Juan hasta recibir confirmación explícita del owner. (2026-03-03: eliminé ZIPs de referencia antes del OK de Nacho)
+
 ---
-_Actualizar cada vez que algo falle. Fecha de última actualización: 2025-12-23_
+_Actualizar cada vez que algo falle. Fecha de última actualización: 2026-03-03_

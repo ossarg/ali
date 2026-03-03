@@ -1,49 +1,59 @@
-# CLAUDE.md — Backend Libra Legal AI
+# CLAUDE.md — Backend Libra Legal AI (Go)
 
 ## Stack
-- **Runtime:** Node.js + TypeScript
-- **Framework:** Express
-- **DB:** Neon PostgreSQL (pg driver)
-- **Entry point:** `src/index.ts`
-- **Dev:** `npm run dev` (tsx watch)
+- **Lenguaje:** Go 1.25
+- **Framework:** Echo v4
+- **ORM:** GORM + postgres driver
+- **Cache:** Redis
+- **Config:** Viper
+- **Docs:** Swagger (swaggo)
+- **Entry point:** `cmd/server/main.go`
 
 ## Estructura
 ```
 backend/
-├── src/
-│   ├── index.ts          — servidor principal, rutas, middleware
-│   ├── db/client.ts      — pool de conexión a Neon
-│   ├── middleware/auth.ts — roles: admin > gerente > abogado
-│   └── routes/
-│       ├── casos.ts      — GET /api/casos, GET /api/casos/:id
-│       ├── triage.ts     — GET/PUT /api/triage/rules, POST /api/triage/:id/confirm
-│       ├── metrics.ts    — GET /api/metrics
-│       └── agents.ts     — GET /api/agents (estado del pipeline)
-├── db/
-│   └── migration_poc.sql — migración ejecutada en Neon
-└── .env.example
+├── cmd/server/main.go         — entry point
+├── pkg/
+│   ├── app/
+│   │   ├── config/            — Viper, singleton Load/Get
+│   │   ├── controllers/       — Echo handlers (bind/validate/respond)
+│   │   ├── middleware/        — JWT auth, roles
+│   │   ├── router/            — InitRouter()
+│   │   └── services/          — Orchestrators (lógica + coordinación)
+│   └── services/
+│       ├── db/                — GORM + PostgreSQL
+│       ├── cache/             — Redis
+│       └── libra/             — Cliente sistema Libra (futuro)
+├── migrations/                — SQL migrations
+├── Dockerfile                 — Multi-stage Alpine
+├── docker-compose.yml         — postgres + redis + server
+└── Makefile
+```
+
+## Comandos
+```bash
+make run          # levanta todo con Docker
+make run-detached # detached mode
+make stop         # baja todo
+make test         # tests
+make swagger      # genera docs
+make fmt && make tidy
 ```
 
 ## Variables de entorno requeridas
-```
-DATABASE_URL=postgresql://...   # Neon — NO commitear
-PORT=3001
-FRONTEND_URL=http://localhost:5173
-```
+- DATABASE_URL
+- JWT_SECRET (mín. 32 chars)
+- REDIS_URL (default: redis://localhost:6379/0)
 
-## Roles y permisos
-- `abogado` — solo lectura
-- `gerente` — lectura + editar reglas de triage + aprobar asignaciones
-- `admin` — todo
+## Roles
+- abogado — solo lectura
+- gerente — lectura + editar reglas de triage
+- admin   — todo
 
-Auth por header `X-User-Role` (PoC). Reemplazar con JWT antes de producción.
-
-## DB — Convenciones
-- Estados como `SMALLINT`: 1=Baja, 2=Media, 3=Alta
-- Enum central en `src/middleware/auth.ts`
-- Nunca strings para estados en la DB
+## Convenciones DB
+- Estados como SMALLINT: 1=Baja, 2=Media, 3=Alta
+- Nunca modificar tablas de Rachel sin aprobación de Nacho
 
 ## Reglas
-- Nunca commitear DATABASE_URL ni credenciales
-- Nunca modificar tablas de Rachel sin aprobación de Nacho
-- Para cambios de schema: agregar archivo en `db/` y avisar antes de ejecutar
+- Nunca commitear .env ni credenciales
+- Para cambios de schema: agregar SQL en migrations/ y avisar antes de ejecutar
