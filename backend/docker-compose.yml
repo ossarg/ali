@@ -21,6 +21,8 @@ services:
       - "8080:8080"
     env_file:
       - .env
+    environment:
+      - DATABASE_URL=postgresql://libra:libra@postgres:5432/libra_legal
     depends_on:
       postgres:
         condition: service_healthy
