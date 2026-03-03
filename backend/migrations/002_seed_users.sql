@@ -4,7 +4,7 @@ VALUES (
     '$2a$10$C9dc.YKTDYJG8WWFd96NnuWVOTPHBxPXJmw/Q19WLv89alCuN4v5y',
     'Admin',
     'Libra',
-    'admin',
+    3,
     ARRAY['cases:read','cases:write','triage:config','users:manage'],
     true
 )

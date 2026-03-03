@@ -56,7 +56,7 @@ type User struct {
 	Password     string         `gorm:"not null"                                       json:"-"`
 	FirstName    string         `gorm:"not null"                                       json:"first_name"`
 	LastName     string         `gorm:"not null"                                       json:"last_name"`
-	Role         string         `gorm:"not null"                                       json:"role"`
+	Role         Role           `gorm:"not null"                                       json:"role"`
 	Capabilities StringArray    `gorm:"type:text[]"                                    json:"capabilities"`
 	IsActive     bool           `gorm:"default:true"                                   json:"is_active"`
 	CreatedAt    time.Time      `                                                      json:"created_at"`

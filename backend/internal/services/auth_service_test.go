@@ -5,8 +5,8 @@ import (
 
 	"github.com/ossarg/ali/backend/internal/apierrors"
 	"github.com/ossarg/ali/backend/internal/dto"
-	"github.com/ossarg/ali/backend/internal/models"
 	"github.com/google/uuid"
+	"github.com/ossarg/ali/backend/internal/models"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -43,7 +43,7 @@ func TestLogin_Success(t *testing.T) {
 		Password:     hashedPassword(t, "libra2026"),
 		FirstName:    "Admin",
 		LastName:     "Libra",
-		Role:         "admin",
+		Role:         models.RoleAdmin,
 		Capabilities: []string{"cases:read"},
 		IsActive:     true,
 	}

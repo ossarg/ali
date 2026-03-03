@@ -40,7 +40,7 @@ func (s *authService) Login(req dto.LoginRequest) (*dto.LoginResponse, error) {
 	claims := middleware.Claims{
 		UserID:       user.ID.String(),
 		Email:        user.Email,
-		Role:         user.Role,
+		Role:         user.Role.String(),
 		Capabilities: user.Capabilities,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
@@ -61,7 +61,7 @@ func (s *authService) Login(req dto.LoginRequest) (*dto.LoginResponse, error) {
 			Email:        user.Email,
 			FirstName:    user.FirstName,
 			LastName:     user.LastName,
-			Role:         user.Role,
+			Role:         user.Role.String(),
 			Capabilities: user.Capabilities,
 		},
 	}, nil
