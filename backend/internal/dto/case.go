@@ -9,9 +9,9 @@ import (
 
 // ListCasesRequest holds query params for filtering cases
 type ListCasesRequest struct {
-	Status        *int16  `query:"status"`
-	PipelineStage *string `query:"pipeline_stage"`
-	CaseType      *int16  `query:"case_type"`
+	Status        *int16 `query:"status"`
+	PipelineStage *int16 `query:"pipeline_stage"`
+	CaseType      *int16 `query:"case_type"`
 }
 
 // CaseResponse is the public representation of a case
@@ -32,7 +32,7 @@ type CaseResponse struct {
 	EstimatedAmount *float64               `json:"estimated_amount,omitempty"`
 	IncidentDate    *time.Time             `json:"incident_date,omitempty"`
 	OpenedAt        *time.Time             `json:"opened_at,omitempty"`
-	PipelineStage   models.PipelineStage   `json:"pipeline_stage"`
+	PipelineStage   string                 `json:"pipeline_stage"`
 	CreatedAt       time.Time              `json:"created_at"`
 	UpdatedAt       time.Time              `json:"updated_at"`
 }
@@ -65,7 +65,7 @@ func ToCaseResponse(c models.Case) CaseResponse {
 		EstimatedAmount: c.EstimatedAmount,
 		IncidentDate:    c.IncidentDate,
 		OpenedAt:        c.OpenedAt,
-		PipelineStage:   c.PipelineStage,
+		PipelineStage:   c.PipelineStage.String(),
 		CreatedAt:       c.CreatedAt,
 		UpdatedAt:       c.UpdatedAt,
 	}

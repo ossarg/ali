@@ -266,7 +266,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "pipeline_stage": {
-                    "$ref": "#/definitions/models.PipelineStage"
+                    "type": "string"
                 },
                 "plaintiff_firm": {
                     "$ref": "#/definitions/dto.FirmSummary"
@@ -370,25 +370,6 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
-        },
-        "models.PipelineStage": {
-            "type": "string",
-            "enum": [
-                "ingesta",
-                "extraccion",
-                "triage",
-                "asignado",
-                "borrador",
-                "completado"
-            ],
-            "x-enum-varnames": [
-                "PipelineStageIngesta",
-                "PipelineStageExtraccion",
-                "PipelineStageTriage",
-                "PipelineStageAsignado",
-                "PipelineStageBorrador",
-                "PipelineStageCompletado"
-            ]
         }
     },
     "securityDefinitions": {

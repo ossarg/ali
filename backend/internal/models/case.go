@@ -83,16 +83,37 @@ func (s CaseStatus) IsValid() bool {
 	return ok
 }
 
-type PipelineStage string
+type PipelineStage int16
 
 const (
-	PipelineStageIngesta    PipelineStage = "ingesta"
-	PipelineStageExtraccion PipelineStage = "extraccion"
-	PipelineStageTriage     PipelineStage = "triage"
-	PipelineStageAsignado   PipelineStage = "asignado"
-	PipelineStageBorrador   PipelineStage = "borrador"
-	PipelineStageCompletado PipelineStage = "completado"
+	PipelineStageIngesta    PipelineStage = 1
+	PipelineStageExtraccion PipelineStage = 2
+	PipelineStageTriage     PipelineStage = 3
+	PipelineStageAsignado   PipelineStage = 4
+	PipelineStageBorrador   PipelineStage = 5
+	PipelineStageCompletado PipelineStage = 6
 )
+
+var pipelineStageNames = map[PipelineStage]string{
+	PipelineStageIngesta:    "ingesta",
+	PipelineStageExtraccion: "extraccion",
+	PipelineStageTriage:     "triage",
+	PipelineStageAsignado:   "asignado",
+	PipelineStageBorrador:   "borrador",
+	PipelineStageCompletado: "completado",
+}
+
+func (p PipelineStage) String() string {
+	if name, ok := pipelineStageNames[p]; ok {
+		return name
+	}
+	return "unknown"
+}
+
+func (p PipelineStage) IsValid() bool {
+	_, ok := pipelineStageNames[p]
+	return ok
+}
 
 type Case struct {
 	ID               uuid.UUID      `gorm:"type:uuid;primaryKey;default:gen_random_uuid()" json:"id"`
@@ -111,7 +132,7 @@ type Case struct {
 	EstimatedAmount  *float64       `gorm:"type:numeric(15,2)"                             json:"estimated_amount,omitempty"`
 	IncidentDate     *time.Time     `gorm:"type:date"                                      json:"incident_date,omitempty"`
 	OpenedAt         *time.Time     `                                                      json:"opened_at,omitempty"`
-	PipelineStage    PipelineStage  `gorm:"not null;default:'ingesta'"                     json:"pipeline_stage"`
+	PipelineStage    PipelineStage  `gorm:"not null;default:1"                             json:"pipeline_stage"`
 	CreatedAt        time.Time      `                                                      json:"created_at"`
 	UpdatedAt        time.Time      `                                                      json:"updated_at"`
 	DeletedAt        gorm.DeletedAt `gorm:"index"                                          json:"-"`

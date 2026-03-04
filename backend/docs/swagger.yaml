@@ -27,7 +27,7 @@ definitions:
       opened_at:
         type: string
       pipeline_stage:
-        $ref: '#/definitions/models.PipelineStage'
+        type: string
       plaintiff_firm:
         $ref: '#/definitions/dto.FirmSummary'
       policy:
@@ -95,22 +95,6 @@ definitions:
       last_name:
         type: string
     type: object
-  models.PipelineStage:
-    enum:
-    - ingesta
-    - extraccion
-    - triage
-    - asignado
-    - borrador
-    - completado
-    type: string
-    x-enum-varnames:
-    - PipelineStageIngesta
-    - PipelineStageExtraccion
-    - PipelineStageTriage
-    - PipelineStageAsignado
-    - PipelineStageBorrador
-    - PipelineStageCompletado
 host: localhost:8080
 info:
   contact:

@@ -34,6 +34,9 @@ func (s *caseService) List(req dto.ListCasesRequest) ([]dto.CaseResponse, error)
 
 	if req.PipelineStage != nil {
 		stage := models.PipelineStage(*req.PipelineStage)
+		if !stage.IsValid() {
+			return nil, apierrors.New(400, "invalid pipeline_stage value")
+		}
 		filters.PipelineStage = &stage
 	}
 
