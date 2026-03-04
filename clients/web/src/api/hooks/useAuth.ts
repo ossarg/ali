@@ -1,17 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
-import { authService } from '../services/auth.service';
-import type { LoginRequest } from '../types';
-
-export const useLogin = () => {
-  return useMutation({
-    mutationFn: (credentials: LoginRequest) => authService.login(credentials),
-  });
-};
-
-export const useLogout = () => {
-  return useMutation({
-    mutationFn: async () => {
-      authService.logout();
-    },
-  });
-};
+// Auth state is managed via AuthContext.
+// Import useAuth from context directly:
+//   import { useAuth } from '@/context/AuthContext'
+//
+// This file re-exports it for convenience alongside other API hooks.
+export { useAuth } from '../../context/AuthContext';

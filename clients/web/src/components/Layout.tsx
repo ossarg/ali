@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
@@ -6,7 +7,10 @@ import { es } from 'date-fns/locale';
 
 export default function Layout() {
   const location = useLocation();
+  const { user } = useAuth();
   const today = format(new Date(), "EEEE d 'de' MMMM, yyyy", { locale: es });
+  const displayName = user ? `${user.first_name} ${user.last_name}` : '';
+  const initials = user ? `${user.first_name[0]}${user.last_name[0]}`.toUpperCase() : '?';
 
   const navItems = [
     { name: 'Panel Principal', path: '/', icon: LayoutDashboard },
@@ -57,11 +61,11 @@ export default function Layout() {
           </button>
           <div className="mt-4 flex items-center gap-3 px-3">
             <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-medium">
-              JD
+              {initials}
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-medium">Juan Director</span>
-              <span className="text-xs text-white/50">Legal Ops</span>
+              <span className="text-sm font-medium">{displayName}</span>
+              <span className="text-xs text-white/50 capitalize">{user?.role ?? ''}</span>
             </div>
           </div>
         </div>
@@ -73,7 +77,7 @@ export default function Layout() {
         <header className="h-16 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-8 shrink-0">
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-semibold text-[#455362]">
-              Buenos días, Juan
+              Buenos días, {user?.first_name ?? ''}
             </h1>
             <span className="text-sm text-[#6b7280] ml-2 capitalize">{today}</span>
           </div>

@@ -1,6 +1,6 @@
 import { api, setAccessToken } from '../client';
 import { LoginRequestSchema, LoginResponseSchema } from '../schemas';
-import type { LoginRequest, LoginResponse } from '../types';
+import type { LoginRequest, LoginResponse } from '../schemas/auth.schemas';
 import { API_ENDPOINTS } from '../utils';
 
 export const authKeys = {
@@ -12,11 +12,16 @@ export const authService = {
     const validated = LoginRequestSchema.parse(credentials);
     const response = await api.post(API_ENDPOINTS.AUTH.LOGIN, validated);
     const data = LoginResponseSchema.parse(response);
-    setAccessToken(data.access_token);
+    setAccessToken(data.token);
     return data;
   },
 
-  logout: () => {
-    setAccessToken(null);
+  logout: async (): Promise<void> => {
+    try {
+      await api.post(API_ENDPOINTS.AUTH.LOGOUT);
+    } finally {
+      // Always clear token regardless of server response
+      setAccessToken(null);
+    }
   },
 };
