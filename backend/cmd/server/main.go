@@ -46,17 +46,14 @@ func main() {
 
 	// Repositories
 	userRepo := repositories.NewUserRepository(db)
-	caseRepo := repositories.NewCaseRepository(db)
 
 	// Services
 	authService := services.NewAuthService(userRepo, cfg.JWT.Secret)
-	caseService := services.NewCaseService(caseRepo)
 
 	// Controllers
 	authController := controllers.NewAuthController(authService)
-	caseController := controllers.NewCaseController(caseService)
 
-	e := router.InitRouter(cfg, authController, caseController)
+	e := router.InitRouter(cfg, authController)
 
 	addr := fmt.Sprintf(":%s", cfg.Server.Port)
 
