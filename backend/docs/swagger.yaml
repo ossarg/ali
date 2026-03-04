@@ -1,5 +1,55 @@
 basePath: /
 definitions:
+  dto.CaseResponse:
+    properties:
+      action_type:
+        type: string
+      assigned_user:
+        $ref: '#/definitions/dto.UserSummary'
+      case_number:
+        type: string
+      case_type:
+        type: string
+      claim_number:
+        type: string
+      court:
+        type: string
+      created_at:
+        type: string
+      defense_firm:
+        $ref: '#/definitions/dto.FirmSummary'
+      estimated_amount:
+        type: number
+      id:
+        type: string
+      incident_date:
+        type: string
+      opened_at:
+        type: string
+      pipeline_stage:
+        $ref: '#/definitions/models.PipelineStage'
+      plaintiff_firm:
+        $ref: '#/definitions/dto.FirmSummary'
+      policy:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+      tribunal:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.FirmSummary:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+    type: object
   dto.LoginRequest:
     properties:
       email:
@@ -34,6 +84,33 @@ definitions:
       role:
         type: string
     type: object
+  dto.UserSummary:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+    type: object
+  models.PipelineStage:
+    enum:
+    - ingesta
+    - extraccion
+    - triage
+    - asignado
+    - borrador
+    - completado
+    type: string
+    x-enum-varnames:
+    - PipelineStageIngesta
+    - PipelineStageExtraccion
+    - PipelineStageTriage
+    - PipelineStageAsignado
+    - PipelineStageBorrador
+    - PipelineStageCompletado
 host: localhost:8080
 info:
   contact:
@@ -99,6 +176,83 @@ paths:
       summary: Logout
       tags:
       - auth
+  /api/v1/cases:
+    get:
+      description: Returns a list of legal cases. Supports optional filtering by status,
+        pipeline_stage, and case_type.
+      parameters:
+      - description: Case status (1=open, 2=closed, 3=suspended)
+        in: query
+        name: status
+        type: integer
+      - description: Pipeline stage (ingesta, extraccion, triage, asignado, borrador,
+          completado)
+        in: query
+        name: pipeline_stage
+        type: string
+      - description: Case type (1=lawsuit, 2=mediation, 3=third_party)
+        in: query
+        name: case_type
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CaseResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List cases
+      tags:
+      - cases
+  /api/v1/cases/{id}:
+    get:
+      description: Returns a single legal case with associated firm and user data.
+      parameters:
+      - description: Case UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get case by ID
+      tags:
+      - cases
 schemes:
 - http
 - https
