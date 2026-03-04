@@ -6,7 +6,7 @@ import { API_ENDPOINTS } from '../utils';
 export const caseKeys = {
   all: ['cases'] as const,
   list: (params?: Record<string, string>) => [...caseKeys.all, 'list', params] as const,
-  detail: (id: string) => [...caseKeys.all, 'detail', id] as const,
+  detail: (id: string | number) => [...caseKeys.all, 'detail', id] as const,
 };
 
 export const caseService = {
@@ -15,7 +15,7 @@ export const caseService = {
     return CaseListResponseSchema.parse(response);
   },
 
-  get: async (id: string): Promise<Case> => {
+  get: async (id: string | number): Promise<Case> => {
     const response = await api.get(API_ENDPOINTS.CASES.DETAIL(id));
     return CaseSchema.parse(response);
   },

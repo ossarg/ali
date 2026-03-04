@@ -9,7 +9,7 @@ export const useCases = (params?: Record<string, string>) => {
   });
 };
 
-export const useCase = (id: string) => {
+export const useCase = (id: string | number) => {
   return useQuery({
     queryKey: caseKeys.detail(id),
     queryFn: () => caseService.get(id),
