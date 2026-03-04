@@ -1,34 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { type Stage } from '../data/mockData';
-import { LayoutGrid, List, Search, Filter, Clock, Download } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { LayoutGrid, List, Search, Filter, Clock, Download, AlertCircle, Loader2 } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
-import { getCasos } from '../lib/api';
+import { useCases } from '../api/hooks';
 
-const RelevanciaLabel: Record<number, string> = { 1: 'Baja', 2: 'Media', 3: 'Alta' }
+const RelevanciaLabel: Record<number, string> = { 1: 'Baja', 2: 'Media', 3: 'Alta' };
 
 export default function Cases() {
   const [view, setView] = useState<'pipeline' | 'table'>('pipeline');
   const [searchQuery, setSearchQuery] = useState('');
-  const [casos, setCasos] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const stages: Stage[] = ['Ingesta', 'Extracción', 'Triage', 'Fichero', 'Borrador', 'Revisión Humana', 'Completado'];
 
-  useEffect(() => {
-    getCasos(searchQuery ? { search: searchQuery } : undefined)
-      .then(r => setCasos(r.data))
-      .catch(() => setCasos([]))
-      .finally(() => setLoading(false))
-  }, [searchQuery]);
+  const { data, isLoading, isError } = useCases(searchQuery ? { search: searchQuery } : undefined);
+  const casos = data?.data ?? [];
+
+  // Map backend stage (English) → display stage (Spanish)
+  const stageMap: Record<string, Stage> = {
+    intake: 'Ingesta',
+    triage: 'Triage',
+    review: 'Revisión Humana',
+    closed: 'Completado',
+  };
 
   const filteredCases = casos.map(c => ({
     id: c.nro_siniestro || c.id,
     title: c.caratula,
     amount: c.monto_estimado || 0,
     priority: RelevanciaLabel[c.triage_relevancia] || 'Baja',
-    stage: c.pipeline_stage ? (c.pipeline_stage.charAt(0).toUpperCase() + c.pipeline_stage.slice(1)) as Stage : 'Ingesta',
+    stage: (c.pipeline_stage ? stageMap[c.pipeline_stage] : null) ?? 'Ingesta',
     deadline: c.pipeline_updated_at || new Date().toISOString(),
     lawyerId: c.estudio_id || null,
     dataExtraction: { fields: { 'Tipo de Siniestro': { value: c.tipo_accion || 'N/A' } } }
@@ -89,7 +92,17 @@ export default function Cases() {
 
       {/* Content Area */}
       <div className="flex-1 overflow-hidden">
-        {view === 'pipeline' ? (
+        {isLoading && (
+          <div className="flex items-center justify-center h-full text-[#6b7280]">
+            <Loader2 className="w-6 h-6 animate-spin mr-2" /> Cargando casos...
+          </div>
+        )}
+        {isError && (
+          <div className="flex items-center justify-center h-full text-[#ef4444] gap-2">
+            <AlertCircle className="w-5 h-5" /> No se pudieron cargar los casos. Intentá de nuevo.
+          </div>
+        )}
+        {!isLoading && !isError && (view === 'pipeline' ? (
           <div className="flex gap-6 h-full overflow-x-auto pb-4">
             {stages.map(stage => {
               const stageCases = filteredCases.filter(c => c.stage === stage);
@@ -170,7 +183,7 @@ export default function Cases() {
                 </thead>
                 <tbody className="divide-y divide-[#e5e7eb]">
                   {filteredCases.map(c => (
-                    <tr key={c.id} className="hover:bg-[#f7f8fa] transition-colors cursor-pointer" onClick={() => window.location.href = `/casos/${c.id}`}>
+                    <tr key={c.id} className="hover:bg-[#f7f8fa] transition-colors cursor-pointer" onClick={() => navigate(`/casos/${c.id}`)}>
                       <td className="px-6 py-4 font-mono text-xs text-[#6b7280]">{c.id}</td>
                       <td className="px-6 py-4 font-medium text-[#1a1a1a] max-w-md truncate">{c.title}</td>
                       <td className="px-6 py-4 text-[#455362]">
@@ -194,7 +207,7 @@ export default function Cases() {
               </table>
             </div>
           </div>
-        )}
+        ))}
       </div>
     </div>
   );

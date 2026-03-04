@@ -1,46 +1,78 @@
-# CLAUDE.md — Webapp PoC Libra Legal AI
+# CLAUDE.md — clients/web
+
+## What this is
+React + TypeScript + Vite frontend for Libra Legal AI.
+Internal app — no SEO, no SSR needed.
 
 ## Stack
-- **Framework:** React + TypeScript
-- **Build:** Vite
-- **Estilos:** Tailwind CSS (no modificar clases existentes sin aprobación de Juan)
-- **Entry point:** `src/main.tsx`
-- **Dev:** `npm run dev` (puerto 5173)
+- React 19 + TypeScript
+- Vite 6
+- Tailwind CSS 4
+- React Router v7
+- date-fns, lucide-react, recharts
 
-## Estructura
+## Dev setup
+```bash
+npm install
+cp .env.example .env
+# Set VITE_API_URL=http://localhost:8080
+npm run dev   # http://localhost:3000
+```
+
+## Rules
+
+### Code
+- TypeScript strict — no `any`. Define types for all API responses.
+- Use React Router `useNavigate` / `<Link>` for navigation. Never `window.location.href`.
+- Error and loading states are mandatory on every page that fetches data.
+- No inline styles — Tailwind only.
+
+### API (`src/lib/api.ts`)
+- Base URL: `VITE_API_URL` (default `http://localhost:8080`)
+- Auth: `Authorization: Bearer <token>` header — NOT `X-User-Role`
+- API paths must match backend exactly: `/api/v1/...` (English, no `/api/casos`)
+- The `X-User-Role` / `X-User-Id` headers are PoC stubs — remove when JWT auth lands
+
+### Types
+- All API response shapes live in `src/types/` — NOT inlined as `any`
+- `mockData.ts` types (Stage, Priority, etc.) use Spanish labels for display; backend uses English enums (intake, triage, review, closed) — the mapping layer lives in `src/lib/api.ts` or a dedicated `src/lib/transforms.ts`
+
+### Visual changes
+**No visual changes without Juan's approval.**
+Logic, API wiring, and types are free game. Layout, colors, and components are not.
+
+### No unused dependencies
+The following must NOT be in `package.json` (they have no place in a Vite frontend):
+- `better-sqlite3` — Node.js native, server-side only
+- `express` — server-side only
+- `@google/genai` — backend concern
+- `dotenv` — Vite handles env vars natively via `import.meta.env`
+
+## Project structure
 ```
 src/
-├── App.tsx               — router principal
-├── components/
-│   └── Layout.tsx        — sidebar + navegación
-├── data/
-│   └── mockData.ts       — datos de prueba (reemplazar por API calls)
+├── components/     # Shared UI components
+├── data/           # mockData.ts (replace with API calls progressively)
 ├── lib/
-│   └── utils.ts          — utilidades
-└── pages/
-    ├── Home.tsx           — dashboard principal
-    ├── Cases.tsx          — listado de casos
-    ├── CaseDetail.tsx     — detalle de caso
-    ├── Agents.tsx         — estado de agentes del pipeline
-    ├── AgentDetail.tsx    — detalle de agente
-    ├── Metrics.tsx        — métricas y analytics
-    ├── Team.tsx           — equipo de abogados
-    └── LawyerDetail.tsx   — detalle de abogado
+│   ├── api.ts      # HTTP client + all API functions
+│   └── utils.ts    # cn() and other helpers
+├── pages/          # One file per route
+└── types/          # API response types (add as endpoints are implemented)
 ```
 
-## Backend
-- API en `http://localhost:3001`
-- Auth por header `X-User-Role: abogado | gerente | admin`
-- Endpoints: `/api/casos`, `/api/triage`, `/api/metrics`, `/api/agents`
+## Current state (PoC)
+| Page       | Status                              |
+|------------|-------------------------------------|
+| Home       | Mock data only                      |
+| Cases      | Wired to API (endpoint pending)     |
+| CaseDetail | Mock data only                      |
+| Agents     | Mock data only                      |
+| Metrics    | Mock data only                      |
+| Team       | Mock data only                      |
+| Documentos | Placeholder                         |
 
-## Reglas estrictas
-- **No modificar estilos visuales** sin aprobación explícita de Juan
-- **No cambiar estructura de componentes existentes** sin avisar antes
-- Si una nueva feature modifica una vista existente → marcar explícitamente antes de implementar
-- Mock data en `mockData.ts` se mantiene como fallback durante desarrollo
+Pages migrate from mock to API as backend endpoints are implemented.
 
-## Cambios pendientes aprobados
-- [ ] "MISSION CONTROL" → "Panel de Control"
-- [ ] Agregar tab "Documentos" en sidebar
-- [ ] Agregar sección "Configuración" (reglas de triage, solo gerente/admin)
-- [ ] Reemplazar mock data por llamadas reales a la API
+## Auth (pending)
+- PoC: `VITE_USER_ROLE` env var + plain headers (stub)
+- Target: JWT from `POST /api/v1/auth/login`, stored in memory (not localStorage), sent as `Authorization: Bearer`
