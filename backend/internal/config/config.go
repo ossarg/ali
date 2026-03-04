@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -60,7 +61,7 @@ func Load() (*Config, error) {
 			Secret: viper.GetString("JWT_SECRET"),
 		},
 		CORS: CORSConfig{
-			AllowedOrigins: viper.GetStringSlice("CORS_ALLOWED_ORIGINS"),
+			AllowedOrigins: parseStringSlice(viper.GetString("CORS_ALLOWED_ORIGINS")),
 		},
 	}
 
@@ -80,6 +81,17 @@ func Get() *Config {
 
 func Reset() {
 	cfg = nil
+}
+
+func parseStringSlice(s string) []string {
+	var result []string
+	for _, v := range strings.Split(s, ",") {
+		v = strings.TrimSpace(v)
+		if v != "" {
+			result = append(result, v)
+		}
+	}
+	return result
 }
 
 func (c *Config) validate() error {

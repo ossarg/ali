@@ -5,8 +5,25 @@ import { Link, useNavigate } from 'react-router-dom';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { useCases } from '../api/hooks';
+import type { PipelineStage } from '../api/schemas/case.schemas';
 
-const RelevanciaLabel: Record<number, string> = { 1: 'Baja', 2: 'Media', 3: 'Alta' };
+// Map backend pipeline_stage → display label (Spanish)
+const stageLabel: Record<PipelineStage, Stage> = {
+  ingesta:    'Ingesta',
+  extraccion: 'Extracción',
+  triage:     'Triage',
+  asignado:   'Fichero',
+  borrador:   'Borrador',
+  completado: 'Completado',
+};
+
+// Estimated amount → priority label (heuristic for PoC)
+const amountToPriority = (amount?: number | null): string => {
+  if (!amount) return 'Baja';
+  if (amount >= 10_000_000) return 'Alta';
+  if (amount >= 3_000_000) return 'Media';
+  return 'Baja';
+};
 
 export default function Cases() {
   const [view, setView] = useState<'pipeline' | 'table'>('pipeline');
@@ -15,26 +32,20 @@ export default function Cases() {
 
   const stages: Stage[] = ['Ingesta', 'Extracción', 'Triage', 'Fichero', 'Borrador', 'Revisión Humana', 'Completado'];
 
-  const { data, isLoading, isError } = useCases(searchQuery ? { search: searchQuery } : undefined);
-  const casos = data?.data ?? [];
-
-  // Map backend stage (English) → display stage (Spanish)
-  const stageMap: Record<string, Stage> = {
-    intake: 'Ingesta',
-    triage: 'Triage',
-    review: 'Revisión Humana',
-    closed: 'Completado',
-  };
+  const { data: casos = [], isLoading, isError } = useCases(
+    searchQuery ? { search: searchQuery } : undefined
+  );
 
   const filteredCases = casos.map(c => ({
-    id: c.nro_siniestro || c.id,
-    title: c.caratula,
-    amount: c.monto_estimado || 0,
-    priority: RelevanciaLabel[c.triage_relevancia] || 'Baja',
-    stage: (c.pipeline_stage ? stageMap[c.pipeline_stage] : null) ?? 'Ingesta',
-    deadline: c.pipeline_updated_at || new Date().toISOString(),
-    lawyerId: c.estudio_id || null,
-    dataExtraction: { fields: { 'Tipo de Siniestro': { value: c.tipo_accion || 'N/A' } } }
+    id: c.id,
+    title: c.title,
+    amount: c.estimated_amount ?? 0,
+    priority: amountToPriority(c.estimated_amount),
+    stage: stageLabel[c.pipeline_stage] ?? 'Ingesta',
+    deadline: c.opened_at ?? c.created_at,
+    lawyerId: c.assigned_user?.id ?? null,
+    caseType: c.case_type,
+    actionType: c.action_type ?? null,
   }));
 
   return (
@@ -142,9 +153,9 @@ export default function Cases() {
                             </span>
                           </div>
                           <div className="flex justify-between text-xs">
-                            <span className="text-[#6b7280]">Siniestro:</span>
-                            <span className="font-medium text-[#1a1a1a] truncate ml-2 text-right">
-                              {c.dataExtraction.fields['Tipo de Siniestro']?.value || 'N/A'}
+                            <span className="text-[#6b7280]">Tipo:</span>
+                            <span className="font-medium text-[#1a1a1a] truncate ml-2 text-right capitalize">
+                              {c.caseType.replace('_', ' ')}
                             </span>
                           </div>
                         </div>
