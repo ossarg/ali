@@ -25,5 +25,4 @@ web:
 # --- Full dev environment ---
 
 dev:
-	@$(MAKE) up
-	@$(MAKE) web
+	@bash scripts/dev.sh
