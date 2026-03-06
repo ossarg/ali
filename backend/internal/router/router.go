@@ -14,7 +14,7 @@ import (
 	_ "github.com/swaggo/files"
 )
 
-func InitRouter(cfg *config.Config, authController *controllers.AuthController) *echo.Echo {
+func InitRouter(cfg *config.Config, authController *controllers.AuthController, caseController *controllers.CaseController) *echo.Echo {
 	e := echo.New()
 	e.HTTPErrorHandler = apierrors.Handler
 
@@ -39,8 +39,8 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController) 
 
 	// Protected routes
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
-	api.GET("/cases", placeholder("cases.list"))
-	api.GET("/cases/:id", placeholder("cases.get"))
+	api.GET("/cases", caseController.List)
+	api.GET("/cases/:id", caseController.GetByID)
 	api.GET("/triage/rules", placeholder("triage.rules.get"))
 	api.PUT("/triage/rules", placeholder("triage.rules.update"), appMiddleware.RequireCapability("triage:config"))
 	api.GET("/metrics", placeholder("metrics.get"))

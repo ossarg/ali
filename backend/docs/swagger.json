@@ -103,9 +103,203 @@
                     }
                 }
             }
+        },
+        "/api/v1/cases": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a list of legal cases. Supports optional filtering by status, pipeline_stage, and case_type.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cases"
+                ],
+                "summary": "List cases",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Case status (1=open, 2=closed, 3=suspended)",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pipeline stage (ingesta, extraccion, triage, asignado, borrador, completado)",
+                        "name": "pipeline_stage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Case type (1=lawsuit, 2=mediation, 3=third_party)",
+                        "name": "case_type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.CaseResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cases/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a single legal case with associated firm and user data.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cases"
+                ],
+                "summary": "Get case by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "dto.CaseResponse": {
+            "type": "object",
+            "properties": {
+                "action_type": {
+                    "type": "string"
+                },
+                "assigned_user": {
+                    "$ref": "#/definitions/dto.UserSummary"
+                },
+                "case_number": {
+                    "type": "string"
+                },
+                "case_type": {
+                    "type": "string"
+                },
+                "claim_number": {
+                    "type": "string"
+                },
+                "court": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "defense_firm": {
+                    "$ref": "#/definitions/dto.FirmSummary"
+                },
+                "estimated_amount": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "incident_date": {
+                    "type": "string"
+                },
+                "opened_at": {
+                    "type": "string"
+                },
+                "pipeline_stage": {
+                    "type": "string"
+                },
+                "plaintiff_firm": {
+                    "$ref": "#/definitions/dto.FirmSummary"
+                },
+                "policy": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "tribunal": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.FirmSummary": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.LoginRequest": {
             "type": "object",
             "required": [
@@ -154,6 +348,23 @@
                     "type": "string"
                 },
                 "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UserSummary": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "last_name": {
                     "type": "string"
                 }
             }
