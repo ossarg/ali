@@ -12,7 +12,19 @@ type Config struct {
 	Database DatabaseConfig
 	JWT      JWTConfig
 	CORS     CORSConfig
+	Redis    RedisConfig
+	SISE     SISEConfig
 	AgentKey string
+}
+
+type RedisConfig struct {
+	URL string
+}
+
+type SISEConfig struct {
+	BaseURL  string
+	Username string
+	Password string
 }
 
 type ServerConfig struct {
@@ -48,6 +60,10 @@ func Load() (*Config, error) {
 	viper.SetDefault("ENVIRONMENT", "development")
 	viper.SetDefault("CORS_ALLOWED_ORIGINS", "http://localhost:5173")
 	viper.SetDefault("AGENT_KEY", "")
+	viper.SetDefault("REDIS_URL", "redis://localhost:6379")
+	viper.SetDefault("SISE_BASE_URL", "https://sise-consultas.libraseguros.com.ar/Sise3GBELibraCoreprodConsultas")
+	viper.SetDefault("SISE_USERNAME", "")
+	viper.SetDefault("SISE_PASSWORD", "")
 
 	_ = viper.ReadInConfig()
 
@@ -64,6 +80,14 @@ func Load() (*Config, error) {
 		},
 		CORS: CORSConfig{
 			AllowedOrigins: parseCORSOrigins(viper.GetString("CORS_ALLOWED_ORIGINS")),
+		},
+		Redis: RedisConfig{
+			URL: viper.GetString("REDIS_URL"),
+		},
+		SISE: SISEConfig{
+			BaseURL:  viper.GetString("SISE_BASE_URL"),
+			Username: viper.GetString("SISE_USERNAME"),
+			Password: viper.GetString("SISE_PASSWORD"),
 		},
 		AgentKey: viper.GetString("AGENT_KEY"),
 	}
