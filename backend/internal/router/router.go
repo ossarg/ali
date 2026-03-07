@@ -51,6 +51,7 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	api.PATCH("/activity/events/:id/review", caseController.ReviewEvent)
 	api.GET("/claims", claimController.List)
 	api.GET("/claims/lookup", claimController.Lookup)
+	api.GET("/claims/:id", claimController.Get)
 	api.POST("/claims", claimController.Create)
 	api.GET("/triage/rules", placeholder("triage.rules.get"))
 	api.PUT("/triage/rules", placeholder("triage.rules.update"), appMiddleware.RequireCapability("triage:config"))

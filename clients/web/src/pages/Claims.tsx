@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { formatTableTime } from '../lib/formatTime';
@@ -185,8 +186,12 @@ function Row({ label, value }: { label: string; value: string }) {
 
 interface ClaimRowProps { claim: Claim; }
 function ClaimRow({ claim }: ClaimRowProps) {
+  const navigate = useNavigate();
   return (
-    <tr className="hover:bg-gray-50 transition-colors">
+    <tr
+      className="hover:bg-gray-50 transition-colors cursor-pointer"
+      onClick={() => navigate(`/siniestros/${claim.id}`)}
+    >
       <td className="py-3 pl-4 pr-4">
         <div className="font-medium text-gray-800">{claim.claim_number}</div>
         <div className="text-xs text-gray-400">{claim.sise_claim_id}</div>

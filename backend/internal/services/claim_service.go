@@ -13,6 +13,7 @@ import (
 
 type ClaimService interface {
 	List() ([]dto.ClaimResponse, error)
+	GetByID(id string) (*dto.ClaimResponse, error)
 	Lookup(nroStro string) (*dto.ClaimLookupResponse, error)
 	Create(nroStro string) (*dto.ClaimResponse, error)
 }
@@ -39,6 +40,18 @@ func (s *claimService) List() ([]dto.ClaimResponse, error) {
 		result[i] = dto.ToClaimResponse(c)
 	}
 	return result, nil
+}
+
+func (s *claimService) GetByID(id string) (*dto.ClaimResponse, error) {
+	c, err := s.claimRepo.FindByID(id)
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	if c == nil {
+		return nil, nil
+	}
+	resp := dto.ToClaimResponse(*c)
+	return &resp, nil
 }
 
 // Lookup fetches claim + policy + producer from SISE without persisting.

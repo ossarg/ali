@@ -33,6 +33,28 @@ func (cc *ClaimController) List(c echo.Context) error {
 	return c.JSON(http.StatusOK, claims)
 }
 
+// GetClaim godoc
+// @Summary      Get a claim by ID
+// @Description  Returns a single claim from our DB by UUID.
+// @Tags         claims
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id   path      string  true  "Claim UUID"
+// @Success      200  {object}  dto.ClaimResponse
+// @Failure      404  {object}  map[string]string
+// @Router       /api/v1/claims/{id} [get]
+func (cc *ClaimController) Get(c echo.Context) error {
+	id := c.Param("id")
+	claim, err := cc.claimService.GetByID(id)
+	if err != nil {
+		return err
+	}
+	if claim == nil {
+		return apierrors.New(http.StatusNotFound, "claim not found")
+	}
+	return c.JSON(http.StatusOK, claim)
+}
+
 // LookupClaim godoc
 // @Summary      Look up a claim in SISE
 // @Description  Fetches claim + policy + producer from SISE by claim number. Does not persist.

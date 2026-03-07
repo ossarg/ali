@@ -5,12 +5,18 @@ import type { Claim, ClaimLookupResponse } from '../schemas/claim.schemas';
 export const claimKeys = {
   all:    ['claims'] as const,
   list:   () => [...claimKeys.all, 'list'] as const,
+  detail: (id: string) => [...claimKeys.all, 'detail', id] as const,
   lookup: (nro: string) => [...claimKeys.all, 'lookup', nro] as const,
 };
 
 const CLAIMS_BASE = '/api/v1/claims';
 
 export const claimService = {
+  getById: async (id: string): Promise<Claim> => {
+    const res = await api.get(`${CLAIMS_BASE}/${id}`);
+    return ClaimSchema.parse(res);
+  },
+
   list: async (): Promise<Claim[]> => {
     const res = await api.get(CLAIMS_BASE);
     return ClaimSchema.array().parse(res);
