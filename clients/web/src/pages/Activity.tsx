@@ -172,8 +172,8 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+    <div>
+      <table className="w-full text-sm table-fixed">
         <thead>
           <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
             <th className="pb-3 pr-4">Asunto / Mail ID</th>
@@ -187,7 +187,7 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
         <tbody className="divide-y divide-gray-50">
           {events.map(event => (
             <tr key={event.id} className="hover:bg-gray-50 transition-colors">
-              <td className="py-3 pr-4 min-w-0 w-2/5">
+              <td className="py-3 pr-4 w-full min-w-0">
                 <div className="font-medium text-gray-800 truncate">
                   {event.subject || event.mail_id}
                 </div>
