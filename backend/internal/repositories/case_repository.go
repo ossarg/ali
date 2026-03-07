@@ -30,7 +30,12 @@ type CaseRepository interface {
 	UpdateEvent(e *models.CaseEvent) error
 	ListPendingEvents() ([]models.CaseEvent, error)
 	ListApprovedEvents() ([]models.CaseEvent, error)
+	ListUnresolvedEvents() ([]models.CaseEvent, error)
+	ListPendingResolutionEvents() ([]models.CaseEvent, error)
 	GetEventMetrics() (total, approved, pending, processed int64, lastEventAt *time.Time, err error)
+
+	// Cases
+	GetByID(id string) (*models.Case, error)
 }
 
 type caseRepository struct {
@@ -130,6 +135,33 @@ func (r *caseRepository) ListApprovedEvents() ([]models.CaseEvent, error) {
 		Order("reviewed_at DESC").
 		Find(&events).Error
 	return events, err
+}
+
+func (r *caseRepository) ListUnresolvedEvents() ([]models.CaseEvent, error) {
+	var events []models.CaseEvent
+	err := r.db.Where("resolution_status = ?", models.ResolutionUnresolved).
+		Order("created_at DESC").
+		Find(&events).Error
+	return events, err
+}
+
+// ListPendingResolutionEvents returns approved events that have a raw_claim_number
+// but haven't been resolved yet (pending or unresolved).
+func (r *caseRepository) ListPendingResolutionEvents() ([]models.CaseEvent, error) {
+	var events []models.CaseEvent
+	err := r.db.Where("approved = true AND raw_claim_number != '' AND resolution_status != ?", models.ResolutionResolved).
+		Order("created_at ASC").
+		Find(&events).Error
+	return events, err
+}
+
+func (r *caseRepository) GetByID(id string) (*models.Case, error) {
+	var c models.Case
+	err := r.db.Where("id = ?", id).First(&c).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, nil
+	}
+	return &c, err
 }
 
 func (r *caseRepository) GetEventMetrics() (total, approved, pending, processed int64, lastEventAt *time.Time, err error) {

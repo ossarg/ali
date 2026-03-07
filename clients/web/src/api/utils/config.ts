@@ -12,5 +12,10 @@ export const API_ENDPOINTS = {
     APPROVED: '/api/v1/activity/events/approved',
     PENDING:  '/api/v1/activity/events/pending',
     REVIEW:   (id: string) => `/api/v1/activity/events/${id}/review`,
+    RESOLVE:  (id: string) => `/api/v1/activity/events/${id}/resolve`,
+  },
+  CLAIMS_EXTRA: {
+    UNRESOLVED:    '/api/v1/claims/unresolved',
+    BATCH_RESOLVE: '/api/v1/claims/batch-resolve',
   },
 } as const;

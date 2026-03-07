@@ -5,6 +5,7 @@ import type {
   CaseEvent,
   CaseEventMetrics,
   CaseListResponse,
+  RetryResolutionRequest,
   ReviewCaseEventRequest,
 } from '../schemas/case.schemas';
 import { API_ENDPOINTS } from '../utils';
@@ -53,5 +54,19 @@ export const caseEventService = {
   review: async (id: string, req: ReviewCaseEventRequest): Promise<CaseEvent> => {
     const response = await api.patch(API_ENDPOINTS.CASE_EVENTS.REVIEW(id), req);
     return CaseEventSchema.parse(response);
+  },
+
+  unresolved: async (): Promise<CaseEvent[]> => {
+    const response = await api.get(API_ENDPOINTS.CLAIMS_EXTRA.UNRESOLVED);
+    return CaseEventSchema.array().parse(response);
+  },
+
+  retryResolution: async (id: string, req: RetryResolutionRequest): Promise<CaseEvent> => {
+    const response = await api.post(API_ENDPOINTS.CASE_EVENTS.RESOLVE(id), req);
+    return CaseEventSchema.parse(response);
+  },
+
+  batchResolve: async (): Promise<{ resolved: number; errors: number; message: string }> => {
+    return api.post(API_ENDPOINTS.CLAIMS_EXTRA.BATCH_RESOLVE, {});
   },
 };

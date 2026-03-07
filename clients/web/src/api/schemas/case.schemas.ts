@@ -46,6 +46,8 @@ export const MailTypeSchema = z.enum([
   'oficio',
 ]);
 
+export const ResolutionStatusSchema = z.enum(['pending', 'resolved', 'unresolved']);
+
 export const CaseEventSchema = z.object({
   id: z.string().uuid(),
   case_id: z.string().uuid().nullable().optional(),
@@ -67,6 +69,11 @@ export const CaseEventSchema = z.object({
   reviewed_by: z.string().nullable().optional(),
   reviewed_at: z.string().nullable().optional(),
   review_comment: z.string().optional(),
+  resolution_status: z.string().optional(),
+  resolution_error: z.string().optional(),
+  resolved_claim_id: z.string().optional(),
+  corrected_claim_number: z.string().optional(),
+  correction_comment: z.string().optional(),
 });
 
 export const CaseEventMetricsSchema = z.object({
@@ -81,6 +88,13 @@ export const ReviewCaseEventRequestSchema = z.object({
   mail_type: z.number().int().min(1).max(7).optional(),
   review_comment: z.string().optional(),
 });
+
+export const RetryResolutionRequestSchema = z.object({
+  corrected_claim_number: z.string().min(1),
+  correction_comment: z.string().optional(),
+});
+
+export type RetryResolutionRequest = z.infer<typeof RetryResolutionRequestSchema>;
 
 export type MailType = z.infer<typeof MailTypeSchema>;
 export type CaseEvent = z.infer<typeof CaseEventSchema>;

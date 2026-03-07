@@ -17,9 +17,14 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/agents/case-events": {
+        "/api/v1/activity/events/{id}/resolve": {
             "post": {
-                "description": "Called by Rachel after classifying an email. Requires X-Agent-Key header.",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Human corrects the claim number extracted by Rachel and retries SISE lookup.",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,9 +32,75 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "cases"
+                    "claims"
                 ],
-                "summary": "Register a case event from an incoming email",
+                "summary": "Retry claim resolution with corrected nro_stro",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case event UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Correction payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RetryResolutionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CaseEventResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/agents/case-events": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Called by Rachel after classifying an email. Requires X-Agent-Key header.\nReturns case events where SISE claim lookup failed.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "cases",
+                    "claims"
+                ],
+                "summary": "List unresolved case events",
                 "parameters": [
                     {
                         "description": "Case event payload",
@@ -42,6 +113,15 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.CaseEventResponse"
+                            }
+                        }
+                    },
                     "201": {
                         "description": "Created",
                         "schema": {
@@ -572,6 +652,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/claims/batch-resolve": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Finds all approved events with raw_claim_number not yet resolved and queries SISE.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "claims"
+                ],
+                "summary": "Batch resolve pending claim events",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BatchResolveResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/claims/lookup": {
             "get": {
                 "security": [
@@ -667,6 +781,83 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/claims/unresolved": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Called by Rachel after classifying an email. Requires X-Agent-Key header.\nReturns case events where SISE claim lookup failed.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "cases",
+                    "claims"
+                ],
+                "summary": "List unresolved case events",
+                "parameters": [
+                    {
+                        "description": "Case event payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateCaseEventRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.CaseEventResponse"
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CaseEventResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/claims/{id}": {
             "get": {
                 "security": [
@@ -712,6 +903,20 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.BatchResolveResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "resolved": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.CaseEventMetrics": {
             "type": "object",
             "properties": {
@@ -743,6 +948,12 @@ const docTemplate = `{
                 },
                 "confidence": {
                     "type": "number"
+                },
+                "corrected_claim_number": {
+                    "type": "string"
+                },
+                "correction_comment": {
+                    "type": "string"
                 },
                 "created_at": {
                     "type": "string"
@@ -781,6 +992,15 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "received_at": {
+                    "type": "string"
+                },
+                "resolution_error": {
+                    "type": "string"
+                },
+                "resolution_status": {
+                    "type": "string"
+                },
+                "resolved_claim_id": {
                     "type": "string"
                 },
                 "review_comment": {
@@ -1114,6 +1334,20 @@ const docTemplate = `{
                 },
                 "user": {
                     "$ref": "#/definitions/dto.UserInfo"
+                }
+            }
+        },
+        "dto.RetryResolutionRequest": {
+            "type": "object",
+            "required": [
+                "corrected_claim_number"
+            ],
+            "properties": {
+                "corrected_claim_number": {
+                    "type": "string"
+                },
+                "correction_comment": {
+                    "type": "string"
                 }
             }
         },

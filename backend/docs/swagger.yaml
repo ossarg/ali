@@ -1,5 +1,14 @@
 basePath: /
 definitions:
+  dto.BatchResolveResponse:
+    properties:
+      errors:
+        type: integer
+      message:
+        type: string
+      resolved:
+        type: integer
+    type: object
   dto.CaseEventMetrics:
     properties:
       approved:
@@ -21,6 +30,10 @@ definitions:
         type: string
       confidence:
         type: number
+      corrected_claim_number:
+        type: string
+      correction_comment:
+        type: string
       created_at:
         type: string
       id:
@@ -46,6 +59,12 @@ definitions:
       reasoning:
         type: string
       received_at:
+        type: string
+      resolution_error:
+        type: string
+      resolution_status:
+        type: string
+      resolved_claim_id:
         type: string
       review_comment:
         type: string
@@ -270,6 +289,15 @@ definitions:
       user:
         $ref: '#/definitions/dto.UserInfo'
     type: object
+  dto.RetryResolutionRequest:
+    properties:
+      corrected_claim_number:
+        type: string
+      correction_comment:
+        type: string
+    required:
+    - corrected_claim_number
+    type: object
   dto.ReviewCaseEventRequest:
     properties:
       mail_type:
@@ -485,12 +513,55 @@ info:
   title: Libra Legal API
   version: "1.0"
 paths:
+  /api/v1/activity/events/{id}/resolve:
+    post:
+      consumes:
+      - application/json
+      description: Human corrects the claim number extracted by Rachel and retries
+        SISE lookup.
+      parameters:
+      - description: Case event UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Correction payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RetryResolutionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CaseEventResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Retry claim resolution with corrected nro_stro
+      tags:
+      - claims
   /api/v1/agents/case-events:
     post:
       consumes:
       - application/json
-      description: Called by Rachel after classifying an email. Requires X-Agent-Key
-        header.
+      description: |-
+        Called by Rachel after classifying an email. Requires X-Agent-Key header.
+        Returns case events where SISE claim lookup failed.
       parameters:
       - description: Case event payload
         in: body
@@ -500,7 +571,14 @@ paths:
           $ref: '#/definitions/dto.CreateCaseEventRequest'
       produces:
       - application/json
+      - application/json
       responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CaseEventResponse'
+            type: array
         "201":
           description: Created
           schema:
@@ -523,9 +601,12 @@ paths:
             additionalProperties:
               type: string
             type: object
-      summary: Register a case event from an incoming email
+      security:
+      - BearerAuth: []
+      summary: List unresolved case events
       tags:
       - cases
+      - claims
   /api/v1/auth/login:
     post:
       consumes:
@@ -873,6 +954,28 @@ paths:
       summary: Get a claim by ID
       tags:
       - claims
+  /api/v1/claims/batch-resolve:
+    post:
+      description: Finds all approved events with raw_claim_number not yet resolved
+        and queries SISE.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BatchResolveResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Batch resolve pending claim events
+      tags:
+      - claims
   /api/v1/claims/lookup:
     get:
       description: Fetches claim + policy + producer from SISE by claim number. Does
@@ -933,6 +1036,58 @@ paths:
       - BearerAuth: []
       summary: Get claim metrics
       tags:
+      - claims
+  /api/v1/claims/unresolved:
+    get:
+      consumes:
+      - application/json
+      description: |-
+        Called by Rachel after classifying an email. Requires X-Agent-Key header.
+        Returns case events where SISE claim lookup failed.
+      parameters:
+      - description: Case event payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCaseEventRequest'
+      produces:
+      - application/json
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CaseEventResponse'
+            type: array
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.CaseEventResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List unresolved case events
+      tags:
+      - cases
       - claims
 schemes:
 - http

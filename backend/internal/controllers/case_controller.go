@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -11,11 +12,12 @@ import (
 )
 
 type CaseController struct {
-	caseService services.CaseService
+	caseService     services.CaseService
+	resolutionSvc   services.ClaimResolutionService
 }
 
-func NewCaseController(caseService services.CaseService) *CaseController {
-	return &CaseController{caseService: caseService}
+func NewCaseController(caseService services.CaseService, resolutionSvc services.ClaimResolutionService) *CaseController {
+	return &CaseController{caseService: caseService, resolutionSvc: resolutionSvc}
 }
 
 // ListCases godoc
@@ -146,7 +148,7 @@ func (cc *CaseController) ReviewEvent(c echo.Context) error {
 	}
 	reviewerID := claims.UserID
 
-	resp, err := cc.caseService.ReviewEvent(id, reviewerID, req)
+	resp, err := cc.caseService.ReviewEvent(id, reviewerID, req, cc.resolutionSvc)
 	if err != nil {
 		return err
 	}
@@ -165,6 +167,80 @@ func (cc *CaseController) ReviewEvent(c echo.Context) error {
 // @Failure      401   {object}  map[string]string
 // @Failure      409   {object}  map[string]string
 // @Router       /api/v1/agents/case-events [post]
+// ListUnresolvedEvents godoc
+// @Summary      List unresolved case events
+// @Description  Returns case events where SISE claim lookup failed.
+// @Tags         claims
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {array}   dto.CaseEventResponse
+// @Failure      401  {object}  map[string]string
+// @Router       /api/v1/claims/unresolved [get]
+func (cc *CaseController) ListUnresolvedEvents(c echo.Context) error {
+	events, err := cc.resolutionSvc.ListUnresolved()
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, events)
+}
+
+// RetryResolution godoc
+// @Summary      Retry claim resolution with corrected nro_stro
+// @Description  Human corrects the claim number extracted by Rachel and retries SISE lookup.
+// @Tags         claims
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id    path      string                        true  "Case event UUID"
+// @Param        body  body      dto.RetryResolutionRequest    true  "Correction payload"
+// @Success      200   {object}  dto.CaseEventResponse
+// @Failure      400   {object}  map[string]string
+// @Failure      404   {object}  map[string]string
+// @Router       /api/v1/activity/events/{id}/resolve [post]
+func (cc *CaseController) RetryResolution(c echo.Context) error {
+	id := c.Param("id")
+	var req dto.RetryResolutionRequest
+	if err := c.Bind(&req); err != nil {
+		return apierrors.ErrBadRequest
+	}
+	if req.CorrectedClaimNumber == "" {
+		return apierrors.New(http.StatusBadRequest, "corrected_claim_number is required")
+	}
+	resp, err := cc.resolutionSvc.RetryResolution(id, req.CorrectedClaimNumber, req.CorrectionComment)
+	if err != nil {
+		// Return partial response with error info even on SISE failure
+		if resp != nil {
+			return c.JSON(http.StatusUnprocessableEntity, map[string]interface{}{
+				"error": err.Error(),
+				"event": resp,
+			})
+		}
+		return apierrors.New(http.StatusNotFound, err.Error())
+	}
+	return c.JSON(http.StatusOK, resp)
+}
+
+// BatchResolve godoc
+// @Summary      Batch resolve pending claim events
+// @Description  Finds all approved events with raw_claim_number not yet resolved and queries SISE.
+// @Tags         claims
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {object}  dto.BatchResolveResponse
+// @Failure      401  {object}  map[string]string
+// @Router       /api/v1/claims/batch-resolve [post]
+func (cc *CaseController) BatchResolve(c echo.Context) error {
+	resolved, errs, err := cc.resolutionSvc.BatchResolveUnlinked()
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, dto.BatchResolveResponse{
+		Resolved: resolved,
+		Errors:   errs,
+		Message:  fmt.Sprintf("Resolved %d events, %d failed", resolved, errs),
+	})
+}
+
 func (cc *CaseController) CreateEvent(c echo.Context) error {
 	var req dto.CreateCaseEventRequest
 	if err := c.Bind(&req); err != nil {

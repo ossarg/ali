@@ -6,6 +6,27 @@ import (
 	"github.com/google/uuid"
 )
 
+// ResolutionStatus tracks whether the raw_claim_number was validated against SISE.
+type ResolutionStatus int16
+
+const (
+	ResolutionPending    ResolutionStatus = 0
+	ResolutionResolved   ResolutionStatus = 1
+	ResolutionUnresolved ResolutionStatus = 2
+)
+
+func (r ResolutionStatus) String() string {
+	switch r {
+	case ResolutionPending:
+		return "pending"
+	case ResolutionResolved:
+		return "resolved"
+	case ResolutionUnresolved:
+		return "unresolved"
+	}
+	return "unknown"
+}
+
 type MailType int16
 
 const (
@@ -67,7 +88,15 @@ type CaseEvent struct {
 	ReviewedAt         *time.Time `                       json:"reviewed_at,omitempty"`
 	ReviewComment      string     `gorm:"type:text"       json:"review_comment,omitempty"`
 
+	// Resolution fields (async SISE lookup after approval)
+	ResolutionStatus       ResolutionStatus `gorm:"not null;default:0"   json:"resolution_status"`
+	ResolutionError        string           `gorm:"type:text"            json:"resolution_error,omitempty"`
+	ResolvedClaimID        *uuid.UUID       `gorm:"type:uuid;default:null" json:"resolved_claim_id,omitempty"`
+	CorrectedClaimNumber   string           `gorm:"type:varchar(100)"    json:"corrected_claim_number,omitempty"`
+	CorrectionComment      string           `gorm:"type:text"            json:"correction_comment,omitempty"`
+
 	// Associations
-	Case       *Case `gorm:"foreignKey:CaseID"    json:"case,omitempty"`
-	ReviewUser *User `gorm:"foreignKey:ReviewedBy" json:"review_user,omitempty"`
+	Case          *Case  `gorm:"foreignKey:CaseID"         json:"case,omitempty"`
+	ReviewUser    *User  `gorm:"foreignKey:ReviewedBy"     json:"review_user,omitempty"`
+	ResolvedClaim *Claim `gorm:"foreignKey:ResolvedClaimID" json:"resolved_claim,omitempty"`
 }
