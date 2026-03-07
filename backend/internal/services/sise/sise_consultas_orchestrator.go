@@ -52,21 +52,21 @@ func (o *ConsultasOrchestrator) refreshToken() (string, error) {
 
 // ─── Public domain methods ────────────────────────────────────────────────────
 
-// GetProductorByCodigo retrieves producer/agent info from SISE by cod_agente.
-func (o *ConsultasOrchestrator) GetProductorByCodigo(codAgente int) (*Productor, error) {
+// GetProducerByCode retrieves producer/agent info from SISE by cod_agente.
+func (o *ConsultasOrchestrator) GetProducerByCode(codAgente int) (*Producer, error) {
 	token, err := o.getToken()
 	if err != nil {
 		return nil, err
 	}
 
-	result, err := o.client.GetProductorByCodigo(token, codAgente)
+	result, err := o.client.GetProducerByCode(token, codAgente)
 	if err != nil {
 		_ = cache.DeleteSISEToken()
 		token, err = o.refreshToken()
 		if err != nil {
 			return nil, err
 		}
-		result, err = o.client.GetProductorByCodigo(token, codAgente)
+		result, err = o.client.GetProducerByCode(token, codAgente)
 		if err != nil {
 			return nil, err
 		}
@@ -98,15 +98,15 @@ func (o *ConsultasOrchestrator) GetPolicySummary(idPV int64) (*PolicySummary, er
 	return result, nil
 }
 
-// GetSiniestroByNumber looks up a siniestro in SISE by its claim number.
+// GetClaimByNumber looks up a siniestro in SISE by its claim number.
 // Automatically handles token refresh on expiry.
-func (o *ConsultasOrchestrator) GetSiniestroByNumber(nroSiniestro string) (*Siniestro, error) {
+func (o *ConsultasOrchestrator) GetClaimByNumber(nroSiniestro string) (*Claim, error) {
 	token, err := o.getToken()
 	if err != nil {
 		return nil, err
 	}
 
-	result, err := o.client.GetSiniestroByNumber(token, nroSiniestro)
+	result, err := o.client.GetClaimByNumber(token, nroSiniestro)
 	if err != nil {
 		// On auth failure, invalidate cache and retry once
 		_ = cache.DeleteSISEToken()
@@ -114,7 +114,7 @@ func (o *ConsultasOrchestrator) GetSiniestroByNumber(nroSiniestro string) (*Sini
 		if err != nil {
 			return nil, err
 		}
-		result, err = o.client.GetSiniestroByNumber(token, nroSiniestro)
+		result, err = o.client.GetClaimByNumber(token, nroSiniestro)
 		if err != nil {
 			return nil, err
 		}

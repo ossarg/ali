@@ -15,9 +15,9 @@ import (
 
 // Query IDs — UUIDs registered in SISE for each specific query
 const (
-	queryIDSiniestroByNumber = "3618d606-243f-4ce7-bf95-1c2bdc7fcbe8"
+	queryIDClaimByNumber = "3618d606-243f-4ce7-bf95-1c2bdc7fcbe8"
 	queryIDPolicySummary     = "8432bf12-373b-43bd-8b4b-5891653c738a"
-	queryIDProductorByCode   = "097a813a-06d4-4a47-b66b-8ec596372d2d"
+	queryIDProducerByCode   = "097a813a-06d4-4a47-b66b-8ec596372d2d"
 )
 
 // ─── DTOs ─────────────────────────────────────────────────────────────────────
@@ -83,8 +83,8 @@ type SchemaField struct {
 	Type string `json:"type"`
 }
 
-// Siniestro represents a claim returned by SISE
-type Siniestro struct {
+// Claim represents a claim returned by SISE
+type Claim struct {
 	IDStro             int64   `json:"id_stro"`
 	IDPV               int64   `json:"id_pv"`
 	NroSiniestro       int64   `json:"nro_siniestro"`
@@ -231,8 +231,8 @@ type PolicySummary struct {
 	Autoadministrada           float64 `json:"Autoadministrada"`
 }
 
-// Productor represents an insurance agent/producer from SISE
-type Productor struct {
+// Producer represents an insurance agent/producer from SISE
+type Producer struct {
 	CodAgente     float64 `json:"cod_agente"`
 	CodTipoAgente float64 `json:"cod_tipo_agente"`
 	CodGrupo      float64 `json:"cod_grupo"`
@@ -245,11 +245,11 @@ type Productor struct {
 
 // ─── Domain methods ───────────────────────────────────────────────────────────
 
-// GetSiniestroByNumber retrieves a claim from SISE by its claim number (nro_stro).
+// GetClaimByNumber retrieves a claim from SISE by its claim number (nro_stro).
 // codigoUsuario can be empty — SISE accepts it as optional.
-func (c *ConsultasClient) GetSiniestroByNumber(bearerToken, nroSiniestro string) (*Siniestro, error) {
+func (c *ConsultasClient) GetClaimByNumber(bearerToken, nroSiniestro string) (*Claim, error) {
 	req := QueryRequest{
-		QueryID: queryIDSiniestroByNumber,
+		QueryID: queryIDClaimByNumber,
 		Parameters: []QueryParameter{
 			{
 				Name:               "codigo_usuario",
@@ -279,11 +279,11 @@ func (c *ConsultasClient) GetSiniestroByNumber(bearerToken, nroSiniestro string)
 		return nil, nil // not found
 	}
 
-	return parseSiniestro(resp.Result.Result[0]), nil
+	return parseClaim(resp.Result.Result[0]), nil
 }
 
 // GetPolicySummary retrieves full policy details from SISE by id_pv.
-// id_pv is obtained from the Siniestro response (field IDPV).
+// id_pv is obtained from the Claim response (field IDPV).
 func (c *ConsultasClient) GetPolicySummary(bearerToken string, idPV int64) (*PolicySummary, error) {
 	req := QueryRequest{
 		QueryID: queryIDPolicySummary,
@@ -313,10 +313,10 @@ func (c *ConsultasClient) GetPolicySummary(bearerToken string, idPV int64) (*Pol
 	return parsePolicySummary(resp.Result.Result[0]), nil
 }
 
-// GetProductorByCodigo retrieves producer/agent info from SISE by cod_agente.
-func (c *ConsultasClient) GetProductorByCodigo(bearerToken string, codAgente int) (*Productor, error) {
+// GetProducerByCode retrieves producer/agent info from SISE by cod_agente.
+func (c *ConsultasClient) GetProducerByCode(bearerToken string, codAgente int) (*Producer, error) {
 	req := QueryRequest{
-		QueryID:    queryIDProductorByCode,
+		QueryID:    queryIDProducerByCode,
 		Parameters: []QueryParameter{},
 		Filters: []QueryFilter{
 			{
@@ -342,12 +342,12 @@ func (c *ConsultasClient) GetProductorByCodigo(bearerToken string, codAgente int
 		return nil, nil // not found
 	}
 
-	return parseProductor(resp.Result.Result[0]), nil
+	return parseProducer(resp.Result.Result[0]), nil
 }
 
-// parseProductor maps a raw SISE row to a Productor struct.
-func parseProductor(item map[string]interface{}) *Productor {
-	p := &Productor{}
+// parseProducer maps a raw SISE row to a Producer struct.
+func parseProducer(item map[string]interface{}) *Producer {
+	p := &Producer{}
 	if v, ok := item["cod_agente"].(float64); ok {
 		p.CodAgente = v
 	}
@@ -420,9 +420,9 @@ func parsePolicySummary(item map[string]interface{}) *PolicySummary {
 	return p
 }
 
-// parseSiniestro maps a raw SISE row to a Siniestro struct.
-func parseSiniestro(item map[string]interface{}) *Siniestro {
-	s := &Siniestro{}
+// parseClaim maps a raw SISE row to a Claim struct.
+func parseClaim(item map[string]interface{}) *Claim {
+	s := &Claim{}
 	if v, ok := item["id_stro"].(float64); ok {
 		s.IDStro = int64(v)
 	}
