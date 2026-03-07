@@ -1,5 +1,38 @@
 basePath: /
 definitions:
+  dto.CaseEventResponse:
+    properties:
+      case_id:
+        type: string
+      confidence:
+        type: number
+      created_at:
+        type: string
+      id:
+        type: string
+      mail_id:
+        type: string
+      mail_provider:
+        type: string
+      mail_type:
+        type: string
+      processed:
+        type: boolean
+      raw_caratula:
+        type: string
+      raw_case_number:
+        type: string
+      raw_claim_number:
+        type: string
+      raw_policy:
+        type: string
+      reasoning:
+        type: string
+      received_at:
+        type: string
+      subject:
+        type: string
+    type: object
   dto.CaseResponse:
     properties:
       action_type:
@@ -41,7 +74,7 @@ definitions:
       updated_at:
         type: string
     type: object
-  dto.CreateMailEventRequest:
+  dto.CreateCaseEventRequest:
     properties:
       confidence:
         maximum: 1
@@ -55,6 +88,15 @@ definitions:
         maximum: 7
         minimum: 1
         type: integer
+      raw_caratula:
+        type: string
+      raw_case_number:
+        type: string
+      raw_claim_number:
+        description: Raw identifiers extracted from the mail (unnormalized)
+        type: string
+      raw_policy:
+        type: string
       reasoning:
         type: string
       received_at:
@@ -93,29 +135,6 @@ definitions:
       user:
         $ref: '#/definitions/dto.UserInfo'
     type: object
-  dto.MailEventResponse:
-    properties:
-      confidence:
-        type: number
-      created_at:
-        type: string
-      id:
-        type: string
-      mail_id:
-        type: string
-      mail_provider:
-        type: string
-      mail_type:
-        type: string
-      processed:
-        type: boolean
-      reasoning:
-        type: string
-      received_at:
-        type: string
-      subject:
-        type: string
-    type: object
   dto.UserInfo:
     properties:
       capabilities:
@@ -152,6 +171,47 @@ info:
   title: Libra Legal API
   version: "1.0"
 paths:
+  /api/v1/agents/case-events:
+    post:
+      consumes:
+      - application/json
+      description: Called by Rachel after classifying an email. Requires X-Agent-Key
+        header.
+      parameters:
+      - description: Case event payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCaseEventRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.CaseEventResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a case event from an incoming email
+      tags:
+      - cases
   /api/v1/auth/login:
     post:
       consumes:
@@ -286,47 +346,6 @@ paths:
       summary: Get case by ID
       tags:
       - cases
-  /api/v1/mail-events:
-    post:
-      consumes:
-      - application/json
-      description: Called by Rachel after classifying an incoming mail. Requires X-Agent-Key
-        header.
-      parameters:
-      - description: Mail event payload
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/dto.CreateMailEventRequest'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/dto.MailEventResponse'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "409":
-          description: Conflict
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Register a mail event
-      tags:
-      - mail-events
 schemes:
 - http
 - https

@@ -14,7 +14,7 @@ import (
 	_ "github.com/swaggo/files"
 )
 
-func InitRouter(cfg *config.Config, authController *controllers.AuthController, caseController *controllers.CaseController, mailEventController *controllers.MailEventController) *echo.Echo {
+func InitRouter(cfg *config.Config, authController *controllers.AuthController, caseController *controllers.CaseController) *echo.Echo {
 	e := echo.New()
 	e.HTTPErrorHandler = apierrors.Handler
 
@@ -37,11 +37,11 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	auth.POST("/login", authController.Login)
 	auth.POST("/logout", authController.Logout, appMiddleware.JWTMiddleware())
 
-	// Agent endpoints (API key auth)
+	// Agent endpoints (API key auth) — called by Rachel and other agents
 	agents := e.Group("/api/v1/agents", appMiddleware.AgentKeyMiddleware())
-	agents.POST("/mail-events", mailEventController.Create)
+	agents.POST("/case-events", caseController.CreateEvent)
 
-	// Protected routes
+	// Protected routes (JWT)
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
 	api.GET("/cases", caseController.List)
 	api.GET("/cases/:id", caseController.GetByID)

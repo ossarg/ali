@@ -45,21 +45,18 @@ func main() {
 	}
 
 	// Repositories
-	userRepo      := repositories.NewUserRepository(db)
-	caseRepo      := repositories.NewCaseRepository(db)
-	mailEventRepo := repositories.NewMailEventRepository(db)
+	userRepo := repositories.NewUserRepository(db)
+	caseRepo := repositories.NewCaseRepository(db)
 
 	// Services
-	authService      := services.NewAuthService(userRepo, cfg.JWT.Secret)
-	caseService      := services.NewCaseService(caseRepo)
-	mailEventService := services.NewMailEventService(mailEventRepo)
+	authService := services.NewAuthService(userRepo, cfg.JWT.Secret)
+	caseService := services.NewCaseService(caseRepo)
 
 	// Controllers
-	authController      := controllers.NewAuthController(authService)
-	caseController      := controllers.NewCaseController(caseService)
-	mailEventController := controllers.NewMailEventController(mailEventService)
+	authController := controllers.NewAuthController(authService)
+	caseController := controllers.NewCaseController(caseService)
 
-	e := router.InitRouter(cfg, authController, caseController, mailEventController)
+	e := router.InitRouter(cfg, authController, caseController)
 
 	addr := fmt.Sprintf(":%s", cfg.Server.Port)
 

@@ -8,7 +8,7 @@ import (
 )
 
 // AgentKeyMiddleware protects agent-facing endpoints with a shared secret.
-// Rachel sends: X-Agent-Key: <key>
+// Agents send: X-Agent-Key: <key>
 func AgentKeyMiddleware() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {

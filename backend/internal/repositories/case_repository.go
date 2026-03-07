@@ -21,6 +21,10 @@ type CaseRepository interface {
 	Create(c *models.Case) error
 	Update(c *models.Case) error
 	Delete(id string) error
+
+	// Case events
+	CreateEvent(e *models.CaseEvent) error
+	EventExistsByMailID(mailID string) (bool, error)
 }
 
 type caseRepository struct {
@@ -78,4 +82,17 @@ func (r *caseRepository) Update(c *models.Case) error {
 
 func (r *caseRepository) Delete(id string) error {
 	return r.db.Where("id = ?", id).Delete(&models.Case{}).Error
+}
+
+func (r *caseRepository) CreateEvent(e *models.CaseEvent) error {
+	return r.db.Create(e).Error
+}
+
+func (r *caseRepository) EventExistsByMailID(mailID string) (bool, error) {
+	var count int64
+	err := r.db.Model(&models.CaseEvent{}).Where("mail_id = ?", mailID).Count(&count).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return false, nil
+	}
+	return count > 0, err
 }
