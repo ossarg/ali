@@ -7,6 +7,12 @@ import (
 	"github.com/ossarg/ali/backend/internal/models"
 )
 
+// ReviewCaseEventRequest — payload sent by a human reviewer
+type ReviewCaseEventRequest struct {
+	MailType      *int16  `json:"mail_type"`      // if nil, approves Rachel's classification as-is
+	ReviewComment string  `json:"review_comment"` // required when changing mail_type
+}
+
 // CreateCaseEventRequest — payload sent by Rachel after classifying an email
 type CreateCaseEventRequest struct {
 	MailID       string    `json:"mail_id"        validate:"required"`
@@ -43,10 +49,16 @@ type CaseEventResponse struct {
 	Processed  bool      `json:"processed"`
 	ReceivedAt time.Time `json:"received_at"`
 	CreatedAt  time.Time `json:"created_at"`
+
+	Approved         *bool      `json:"approved,omitempty"`
+	OriginalMailType *string    `json:"original_mail_type,omitempty"`
+	ReviewedBy       *string    `json:"reviewed_by,omitempty"`
+	ReviewedAt       *time.Time `json:"reviewed_at,omitempty"`
+	ReviewComment    string     `json:"review_comment,omitempty"`
 }
 
 func ToCaseEventResponse(e models.CaseEvent) CaseEventResponse {
-	return CaseEventResponse{
+	resp := CaseEventResponse{
 		ID:             e.ID,
 		CaseID:         e.CaseID,
 		MailID:         e.MailID,
@@ -62,5 +74,17 @@ func ToCaseEventResponse(e models.CaseEvent) CaseEventResponse {
 		Processed:      e.Processed,
 		ReceivedAt:     e.ReceivedAt,
 		CreatedAt:      e.CreatedAt,
+		Approved:       e.Approved,
+		ReviewedAt:     e.ReviewedAt,
+		ReviewComment:  e.ReviewComment,
 	}
+	if e.OriginalMailType != nil {
+		s := e.OriginalMailType.String()
+		resp.OriginalMailType = &s
+	}
+	if e.ReviewedBy != nil {
+		s := e.ReviewedBy.String()
+		resp.ReviewedBy = &s
+	}
+	return resp
 }

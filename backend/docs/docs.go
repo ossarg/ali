@@ -167,6 +167,116 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/case-events/pending": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns all case events not yet approved by a human reviewer.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cases"
+                ],
+                "summary": "List pending case events",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.CaseEventResponse"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/case-events/{id}/review": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "A human reviewer approves Rachel's classification or corrects it with a comment.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cases"
+                ],
+                "summary": "Approve or correct a case event classification",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case event UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Review payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ReviewCaseEventRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CaseEventResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/cases": {
             "get": {
                 "security": [
@@ -290,6 +400,9 @@ const docTemplate = `{
         "dto.CaseEventResponse": {
             "type": "object",
             "properties": {
+                "approved": {
+                    "type": "boolean"
+                },
                 "case_id": {
                     "type": "string"
                 },
@@ -311,6 +424,9 @@ const docTemplate = `{
                 "mail_type": {
                     "type": "string"
                 },
+                "original_mail_type": {
+                    "type": "string"
+                },
                 "processed": {
                     "type": "boolean"
                 },
@@ -330,6 +446,15 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "received_at": {
+                    "type": "string"
+                },
+                "review_comment": {
+                    "type": "string"
+                },
+                "reviewed_at": {
+                    "type": "string"
+                },
+                "reviewed_by": {
                     "type": "string"
                 },
                 "subject": {
@@ -485,6 +610,19 @@ const docTemplate = `{
                 },
                 "user": {
                     "$ref": "#/definitions/dto.UserInfo"
+                }
+            }
+        },
+        "dto.ReviewCaseEventRequest": {
+            "type": "object",
+            "properties": {
+                "mail_type": {
+                    "description": "if nil, approves Rachel's classification as-is",
+                    "type": "integer"
+                },
+                "review_comment": {
+                    "description": "required when changing mail_type",
+                    "type": "string"
                 }
             }
         },

@@ -37,14 +37,16 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	auth.POST("/login", authController.Login)
 	auth.POST("/logout", authController.Logout, appMiddleware.JWTMiddleware())
 
-	// Agent endpoints (API key auth) — called by Rachel and other agents
+	// Agent endpoints (API key auth) — must be registered BEFORE /api/v1 JWT group
 	agents := e.Group("/api/v1/agents", appMiddleware.AgentKeyMiddleware())
 	agents.POST("/case-events", caseController.CreateEvent)
 
-	// Protected routes (JWT)
+	// Protected routes (JWT) — registered last so /api/v1/agents is not captured here
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
 	api.GET("/cases", caseController.List)
 	api.GET("/cases/:id", caseController.GetByID)
+	api.GET("/case-events/pending", caseController.ListPendingEvents)
+	api.PATCH("/case-events/:id/review", caseController.ReviewEvent)
 	api.GET("/triage/rules", placeholder("triage.rules.get"))
 	api.PUT("/triage/rules", placeholder("triage.rules.update"), appMiddleware.RequireCapability("triage:config"))
 	api.GET("/metrics", placeholder("metrics.get"))

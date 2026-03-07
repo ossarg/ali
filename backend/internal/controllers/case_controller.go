@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/ossarg/ali/backend/internal/apierrors"
 	"github.com/ossarg/ali/backend/internal/dto"
+	"github.com/ossarg/ali/backend/internal/middleware"
 	"github.com/ossarg/ali/backend/internal/services"
 )
 
@@ -64,6 +65,58 @@ func (cc *CaseController) GetByID(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, caseResp)
+}
+
+// ListPendingEvents godoc
+// @Summary      List pending case events
+// @Description  Returns all case events not yet approved by a human reviewer.
+// @Tags         cases
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {array}   dto.CaseEventResponse
+// @Failure      401  {object}  map[string]string
+// @Router       /api/v1/case-events/pending [get]
+func (cc *CaseController) ListPendingEvents(c echo.Context) error {
+	events, err := cc.caseService.ListPendingEvents()
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, events)
+}
+
+// ReviewCaseEvent godoc
+// @Summary      Approve or correct a case event classification
+// @Description  A human reviewer approves Rachel's classification or corrects it with a comment.
+// @Tags         cases
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id    path      string                      true  "Case event UUID"
+// @Param        body  body      dto.ReviewCaseEventRequest  true  "Review payload"
+// @Success      200   {object}  dto.CaseEventResponse
+// @Failure      400   {object}  map[string]string
+// @Failure      401   {object}  map[string]string
+// @Failure      404   {object}  map[string]string
+// @Router       /api/v1/case-events/{id}/review [patch]
+func (cc *CaseController) ReviewEvent(c echo.Context) error {
+	id := c.Param("id")
+
+	var req dto.ReviewCaseEventRequest
+	if err := c.Bind(&req); err != nil {
+		return apierrors.ErrBadRequest
+	}
+
+	claims, ok := c.Get("claims").(*middleware.Claims)
+	if !ok || claims == nil {
+		return apierrors.New(http.StatusUnauthorized, "missing claims")
+	}
+	reviewerID := claims.UserID
+
+	resp, err := cc.caseService.ReviewEvent(id, reviewerID, req)
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, resp)
 }
 
 // CreateCaseEvent godoc

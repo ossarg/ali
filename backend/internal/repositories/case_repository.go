@@ -25,6 +25,9 @@ type CaseRepository interface {
 	// Case events
 	CreateEvent(e *models.CaseEvent) error
 	EventExistsByMailID(mailID string) (bool, error)
+	FindEventByID(id string) (*models.CaseEvent, error)
+	UpdateEvent(e *models.CaseEvent) error
+	ListPendingEvents() ([]models.CaseEvent, error)
 }
 
 type caseRepository struct {
@@ -95,4 +98,25 @@ func (r *caseRepository) EventExistsByMailID(mailID string) (bool, error) {
 		return false, nil
 	}
 	return count > 0, err
+}
+
+func (r *caseRepository) FindEventByID(id string) (*models.CaseEvent, error) {
+	var e models.CaseEvent
+	err := r.db.Where("id = ?", id).First(&e).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, nil
+	}
+	return &e, err
+}
+
+func (r *caseRepository) UpdateEvent(e *models.CaseEvent) error {
+	return r.db.Save(e).Error
+}
+
+func (r *caseRepository) ListPendingEvents() ([]models.CaseEvent, error) {
+	var events []models.CaseEvent
+	err := r.db.Where("approved = false OR approved IS NULL").
+		Order("received_at DESC").
+		Find(&events).Error
+	return events, err
 }

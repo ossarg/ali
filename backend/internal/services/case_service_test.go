@@ -31,9 +31,14 @@ func (m *mockCaseRepository) Create(c *models.Case) error { return m.err }
 func (m *mockCaseRepository) Update(c *models.Case) error { return m.err }
 func (m *mockCaseRepository) Delete(_ string) error       { return m.err }
 
-func (m *mockCaseRepository) CreateEvent(e *models.CaseEvent) error { return m.err }
-func (m *mockCaseRepository) EventExistsByMailID(_ string) (bool, error) {
-	return false, m.err
+func (m *mockCaseRepository) CreateEvent(e *models.CaseEvent) error      { return m.err }
+func (m *mockCaseRepository) UpdateEvent(e *models.CaseEvent) error      { return m.err }
+func (m *mockCaseRepository) EventExistsByMailID(_ string) (bool, error)  { return false, m.err }
+func (m *mockCaseRepository) FindEventByID(_ string) (*models.CaseEvent, error) {
+	return nil, m.err
+}
+func (m *mockCaseRepository) ListPendingEvents() ([]models.CaseEvent, error) {
+	return nil, m.err
 }
 
 func sampleCase() models.Case {

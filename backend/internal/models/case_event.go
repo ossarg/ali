@@ -60,6 +60,14 @@ type CaseEvent struct {
 	ReceivedAt time.Time `gorm:"not null"               json:"received_at"`
 	CreatedAt  time.Time `                              json:"created_at"`
 
-	// Association
-	Case *Case `gorm:"foreignKey:CaseID" json:"case,omitempty"`
+	// Review fields
+	Approved           *bool      `gorm:"default:false"   json:"approved,omitempty"`
+	OriginalMailType   *MailType  `gorm:"default:null"    json:"original_mail_type,omitempty"`
+	ReviewedBy         *uuid.UUID `gorm:"type:uuid"       json:"reviewed_by,omitempty"`
+	ReviewedAt         *time.Time `                       json:"reviewed_at,omitempty"`
+	ReviewComment      string     `gorm:"type:text"       json:"review_comment,omitempty"`
+
+	// Associations
+	Case       *Case `gorm:"foreignKey:CaseID"    json:"case,omitempty"`
+	ReviewUser *User `gorm:"foreignKey:ReviewedBy" json:"review_user,omitempty"`
 }
