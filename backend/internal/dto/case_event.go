@@ -64,6 +64,25 @@ type CaseEventResponse struct {
 	ReviewedBy       *string    `json:"reviewed_by,omitempty"`
 	ReviewedAt       *time.Time `json:"reviewed_at,omitempty"`
 	ReviewComment    string     `json:"review_comment,omitempty"`
+
+	ResolutionStatus     string `json:"resolution_status"`
+	ResolutionError      string `json:"resolution_error,omitempty"`
+	ResolvedClaimID      string `json:"resolved_claim_id,omitempty"`
+	CorrectedClaimNumber string `json:"corrected_claim_number,omitempty"`
+	CorrectionComment    string `json:"correction_comment,omitempty"`
+}
+
+// RetryResolutionRequest — human corrects the nro_stro for a failed resolution
+type RetryResolutionRequest struct {
+	CorrectedClaimNumber string `json:"corrected_claim_number" validate:"required"`
+	CorrectionComment    string `json:"correction_comment"`
+}
+
+// BatchResolveResponse — result of batch resolution
+type BatchResolveResponse struct {
+	Resolved int    `json:"resolved"`
+	Errors   int    `json:"errors"`
+	Message  string `json:"message"`
 }
 
 func ToCaseEventResponse(e models.CaseEvent) CaseEventResponse {
@@ -94,6 +113,13 @@ func ToCaseEventResponse(e models.CaseEvent) CaseEventResponse {
 	if e.ReviewedBy != nil {
 		s := e.ReviewedBy.String()
 		resp.ReviewedBy = &s
+	}
+	resp.ResolutionStatus = e.ResolutionStatus.String()
+	resp.ResolutionError = e.ResolutionError
+	resp.CorrectedClaimNumber = e.CorrectedClaimNumber
+	resp.CorrectionComment = e.CorrectionComment
+	if e.ResolvedClaimID != nil {
+		resp.ResolvedClaimID = e.ResolvedClaimID.String()
 	}
 	return resp
 }

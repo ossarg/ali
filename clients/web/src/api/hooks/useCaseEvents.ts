@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { caseEventKeys, caseEventService } from '../services/case.service';
-import type { ReviewCaseEventRequest } from '../schemas/case.schemas';
+import type { RetryResolutionRequest, ReviewCaseEventRequest } from '../schemas/case.schemas';
 
 export function useCaseEventMetrics() {
   return useQuery({
@@ -30,7 +30,34 @@ export function useReviewEvent() {
     mutationFn: ({ id, req }: { id: string; req: ReviewCaseEventRequest }) =>
       caseEventService.review(id, req),
     onSuccess: () => {
-      // Invalidate all event-related queries so metrics + lists refresh
+      queryClient.invalidateQueries({ queryKey: caseEventKeys.all });
+    },
+  });
+}
+
+export function useUnresolvedEvents() {
+  return useQuery({
+    queryKey: [...caseEventKeys.all, 'unresolved'],
+    queryFn:  caseEventService.unresolved,
+  });
+}
+
+export function useRetryResolution() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, req }: { id: string; req: RetryResolutionRequest }) =>
+      caseEventService.retryResolution(id, req),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: caseEventKeys.all });
+    },
+  });
+}
+
+export function useBatchResolve() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => caseEventService.batchResolve(),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: caseEventKeys.all });
     },
   });
