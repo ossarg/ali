@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { formatDistanceToNow } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { formatMetricTime, formatTableTime } from '../lib/formatTime';
 import {
   useApprovedEvents,
   useCaseEventMetrics,
@@ -210,13 +209,11 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
                 <ConfidenceBar value={event.confidence} />
               </td>
               <td className="py-3 pr-4 text-gray-500 whitespace-nowrap">
-                {formatDistanceToNow(new Date(event.received_at), { locale: es, addSuffix: true })}
+                {formatTableTime(event.received_at)}
               </td>
               {!showActions && (
                 <td className="py-3 pr-4 text-gray-500 text-xs">
-                  {event.reviewed_at
-                    ? formatDistanceToNow(new Date(event.reviewed_at), { locale: es, addSuffix: true })
-                    : '—'}
+                  {event.reviewed_at ? formatTableTime(event.reviewed_at) : '—'}
                 </td>
               )}
               {showActions && (
@@ -248,7 +245,7 @@ export default function Activity() {
   const { data: pending  = [], isLoading: pendingLoading  } = usePendingEvents();
 
   const lastSeen = metrics?.last_event_at
-    ? formatDistanceToNow(new Date(metrics.last_event_at), { locale: es, addSuffix: true })
+    ? formatMetricTime(metrics.last_event_at)
     : null;
 
   return (
@@ -268,8 +265,8 @@ export default function Activity() {
             <MetricCard label="Pendientes"         value={metrics?.pending   ?? 0} />
             <MetricCard
               label="Último evento"
-              value={lastSeen ?? '—'}
-              sub={metrics?.last_event_at ? new Date(metrics.last_event_at).toLocaleDateString('es-AR') : undefined}
+              value={lastSeen ? lastSeen.time : '—'}
+              sub={lastSeen ? lastSeen.label : undefined}
             />
           </>
         )}

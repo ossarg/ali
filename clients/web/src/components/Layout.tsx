@@ -3,7 +3,8 @@ import { useRef, useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText, Activity } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format } from 'date-fns';
+import { formatTableTime } from '../lib/formatTime';
 import { es } from 'date-fns/locale';
 import { useCaseEventMetrics, usePendingEvents } from '../api/hooks/useCaseEvents';
 
@@ -161,7 +162,7 @@ export default function Layout() {
                                 {' · '}{Math.round(event.confidence * 100)}% confianza
                               </p>
                               <p className="text-xs text-gray-400 mt-0.5">
-                                {formatDistanceToNow(new Date(event.received_at), { locale: es, addSuffix: true })}
+                                {formatTableTime(event.received_at)}
                               </p>
                             </div>
                           </div>
