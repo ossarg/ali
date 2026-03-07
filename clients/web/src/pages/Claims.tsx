@@ -187,7 +187,7 @@ interface ClaimRowProps { claim: Claim; }
 function ClaimRow({ claim }: ClaimRowProps) {
   return (
     <tr className="hover:bg-gray-50 transition-colors">
-      <td className="py-3 pr-4">
+      <td className="py-3 pl-4 pr-4">
         <div className="font-medium text-gray-800">{claim.claim_number}</div>
         <div className="text-xs text-gray-400">{claim.sise_claim_id}</div>
       </td>
@@ -244,7 +244,7 @@ export default function ClaimsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
-                  <th className="pb-3 pt-4 px-4">Nro. siniestro</th>
+                  <th className="pb-3 pt-4 pl-4 pr-4">Nro. siniestro</th>
                   <th className="pb-3 pt-4 pr-4">Causa / Cobertura</th>
                   <th className="pb-3 pt-4 pr-4">Contratante</th>
                   <th className="pb-3 pt-4 pr-4">Fecha hecho</th>
