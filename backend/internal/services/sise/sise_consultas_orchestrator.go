@@ -52,6 +52,29 @@ func (o *ConsultasOrchestrator) refreshToken() (string, error) {
 
 // ─── Public domain methods ────────────────────────────────────────────────────
 
+// GetProductorByCodigo retrieves producer/agent info from SISE by cod_agente.
+func (o *ConsultasOrchestrator) GetProductorByCodigo(codAgente int) (*Productor, error) {
+	token, err := o.getToken()
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := o.client.GetProductorByCodigo(token, codAgente)
+	if err != nil {
+		_ = cache.DeleteSISEToken()
+		token, err = o.refreshToken()
+		if err != nil {
+			return nil, err
+		}
+		result, err = o.client.GetProductorByCodigo(token, codAgente)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return result, nil
+}
+
 // GetPolicySummary retrieves full policy details by id_pv (obtained from Siniestro.IDPV).
 func (o *ConsultasOrchestrator) GetPolicySummary(idPV int64) (*PolicySummary, error) {
 	token, err := o.getToken()

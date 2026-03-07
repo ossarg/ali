@@ -17,6 +17,7 @@ import (
 const (
 	queryIDSiniestroByNumber = "3618d606-243f-4ce7-bf95-1c2bdc7fcbe8"
 	queryIDPolicySummary     = "8432bf12-373b-43bd-8b4b-5891653c738a"
+	queryIDProductorByCode   = "097a813a-06d4-4a47-b66b-8ec596372d2d"
 )
 
 // ─── DTOs ─────────────────────────────────────────────────────────────────────
@@ -230,6 +231,18 @@ type PolicySummary struct {
 	Autoadministrada           float64 `json:"Autoadministrada"`
 }
 
+// Productor represents an insurance agent/producer from SISE
+type Productor struct {
+	CodAgente     float64 `json:"cod_agente"`
+	CodTipoAgente float64 `json:"cod_tipo_agente"`
+	CodGrupo      float64 `json:"cod_grupo"`
+	CodEstado     string  `json:"cod_estado"`
+	CodBaja       float64 `json:"cod_baja"`
+	FecBaja       *string `json:"fec_baja"`
+	Nombre        string  `json:"nombre"`
+	TipoAgente    string  `json:"tipo_agente"`
+}
+
 // ─── Domain methods ───────────────────────────────────────────────────────────
 
 // GetSiniestroByNumber retrieves a claim from SISE by its claim number (nro_stro).
@@ -298,6 +311,68 @@ func (c *ConsultasClient) GetPolicySummary(bearerToken string, idPV int64) (*Pol
 	}
 
 	return parsePolicySummary(resp.Result.Result[0]), nil
+}
+
+// GetProductorByCodigo retrieves producer/agent info from SISE by cod_agente.
+func (c *ConsultasClient) GetProductorByCodigo(bearerToken string, codAgente int) (*Productor, error) {
+	req := QueryRequest{
+		QueryID:    queryIDProductorByCode,
+		Parameters: []QueryParameter{},
+		Filters: []QueryFilter{
+			{
+				ID:                 "ad30c0c6-8294-41e5-82be-394270d9b232",
+				Field:              "cod_agente",
+				Type:               "int32",
+				Operator:           "equal",
+				Value:              codAgente,
+				RequireOnExecution: false,
+				HiddenOnExecution:  false,
+				FixedOnExecution:   false,
+			},
+		},
+		Complete: false,
+		IsLink:   false,
+	}
+
+	resp, err := c.executeQuery(bearerToken, req)
+	if err != nil {
+		return nil, err
+	}
+	if len(resp.Result.Result) == 0 {
+		return nil, nil // not found
+	}
+
+	return parseProductor(resp.Result.Result[0]), nil
+}
+
+// parseProductor maps a raw SISE row to a Productor struct.
+func parseProductor(item map[string]interface{}) *Productor {
+	p := &Productor{}
+	if v, ok := item["cod_agente"].(float64); ok {
+		p.CodAgente = v
+	}
+	if v, ok := item["cod_tipo_agente"].(float64); ok {
+		p.CodTipoAgente = v
+	}
+	if v, ok := item["cod_grupo"].(float64); ok {
+		p.CodGrupo = v
+	}
+	if v, ok := item["cod_estado"].(string); ok {
+		p.CodEstado = v
+	}
+	if v, ok := item["cod_baja"].(float64); ok {
+		p.CodBaja = v
+	}
+	if v, ok := item["fec_baja"].(string); ok {
+		p.FecBaja = &v
+	}
+	if v, ok := item["nombre"].(string); ok {
+		p.Nombre = v
+	}
+	if v, ok := item["tipo_agente"].(string); ok {
+		p.TipoAgente = v
+	}
+	return p
 }
 
 // parsePolicySummary maps a raw SISE row to a PolicySummary struct.
