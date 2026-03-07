@@ -133,12 +133,14 @@ type Case struct {
 	IncidentDate     *time.Time     `gorm:"type:date"                                      json:"incident_date,omitempty"`
 	OpenedAt         *time.Time     `                                                      json:"opened_at,omitempty"`
 	PipelineStage    PipelineStage  `gorm:"not null;default:1"                             json:"pipeline_stage"`
+	ClaimID          *uuid.UUID     `gorm:"type:uuid;default:null;index"                   json:"claim_id,omitempty"`
 	CreatedAt        time.Time      `                                                      json:"created_at"`
 	UpdatedAt        time.Time      `                                                      json:"updated_at"`
 	DeletedAt        gorm.DeletedAt `gorm:"index"                                          json:"-"`
 
 	// Associations (eager loaded when needed)
-	DefenseFirm   *Firm `gorm:"foreignKey:DefenseFirmID"   json:"defense_firm,omitempty"`
-	PlaintiffFirm *Firm `gorm:"foreignKey:PlaintiffFirmID" json:"plaintiff_firm,omitempty"`
+	DefenseFirm   *Firm  `gorm:"foreignKey:DefenseFirmID"   json:"defense_firm,omitempty"`
+	PlaintiffFirm *Firm  `gorm:"foreignKey:PlaintiffFirmID" json:"plaintiff_firm,omitempty"`
+	Claim         *Claim `gorm:"foreignKey:ClaimID"         json:"claim,omitempty"`
 	AssignedUser  *User `gorm:"foreignKey:AssignedUserID"  json:"assigned_user,omitempty"`
 }
