@@ -55,21 +55,24 @@ func main() {
 	// SISE Consultas
 	siseClient := sise.NewConsultasClient(cfg.SISE.BaseURL, cfg.SISE.Username, cfg.SISE.Password)
 	siseOrchestrator := sise.NewConsultasOrchestrator(siseClient)
-	_ = siseOrchestrator // will be injected into services as needed
+
 
 	// Repositories
-	userRepo := repositories.NewUserRepository(db)
-	caseRepo := repositories.NewCaseRepository(db)
+	userRepo  := repositories.NewUserRepository(db)
+	caseRepo  := repositories.NewCaseRepository(db)
+	claimRepo := repositories.NewClaimRepository(db)
 
 	// Services
-	authService := services.NewAuthService(userRepo, cfg.JWT.Secret)
-	caseService := services.NewCaseService(caseRepo)
+	authService  := services.NewAuthService(userRepo, cfg.JWT.Secret)
+	caseService  := services.NewCaseService(caseRepo)
+	claimService := services.NewClaimService(claimRepo, siseOrchestrator)
 
 	// Controllers
-	authController := controllers.NewAuthController(authService)
-	caseController := controllers.NewCaseController(caseService)
+	authController  := controllers.NewAuthController(authService)
+	caseController  := controllers.NewCaseController(caseService)
+	claimController := controllers.NewClaimController(claimService)
 
-	e := router.InitRouter(cfg, authController, caseController)
+	e := router.InitRouter(cfg, authController, caseController, claimController)
 
 	addr := fmt.Sprintf(":%s", cfg.Server.Port)
 
