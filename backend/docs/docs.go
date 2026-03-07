@@ -465,6 +465,173 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/v1/claims": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns all claims persisted in our DB, ordered by creation date desc.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "claims"
+                ],
+                "summary": "List all claims",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ClaimResponse"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Fetches claim from SISE and persists it in our DB. Idempotent by sise_claim_id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "claims"
+                ],
+                "summary": "Create a claim from SISE data",
+                "parameters": [
+                    {
+                        "description": "Claim number",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "nro_stro": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClaimResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/claims/lookup": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Fetches claim + policy + producer from SISE by claim number. Does not persist.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "claims"
+                ],
+                "summary": "Look up a claim in SISE",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "SISE claim number",
+                        "name": "nro_stro",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClaimLookupResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -615,6 +782,127 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.ClaimLookupResponse": {
+            "type": "object",
+            "properties": {
+                "claim": {
+                    "$ref": "#/definitions/sise.Claim"
+                },
+                "policy": {
+                    "$ref": "#/definitions/sise.PolicySummary"
+                },
+                "producer": {
+                    "$ref": "#/definitions/sise.Producer"
+                }
+            }
+        },
+        "dto.ClaimResponse": {
+            "type": "object",
+            "properties": {
+                "cause": {
+                    "type": "string"
+                },
+                "claim_number": {
+                    "type": "integer"
+                },
+                "claim_subnumber": {
+                    "type": "integer"
+                },
+                "commercial_product": {
+                    "type": "string"
+                },
+                "commercial_product_code": {
+                    "type": "integer"
+                },
+                "contratante": {
+                    "type": "string"
+                },
+                "coverage": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "doc_number": {
+                    "type": "string"
+                },
+                "doc_type": {
+                    "type": "string"
+                },
+                "estimated_amount": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "incident_date": {
+                    "type": "string"
+                },
+                "insured_amount": {
+                    "type": "number"
+                },
+                "notice_date": {
+                    "type": "string"
+                },
+                "paid_amount": {
+                    "type": "number"
+                },
+                "payment_date": {
+                    "type": "string"
+                },
+                "policy_endorsement": {
+                    "type": "integer"
+                },
+                "policy_number": {
+                    "type": "integer"
+                },
+                "policy_type": {
+                    "type": "string"
+                },
+                "policy_valid_from": {
+                    "type": "string"
+                },
+                "policy_valid_to": {
+                    "type": "string"
+                },
+                "producer_code": {
+                    "type": "integer"
+                },
+                "producer_group_code": {
+                    "type": "integer"
+                },
+                "producer_name": {
+                    "type": "string"
+                },
+                "producer_status": {
+                    "type": "string"
+                },
+                "producer_type": {
+                    "type": "string"
+                },
+                "producer_type_code": {
+                    "type": "integer"
+                },
+                "ramo_code": {
+                    "type": "integer"
+                },
+                "registration_date": {
+                    "type": "string"
+                },
+                "sise_claim_id": {
+                    "type": "integer"
+                },
+                "sise_id_pv": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.CreateCaseEventRequest": {
             "type": "object",
             "required": [
@@ -756,6 +1044,209 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "last_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "sise.Claim": {
+            "type": "object",
+            "properties": {
+                "causa": {
+                    "type": "string"
+                },
+                "cobertura": {
+                    "type": "string"
+                },
+                "codigo_ramo": {
+                    "type": "number"
+                },
+                "contratante_pagador": {
+                    "type": "string"
+                },
+                "diagnostico": {
+                    "type": "string"
+                },
+                "estado": {
+                    "type": "string"
+                },
+                "fecha_aviso": {
+                    "type": "string"
+                },
+                "fecha_incurrido": {
+                    "type": "string"
+                },
+                "fecha_pago": {
+                    "type": "string"
+                },
+                "fecha_resgistro": {
+                    "description": "typo is SISE's own",
+                    "type": "string"
+                },
+                "id_pv": {
+                    "type": "integer"
+                },
+                "id_stro": {
+                    "type": "integer"
+                },
+                "importe_estimado": {
+                    "type": "number"
+                },
+                "importe_pago": {
+                    "type": "number"
+                },
+                "nro_endoso": {
+                    "type": "number"
+                },
+                "nro_poliza": {
+                    "type": "number"
+                },
+                "nro_siniestro": {
+                    "type": "integer"
+                },
+                "nro_subreclamo": {
+                    "type": "integer"
+                },
+                "paciente": {
+                    "type": "string"
+                },
+                "parentesco": {
+                    "type": "string"
+                },
+                "titular": {
+                    "type": "string"
+                },
+                "tomador_doc": {
+                    "type": "string"
+                },
+                "tomador_tipo_doc": {
+                    "type": "string"
+                }
+            }
+        },
+        "sise.PolicySummary": {
+            "type": "object",
+            "properties": {
+                "Autoadministrada": {
+                    "type": "number"
+                },
+                "Codido_Asegurado": {
+                    "description": "typo is SISE's own",
+                    "type": "number"
+                },
+                "Codigo_Productor": {
+                    "type": "number"
+                },
+                "Codigo_Ramo": {
+                    "type": "number"
+                },
+                "Codigo_Sucursal": {
+                    "type": "number"
+                },
+                "Contratante": {
+                    "type": "string"
+                },
+                "Estado": {
+                    "type": "string"
+                },
+                "Fecha_Emision": {
+                    "type": "string"
+                },
+                "Id_pv": {
+                    "type": "number"
+                },
+                "Moneda": {
+                    "type": "string"
+                },
+                "Nombre_o_Razon_Social_Productor": {
+                    "type": "string"
+                },
+                "Numero_Documento": {
+                    "type": "string"
+                },
+                "Numero_Endoso": {
+                    "type": "number"
+                },
+                "Numero_Poliza": {
+                    "type": "number"
+                },
+                "Premio": {
+                    "type": "number"
+                },
+                "Prima": {
+                    "type": "number"
+                },
+                "Producto_comercial": {
+                    "type": "string"
+                },
+                "Ramo": {
+                    "type": "string"
+                },
+                "Sucursal": {
+                    "type": "string"
+                },
+                "Suma_Asegurada": {
+                    "type": "number"
+                },
+                "Tipo_Documento": {
+                    "type": "string"
+                },
+                "Tipo_de_Poliza": {
+                    "type": "string"
+                },
+                "Vigencia_Desde": {
+                    "type": "string"
+                },
+                "Vigencia_Hasta": {
+                    "type": "string"
+                },
+                "cant_items": {
+                    "type": "number"
+                },
+                "cantidad_siniestros": {
+                    "type": "number"
+                },
+                "cod_producto_com": {
+                    "type": "number"
+                },
+                "conducto": {
+                    "type": "string"
+                },
+                "tarjeta_cbu": {
+                    "type": "string"
+                },
+                "telefono_tomador": {
+                    "type": "string"
+                },
+                "tipo_conducto": {
+                    "type": "string"
+                }
+            }
+        },
+        "sise.Producer": {
+            "type": "object",
+            "properties": {
+                "cod_agente": {
+                    "type": "number"
+                },
+                "cod_baja": {
+                    "type": "number"
+                },
+                "cod_estado": {
+                    "type": "string"
+                },
+                "cod_grupo": {
+                    "type": "number"
+                },
+                "cod_tipo_agente": {
+                    "type": "number"
+                },
+                "fec_baja": {
+                    "type": "string"
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "tipo_agente": {
                     "type": "string"
                 }
             }

@@ -12,6 +12,7 @@ import LawyerDetail from './pages/LawyerDetail';
 import Metrics from './pages/Metrics';
 import Documentos from './pages/Documentos';
 import Activity from './pages/Activity';
+import ClaimsPage from './pages/Claims';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="metricas" element={<Metrics />} />
           <Route path="documentos" element={<Documentos />} />
           <Route path="actividad" element={<Activity />} />
+          <Route path="siniestros" element={<ClaimsPage />} />
         </Route>
       </Route>
     </Routes>

@@ -29,6 +29,8 @@ import (
 	"github.com/ossarg/ali/backend/internal/repositories"
 	"github.com/ossarg/ali/backend/internal/router"
 	"github.com/ossarg/ali/backend/internal/services"
+	"github.com/ossarg/ali/backend/internal/services/cache"
+	"github.com/ossarg/ali/backend/internal/services/sise"
 )
 
 func main() {
@@ -44,19 +46,33 @@ func main() {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
+	// Redis
+	if _, err := cache.Connect(cfg.Redis.URL); err != nil {
+		log.Fatalf("Failed to connect to Redis: %v", err)
+	}
+	defer cache.Close()
+
+	// SISE Consultas
+	siseClient := sise.NewConsultasClient(cfg.SISE.BaseURL, cfg.SISE.Username, cfg.SISE.Password)
+	siseOrchestrator := sise.NewConsultasOrchestrator(siseClient)
+
+
 	// Repositories
-	userRepo := repositories.NewUserRepository(db)
-	caseRepo := repositories.NewCaseRepository(db)
+	userRepo  := repositories.NewUserRepository(db)
+	caseRepo  := repositories.NewCaseRepository(db)
+	claimRepo := repositories.NewClaimRepository(db)
 
 	// Services
-	authService := services.NewAuthService(userRepo, cfg.JWT.Secret)
-	caseService := services.NewCaseService(caseRepo)
+	authService  := services.NewAuthService(userRepo, cfg.JWT.Secret)
+	caseService  := services.NewCaseService(caseRepo)
+	claimService := services.NewClaimService(claimRepo, siseOrchestrator)
 
 	// Controllers
-	authController := controllers.NewAuthController(authService)
-	caseController := controllers.NewCaseController(caseService)
+	authController  := controllers.NewAuthController(authService)
+	caseController  := controllers.NewCaseController(caseService)
+	claimController := controllers.NewClaimController(claimService)
 
-	e := router.InitRouter(cfg, authController, caseController)
+	e := router.InitRouter(cfg, authController, caseController, claimController)
 
 	addr := fmt.Sprintf(":%s", cfg.Server.Port)
 
