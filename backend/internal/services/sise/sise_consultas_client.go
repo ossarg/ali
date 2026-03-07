@@ -255,9 +255,20 @@ type ClaimResult struct {
 	Stages   []*ClaimStage // one per unique nro_subreclamo
 }
 
+// SISEStatusID maps SISE status descriptions to their catalog IDs.
+// Source: SISE status catalog (confirmed by Nacho 2026-03-07)
+var SISEStatusID = map[string]int16{
+	"TERMINADO": 1,
+	"RECHAZO":   2,
+	"JUICIO":    3,
+	"ABIERTO":   4,
+	"MEDIACION": 5,
+}
+
 // ClaimStage is a subreclamo with its associated payment rows.
 type ClaimStage struct {
 	StageNumber int64
+	StatusID    int16
 	Status      string
 	Payments    []ClaimPaymentRow
 }
@@ -333,6 +344,7 @@ func groupClaimRows(rows []map[string]interface{}) *ClaimResult {
 		if !exists {
 			stage := &ClaimStage{
 				StageNumber: stageNum,
+				StatusID:    SISEStatusID[estado],
 				Status:      estado,
 			}
 			stages = append(stages, stage)

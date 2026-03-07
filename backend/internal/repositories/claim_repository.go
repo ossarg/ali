@@ -70,7 +70,7 @@ func (r *claimRepository) ExistsBySISEClaimID(siseClaimID int64) (bool, error) {
 func (r *claimRepository) UpsertStage(stage *models.ClaimStage) error {
 	return r.db.
 		Where(models.ClaimStage{ClaimID: stage.ClaimID, SISEStageNumber: stage.SISEStageNumber}).
-		Assign(models.ClaimStage{Status: stage.Status}).
+		Assign(models.ClaimStage{Status: stage.Status, SISEStatusID: stage.SISEStatusID}).
 		FirstOrCreate(stage).Error
 }
 

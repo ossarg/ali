@@ -159,6 +159,7 @@ func (s *claimService) Create(nroStro string) (*dto.ClaimResponse, error) {
 		cs := &models.ClaimStage{
 			ClaimID:         claim.ID,
 			SISEStageNumber: int(stage.StageNumber),
+			SISEStatusID:    stage.StatusID,
 			Status:          stage.Status,
 		}
 		if err := s.claimRepo.UpsertStage(cs); err != nil {
