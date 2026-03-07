@@ -23,6 +23,14 @@ export function useClaims() {
   });
 }
 
+export function useClaimsPaginated(page: number, limit = 10) {
+  return useQuery({
+    queryKey: [...claimKeys.list(), 'paginated', page, limit],
+    queryFn:  () => claimService.listPaginated(page, limit),
+    placeholderData: prev => prev,
+  });
+}
+
 export function useClaimLookup(nroStro: string) {
   return useQuery({
     queryKey: claimKeys.lookup(nroStro),

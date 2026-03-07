@@ -12,10 +12,12 @@ import (
 
 type CaseService interface {
 	List(req dto.ListCasesRequest) ([]dto.CaseResponse, error)
+	ListPaginated(req dto.ListCasesRequest, page, limit int) (*dto.PaginatedCases, error)
 	GetByID(id string) (*dto.CaseResponse, error)
 	CreateEvent(req dto.CreateCaseEventRequest) (*dto.CaseEventResponse, error)
 	ListPendingEvents() ([]dto.CaseEventResponse, error)
 	ListApprovedEvents() ([]dto.CaseEventResponse, error)
+	ListApprovedEventsPaginated(page, limit int) (*dto.PaginatedCaseEvents, error)
 	GetEventMetrics() (*dto.CaseEventMetrics, error)
 	ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService) (*dto.CaseEventResponse, error)
 }
@@ -65,6 +67,33 @@ func (s *caseService) List(req dto.ListCasesRequest) ([]dto.CaseResponse, error)
 		result[i] = dto.ToCaseResponse(c)
 	}
 	return result, nil
+}
+
+func (s *caseService) ListPaginated(req dto.ListCasesRequest, page, limit int) (*dto.PaginatedCases, error) {
+	filters := repositories.CaseFilters{}
+	if req.Status != nil {
+		st := models.CaseStatus(*req.Status)
+		filters.Status = &st
+	}
+	if req.PipelineStage != nil {
+		stage := models.PipelineStage(*req.PipelineStage)
+		filters.PipelineStage = &stage
+	}
+	if req.CaseType != nil {
+		ct := models.CaseType(*req.CaseType)
+		filters.CaseType = &ct
+	}
+
+	pp := dto.PageParams{Page: page, Limit: limit}
+	cases, total, err := s.caseRepo.ListPaginated(filters, pp.Offset(), limit)
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	data := make([]dto.CaseResponse, len(cases))
+	for i, c := range cases {
+		data[i] = dto.ToCaseResponse(c)
+	}
+	return &dto.PaginatedCases{Data: data, Total: total, Page: page, Limit: limit}, nil
 }
 
 func (s *caseService) GetByID(id string) (*dto.CaseResponse, error) {
@@ -151,6 +180,19 @@ func (s *caseService) ListApprovedEvents() ([]dto.CaseEventResponse, error) {
 		result[i] = dto.ToCaseEventResponse(e)
 	}
 	return result, nil
+}
+
+func (s *caseService) ListApprovedEventsPaginated(page, limit int) (*dto.PaginatedCaseEvents, error) {
+	pp := dto.PageParams{Page: page, Limit: limit}
+	events, total, err := s.caseRepo.ListApprovedEventsPaginated(pp.Offset(), limit)
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	data := make([]dto.CaseEventResponse, len(events))
+	for i, e := range events {
+		data[i] = dto.ToCaseEventResponse(e)
+	}
+	return &dto.PaginatedCaseEvents{Data: data, Total: total, Page: page, Limit: limit}, nil
 }
 
 func (s *caseService) GetEventMetrics() (*dto.CaseEventMetrics, error) {

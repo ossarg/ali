@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { formatMetricTime, formatTableTime } from '../lib/formatTime';
 import {
-  useApprovedEvents,
+  useApprovedEventsPaginated,
   useCaseEventMetrics,
   usePendingEvents,
   useReviewEvent,
 } from '../api/hooks/useCaseEvents';
+import Pagination from '../components/Pagination';
 import type { CaseEvent, ReviewCaseEventRequest } from '../api/schemas/case.schemas';
 
 // ─── Mail type labels ────────────────────────────────────────────────────────
@@ -274,9 +275,11 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
 export default function Activity() {
   const [pendingOpen, setPendingOpen] = useState(false);
   const [reviewTarget, setReviewTarget] = useState<CaseEvent | null>(null);
+  const [approvedPage, setApprovedPage] = useState(1);
 
   const { data: metrics, isLoading: metricsLoading } = useCaseEventMetrics();
-  const { data: approved = [], isLoading: approvedLoading } = useApprovedEvents();
+  const { data: approvedData, isLoading: approvedLoading } = useApprovedEventsPaginated(approvedPage, 10);
+  const approved = approvedData?.data ?? [];
   const { data: pending  = [], isLoading: pendingLoading  } = usePendingEvents();
 
   const lastSeen = metrics?.last_event_at
@@ -354,7 +357,10 @@ export default function Activity() {
             Rachel está al día — no hay clasificaciones aprobadas todavía.
           </p>
         ) : (
-          <EventTable events={approved} />
+          <>
+            <EventTable events={approved} />
+            <Pagination page={approvedPage} limit={10} total={approvedData?.total ?? 0} onChange={setApprovedPage} />
+          </>
         )}
       </div>
 

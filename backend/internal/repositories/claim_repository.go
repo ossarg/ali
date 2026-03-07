@@ -10,6 +10,7 @@ import (
 type ClaimRepository interface {
 	Create(c *models.Claim) error
 	List() ([]models.Claim, error)
+	ListPaginated(offset, limit int) ([]models.Claim, int64, error)
 	FindByID(id string) (*models.Claim, error)
 	FindBySISEClaimID(siseClaimID int64) (*models.Claim, error)
 	ExistsBySISEClaimID(siseClaimID int64) (bool, error)
@@ -35,6 +36,16 @@ func (r *claimRepository) List() ([]models.Claim, error) {
 	var claims []models.Claim
 	err := r.db.Order("created_at DESC").Find(&claims).Error
 	return claims, err
+}
+
+func (r *claimRepository) ListPaginated(offset, limit int) ([]models.Claim, int64, error) {
+	var claims []models.Claim
+	var total int64
+	if err := r.db.Model(&models.Claim{}).Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := r.db.Order("created_at DESC").Offset(offset).Limit(limit).Find(&claims).Error
+	return claims, total, err
 }
 
 func (r *claimRepository) FindByID(id string) (*models.Claim, error) {

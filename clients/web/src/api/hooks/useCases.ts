@@ -9,6 +9,15 @@ export const useCases = (params?: Record<string, string>) => {
   });
 };
 
+export const useCasesPaginated = (page: number, limit = 10, params?: Record<string, string>) => {
+  return useQuery({
+    queryKey: [...caseKeys.list(params), 'paginated', page, limit],
+    queryFn: () => caseService.listPaginated(page, limit, params),
+    staleTime: 30_000,
+    placeholderData: prev => prev,
+  });
+};
+
 export const useCase = (id: string | number) => {
   return useQuery({
     queryKey: caseKeys.detail(id),

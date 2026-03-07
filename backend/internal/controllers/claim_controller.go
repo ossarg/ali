@@ -5,6 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/ossarg/ali/backend/internal/apierrors"
+	"github.com/ossarg/ali/backend/internal/dto"
 	"github.com/ossarg/ali/backend/internal/services"
 )
 
@@ -43,11 +44,12 @@ func (cc *ClaimController) Metrics(c echo.Context) error {
 // @Failure      401  {object}  map[string]string
 // @Router       /api/v1/claims [get]
 func (cc *ClaimController) List(c echo.Context) error {
-	claims, err := cc.claimService.List()
+	pp := dto.ParsePageParams(c.QueryParam("page"), c.QueryParam("limit"))
+	result, err := cc.claimService.ListPaginated(pp.Page, pp.Limit)
 	if err != nil {
 		return err
 	}
-	return c.JSON(http.StatusOK, claims)
+	return c.JSON(http.StatusOK, result)
 }
 
 // GetClaim godoc

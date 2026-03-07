@@ -4,7 +4,8 @@ import { LayoutGrid, List, Search, Filter, Clock, Download, AlertCircle, Loader2
 import { Link, useNavigate } from 'react-router-dom';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
-import { useCases } from '../api/hooks';
+import { useCasesPaginated } from '../api/hooks/useCases';
+import Pagination from '../components/Pagination';
 
 const RelevanciaLabel: Record<number, string> = { 1: 'Baja', 2: 'Media', 3: 'Alta' };
 
@@ -15,7 +16,8 @@ export default function Cases() {
 
   const stages: Stage[] = ['Ingesta', 'Extracción', 'Triage', 'Fichero', 'Borrador', 'Revisión Humana', 'Completado'];
 
-  const { data, isLoading, isError } = useCases(searchQuery ? { search: searchQuery } : undefined);
+  const [page, setPage] = useState(1);
+  const { data, isLoading, isError } = useCasesPaginated(page, 10, searchQuery ? { search: searchQuery } : undefined);
   const casos = data?.data ?? [];
 
   // Map backend stage (English) → display stage (Spanish)
@@ -208,6 +210,9 @@ export default function Cases() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="px-2">
+        <Pagination page={page} limit={10} total={data?.total ?? 0} onChange={setPage} />
       </div>
     </div>
   );

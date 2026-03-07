@@ -17,6 +17,14 @@ export function useApprovedEvents() {
   });
 }
 
+export function useApprovedEventsPaginated(page: number, limit = 10) {
+  return useQuery({
+    queryKey: [...caseEventKeys.approved(), 'paginated', page, limit],
+    queryFn:  () => caseEventService.approvedPaginated(page, limit),
+    placeholderData: prev => prev,
+  });
+}
+
 export function usePendingEvents() {
   return useQuery({
     queryKey: caseEventKeys.pending(),
