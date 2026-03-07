@@ -62,21 +62,42 @@ interface ReviewModalProps {
   onClose: () => void;
 }
 
+function IdentifierField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-xs text-gray-500 w-28 shrink-0">{label}</span>
+      <input
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className="flex-1 border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400"
+        placeholder="—"
+      />
+    </div>
+  );
+}
+
 function ReviewModal({ event, onClose }: ReviewModalProps) {
-  const [selectedType, setSelectedType] = useState<string>(event.mail_type);
-  const [comment, setComment]           = useState('');
+  const [selectedType,   setSelectedType]   = useState<string>(event.mail_type);
+  const [comment,        setComment]         = useState('');
+  const [claimNumber,    setClaimNumber]     = useState(event.raw_claim_number ?? '');
+  const [policy,         setPolicy]          = useState(event.raw_policy ?? '');
+  const [caseNumber,     setCaseNumber]      = useState(event.raw_case_number ?? '');
+  const [caratula,       setCaratula]        = useState(event.raw_caratula ?? '');
+
   const reviewEvent = useReviewEvent();
   const isChanging  = selectedType !== event.mail_type;
 
   const handleSubmit = () => {
     const req: ReviewCaseEventRequest = { review_comment: comment };
-    if (isChanging) {
-      req.mail_type = MAIL_TYPE_VALUES[selectedType];
-    }
-    reviewEvent.mutate(
-      { id: event.id, req },
-      { onSuccess: onClose },
-    );
+    if (isChanging) req.mail_type = MAIL_TYPE_VALUES[selectedType];
+
+    // Send identifiers only if changed from what Rachel extracted
+    if (claimNumber !== (event.raw_claim_number ?? '')) req.raw_claim_number = claimNumber;
+    if (policy      !== (event.raw_policy      ?? '')) req.raw_policy        = policy;
+    if (caseNumber  !== (event.raw_case_number ?? '')) req.raw_case_number   = caseNumber;
+    if (caratula    !== (event.raw_caratula    ?? '')) req.raw_caratula      = caratula;
+
+    reviewEvent.mutate({ id: event.id, req }, { onSuccess: onClose });
   };
 
   return (
@@ -87,21 +108,21 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">×</button>
         </div>
 
-        <div className="text-sm text-gray-600 space-y-1">
-          <p><span className="font-medium">Mail ID:</span> {event.mail_id}</p>
-          {event.subject && <p><span className="font-medium">Asunto:</span> {event.subject}</p>}
-          <p>
-            <span className="font-medium">Rachel clasificó como:</span>{' '}
+        {/* Mail info */}
+        <div className="text-sm text-gray-600 space-y-1 bg-gray-50 rounded-lg p-3">
+          {event.subject && <p className="font-medium text-gray-800 text-xs leading-snug">{event.subject}</p>}
+          <p className="text-xs text-gray-400">{event.mail_id}</p>
+          <p className="mt-1">
+            <span className="font-medium">Rachel clasificó:</span>{' '}
             <span className="font-semibold text-indigo-600">
               {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
             </span>
             {' '}({Math.round(event.confidence * 100)}% confianza)
           </p>
-          {event.reasoning && (
-            <p className="text-xs text-gray-400 italic">{event.reasoning}</p>
-          )}
+          {event.reasoning && <p className="text-xs text-gray-400 italic">{event.reasoning}</p>}
         </div>
 
+        {/* Tipo */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Tipo correcto</label>
           <select
@@ -115,6 +136,21 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
           </select>
         </div>
 
+        {/* Identificadores */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Identificadores
+            <span className="text-xs text-gray-400 font-normal ml-1">— corregí lo que Rachel haya extraído mal o dejado vacío</span>
+          </label>
+          <div className="space-y-2">
+            <IdentifierField label="Nro. siniestro"  value={claimNumber} onChange={setClaimNumber} />
+            <IdentifierField label="Póliza"          value={policy}      onChange={setPolicy}      />
+            <IdentifierField label="Nro. expediente" value={caseNumber}  onChange={setCaseNumber}  />
+            <IdentifierField label="Carátula"        value={caratula}    onChange={setCaratula}    />
+          </div>
+        </div>
+
+        {/* Comentario */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Comentario {isChanging && <span className="text-red-500">*</span>}
@@ -122,23 +158,18 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
           <textarea
             value={comment}
             onChange={e => setComment(e.target.value)}
-            rows={3}
+            rows={2}
             placeholder={isChanging ? 'Explicá por qué cambiás la clasificación...' : 'Opcional — dejá una nota para Rachel'}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
           />
         </div>
 
         {reviewEvent.error && (
-          <p className="text-sm text-red-500">
-            {(reviewEvent.error as Error).message ?? 'Error al guardar'}
-          </p>
+          <p className="text-sm text-red-500">{(reviewEvent.error as Error).message ?? 'Error al guardar'}</p>
         )}
 
         <div className="flex gap-3 justify-end">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50"
-          >
+          <button onClick={onClose} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
             Cancelar
           </button>
           <button

@@ -87,6 +87,10 @@ export const CaseEventMetricsSchema = z.object({
 export const ReviewCaseEventRequestSchema = z.object({
   mail_type: z.number().int().min(1).max(7).optional(),
   review_comment: z.string().optional(),
+  raw_claim_number: z.string().optional(),
+  raw_policy: z.string().optional(),
+  raw_case_number: z.string().optional(),
+  raw_caratula: z.string().optional(),
 });
 
 export const RetryResolutionRequestSchema = z.object({
