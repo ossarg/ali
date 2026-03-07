@@ -8,9 +8,9 @@ export const API_ENDPOINTS = {
     DETAIL: (id: string | number) => `/api/v1/cases/${id}`,
   },
   CASE_EVENTS: {
-    METRICS:  '/api/v1/case-events/metrics',
-    APPROVED: '/api/v1/case-events/approved',
-    PENDING:  '/api/v1/case-events/pending',
-    REVIEW:   (id: string) => `/api/v1/case-events/${id}/review`,
+    METRICS:  '/api/v1/activity/metrics',
+    APPROVED: '/api/v1/activity/events/approved',
+    PENDING:  '/api/v1/activity/events/pending',
+    REVIEW:   (id: string) => `/api/v1/activity/events/${id}/review`,
   },
 } as const;
