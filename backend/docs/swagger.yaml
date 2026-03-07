@@ -1,5 +1,18 @@
 basePath: /
 definitions:
+  dto.CaseEventMetrics:
+    properties:
+      approved:
+        type: integer
+      last_event_at:
+        type: string
+      pending:
+        type: integer
+      processed:
+        type: integer
+      total:
+        type: integer
+    type: object
   dto.CaseEventResponse:
     properties:
       approved:
@@ -334,6 +347,52 @@ paths:
       security:
       - BearerAuth: []
       summary: Approve or correct a case event classification
+      tags:
+      - cases
+  /api/v1/case-events/approved:
+    get:
+      description: Returns all case events approved by a human reviewer (activity
+        history).
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CaseEventResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List approved case events
+      tags:
+      - cases
+  /api/v1/case-events/metrics:
+    get:
+      description: 'Returns aggregated stats: total, approved, pending, processed,
+        and last event timestamp.'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CaseEventMetrics'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get case event metrics
       tags:
       - cases
   /api/v1/case-events/pending:

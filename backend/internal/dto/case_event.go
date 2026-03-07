@@ -7,6 +7,15 @@ import (
 	"github.com/ossarg/ali/backend/internal/models"
 )
 
+// CaseEventMetrics — aggregated stats for the activity panel
+type CaseEventMetrics struct {
+	Total       int64      `json:"total"`
+	Approved    int64      `json:"approved"`
+	Pending     int64      `json:"pending"`
+	Processed   int64      `json:"processed"`
+	LastEventAt *time.Time `json:"last_event_at"`
+}
+
 // ReviewCaseEventRequest — payload sent by a human reviewer
 type ReviewCaseEventRequest struct {
 	MailType      *int16  `json:"mail_type"`      // if nil, approves Rachel's classification as-is

@@ -1,9 +1,10 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText } from 'lucide-react';
+import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText, Activity } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { useCaseEventMetrics } from '../api/hooks/useCaseEvents';
 
 export default function Layout() {
   const location = useLocation();
@@ -12,6 +13,9 @@ export default function Layout() {
   const displayName = user ? `${user.first_name} ${user.last_name}` : '';
   const initials = user ? `${user.first_name[0]}${user.last_name[0]}`.toUpperCase() : '?';
 
+  const { data: eventMetrics } = useCaseEventMetrics();
+  const pendingCount = eventMetrics?.pending ?? 0;
+
   const navItems = [
     { name: 'Panel Principal', path: '/', icon: LayoutDashboard },
     { name: 'Casos', path: '/casos', icon: Briefcase },
@@ -19,6 +23,7 @@ export default function Layout() {
     { name: 'Equipo', path: '/equipo', icon: Users },
     { name: 'Métricas', path: '/metricas', icon: BarChart3 },
     { name: 'Documentos', path: '/documentos', icon: FileText },
+    { name: 'Actividad', path: '/actividad', icon: Activity, badge: pendingCount > 0 ? pendingCount : undefined },
   ];
 
   return (
@@ -47,7 +52,12 @@ export default function Layout() {
                   )}
                 >
                   <item.icon className={cn("w-5 h-5", isActive ? "text-[#eb5d2a]" : "text-white/50")} />
-                  {item.name}
+                  <span className="flex-1">{item.name}</span>
+                  {'badge' in item && item.badge !== undefined && (
+                    <span className="ml-auto bg-amber-400 text-amber-900 text-xs font-bold rounded-full px-1.5 py-0.5 min-w-[1.25rem] text-center">
+                      {item.badge}
+                    </span>
+                  )}
                 </Link>
               );
             })}

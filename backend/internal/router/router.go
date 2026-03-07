@@ -45,6 +45,8 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
 	api.GET("/cases", caseController.List)
 	api.GET("/cases/:id", caseController.GetByID)
+	api.GET("/case-events/metrics", caseController.GetEventMetrics)
+	api.GET("/case-events/approved", caseController.ListApprovedEvents)
 	api.GET("/case-events/pending", caseController.ListPendingEvents)
 	api.PATCH("/case-events/:id/review", caseController.ReviewEvent)
 	api.GET("/triage/rules", placeholder("triage.rules.get"))

@@ -7,4 +7,10 @@ export const API_ENDPOINTS = {
     LIST: '/api/v1/cases',
     DETAIL: (id: string | number) => `/api/v1/cases/${id}`,
   },
+  CASE_EVENTS: {
+    METRICS:  '/api/v1/case-events/metrics',
+    APPROVED: '/api/v1/case-events/approved',
+    PENDING:  '/api/v1/case-events/pending',
+    REVIEW:   (id: string) => `/api/v1/case-events/${id}/review`,
+  },
 } as const;

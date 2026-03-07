@@ -40,6 +40,12 @@ func (m *mockCaseRepository) FindEventByID(_ string) (*models.CaseEvent, error) 
 func (m *mockCaseRepository) ListPendingEvents() ([]models.CaseEvent, error) {
 	return nil, m.err
 }
+func (m *mockCaseRepository) ListApprovedEvents() ([]models.CaseEvent, error) {
+	return nil, m.err
+}
+func (m *mockCaseRepository) GetEventMetrics() (int64, int64, int64, int64, *time.Time, error) {
+	return 0, 0, 0, 0, nil, m.err
+}
 
 func sampleCase() models.Case {
 	return models.Case{
