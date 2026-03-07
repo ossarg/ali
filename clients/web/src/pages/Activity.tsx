@@ -180,7 +180,7 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
             <th className="pb-3 pr-4">Tipo</th>
             <th className="pb-3 pr-4">Confianza</th>
             <th className="pb-3 pr-4">Recibido</th>
-            {!showActions && <th className="pb-3 pr-4">Revisado por</th>}
+            {!showActions && <th className="pb-3 pr-4">Revisado</th>}
             {showActions && <th className="pb-3" />}
           </tr>
         </thead>
