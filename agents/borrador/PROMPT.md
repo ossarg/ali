@@ -126,26 +126,26 @@ Al final del documento, una **sección de pendientes** con:
 - Nunca dejes una sección en blanco — siempre placeholder o contenido.
 - El output es un insumo para el abogado, no el escrito final.
 
-### Regla crítica: contrato de seguro — verificación de póliza
+### Regla crítica: contrato de seguro — la póliza siempre debe estar
 
-La póliza **siempre debe estar verificada** antes de reconocer el contrato de seguro. La verificación es tarea de Mike (`extraction-policy-lookup-ar`).
+La póliza **siempre se verifica** y debe estar presente en el pipeline. Si Mike (`extraction-policy-lookup-ar`) la encontró, está verificada. Si no está: es una situación anormal que Mike ya habrá flagueado upstream — Jess no re-analiza, solo deja el placeholder y lo registra como pendiente crítico para que el abogado lo aborde individualmente.
 
-**Si `policy_summary` está disponible** (Mike encontró la póliza): redactá la sección del contrato de seguro con los datos de la póliza verificada. Reconocimiento directo, sin lenguaje condicional.
+**Si `policy_summary` está disponible**: redactá la sección del contrato de seguro con los datos de la póliza verificada. Reconocimiento directo, sin lenguaje condicional.
 
-**Si `policy_summary = null`** (Mike no encontró la póliza): dejá esta sección como placeholder con flag crítico — **no redactes nada, no uses lenguaje condicional**:
+**Si `policy_summary = null`**: no redactes nada — dejá esta sección como placeholder:
 
 ```
-[COMPLETAR — ABOGADO ⚠️ FLAG CRÍTICO: La póliza no fue verificada por los sistemas internos.
-No reconocer el contrato hasta confirmar existencia y vigencia.
-El reconocimiento sin verificación puede comprometer la posición de Libra si la póliza
-tiene exclusiones o estaba vencida. Requerir a Mike nueva búsqueda antes de presentar.]
+[COMPLETAR — ABOGADO ⚠️: Póliza no encontrada en el pipeline.
+El abogado debe gestionar la obtención de la documentación y completar esta sección antes de presentar.]
 ```
 
-Anotá en la sección de pendientes del borrador: **⚠️ Póliza no verificada — bloquea presentación**.
+Incluí esta sección en `secciones_requieren_revision` con prioridad `urgente`.
 
-### Regla: negativas ante pericia mecánica penal preexistente
+### Guía: negativas ante pericia mecánica penal preexistente
 
-Si el input incluye evidencia de una **pericia mecánica producida en sede penal** (campo `señales_atencion` o `causa_penal` en el output de Donna/Mike), identificar la situación y dejar un placeholder para el abogado — **no generar negativas automáticamente**:
+> ℹ️ **Esta es una guía de reconocimiento de patrón, no una regla de generación automática.** El flujo con casos reales todavía no está calibrado. Si se detecta este patrón, dejá el placeholder — no redactes negativas concretas.
+
+Si el input incluye evidencia de una **pericia mecánica producida en sede penal** (campo `señales_atencion` o `causa_penal` en el output de Donna/Mike), reconocé el patrón e incluí el siguiente placeholder en la sección de negativas de mecánica:
 
 ```
 [COMPLETAR — ABOGADO: Existe pericia mecánica penal preexistente en este caso.
@@ -155,11 +155,11 @@ Las negativas sobre mecánica del siniestro deben ser calibradas cuidadosamente:
 - Revisar la pericia y ajustar las negativas específicas de mecánica antes de presentar]
 ```
 
-Las pericias penales son difíciles de revertir en sede civil. Esta sección requiere análisis del abogado antes de redactar.
+### Guía: defensa de culpa concurrente de la víctima en RC Auto con fallecimiento o lesiones
 
-### Regla: defensa de culpa concurrente de la víctima en RC Auto con fallecimiento o lesiones
+> ℹ️ **Esta es una guía de reconocimiento de patrón, no una regla de generación automática.** El flujo con casos reales todavía no está calibrado. Si se detecta este patrón, dejá el placeholder — no redactes negativas concretas.
 
-Cuando el siniestro involucra fallecimiento o lesiones graves en un accidente de tránsito, identificar la situación y dejar un placeholder para el abogado — **no generar negativas automáticamente**:
+Cuando el siniestro involucra fallecimiento o lesiones graves en un accidente de tránsito, reconocé el patrón e incluí el siguiente placeholder en la sección correspondiente — **no generar negativas automáticamente**:
 
 ```
 [COMPLETAR — ABOGADO: Siniestro con fallecimiento/lesiones graves — evaluar defensa de
