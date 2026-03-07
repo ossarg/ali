@@ -1,10 +1,11 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useRef, useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText, Activity } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { format } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { useCaseEventMetrics } from '../api/hooks/useCaseEvents';
+import { useCaseEventMetrics, usePendingEvents } from '../api/hooks/useCaseEvents';
 
 export default function Layout() {
   const location = useLocation();
@@ -13,8 +14,24 @@ export default function Layout() {
   const displayName = user ? `${user.first_name} ${user.last_name}` : '';
   const initials = user ? `${user.first_name[0]}${user.last_name[0]}`.toUpperCase() : '?';
 
+  const navigate = useNavigate();
   const { data: eventMetrics } = useCaseEventMetrics();
   const pendingCount = eventMetrics?.pending ?? 0;
+  const { data: pendingEvents = [] } = usePendingEvents();
+
+  const [notifOpen, setNotifOpen] = useState(false);
+  const notifRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
+        setNotifOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   const navItems = [
     { name: 'Panel Principal', path: '/', icon: LayoutDashboard },
@@ -101,10 +118,71 @@ export default function Layout() {
                 className="pl-9 pr-4 py-1.5 bg-[#f7f8fa] border border-[#e5e7eb] rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#eb5d2a]/20 focus:border-[#eb5d2a] w-64 transition-all"
               />
             </div>
-            <button className="relative text-[#6b7280] hover:text-[#1a1a1a] transition-colors">
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#ef4444] rounded-full"></span>
-            </button>
+            <div className="relative" ref={notifRef}>
+              <button
+                onClick={() => setNotifOpen(o => !o)}
+                className="relative text-[#6b7280] hover:text-[#1a1a1a] transition-colors"
+              >
+                <Bell className="w-5 h-5" />
+                {pendingCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 min-w-[1.1rem] h-[1.1rem] bg-amber-400 text-amber-900 text-[10px] font-bold rounded-full flex items-center justify-center px-0.5">
+                    {pendingCount}
+                  </span>
+                )}
+              </button>
+
+              {notifOpen && (
+                <div className="absolute right-0 top-8 w-80 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden">
+                  <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                    <span className="font-semibold text-sm text-gray-800">Notificaciones</span>
+                    {pendingCount > 0 && (
+                      <span className="text-xs bg-amber-100 text-amber-700 font-medium px-2 py-0.5 rounded-full">
+                        {pendingCount} pendiente{pendingCount > 1 ? 's' : ''}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="max-h-72 overflow-y-auto divide-y divide-gray-50">
+                    {pendingEvents.length === 0 ? (
+                      <p className="text-sm text-gray-400 text-center py-6">
+                        Sin notificaciones pendientes
+                      </p>
+                    ) : (
+                      pendingEvents.slice(0, 5).map(event => (
+                        <div key={event.id} className="px-4 py-3 hover:bg-gray-50 transition-colors">
+                          <div className="flex items-start gap-2">
+                            <span className="mt-0.5 w-2 h-2 rounded-full bg-amber-400 shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-800 truncate">
+                                {event.subject || event.mail_id}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-0.5">
+                                Rachel → <span className="font-medium">{event.mail_type}</span>
+                                {' · '}{Math.round(event.confidence * 100)}% confianza
+                              </p>
+                              <p className="text-xs text-gray-400 mt-0.5">
+                                {formatDistanceToNow(new Date(event.received_at), { locale: es, addSuffix: true })}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {pendingEvents.length > 0 && (
+                    <div className="border-t border-gray-100">
+                      <button
+                        onClick={() => { navigate('/actividad'); setNotifOpen(false); }}
+                        className="w-full text-sm text-indigo-600 hover:text-indigo-700 font-medium py-3 hover:bg-indigo-50 transition-colors"
+                      >
+                        Ver todas las clasificaciones →
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </header>
 
