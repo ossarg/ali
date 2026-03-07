@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, ExternalLink, FileText, Scale } from 'lucide-react';
 import { format } from 'date-fns';
@@ -67,6 +67,107 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'proceso',   label: 'Proceso judicial' },
 ];
 
+// ─── Stages accordion ────────────────────────────────────────────────────────
+
+import type { ClaimStage } from '../api/schemas/claim.schemas';
+
+function StageStatusBadge({ status }: { status: string }) {
+  const upper = status.toUpperCase();
+  const color =
+    upper === 'ABIERTO'   ? 'bg-green-100 text-green-700'  :
+    upper === 'MEDIACION' ? 'bg-amber-100 text-amber-700'  :
+    upper === 'JUICIO'    ? 'bg-red-100 text-red-700'      :
+    upper === 'RECHAZO'   ? 'bg-orange-100 text-orange-700':
+    upper === 'TERMINADO' ? 'bg-blue-100 text-blue-700'    :
+    'bg-gray-100 text-gray-600';
+  return (
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${color}`}>
+      {status}
+    </span>
+  );
+}
+
+function StagesAccordion({ stages }: { stages: ClaimStage[] }) {
+  const [openId, setOpenId] = useState<string | null>(
+    stages.length > 0 ? stages[stages.length - 1].id : null
+  );
+
+  const toggle = useCallback((id: string) => {
+    setOpenId(prev => prev === id ? null : id);
+  }, []);
+
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Etapas SISE</span>
+      </div>
+      <div className="divide-y divide-gray-100">
+        {stages.map(stage => {
+          const isOpen = openId === stage.id;
+          const payments = stage.payments ?? [];
+          return (
+            <div key={stage.id}>
+              {/* Stage header — clickable */}
+              <button
+                onClick={() => toggle(stage.id)}
+                className="w-full flex items-center justify-between px-5 py-3.5 hover:bg-gray-50 transition-colors text-left"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-gray-400 w-24 shrink-0">
+                    Subreclamo {stage.stage_number}
+                  </span>
+                  <StageStatusBadge status={stage.status} />
+                </div>
+                <div className="flex items-center gap-3">
+                  {payments.length > 0 && (
+                    <span className="text-xs text-gray-400">
+                      {payments.length} pago{payments.length > 1 ? 's' : ''}
+                    </span>
+                  )}
+                  <svg
+                    className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </button>
+
+              {/* Payments — expanded */}
+              {isOpen && (
+                <div className="bg-gray-50 border-t border-gray-100">
+                  {payments.length === 0 ? (
+                    <p className="px-5 py-3 text-xs text-gray-400 italic">Sin pagos registrados.</p>
+                  ) : (
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="text-xs text-gray-400 uppercase tracking-wide">
+                          <th className="px-5 py-2 text-left font-medium">Fecha de pago</th>
+                          <th className="px-5 py-2 text-right font-medium">Importe</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {payments.map(p => (
+                          <tr key={p.id} className="hover:bg-white transition-colors">
+                            <td className="px-5 py-2.5 text-gray-600">{formatDate(p.payment_date)}</td>
+                            <td className="px-5 py-2.5 text-gray-800 text-right font-medium">
+                              {currency(p.amount)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ─── Tab: Información ─────────────────────────────────────────────────────────
 
 function InfoTab({ claim }: { claim: Claim }) {
@@ -89,21 +190,7 @@ function InfoTab({ claim }: { claim: Claim }) {
       </Card>
 
       {claim.stages && claim.stages.length > 0 && (
-        <Card title="Etapas SISE">
-          {claim.stages.map(stage => (
-            <div key={stage.id} className="px-5 py-3 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-gray-400 w-24 shrink-0">Subreclamo {stage.stage_number}</span>
-                <span className="text-sm text-gray-800">{stage.status}</span>
-              </div>
-              {stage.payments.length > 0 && (
-                <span className="text-xs text-gray-400">
-                  {stage.payments.length} pago{stage.payments.length > 1 ? 's' : ''}
-                </span>
-              )}
-            </div>
-          ))}
-        </Card>
+        <StagesAccordion stages={claim.stages} />
       )}
     </div>
   );
