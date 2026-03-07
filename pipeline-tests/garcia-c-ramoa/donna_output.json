@@ -1,0 +1,257 @@
+{
+  "document_summary": {
+    "clasificacion": {
+      "tipo_documento": "demanda",
+      "subtipo": "daños y perjuicios por accidente de tránsito",
+      "confianza_clasificacion": "high"
+    },
+    "resumen": "El 11 de septiembre de 2022, aproximadamente a las 11:00 horas, el vehículo Volkswagen Voyage (dominio AB162LT) del actor Marcos Horacio García se encontraba estacionado en calle Osvaldo Cruz al 3600, CABA. El demandado Lucio Daniel Ramoa Cáceres, al intentar dar marcha atrás con su Volkswagen Fox (dominio KWV802) para girar, embistió la parte delantera del vehículo estacionado, causando daños al paragolpe, capó, óptica y guardabarros. El actor no se encontraba dentro del vehículo al momento del impacto y no sufrió lesiones físicas. Se reclaman daños materiales (conforme presupuesto de taller), desvalorización del rodado, privación de uso y daño moral por afectaciones psicológicas (miedo a conducir, alteraciones del sueño, angustia). El monto total reclamado asciende a $850.000, con citación en garantía de Libra Cía. Argentina de Seguros S.A. en virtud del art. 118 de la Ley 17.418.",
+    "complejidad_estimada": "media",
+    "fundamentos_derecho": {
+      "tipo_responsabilidad": {
+        "principal": "responsabilidad objetiva por actividad riesgosa (art. 1757 CCCN)",
+        "especifica": "accidente de tránsito - vehículo en marcha contra vehículo estacionado (art. 1769 CCCN)",
+        "concurrente": "responsabilidad del dueño y del guardián del automotor (art. 1758 CCCN)"
+      },
+      "factor_atribucion": "objetivo (riesgo de la cosa - vehículo automotor en movimiento), con invocación subsidiaria de culpa por negligencia e imprudencia del conductor (arts. 1721 y 1724 CCCN)",
+      "normas_citadas": [
+        "Art. 1711 CCCN (acción preventiva)",
+        "Art. 1721 CCCN (factores de atribución)",
+        "Art. 1722 CCCN (factor objetivo)",
+        "Art. 1724 CCCN (factores subjetivos - culpa, imprudencia, negligencia)",
+        "Art. 1729 CCCN (hecho del damnificado)",
+        "Art. 1730 CCCN (caso fortuito o fuerza mayor)",
+        "Art. 1731 CCCN (hecho de un tercero)",
+        "Art. 1734 CCCN (prueba de los factores de atribución y eximentes)",
+        "Art. 1738 CCCN (indemnización - comprensión)",
+        "Art. 1740 CCCN (reparación plena)",
+        "Art. 1741 CCCN (consecuencias no patrimoniales - daño moral)",
+        "Art. 1746 CCCN (lesiones o incapacidad física o psíquica)",
+        "Art. 1748 CCCN (curso de los intereses)",
+        "Art. 1757 CCCN (hecho de las cosas y actividades riesgosas)",
+        "Art. 1758 CCCN (sujetos responsables)",
+        "Art. 1769 CCCN (accidentes de tránsito)",
+        "Art. 1772 CCCN",
+        "Art. 118, Ley 17.418 (citación en garantía)",
+        "Art. 36, Ley 24.449 (tránsito - prioridad normativa)",
+        "Art. 39 inc. b), Ley 24.449 (condiciones para conducir)",
+        "Art. 50, Ley 24.449 (velocidad precautoria)",
+        "Art. 64, Ley 24.449 (presunciones de responsabilidad)",
+        "Art. 77 inc. ñ), Ley 24.449 (faltas graves)",
+        "Arts. 7, 8, 9 y 18, Ley 26.589 (mediación prejudicial)"
+      ],
+      "doctrina_citada": [
+        "Pizarro, R. - 'Consolidación de una acertada jurisprudencia' (JA 1990-IV-365)",
+        "Stiglitz-Echevesti en 'Responsabilidad Civil', dir. Mosset Iturraspe"
+      ],
+      "jurisprudencia_citada": [
+        "CNCiv., Sala K, 19/05/1997 (Szkoropad c/ Sarquiz Hnos) - vehículo embistente",
+        "CNCiv., Sala E, 29/11/1981 (Gazzano c/ Vard) - vehículo embistente",
+        "C.Civ.Com.Lab. Rafaela, 09/11/1994 (Luque c/ Acosta) - vehículo embistente",
+        "CNCiv., Sala B, 14/05/2009 (Ferutti c/ Igarzabal) - vehículo embistente",
+        "C.Civ.Com. San Martín, Sala 2ª, 06/02/2009 (Oringo c/ Balsa) - vehículo embistente",
+        "CNCiv., Sala K, 18/08/2006 (Rodríguez c/ Osuna) - vehículo embistente",
+        "CNCiv., Sala G, 08/08/2005 (Caminos de Schaud c/ Fantacone) - vehículo embistente",
+        "C.Civ.Com. Córdoba 7ª, 18/05/2007 (Silveyra c/ Gutiérrez) - vehículo embistente",
+        "C.Apels. Comodoro Rivadavia, Sala B (I. c/ C.) - velocidad excesiva",
+        "C.Civ.Com. San Isidro, Sala 2ª (Wagner c/ Stickforth) - velocidad excesiva",
+        "CNCiv., Sala H (Parodi de Díaz c/ Junquera) - velocidad excesiva",
+        "CNCiv., Sala H (Quintela c/ Araujo) - daño moral",
+        "CNCiv., Sala H (Zawadzki c/ Lutowicz) - daño moral",
+        "Cám. 1ª San Rafael (Forcin c/ Weber) - daño moral",
+        "CNCiv., Sala L (Sistac c/ Soto) - daño moral",
+        "CNCiv. en pleno, 20/04/2009 (Samudio de Martínez c/ Transportes Doscientos Setenta) - intereses tasa activa"
+      ]
+    },
+    "señales_atencion": {
+      "hay_señales": true,
+      "señales": [
+        {
+          "tipo": "error_de_plantilla_critico",
+          "descripcion": "En el apartado de Liquidación (punto VI del escrito de demanda) figura el nombre 'FERNANDO RICARDO ALVAREZ' en lugar del actor 'MARCOS HORACIO GARCÍA'. Evidencia el uso de un modelo de otra demanda sin corrección. Es un defecto formal significativo que puede ser señalado por la contraparte o el tribunal.",
+          "gravedad": "alta",
+          "confianza": "high"
+        },
+        {
+          "tipo": "presupuesto_inconsistente",
+          "descripcion": "El presupuesto del Taller 'Tati' (único instrumento que sustenta los $435.500 de daños materiales) refiere a un vehículo VW Gol Power, dominio KGT 054, que NO es el del actor (VW Voyage, dominio AB162LT). Además, los daños presupuestados (puerta y guardabarro izquierdo) no coinciden con los daños denunciados (paragolpe delantero) ni con las fotografías del expediente. Esta inconsistencia triple socava la prueba del rubro más cuantioso de la demanda.",
+          "gravedad": "muy_alta",
+          "confianza": "high"
+        },
+        {
+          "tipo": "discrepancia_domicilio_actor",
+          "descripcion": "El actor registra tres domicilios distintos en el expediente: (1) Metán 120 Fondo, Lomas de Zamora (mediación y documentación anterior); (2) Medrano 1670 5° B, CABA (demanda y presupuesto); (3) Iguazú 1600, Mza 53, Casa 15, Barracas, CABA (dorso del DNI). La inconsistencia podría generar observaciones del tribunal y planteos de la contraparte.",
+          "gravedad": "media",
+          "confianza": "high"
+        },
+        {
+          "tipo": "discrepancia_nombre_demandado",
+          "descripcion": "El demandado figura con distintas identidades a lo largo del expediente: 'CACERES, LUCIO RAMON' (actas de mediación 1 y 2); 'RAMOA CACERES, LUCIO DANIEL' (acta de mediación 3); 'LUCIO DANIEL RAMOA CÁCERES' (demanda); 'lucio Ramoa, Cáceres' (denuncia de siniestro). La variación podría generar dificultades en la notificación y cuestiones de identificación.",
+          "gravedad": "media",
+          "confianza": "high"
+        },
+        {
+          "tipo": "discrepancia_monto_daños_materiales",
+          "descripcion": "En el cuerpo del escrito se reclaman $435.500 por daños materiales (conforme al presupuesto), pero en la liquidación final figura $435.000. Diferencia de $500 que genera imprecisión en el petitorio.",
+          "gravedad": "baja",
+          "confianza": "high"
+        },
+        {
+          "tipo": "seguro_demandado_sin_acreditar",
+          "descripcion": "La denuncia de siniestro ante San Cristóbal (seguro del actor) consignó que el vehículo del demandado figuraba 'No posee seguro/No informada'. No obstante, la demanda cita en garantía a Libra Cía. Argentina de Seguros S.A. La existencia y vigencia del seguro del demandado con Libra no está acreditada en la documentación adjunta.",
+          "gravedad": "media",
+          "confianza": "high"
+        },
+        {
+          "tipo": "notificacion_mediacion_fallida",
+          "descripcion": "El demandado nunca fue notificado fehacientemente en ninguno de los dos tramos de mediación. En el primer tramo (2022), no se pudo acceder al domicilio. En el segundo tramo (2023), el telegrama a Osvaldo Cruz 1993 fue devuelto como 'Desconocido'. Esto anticipa dificultades en la notificación de la demanda.",
+          "gravedad": "media",
+          "confianza": "high"
+        }
+      ]
+    },
+    "estado_documento": {
+      "completo": true,
+      "legible": true,
+      "tiene_firma": {
+        "actor": true,
+        "letrado_olografa": false,
+        "letrado_digital": true,
+        "observacion": "El escrito de demanda solo exhibe firma manuscrita (escaneada) del actor. Las letradas patrocinantes (Dra. Moralejo y Dra. Farias) figuran con su matrícula pero sin firma ológrafa visible en el cuerpo de la demanda. Una firma digital de la Dra. Moralejo aparece en el presupuesto adjunto (pág. 48). Para presentación electrónica ante el PJN, la firma digital del letrado podría cumplir el requisito del art. 56 CPCyCN."
+      },
+      "tipo_copia": "presentación digital para expediente electrónico (PJN)",
+      "documentacion_adjunta": [
+        "Actas de inicio y cierre de mediación (3 actas en 2 tramos)",
+        "Informe de auditoría de firma electrónica (Adobe Acrobat Sign)",
+        "Constancia de cobertura - San Cristóbal Seguros (póliza actor)",
+        "Denuncia de siniestro ante San Cristóbal Seguros",
+        "Fotografías del vehículo dañado (3 fotos)",
+        "Cédula de identificación del automotor (título y cédula verde)",
+        "DNI del actor (frente y dorso)",
+        "Licencia Nacional de Conducir (frente y dorso)",
+        "Presupuesto de reparación - Taller Integral de Chapa y Pintura 'Tati'"
+      ],
+      "observaciones": [
+        "El presupuesto del taller (única prueba de daños materiales) refiere a un vehículo diferente al del actor",
+        "Firma ológrafa de letradas no visible en el escrito de demanda (solo del actor)",
+        "Tres domicilios distintos para el actor en diferentes piezas del expediente",
+        "Error de plantilla en la sección de liquidación (nombre de otro actor)"
+      ],
+      "bloqueante": false
+    },
+    "overall_confidence": "high",
+    "notas": [
+      "El documento está completo y es legible en todas sus páginas. No hay obstáculos técnicos para el procesamiento.",
+      "El caso no involucra lesiones físicas ni fallecimiento; se trata exclusivamente de daños materiales y daño moral por perturbaciones psicológicas.",
+      "No se solicitan medidas cautelares ni se reclama daño punitivo.",
+      "La inconsistencia del presupuesto (vehículo diferente, daños diferentes) es la señal de mayor relevancia para la defensa de la aseguradora y deberá ser prioridad para el equipo de análisis.",
+      "Se solicita beneficio de litigar sin gastos; si se otorga, la aseguradora quedará sin posibilidad de cobrar costas en caso de rechazo de demanda."
+    ]
+  },
+  "formal_review": {
+    "checks": [
+      {
+        "id": 1,
+        "requisito": "Firma de letrado (art. 56 CPCyCN)",
+        "resultado": "indeterminate",
+        "fundamento_normativo": "Art. 56 CPCyCN: los escritos deben llevar la firma del letrado patrocinante. En presentaciones electrónicas ante el PJN, la firma digital del letrado cumple este requisito (Ac. 31/2011 CSJN y normas del expediente electrónico).",
+        "descripcion": "El escrito de demanda exhibe firma manuscrita (escaneada) del actor, pero no se observa firma ológrafa de las letradas patrocinantes (Dra. Moralejo, T° 122 F° 882; Dra. Farias, T° 121 F° 602) en el cuerpo del documento. Se detecta una firma digital de la Dra. Moralejo sobre el presupuesto adjunto. Si la presentación fue realizada por vía electrónica (SEJIN/PJN), la firma digital habría operado al momento de la presentación y no quedaría reflejada en el PDF. La evaluación depende del modo efectivo de presentación.",
+        "valor_estrategico": null,
+        "confianza": "medium"
+      },
+      {
+        "id": 2,
+        "requisito": "Domicilio procesal (art. 40 CPCyCN)",
+        "resultado": "pass",
+        "fundamento_normativo": "Art. 40 CPCyCN: las partes deben constituir domicilio procesal dentro del perímetro de la ciudad asiento del tribunal, sin perjuicio del domicilio electrónico.",
+        "descripcion": "Se constituye domicilio legal en Lavalle N° 1290, Piso 3°, Oficina 302, Ciudad Autónoma de Buenos Aires (zona 0172). Se constituyen adicionalmente domicilios electrónicos: Dra. Moralejo CUIT 27341461044 y Dra. Farias CUIT 27338266516. Cumplimiento completo del requisito.",
+        "valor_estrategico": null,
+        "confianza": "high"
+      },
+      {
+        "id": 3,
+        "requisito": "Competencia del tribunal (arts. 1-12 CPCyCN)",
+        "resultado": "pass",
+        "fundamento_normativo": "Arts. 5 inc. 4 y 6 CPCyCN (fuero real - lugar del hecho ilícito; domicilio del demandado). El siniestro ocurrió en calle Osvaldo Cruz al 3600, CABA. El demandado tiene domicilio en Osvaldo Cruz 1993, CABA. Libra Cía. Argentina de Seguros S.A. tiene domicilio en Olazábal 1515, CABA. El fuero Civil de la CABA es competente.",
+        "descripcion": "El hecho ilícito ocurrió en CABA. El demandado principal y la citada en garantía tienen domicilio en CABA. La radicación ante el fuero Civil de la Ciudad Autónoma de Buenos Aires es correcta. No se advierten cuestiones de competencia. Nota: el domicilio real del actor en la mediación figuraba en Lomas de Zamora (PBA), pero ello no altera la competencia territorial basada en el lugar del hecho y el domicilio del demandado.",
+        "valor_estrategico": null,
+        "confianza": "high"
+      },
+      {
+        "id": 4,
+        "requisito": "Tasa de justicia",
+        "resultado": "fail",
+        "fundamento_normativo": "Ley 23.898 (Tasa de Justicia en el fuero nacional). La demanda debe acompañar el comprobante de pago de la tasa de justicia o acreditar su exención al momento de la presentación.",
+        "descripcion": "El escrito de demanda no menciona el pago de la tasa de justicia ni acompaña comprobante de abono. El actor solicita la apertura del incidente de beneficio de litigar sin gastos (punto XIII), lo cual podría diferir o eximir el pago, pero dicho incidente no fue presentado con la demanda ni se adjunta documentación respaldatoria. El tribunal podría intimar al pago de la tasa o requerir la presentación formal del beneficio.",
+        "valor_estrategico": "El incumplimiento en el pago de la tasa de justicia puede ser opuesto como excepción de previo pronunciamiento. Si el beneficio de litigar sin gastos no es concedido, la demanda podría ser declarada inadmisible hasta su integración. Para la aseguradora, esto puede representar una demora táctica.",
+        "confianza": "medium"
+      },
+      {
+        "id": 5,
+        "requisito": "Acreditación de personería (art. 46 CPCyCN)",
+        "resultado": "pass",
+        "fundamento_normativo": "Art. 46 CPCyCN: quien comparezca por otro deberá acompañar los documentos que acrediten el carácter que inviste. No aplica cuando la parte actúa por derecho propio con patrocinio letrado.",
+        "descripcion": "El actor Marcos Horacio García comparece por derecho propio (iure proprio), asistido por letradas patrocinantes. No actúa mediante apoderado, por lo que no se requiere acreditación de personería en los términos del art. 46 CPCyCN. El requisito es inaplicable al presente caso.",
+        "valor_estrategico": null,
+        "confianza": "high"
+      },
+      {
+        "id": 6,
+        "requisito": "Requisitos del art. 330 CPCyCN",
+        "resultado": "pass",
+        "fundamento_normativo": "Art. 330 CPCyCN: la demanda debe contener (1) nombre y domicilio del demandante, (2) nombre y domicilio del demandado, (3) la cosa demandada designada con exactitud, (4) los hechos en que se funde explicados claramente, (5) el derecho expuesto sucintamente, (6) la petición en términos claros y positivos.",
+        "descripcion": "El escrito cumple sustancialmente todos los incisos del art. 330 CPCyCN: (1) PASS - actor identificado con DNI y domicilio; (2) PASS - demandado y citada en garantía identificados con domicilio; (3) PASS - monto de $850.000 con rubros detallados; (4) PASS - relato circunstanciado del siniestro del 11/09/2022; (5) PASS - fundamentos de derecho con cita de arts. CCCN, Ley 24.449 y Ley 17.418; (6) PASS - petitorio en 5 puntos claros. OBSERVACIÓN: en el apartado de Liquidación (punto VI) figura el nombre 'FERNANDO RICARDO ALVAREZ' en lugar del actor García, lo que constituye un error de plantilla formal que no invalida la demanda pero es observable.",
+        "valor_estrategico": "El error de nombre en la liquidación ('Fernando Ricardo Alvarez' en lugar de 'Marcos Horacio García') puede ser utilizado para solicitar aclaratoria o como argumento para cuestionar la coherencia del escrito, aunque es poco probable que genere una nulidad.",
+        "confianza": "high"
+      },
+      {
+        "id": 7,
+        "requisito": "Mediación previa obligatoria (Ley 26.589)",
+        "resultado": "pass",
+        "fundamento_normativo": "Ley 26.589, art. 2 (materias sujetas a mediación obligatoria, incluidas las reclamaciones civiles por daños y perjuicios) y art. 4 (acreditación del intento de mediación como requisito de admisibilidad de la demanda).",
+        "descripcion": "Se realizaron dos tramos de mediación: (1) MEPRE N° 847030, primer tramo, con dos audiencias (06/10/2022 y 03/11/2022) ante mediadora Beatriz Susana Arias, sin acuerdo, cerrado por decisión de las partes; (2) MEPRE N° 847030, segundo tramo, audiencia del 18/09/2023, cerrado por imposibilidad de notificar al requerido. Se adjuntan todas las actas de inicio y cierre, firmadas digitalmente. OBSERVACIÓN: en ningún tramo se logró notificar fehacientemente al demandado Ramoa Cáceres; en el primer tramo el nombre figuraba como 'Caceres, Lucio Ramon' con dirección incorrecta. A pesar de ello, el requisito legal se considera cumplido dado que el actor agotó los intentos de mediación y los cierres constan en actas.",
+        "valor_estrategico": null,
+        "confianza": "high"
+      },
+      {
+        "id": 8,
+        "requisito": "Acompañamiento de documentación (art. 333 CPCyCN)",
+        "resultado": "pass",
+        "fundamento_normativo": "Art. 333 CPCyCN: con la demanda deberán acompañarse la prueba documental que estuviere en poder del actor y ofrecerse la restante.",
+        "descripcion": "Se acompaña documentación en formato digital: actas de mediación, DNI, cédula del vehículo, licencia de conducir, constancia de cobertura, denuncia de siniestro, fotografías del vehículo y presupuesto de reparación. Formalmente el requisito se cumple. OBSERVACIÓN CRÍTICA: el presupuesto del taller 'Tati' —que sustenta el rubro más cuantioso ($435.500 de daños materiales)— refiere al VW Gol Power dominio KGT 054, y no al VW Voyage AB162LT del actor. Los daños presupuestados (puerta y guardabarro izquierdo) tampoco coinciden con los daños denunciados (paragolpe delantero) ni con las fotografías. Esta inconsistencia no configura incumplimiento formal del art. 333 pero sí constituye una debilidad probatoria severa que la defensa deberá explotar.",
+        "valor_estrategico": "La inconsistencia del presupuesto es el defecto de mayor valor estratégico para la defensa de la aseguradora. Permite impugnar la totalidad del rubro daños materiales ($435.500) por falta de prueba idónea, ya que el único instrumento ofrecido no corresponde al vehículo ni a los daños reclamados.",
+        "confianza": "high"
+      },
+      {
+        "id": 9,
+        "requisito": "Requisitos de citación en garantía (art. 118, Ley 17.418)",
+        "resultado": "pass",
+        "fundamento_normativo": "Art. 118, Ley 17.418: el damnificado puede citar en garantía al asegurador hasta que se reciba la causa a prueba. La citación se hará en la forma prevista por el CPCyCN.",
+        "descripcion": "La demanda cita expresamente en garantía a Libra Cía. Argentina de Seguros S.A., con domicilio en Olazábal 1515, Piso 11°, Of. 1111, CABA (zona 0088), invocando el art. 118 de la Ley 17.418. Se solicita al tribunal que ordene el traslado de la demanda y la intimación a la aseguradora para que acompañe póliza, denuncia de siniestro y legajo del caso. La citación se realiza junto con la demanda, dentro del plazo legal. OBSERVACIÓN: la existencia y vigencia del seguro no está acreditada en la documentación adjunta —la denuncia de siniestro del actor ante San Cristóbal indicó que el vehículo del demandado figuraba 'No posee seguro/No informada'— lo que podría ser planteado por la aseguradora como defensa.",
+        "valor_estrategico": "La aseguradora podría oponer la ausencia de relación asegurativa acreditada, o alegar falta de cobertura (riesgo no cubierto, exclusión de cobertura, mora en el pago de prima, etc.) como defensa previa a la discusión de fondo.",
+        "confianza": "medium"
+      }
+    ],
+    "total_pass": 6,
+    "total_fail": 1,
+    "total_indeterminate": 2,
+    "tiene_irregularidades": true,
+    "defectos_con_valor_estrategico": 3,
+    "resumen": "La demanda supera en términos generales la revisión formal. Se detecta un defecto relevante (tasa de justicia sin pagar ni exención acreditada) y dos puntos indeterminados (firma digital de letrado sujeta a verificación del modo de presentación). Los tres elementos de mayor valor estratégico para la defensa de la aseguradora son: (1) la inconsistencia del presupuesto de daños materiales, que no corresponde al vehículo ni a los daños del actor; (2) la ausencia de evidencia del vínculo aseguraticio entre Libra y el demandado; y (3) el error de nombre en la liquidación, que revela uso de plantilla sin verificación.",
+    "overall_confidence": "high",
+    "requiere_revision_humana": true
+  },
+  "decision": "continuar",
+  "motivo_bloqueo": null,
+  "_metadata": {
+    "caso": "García c/ Ramoa Cáceres s/ Daños y Perjuicios",
+    "agente": "Donna - Ingesta Libra Legal AI",
+    "fecha_recepcion": "2026-03-07",
+    "origen": "manual (test de pipeline)",
+    "archivo_analizado": "fc3a5579-787d-4407-8c83-51c280ee74c1.pdf",
+    "paginas_analizadas": 48,
+    "paginas_demanda": "22-47",
+    "paginas_documentacion_adjunta": "1-21, 48",
+    "timestamp_analisis": "2026-03-07T14:05:00-03:00"
+  }
+}

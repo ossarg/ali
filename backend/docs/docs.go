@@ -829,13 +829,27 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "claim": {
-                    "$ref": "#/definitions/sise.Claim"
+                    "$ref": "#/definitions/sise.ClaimResult"
                 },
                 "policy": {
                     "$ref": "#/definitions/sise.PolicySummary"
                 },
                 "producer": {
                     "$ref": "#/definitions/sise.Producer"
+                }
+            }
+        },
+        "dto.ClaimPaymentResponse": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "payment_date": {
+                    "type": "string"
                 }
             }
         },
@@ -846,9 +860,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "claim_number": {
-                    "type": "integer"
-                },
-                "claim_subnumber": {
                     "type": "integer"
                 },
                 "commercial_product": {
@@ -866,14 +877,14 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "current_status": {
+                    "type": "string"
+                },
                 "doc_number": {
                     "type": "string"
                 },
                 "doc_type": {
                     "type": "string"
-                },
-                "estimated_amount": {
-                    "type": "number"
                 },
                 "id": {
                     "type": "string"
@@ -885,12 +896,6 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "notice_date": {
-                    "type": "string"
-                },
-                "paid_amount": {
-                    "type": "number"
-                },
-                "payment_date": {
                     "type": "string"
                 },
                 "policy_endorsement": {
@@ -938,10 +943,33 @@ const docTemplate = `{
                 "sise_id_pv": {
                     "type": "integer"
                 },
-                "status": {
-                    "type": "string"
+                "stages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ClaimStageResponse"
+                    }
                 },
                 "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ClaimStageResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "payments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ClaimPaymentResponse"
+                    }
+                },
+                "stage_number": {
+                    "type": "integer"
+                },
+                "status": {
                     "type": "string"
                 }
             }
@@ -1162,6 +1190,56 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "tomador_tipo_doc": {
+                    "type": "string"
+                }
+            }
+        },
+        "sise.ClaimPaymentRow": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "format": "float64"
+                },
+                "paymentDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "sise.ClaimResult": {
+            "type": "object",
+            "properties": {
+                "header": {
+                    "description": "shared fields (cause, coverage, dates, policyholder, etc.)",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/sise.Claim"
+                        }
+                    ]
+                },
+                "stages": {
+                    "description": "one per unique nro_subreclamo",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/sise.ClaimStage"
+                    }
+                }
+            }
+        },
+        "sise.ClaimStage": {
+            "type": "object",
+            "properties": {
+                "payments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/sise.ClaimPaymentRow"
+                    }
+                },
+                "stageNumber": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "status": {
                     "type": "string"
                 }
             }

@@ -10,32 +10,43 @@ import (
 
 // ClaimLookupResponse — combined SISE data returned before persisting
 type ClaimLookupResponse struct {
-	Claim    *sise.Claim         `json:"claim"`
+	Claim    *sise.ClaimResult   `json:"claim"`
 	Policy   *sise.PolicySummary `json:"policy"`
 	Producer *sise.Producer      `json:"producer"`
 }
 
+// ClaimPaymentResponse — a single payment within a stage
+type ClaimPaymentResponse struct {
+	ID          uuid.UUID `json:"id"`
+	Amount      float64   `json:"amount"`
+	PaymentDate time.Time `json:"payment_date"`
+}
+
+// ClaimStageResponse — a subreclamo/stage with its payments
+type ClaimStageResponse struct {
+	ID          uuid.UUID              `json:"id"`
+	StageNumber int                    `json:"stage_number"`
+	Status      string                 `json:"status"`
+	Payments    []ClaimPaymentResponse `json:"payments"`
+}
+
 // ClaimResponse — persisted claim returned from our DB
 type ClaimResponse struct {
-	ID   uuid.UUID `json:"id"`
+	ID uuid.UUID `json:"id"`
 
-	SISEClaimID       int64  `json:"sise_claim_id"`
-	SISEIdPV          int64  `json:"sise_id_pv"`
-	ClaimNumber       int64  `json:"claim_number"`
-	ClaimSubnumber    int64  `json:"claim_subnumber"`
-	PolicyNumber      int64  `json:"policy_number"`
-	PolicyEndorsement int64  `json:"policy_endorsement"`
-	RamoCode          int16  `json:"ramo_code"`
+	SISEClaimID       int64 `json:"sise_claim_id"`
+	SISEIdPV          int64 `json:"sise_id_pv"`
+	ClaimNumber       int64 `json:"claim_number"`
+	PolicyNumber      int64 `json:"policy_number"`
+	PolicyEndorsement int64 `json:"policy_endorsement"`
+	RamoCode          int16 `json:"ramo_code"`
 
-	IncidentDate     time.Time  `json:"incident_date"`
-	RegistrationDate time.Time  `json:"registration_date"`
-	NoticeDate       time.Time  `json:"notice_date"`
-	PaymentDate      *time.Time `json:"payment_date,omitempty"`
-	Cause            string     `json:"cause"`
-	Coverage         string     `json:"coverage"`
-	Status           string     `json:"status"`
-	EstimatedAmount  float64    `json:"estimated_amount"`
-	PaidAmount       float64    `json:"paid_amount"`
+	IncidentDate     time.Time `json:"incident_date"`
+	RegistrationDate time.Time `json:"registration_date"`
+	NoticeDate       time.Time `json:"notice_date"`
+	Cause            string    `json:"cause"`
+	Coverage         string    `json:"coverage"`
+	CurrentStatus    string    `json:"current_status"`
 
 	Contratante string `json:"contratante"`
 	DocType     string `json:"doc_type"`
@@ -55,30 +66,46 @@ type ClaimResponse struct {
 	ProducerName      string `json:"producer_name"`
 	ProducerType      string `json:"producer_type"`
 
+	Stages []ClaimStageResponse `json:"stages,omitempty"`
+
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// ToClaimResponse maps a models.Claim to ClaimResponse
+// ToClaimResponse maps a models.Claim (with preloaded Stages + Payments) to ClaimResponse
 func ToClaimResponse(c models.Claim) ClaimResponse {
+	stages := make([]ClaimStageResponse, 0, len(c.Stages))
+	for _, s := range c.Stages {
+		payments := make([]ClaimPaymentResponse, 0, len(s.Payments))
+		for _, p := range s.Payments {
+			payments = append(payments, ClaimPaymentResponse{
+				ID:          p.ID,
+				Amount:      p.Amount,
+				PaymentDate: p.PaymentDate,
+			})
+		}
+		stages = append(stages, ClaimStageResponse{
+			ID:          s.ID,
+			StageNumber: s.SISEStageNumber,
+			Status:      s.Status,
+			Payments:    payments,
+		})
+	}
+
 	return ClaimResponse{
 		ID:                    c.ID,
 		SISEClaimID:           c.SISEClaimID,
 		SISEIdPV:              c.SISEIdPV,
 		ClaimNumber:           c.ClaimNumber,
-		ClaimSubnumber:        c.ClaimSubnumber,
 		PolicyNumber:          c.PolicyNumber,
 		PolicyEndorsement:     c.PolicyEndorsement,
 		RamoCode:              c.RamoCode,
 		IncidentDate:          c.IncidentDate,
 		RegistrationDate:      c.RegistrationDate,
 		NoticeDate:            c.NoticeDate,
-		PaymentDate:           c.PaymentDate,
 		Cause:                 c.Cause,
 		Coverage:              c.Coverage,
-		Status:                c.Status,
-		EstimatedAmount:       c.EstimatedAmount,
-		PaidAmount:            c.PaidAmount,
+		CurrentStatus:         c.CurrentStatus,
 		Contratante:           c.Contratante,
 		DocType:               c.DocType,
 		DocNumber:             c.DocNumber,
@@ -94,6 +121,7 @@ func ToClaimResponse(c models.Claim) ClaimResponse {
 		ProducerStatus:        c.ProducerStatus,
 		ProducerName:          c.ProducerName,
 		ProducerType:          c.ProducerType,
+		Stages:                stages,
 		CreatedAt:             c.CreatedAt,
 		UpdatedAt:             c.UpdatedAt,
 	}

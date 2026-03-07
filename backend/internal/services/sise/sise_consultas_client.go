@@ -245,9 +245,44 @@ type Producer struct {
 
 // ─── Domain methods ───────────────────────────────────────────────────────────
 
-// GetClaimByNumber retrieves a claim from SISE by its claim number (nro_stro).
+// ClaimRow is a single row returned by SISE for a claim query.
+// Multiple rows share the same id_stro but differ in nro_subreclamo and importe_pago/fecha_pago.
+type ClaimRow = Claim
+
+// ClaimResult groups all SISE rows for a single siniestro into header + stages + payments.
+type ClaimResult struct {
+	Header   *Claim        // shared fields (cause, coverage, dates, policyholder, etc.)
+	Stages   []*ClaimStage // one per unique nro_subreclamo
+}
+
+// SISEStatusID maps SISE status descriptions to their catalog IDs.
+// Source: SISE status catalog (confirmed by Nacho 2026-03-07)
+var SISEStatusID = map[string]int16{
+	"TERMINADO": 1,
+	"RECHAZO":   2,
+	"JUICIO":    3,
+	"ABIERTO":   4,
+	"MEDIACION": 5,
+}
+
+// ClaimStage is a subreclamo with its associated payment rows.
+type ClaimStage struct {
+	StageNumber int64
+	StatusID    int16
+	Status      string
+	Payments    []ClaimPaymentRow
+}
+
+// ClaimPaymentRow holds a single payment entry within a stage.
+type ClaimPaymentRow struct {
+	Amount      float64
+	PaymentDate *string
+}
+
+// GetClaimByNumber retrieves all rows for a siniestro from SISE and groups them
+// into a ClaimResult (header + stages + payments).
 // codigoUsuario can be empty — SISE accepts it as optional.
-func (c *ConsultasClient) GetClaimByNumber(bearerToken, nroSiniestro string) (*Claim, error) {
+func (c *ConsultasClient) GetClaimByNumber(bearerToken, nroSiniestro string) (*ClaimResult, error) {
 	req := QueryRequest{
 		QueryID: queryIDClaimByNumber,
 		Parameters: []QueryParameter{
@@ -279,7 +314,78 @@ func (c *ConsultasClient) GetClaimByNumber(bearerToken, nroSiniestro string) (*C
 		return nil, nil // not found
 	}
 
-	return parseClaim(resp.Result.Result[0]), nil
+	return groupClaimRows(resp.Result.Result), nil
+}
+
+// groupClaimRows takes the flat SISE result and builds a ClaimResult hierarchy.
+// Rows are grouped by nro_subreclamo; within each stage, each row is a payment entry.
+func groupClaimRows(rows []map[string]interface{}) *ClaimResult {
+	if len(rows) == 0 {
+		return nil
+	}
+
+	header := parseClaim(rows[0])
+
+	// Use an ordered map via slice to preserve stage order
+	stageIndex := map[int64]int{}
+	var stages []*ClaimStage
+
+	for _, row := range rows {
+		stageNum := toInt64(row["nro_subreclamo"])
+		estado, _ := row["estado"].(string)
+		importePago := toFloat64(row["importe_pago"])
+		fechaPago, _ := row["fecha_pago"].(string)
+		var fechaPagoPtr *string
+		if fechaPago != "" {
+			fechaPagoPtr = &fechaPago
+		}
+
+		idx, exists := stageIndex[stageNum]
+		if !exists {
+			stage := &ClaimStage{
+				StageNumber: stageNum,
+				StatusID:    SISEStatusID[estado],
+				Status:      estado,
+			}
+			stages = append(stages, stage)
+			stageIndex[stageNum] = len(stages) - 1
+			idx = len(stages) - 1
+		}
+
+		if importePago > 0 || fechaPagoPtr != nil {
+			stages[idx].Payments = append(stages[idx].Payments, ClaimPaymentRow{
+				Amount:      importePago,
+				PaymentDate: fechaPagoPtr,
+			})
+		}
+	}
+
+	return &ClaimResult{
+		Header: header,
+		Stages: stages,
+	}
+}
+
+func toInt64(v interface{}) int64 {
+	switch n := v.(type) {
+	case float64:
+		return int64(n)
+	case int64:
+		return n
+	case int:
+		return int64(n)
+	}
+	return 0
+}
+
+func toFloat64(v interface{}) float64 {
+	switch n := v.(type) {
+	case float64:
+		return n
+	case int64:
+		return float64(n)
+	}
+	return 0
 }
 
 // GetPolicySummary retrieves full policy details from SISE by id_pv.

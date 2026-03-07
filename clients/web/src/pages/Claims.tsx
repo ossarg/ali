@@ -15,11 +15,16 @@ function formatDate(s: string) {
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const isOpen = status.toUpperCase() === 'ABIERTO';
+  const upper = status.toUpperCase();
+  const color =
+    upper === 'ABIERTO'   ? 'bg-green-100 text-green-700'  :
+    upper === 'MEDIACION' ? 'bg-amber-100 text-amber-700'  :
+    upper === 'JUICIO'    ? 'bg-red-100 text-red-700'      :
+    upper === 'RECHAZO'   ? 'bg-orange-100 text-orange-700':
+    upper === 'TERMINADO' ? 'bg-blue-100 text-blue-700'    :
+    'bg-gray-100 text-gray-600';
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-      isOpen ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
-    }`}>
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${color}`}>
       {status}
     </span>
   );
@@ -122,40 +127,54 @@ function AddClaimModal({ onClose }: { onClose: () => void }) {
 
 function LookupPreview({ data }: { data: ClaimLookupResponse }) {
   const { claim, policy, producer } = data;
+  const header = claim.Header;
+  const latestStage = claim.Stages.length > 0 ? claim.Stages[claim.Stages.length - 1] : null;
+
   return (
     <div className="space-y-4">
-      {/* Claim */}
+      {/* Claim header */}
       <Section title="Siniestro">
-        <Row label="Nro. siniestro"    value={String(claim.nro_siniestro)} />
-        <Row label="Fecha incurrido"   value={formatDate(claim.fecha_incurrido)} />
-        <Row label="Causa"             value={claim.causa} />
-        <Row label="Cobertura"         value={claim.cobertura} />
-        <Row label="Estado"            value={claim.estado} />
-        <Row label="Importe estimado"  value={`$ ${claim.importe_estimado.toLocaleString('es-AR')}`} />
-        <Row label="Contratante"       value={claim.contratante_pagador} />
-        <Row label="Documento"         value={`${claim.tomador_tipo_doc} ${claim.tomador_doc}`} />
+        <Row label="Nro. siniestro"  value={String(header.nro_siniestro)} />
+        <Row label="Fecha incurrido" value={formatDate(header.fecha_incurrido)} />
+        <Row label="Causa"           value={header.causa} />
+        <Row label="Cobertura"       value={header.cobertura} />
+        <Row label="Estado actual"   value={latestStage?.Status ?? '—'} />
+        <Row label="Contratante"     value={header.contratante_pagador} />
+        <Row label="Documento"       value={`${header.tomador_tipo_doc} ${header.tomador_doc}`} />
       </Section>
+
+      {/* Stages */}
+      {claim.Stages.length > 0 && (
+        <Section title={`Etapas (${claim.Stages.length})`}>
+          {claim.Stages.map(stage => (
+            <div key={stage.StageNumber} className="px-4 py-2.5 flex items-center justify-between">
+              <span className="text-xs text-gray-500">Subreclamo {stage.StageNumber}</span>
+              <span className="text-sm text-gray-800">{stage.Status}</span>
+            </div>
+          ))}
+        </Section>
+      )}
 
       {/* Policy */}
       {policy && (
         <Section title="Póliza">
-          <Row label="Nro. póliza"       value={String(policy.Numero_Poliza)} />
-          <Row label="Ramo"              value={policy.Ramo} />
-          <Row label="Tipo"              value={policy.Tipo_de_Poliza} />
-          <Row label="Estado"            value={policy.Estado} />
-          <Row label="Producto"          value={policy.Producto_comercial} />
-          <Row label="Suma asegurada"    value={`$ ${policy.Suma_Asegurada.toLocaleString('es-AR')}`} />
-          <Row label="Vigencia"          value={`${formatDate(policy.Vigencia_Desde)} → ${formatDate(policy.Vigencia_Hasta)}`} />
+          <Row label="Nro. póliza"    value={String(policy.Numero_Poliza)} />
+          <Row label="Ramo"           value={policy.Ramo} />
+          <Row label="Tipo"           value={policy.Tipo_de_Poliza} />
+          <Row label="Estado"         value={policy.Estado} />
+          <Row label="Producto"       value={policy.Producto_comercial} />
+          <Row label="Suma asegurada" value={`$ ${policy.Suma_Asegurada.toLocaleString('es-AR')}`} />
+          <Row label="Vigencia"       value={`${formatDate(policy.Vigencia_Desde)} → ${formatDate(policy.Vigencia_Hasta)}`} />
         </Section>
       )}
 
       {/* Producer */}
       {producer && (
         <Section title="Productor">
-          <Row label="Nombre"       value={producer.nombre.trim()} />
-          <Row label="Tipo agente"  value={producer.tipo_agente} />
-          <Row label="Código"       value={String(producer.cod_agente)} />
-          <Row label="Estado"       value={producer.cod_estado === 'A' ? 'Activo' : 'Inactivo'} />
+          <Row label="Nombre"      value={producer.nombre.trim()} />
+          <Row label="Tipo agente" value={producer.tipo_agente} />
+          <Row label="Código"      value={String(producer.cod_agente)} />
+          <Row label="Estado"      value={producer.cod_estado === 'A' ? 'Activo' : 'Inactivo'} />
         </Section>
       )}
     </div>
@@ -203,7 +222,7 @@ function ClaimRow({ claim }: ClaimRowProps) {
       <td className="py-3 pr-4 text-sm text-gray-600">{claim.contratante.trim()}</td>
       <td className="py-3 pr-4 text-sm text-gray-500">{formatDate(claim.incident_date)}</td>
       <td className="py-3 pr-4">
-        <StatusBadge status={claim.status} />
+        <StatusBadge status={claim.current_status} />
       </td>
       <td className="py-3 text-xs text-gray-400">
         {formatTableTime(claim.created_at)}

@@ -99,8 +99,9 @@ func (o *ConsultasOrchestrator) GetPolicySummary(idPV int64) (*PolicySummary, er
 }
 
 // GetClaimByNumber looks up a siniestro in SISE by its claim number.
+// Returns a ClaimResult with header + stages + payments.
 // Automatically handles token refresh on expiry.
-func (o *ConsultasOrchestrator) GetClaimByNumber(nroSiniestro string) (*Claim, error) {
+func (o *ConsultasOrchestrator) GetClaimByNumber(nroSiniestro string) (*ClaimResult, error) {
 	token, err := o.getToken()
 	if err != nil {
 		return nil, err

@@ -19,17 +19,22 @@ function currency(n: number) {
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const isOpen = status.toUpperCase() === 'ABIERTO';
+  const upper = status.toUpperCase();
+  const color =
+    upper === 'ABIERTO'   ? 'bg-green-100 text-green-700'  :
+    upper === 'MEDIACION' ? 'bg-amber-100 text-amber-700'  :
+    upper === 'JUICIO'    ? 'bg-red-100 text-red-700'      :
+    upper === 'RECHAZO'   ? 'bg-orange-100 text-orange-700':
+    upper === 'TERMINADO' ? 'bg-blue-100 text-blue-700'    :
+    'bg-gray-100 text-gray-600';
   return (
-    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${
-      isOpen ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
-    }`}>
-      {status}
+    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${color}`}>
+      {status || '—'}
     </span>
   );
 }
 
-// ─── Shared components ────────────────────────────────────────────────────────
+// ─── Shared card components ───────────────────────────────────────────────────
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -68,25 +73,38 @@ function InfoTab({ claim }: { claim: Claim }) {
   return (
     <div className="space-y-4">
       <Card title="Siniestro">
-        <Row label="Nro. siniestro"   value={String(claim.claim_number)} />
-        <Row label="Ramo"             value={String(claim.ramo_code)} />
-        <Row label="Causa"            value={claim.cause} />
-        <Row label="Cobertura"        value={claim.coverage} />
-        <Row label="Fecha del hecho"  value={formatDate(claim.incident_date)} />
-        <Row label="Fecha de aviso"   value={formatDate(claim.notice_date)} />
-        <Row label="Fecha registro"   value={formatDate(claim.registration_date)} />
-        {claim.payment_date && (
-          <Row label="Fecha de pago"  value={formatDate(claim.payment_date)} />
-        )}
-        <Row label="Importe estimado" value={currency(claim.estimated_amount)} />
-        <Row label="Importe pagado"   value={currency(claim.paid_amount)} />
+        <Row label="Nro. siniestro"  value={String(claim.claim_number)} />
+        <Row label="Ramo"            value={String(claim.ramo_code)} />
+        <Row label="Causa"           value={claim.cause} />
+        <Row label="Cobertura"       value={claim.coverage} />
+        <Row label="Fecha del hecho" value={formatDate(claim.incident_date)} />
+        <Row label="Fecha de aviso"  value={formatDate(claim.notice_date)} />
+        <Row label="Fecha registro"  value={formatDate(claim.registration_date)} />
       </Card>
 
       <Card title="Partes">
-        <Row label="Contratante"  value={claim.contratante.trim()} />
-        <Row label="Documento"    value={`${claim.doc_type} ${claim.doc_number}`} />
-        <Row label="Productor"    value={claim.producer_name.trim()} />
+        <Row label="Contratante" value={claim.contratante.trim()} />
+        <Row label="Documento"   value={`${claim.doc_type} ${claim.doc_number}`} />
+        <Row label="Productor"   value={claim.producer_name.trim()} />
       </Card>
+
+      {claim.stages && claim.stages.length > 0 && (
+        <Card title="Etapas SISE">
+          {claim.stages.map(stage => (
+            <div key={stage.id} className="px-5 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-xs text-gray-400 w-24 shrink-0">Subreclamo {stage.stage_number}</span>
+                <span className="text-sm text-gray-800">{stage.status}</span>
+              </div>
+              {stage.payments.length > 0 && (
+                <span className="text-xs text-gray-400">
+                  {stage.payments.length} pago{stage.payments.length > 1 ? 's' : ''}
+                </span>
+              )}
+            </div>
+          ))}
+        </Card>
+      )}
     </div>
   );
 }
@@ -131,8 +149,7 @@ function ProductorTab({ claim }: { claim: Claim }) {
 // ─── Tab: Proceso judicial ────────────────────────────────────────────────────
 
 function ProcesoTab() {
-  // TODO: fetch linked case once case detail exists
-  const hasCase = false;
+  const hasCase = false; // TODO: link to real case once case detail exists
 
   if (hasCase) {
     return (
@@ -171,8 +188,7 @@ export default function ClaimDetail() {
     return <div className="p-8 text-sm text-red-500">No se encontró el siniestro.</div>;
   }
 
-  // TODO: replace with real case link once case detail page exists
-  const linkedCaseId: string | null = null;
+  const linkedCaseId: string | null = null; // TODO: from claim.case_id once wired
 
   return (
     <div className="px-6 pt-1 pb-6 max-w-7xl mx-auto space-y-6">
@@ -190,7 +206,7 @@ export default function ClaimDetail() {
         <div>
           <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold text-gray-900">#{claim.claim_number}</h1>
-            <StatusBadge status={claim.status} />
+            <StatusBadge status={claim.current_status} />
           </div>
           <p className="mt-1 text-sm text-gray-500">
             {claim.contratante.trim()} • {claim.doc_type} {claim.doc_number}
