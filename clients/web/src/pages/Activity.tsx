@@ -178,7 +178,7 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
           <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
             <th className="pb-3 pr-4">Asunto / Mail ID</th>
             <th className="pb-3 pr-4">Tipo</th>
-            <th className="pb-3 pr-4">Confianza</th>
+            {showActions && <th className="pb-3 pr-4">Confianza</th>}
             <th className="pb-3 pr-4">Recibido</th>
             {!showActions && <th className="pb-3 pr-4">Revisado</th>}
             {showActions && <th className="pb-3" />}
@@ -205,9 +205,11 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
                   </div>
                 )}
               </td>
-              <td className="py-3 pr-4">
-                <ConfidenceBar value={event.confidence} />
-              </td>
+              {showActions && (
+                <td className="py-3 pr-4">
+                  <ConfidenceBar value={event.confidence} />
+                </td>
+              )}
               <td className="py-3 pr-4 text-gray-500 whitespace-nowrap">
                 {formatTableTime(event.received_at)}
               </td>
