@@ -67,6 +67,40 @@ func (cc *CaseController) GetByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, caseResp)
 }
 
+// GetEventMetrics godoc
+// @Summary      Get case event metrics
+// @Description  Returns aggregated stats: total, approved, pending, processed, and last event timestamp.
+// @Tags         cases
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {object}  dto.CaseEventMetrics
+// @Failure      401  {object}  map[string]string
+// @Router       /api/v1/case-events/metrics [get]
+func (cc *CaseController) GetEventMetrics(c echo.Context) error {
+	metrics, err := cc.caseService.GetEventMetrics()
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, metrics)
+}
+
+// ListApprovedEvents godoc
+// @Summary      List approved case events
+// @Description  Returns all case events approved by a human reviewer (activity history).
+// @Tags         cases
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {array}   dto.CaseEventResponse
+// @Failure      401  {object}  map[string]string
+// @Router       /api/v1/case-events/approved [get]
+func (cc *CaseController) ListApprovedEvents(c echo.Context) error {
+	events, err := cc.caseService.ListApprovedEvents()
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, events)
+}
+
 // ListPendingEvents godoc
 // @Summary      List pending case events
 // @Description  Returns all case events not yet approved by a human reviewer.

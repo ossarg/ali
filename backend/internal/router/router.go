@@ -22,7 +22,7 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: cfg.CORS.AllowedOrigins,
-		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
+		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodPatch, http.MethodDelete},
 		AllowHeaders: []string{echo.HeaderContentType, echo.HeaderAuthorization, "X-Agent-Key"},
 	}))
 
@@ -45,8 +45,10 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
 	api.GET("/cases", caseController.List)
 	api.GET("/cases/:id", caseController.GetByID)
-	api.GET("/case-events/pending", caseController.ListPendingEvents)
-	api.PATCH("/case-events/:id/review", caseController.ReviewEvent)
+	api.GET("/activity/metrics", caseController.GetEventMetrics)
+	api.GET("/activity/events/approved", caseController.ListApprovedEvents)
+	api.GET("/activity/events/pending", caseController.ListPendingEvents)
+	api.PATCH("/activity/events/:id/review", caseController.ReviewEvent)
 	api.GET("/triage/rules", placeholder("triage.rules.get"))
 	api.PUT("/triage/rules", placeholder("triage.rules.update"), appMiddleware.RequireCapability("triage:config"))
 	api.GET("/metrics", placeholder("metrics.get"))
