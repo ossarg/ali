@@ -235,11 +235,11 @@ function ClaimRow({ claim }: ClaimRowProps) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-function MetricCard({ label, value, color }: { label: string; value: number; color: string }) {
+function MetricCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 px-5 py-4">
-      <p className="text-xs text-gray-400 uppercase tracking-wide font-medium">{label}</p>
-      <p className={`text-3xl font-bold mt-1 ${color}`}>{value}</p>
+    <div className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-1">
+      <span className="text-sm text-gray-500">{label}</span>
+      <span className="text-3xl font-bold text-gray-900">{value}</span>
     </div>
   );
 }
@@ -272,10 +272,10 @@ export default function ClaimsPage() {
       {/* Metrics */}
       <div className="space-y-2">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <MetricCard label="Total"        value={metrics?.total     ?? 0} color="text-gray-800" />
-          <MetricCard label="Abiertos"     value={metrics?.open      ?? 0} color="text-green-600" />
-          <MetricCard label="En mediación" value={metrics?.mediation ?? 0} color="text-amber-600" />
-          <MetricCard label="En juicio"    value={metrics?.lawsuit   ?? 0} color="text-red-600" />
+          <MetricCard label="Total"        value={metrics?.total     ?? 0} />
+          <MetricCard label="Abiertos"     value={metrics?.open      ?? 0} />
+          <MetricCard label="En mediación" value={metrics?.mediation ?? 0} />
+          <MetricCard label="En juicio"    value={metrics?.lawsuit   ?? 0} />
         </div>
         <div className="flex items-center justify-end gap-3">
           <span className="text-xs text-gray-400">
