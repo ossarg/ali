@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { formatDistanceToNow } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { formatMetricTime, formatTableTime } from '../lib/formatTime';
 import {
   useApprovedEvents,
   useCaseEventMetrics,
@@ -173,30 +172,37 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+    <div>
+      <table className="w-full text-sm table-fixed">
+        <colgroup>
+          <col style={{ width: '50%' }} />
+          {showActions
+            ? <><col /><col /><col /><col style={{ width: '80px' }} /></>
+            : <><col /><col /><col /></>
+          }
+        </colgroup>
         <thead>
           <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
-            <th className="pb-3 pr-4">Asunto / Mail ID</th>
-            <th className="pb-3 pr-4">Tipo</th>
-            <th className="pb-3 pr-4">Confianza</th>
-            <th className="pb-3 pr-4">Recibido</th>
-            {!showActions && <th className="pb-3 pr-4">Revisado por</th>}
+            <th className="pb-3 pr-8">Asunto / Mail ID</th>
+            <th className="pb-3 pr-8">Tipo</th>
+            {showActions && <th className="pb-3 pr-8">Confianza</th>}
+            <th className="pb-3 pr-8">Recibido</th>
+            {!showActions && <th className="pb-3 pr-8">Revisado</th>}
             {showActions && <th className="pb-3" />}
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-50">
           {events.map(event => (
             <tr key={event.id} className="hover:bg-gray-50 transition-colors">
-              <td className="py-3 pr-4">
-                <div className="font-medium text-gray-800 truncate max-w-[200px]">
+              <td className="py-3 pr-8 min-w-0">
+                <div className="font-medium text-gray-800 truncate">
                   {event.subject || event.mail_id}
                 </div>
                 {event.subject && (
-                  <div className="text-xs text-gray-400 truncate max-w-[200px]">{event.mail_id}</div>
+                  <div className="text-xs text-gray-400 truncate">{event.mail_id}</div>
                 )}
               </td>
-              <td className="py-3 pr-4">
+              <td className="py-3 pr-8">
                 <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
                   {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
                 </span>
@@ -206,17 +212,17 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
                   </div>
                 )}
               </td>
-              <td className="py-3 pr-4">
-                <ConfidenceBar value={event.confidence} />
-              </td>
-              <td className="py-3 pr-4 text-gray-500 whitespace-nowrap">
-                {formatDistanceToNow(new Date(event.received_at), { locale: es, addSuffix: true })}
+              {showActions && (
+                <td className="py-3 pr-8">
+                  <ConfidenceBar value={event.confidence} />
+                </td>
+              )}
+              <td className="py-3 pr-8 text-gray-500 whitespace-nowrap">
+                {formatTableTime(event.received_at)}
               </td>
               {!showActions && (
-                <td className="py-3 pr-4 text-gray-500 text-xs">
-                  {event.reviewed_at
-                    ? formatDistanceToNow(new Date(event.reviewed_at), { locale: es, addSuffix: true })
-                    : '—'}
+                <td className="py-3 pr-8 text-gray-500 text-xs">
+                  {event.reviewed_at ? formatTableTime(event.reviewed_at) : '—'}
                 </td>
               )}
               {showActions && (
@@ -248,7 +254,7 @@ export default function Activity() {
   const { data: pending  = [], isLoading: pendingLoading  } = usePendingEvents();
 
   const lastSeen = metrics?.last_event_at
-    ? formatDistanceToNow(new Date(metrics.last_event_at), { locale: es, addSuffix: true })
+    ? formatMetricTime(metrics.last_event_at)
     : null;
 
   return (
@@ -268,8 +274,8 @@ export default function Activity() {
             <MetricCard label="Pendientes"         value={metrics?.pending   ?? 0} />
             <MetricCard
               label="Último evento"
-              value={lastSeen ?? '—'}
-              sub={metrics?.last_event_at ? new Date(metrics.last_event_at).toLocaleDateString('es-AR') : undefined}
+              value={lastSeen ? lastSeen.time : '—'}
+              sub={lastSeen ? lastSeen.label : undefined}
             />
           </>
         )}
