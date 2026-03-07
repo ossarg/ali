@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -62,7 +63,7 @@ func Load() (*Config, error) {
 			Secret: viper.GetString("JWT_SECRET"),
 		},
 		CORS: CORSConfig{
-			AllowedOrigins: viper.GetStringSlice("CORS_ALLOWED_ORIGINS"),
+			AllowedOrigins: parseCORSOrigins(viper.GetString("CORS_ALLOWED_ORIGINS")),
 		},
 		AgentKey: viper.GetString("AGENT_KEY"),
 	}
@@ -83,6 +84,19 @@ func Get() *Config {
 
 func Reset() {
 	cfg = nil
+}
+
+// parseCORSOrigins splits a comma-separated origins string into a slice.
+// viper.GetStringSlice does not reliably split env vars by comma.
+func parseCORSOrigins(raw string) []string {
+	var origins []string
+	for _, o := range strings.Split(raw, ",") {
+		o = strings.TrimSpace(o)
+		if o != "" {
+			origins = append(origins, o)
+		}
+	}
+	return origins
 }
 
 func (c *Config) validate() error {
