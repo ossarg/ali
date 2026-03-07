@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { formatDistanceToNow, format } from 'date-fns';
+import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { formatTableTime } from '../lib/formatTime';
 import { Search, Plus, X, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useClaims, useClaimLookup, useCreateClaim } from '../api/hooks/useClaims';
 import type { ClaimLookupResponse, Claim } from '../api/schemas/claim.schemas';
@@ -196,14 +197,11 @@ function ClaimRow({ claim }: ClaimRowProps) {
       </td>
       <td className="py-3 pr-4 text-sm text-gray-600">{claim.contratante.trim()}</td>
       <td className="py-3 pr-4 text-sm text-gray-500">{formatDate(claim.incident_date)}</td>
-      <td className="py-3 pr-4 text-sm text-gray-700">
-        $ {claim.estimated_amount.toLocaleString('es-AR')}
-      </td>
       <td className="py-3 pr-4">
         <StatusBadge status={claim.status} />
       </td>
       <td className="py-3 text-xs text-gray-400">
-        {formatDistanceToNow(new Date(claim.created_at), { locale: es, addSuffix: true })}
+        {formatTableTime(claim.created_at)}
       </td>
     </tr>
   );
@@ -250,7 +248,6 @@ export default function ClaimsPage() {
                   <th className="pb-3 pt-4 pr-4">Causa / Cobertura</th>
                   <th className="pb-3 pt-4 pr-4">Contratante</th>
                   <th className="pb-3 pt-4 pr-4">Fecha hecho</th>
-                  <th className="pb-3 pt-4 pr-4">Importe est.</th>
                   <th className="pb-3 pt-4 pr-4">Estado</th>
                   <th className="pb-3 pt-4 pr-4">Registrado</th>
                 </tr>
