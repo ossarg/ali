@@ -19,8 +19,8 @@ type ClaimService interface {
 }
 
 type claimService struct {
-	claimRepo   repositories.ClaimRepository
-	siseOrch    *sise.ConsultasOrchestrator
+	claimRepo repositories.ClaimRepository
+	siseOrch  *sise.ConsultasOrchestrator
 }
 
 func NewClaimService(claimRepo repositories.ClaimRepository, siseOrch *sise.ConsultasOrchestrator) ClaimService {
@@ -56,15 +56,15 @@ func (s *claimService) GetByID(id string) (*dto.ClaimResponse, error) {
 
 // Lookup fetches claim + policy + producer from SISE without persisting.
 func (s *claimService) Lookup(nroStro string) (*dto.ClaimLookupResponse, error) {
-	claim, err := s.siseOrch.GetClaimByNumber(nroStro)
+	claimResult, err := s.siseOrch.GetClaimByNumber(nroStro)
 	if err != nil {
 		return nil, fmt.Errorf("SISE claim lookup failed: %w", err)
 	}
-	if claim == nil {
+	if claimResult == nil {
 		return nil, apierrors.ErrNotFound
 	}
 
-	policy, err := s.siseOrch.GetPolicySummary(claim.IDPV)
+	policy, err := s.siseOrch.GetPolicySummary(claimResult.Header.IDPV)
 	if err != nil {
 		return nil, fmt.Errorf("SISE policy lookup failed: %w", err)
 	}
@@ -78,14 +78,14 @@ func (s *claimService) Lookup(nroStro string) (*dto.ClaimLookupResponse, error) 
 	}
 
 	return &dto.ClaimLookupResponse{
-		Claim:    claim,
+		Claim:    claimResult,
 		Policy:   policy,
 		Producer: producer,
 	}, nil
 }
 
-// Create persists a claim in our DB after fetching from SISE.
-// Returns an error if the claim already exists (idempotent by sise_claim_id).
+// Create persists a claim (header + stages + payments) from SISE into our DB.
+// Idempotent by sise_claim_id — if already exists, returns the existing record.
 func (s *claimService) Create(nroStro string) (*dto.ClaimResponse, error) {
 	// 1. Fetch from SISE
 	lookup, err := s.Lookup(nroStro)
@@ -93,74 +93,106 @@ func (s *claimService) Create(nroStro string) (*dto.ClaimResponse, error) {
 		return nil, err
 	}
 
-	// 2. Check for duplicate
-	exists, err := s.claimRepo.ExistsBySISEClaimID(lookup.Claim.IDStro)
+	claimResult := lookup.Claim
+	header := claimResult.Header
+
+	// 2. Check for existing claim
+	existing, err := s.claimRepo.FindBySISEClaimID(header.IDStro)
 	if err != nil {
 		return nil, apierrors.ErrInternalServer
 	}
-	if exists {
-		existing, err := s.claimRepo.FindBySISEClaimID(lookup.Claim.IDStro)
-		if err != nil {
-			return nil, apierrors.ErrInternalServer
-		}
-		resp := dto.ToClaimResponse(*existing)
-		return &resp, nil
-	}
 
-	// 3. Parse dates from SISE strings (format: "2026-02-19 00:00:00")
 	parseSISEDate := func(s string) time.Time {
 		t, _ := time.Parse("2006-01-02 15:04:05", s)
 		return t
 	}
 
-	claim := &models.Claim{
-		SISEClaimID:       lookup.Claim.IDStro,
-		SISEIdPV:          lookup.Claim.IDPV,
-		ClaimNumber:       lookup.Claim.NroSiniestro,
-		ClaimSubnumber:    lookup.Claim.NroSubreclamo,
-		PolicyNumber:      int64(lookup.Claim.NroPoliza),
-		PolicyEndorsement: int64(lookup.Claim.NroEndoso),
-		RamoCode:          int16(lookup.Claim.CodigoRamo),
-		IncidentDate:      parseSISEDate(lookup.Claim.FechaIncurrido),
-		RegistrationDate:  parseSISEDate(lookup.Claim.FechaRegistro),
-		NoticeDate:        parseSISEDate(lookup.Claim.FechaAviso),
-		Cause:             lookup.Claim.Causa,
-		Coverage:          lookup.Claim.Cobertura,
-		Status:            lookup.Claim.Estado,
-		EstimatedAmount:   lookup.Claim.ImporteEstimado,
-		PaidAmount:        lookup.Claim.ImportePago,
-		Contratante:       lookup.Claim.ContratantePagador,
-		DocType:           lookup.Claim.TomadorTipoDoc,
-		DocNumber:         lookup.Claim.TomadorDoc,
+	var claim *models.Claim
+
+	if existing != nil {
+		claim = existing
+	} else {
+		// 3. Build and persist the claim header
+		claim = &models.Claim{
+			SISEClaimID:       header.IDStro,
+			SISEIdPV:          header.IDPV,
+			ClaimNumber:       header.NroSiniestro,
+			PolicyNumber:      int64(header.NroPoliza),
+			PolicyEndorsement: int64(header.NroEndoso),
+			RamoCode:          int16(header.CodigoRamo),
+			IncidentDate:      parseSISEDate(header.FechaIncurrido),
+			RegistrationDate:  parseSISEDate(header.FechaRegistro),
+			NoticeDate:        parseSISEDate(header.FechaAviso),
+			Cause:             header.Causa,
+			Coverage:          header.Cobertura,
+			Contratante:       header.ContratantePagador,
+			DocType:           header.TomadorTipoDoc,
+			DocNumber:         header.TomadorDoc,
+		}
+
+		if lookup.Policy != nil {
+			claim.PolicyType = lookup.Policy.TipoPoliza
+			claim.InsuredAmount = lookup.Policy.SumaAsegurada
+			claim.PolicyValidFrom = parseSISEDate(lookup.Policy.VigenciaDesde)
+			claim.PolicyValidTo = parseSISEDate(lookup.Policy.VigenciaHasta)
+			claim.CommercialProductCode = int16(lookup.Policy.CodProductoCom)
+			claim.CommercialProduct = lookup.Policy.ProductoComercial
+		}
+
+		if lookup.Producer != nil {
+			claim.ProducerCode = int(lookup.Producer.CodAgente)
+			claim.ProducerTypeCode = int16(lookup.Producer.CodTipoAgente)
+			claim.ProducerGroupCode = int16(lookup.Producer.CodGrupo)
+			claim.ProducerStatus = lookup.Producer.CodEstado
+			claim.ProducerName = lookup.Producer.Nombre
+			claim.ProducerType = lookup.Producer.TipoAgente
+		}
+
+		if err := s.claimRepo.Create(claim); err != nil {
+			return nil, apierrors.ErrInternalServer
+		}
 	}
 
-	if lookup.Claim.FechaPago != nil {
-		t := parseSISEDate(*lookup.Claim.FechaPago)
-		claim.PaymentDate = &t
+	// 4. Upsert stages and payments (always — keeps data fresh even on re-create)
+	var latestStatus string
+	for _, stage := range claimResult.Stages {
+		cs := &models.ClaimStage{
+			ClaimID:         claim.ID,
+			SISEStageNumber: int(stage.StageNumber),
+			Status:          stage.Status,
+		}
+		if err := s.claimRepo.UpsertStage(cs); err != nil {
+			return nil, apierrors.ErrInternalServer
+		}
+
+		for _, p := range stage.Payments {
+			if p.PaymentDate == nil {
+				continue
+			}
+			payDate := parseSISEDate(*p.PaymentDate)
+			payment := &models.ClaimPayment{
+				StageID:     cs.ID,
+				ClaimID:     claim.ID,
+				Amount:      p.Amount,
+				PaymentDate: payDate,
+			}
+			_ = s.claimRepo.CreatePayment(payment) // best-effort, ignore duplicate errors
+		}
+
+		latestStatus = stage.Status // last stage wins
 	}
 
-	if lookup.Policy != nil {
-		claim.PolicyType = lookup.Policy.TipoPoliza
-		claim.InsuredAmount = lookup.Policy.SumaAsegurada
-		claim.PolicyValidFrom = parseSISEDate(lookup.Policy.VigenciaDesde)
-		claim.PolicyValidTo = parseSISEDate(lookup.Policy.VigenciaHasta)
-		claim.CommercialProductCode = int16(lookup.Policy.CodProductoCom)
-		claim.CommercialProduct = lookup.Policy.ProductoComercial
+	// 5. Update denormalized current_status
+	if latestStatus != "" {
+		_ = s.claimRepo.UpdateCurrentStatus(claim.ID.String(), latestStatus)
 	}
 
-	if lookup.Producer != nil {
-		claim.ProducerCode = int(lookup.Producer.CodAgente)
-		claim.ProducerTypeCode = int16(lookup.Producer.CodTipoAgente)
-		claim.ProducerGroupCode = int16(lookup.Producer.CodGrupo)
-		claim.ProducerStatus = lookup.Producer.CodEstado
-		claim.ProducerName = lookup.Producer.Nombre
-		claim.ProducerType = lookup.Producer.TipoAgente
-	}
-
-	if err := s.claimRepo.Create(claim); err != nil {
+	// 6. Return fresh from DB with preloaded stages
+	fresh, err := s.claimRepo.FindByID(claim.ID.String())
+	if err != nil || fresh == nil {
 		return nil, apierrors.ErrInternalServer
 	}
 
-	resp := dto.ToClaimResponse(*claim)
+	resp := dto.ToClaimResponse(*fresh)
 	return &resp, nil
 }
