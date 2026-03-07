@@ -237,11 +237,6 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
                 <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
                   {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
                 </span>
-                {event.original_mail_type && (
-                  <div className="text-xs text-gray-400 mt-0.5 line-through">
-                    {MAIL_TYPE_LABELS[event.original_mail_type] ?? event.original_mail_type}
-                  </div>
-                )}
               </td>
               {showActions && (
                 <td className="py-3 pr-8">
