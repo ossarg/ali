@@ -52,6 +52,29 @@ func (o *ConsultasOrchestrator) refreshToken() (string, error) {
 
 // ─── Public domain methods ────────────────────────────────────────────────────
 
+// GetPolicySummary retrieves full policy details by id_pv (obtained from Siniestro.IDPV).
+func (o *ConsultasOrchestrator) GetPolicySummary(idPV int64) (*PolicySummary, error) {
+	token, err := o.getToken()
+	if err != nil {
+		return nil, err
+	}
+
+	result, err := o.client.GetPolicySummary(token, idPV)
+	if err != nil {
+		_ = cache.DeleteSISEToken()
+		token, err = o.refreshToken()
+		if err != nil {
+			return nil, err
+		}
+		result, err = o.client.GetPolicySummary(token, idPV)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return result, nil
+}
+
 // GetSiniestroByNumber looks up a siniestro in SISE by its claim number.
 // Automatically handles token refresh on expiry.
 func (o *ConsultasOrchestrator) GetSiniestroByNumber(nroSiniestro string) (*Siniestro, error) {

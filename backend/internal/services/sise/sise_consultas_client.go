@@ -16,7 +16,7 @@ import (
 // Query IDs — UUIDs registered in SISE for each specific query
 const (
 	queryIDSiniestroByNumber = "3618d606-243f-4ce7-bf95-1c2bdc7fcbe8"
-	// TODO: add more query IDs as needed
+	queryIDPolicySummary     = "8432bf12-373b-43bd-8b4b-5891653c738a"
 )
 
 // ─── DTOs ─────────────────────────────────────────────────────────────────────
@@ -195,6 +195,41 @@ func (c *ConsultasClient) executeQuery(bearerToken string, req QueryRequest) (*Q
 	return &qr, nil
 }
 
+// PolicySummary represents the full summary of a policy from SISE
+type PolicySummary struct {
+	Sucursal                   string  `json:"Sucursal"`
+	Ramo                       string  `json:"Ramo"`
+	NumeroPoliza               float64 `json:"Numero_Poliza"`
+	NumeroEndoso               float64 `json:"Numero_Endoso"`
+	FechaEmision               string  `json:"Fecha_Emision"`
+	VigenciaDesde              string  `json:"Vigencia_Desde"`
+	VigenciaHasta              string  `json:"Vigencia_Hasta"`
+	CodigoAsegurado            float64 `json:"Codido_Asegurado"` // typo is SISE's own
+	Contratante                string  `json:"Contratante"`
+	TipoDocumento              string  `json:"Tipo_Documento"`
+	NumeroDocumento            string  `json:"Numero_Documento"`
+	CodigoProductor            float64 `json:"Codigo_Productor"`
+	NombreProductor            string  `json:"Nombre_o_Razon_Social_Productor"`
+	TipoPoliza                 string  `json:"Tipo_de_Poliza"`
+	Moneda                     string  `json:"Moneda"`
+	SumaAsegurada              float64 `json:"Suma_Asegurada"`
+	Prima                      float64 `json:"Prima"`
+	Premio                     float64 `json:"Premio"`
+	IdPV                       float64 `json:"Id_pv"`
+	CodigoSucursal             float64 `json:"Codigo_Sucursal"`
+	CodigoRamo                 float64 `json:"Codigo_Ramo"`
+	CantItems                  float64 `json:"cant_items"`
+	CantidadSiniestros         float64 `json:"cantidad_siniestros"`
+	Estado                     string  `json:"Estado"`
+	CodProductoCom             float64 `json:"cod_producto_com"`
+	ProductoComercial          string  `json:"Producto_comercial"`
+	Conducto                   string  `json:"conducto"`
+	TipoConducto               string  `json:"tipo_conducto"`
+	TarjetaCBU                 string  `json:"tarjeta_cbu"`
+	TelefonoTomador            string  `json:"telefono_tomador"`
+	Autoadministrada           float64 `json:"Autoadministrada"`
+}
+
 // ─── Domain methods ───────────────────────────────────────────────────────────
 
 // GetSiniestroByNumber retrieves a claim from SISE by its claim number (nro_stro).
@@ -232,6 +267,82 @@ func (c *ConsultasClient) GetSiniestroByNumber(bearerToken, nroSiniestro string)
 	}
 
 	return parseSiniestro(resp.Result.Result[0]), nil
+}
+
+// GetPolicySummary retrieves full policy details from SISE by id_pv.
+// id_pv is obtained from the Siniestro response (field IDPV).
+func (c *ConsultasClient) GetPolicySummary(bearerToken string, idPV int64) (*PolicySummary, error) {
+	req := QueryRequest{
+		QueryID: queryIDPolicySummary,
+		Parameters: []QueryParameter{
+			{
+				Name:               "id_pv",
+				Type:               "int",
+				Label:              "",
+				Value:              idPV,
+				RequireOnExecution: false,
+				HiddenOnExecution:  false,
+			},
+		},
+		Filters:  []QueryFilter{},
+		Complete: false,
+		IsLink:   false,
+	}
+
+	resp, err := c.executeQuery(bearerToken, req)
+	if err != nil {
+		return nil, err
+	}
+	if len(resp.Result.Result) == 0 {
+		return nil, nil // not found
+	}
+
+	return parsePolicySummary(resp.Result.Result[0]), nil
+}
+
+// parsePolicySummary maps a raw SISE row to a PolicySummary struct.
+func parsePolicySummary(item map[string]interface{}) *PolicySummary {
+	p := &PolicySummary{}
+	str := func(key string) string {
+		v, _ := item[key].(string)
+		return v
+	}
+	f64 := func(key string) float64 {
+		v, _ := item[key].(float64)
+		return v
+	}
+	p.Sucursal = str("Sucursal")
+	p.Ramo = str("Ramo")
+	p.NumeroPoliza = f64("Numero_Poliza")
+	p.NumeroEndoso = f64("Numero_Endoso")
+	p.FechaEmision = str("Fecha_Emision")
+	p.VigenciaDesde = str("Vigencia_Desde")
+	p.VigenciaHasta = str("Vigencia_Hasta")
+	p.CodigoAsegurado = f64("Codido_Asegurado")
+	p.Contratante = str("Contratante")
+	p.TipoDocumento = str("Tipo_Documento")
+	p.NumeroDocumento = str("Numero_Documento")
+	p.CodigoProductor = f64("Codigo_Productor")
+	p.NombreProductor = str("Nombre_o_Razon_Social_Productor")
+	p.TipoPoliza = str("Tipo_de_Poliza")
+	p.Moneda = str("Moneda")
+	p.SumaAsegurada = f64("Suma_Asegurada")
+	p.Prima = f64("Prima")
+	p.Premio = f64("Premio")
+	p.IdPV = f64("Id_pv")
+	p.CodigoSucursal = f64("Codigo_Sucursal")
+	p.CodigoRamo = f64("Codigo_Ramo")
+	p.CantItems = f64("cant_items")
+	p.CantidadSiniestros = f64("cantidad_siniestros")
+	p.Estado = str("Estado")
+	p.CodProductoCom = f64("cod_producto_com")
+	p.ProductoComercial = str("Producto_comercial")
+	p.Conducto = str("conducto")
+	p.TipoConducto = str("tipo_conducto")
+	p.TarjetaCBU = str("tarjeta_cbu")
+	p.TelefonoTomador = str("telefono_tomador")
+	p.Autoadministrada = f64("Autoadministrada")
+	return p
 }
 
 // parseSiniestro maps a raw SISE row to a Siniestro struct.
