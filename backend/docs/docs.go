@@ -1358,6 +1358,22 @@ const docTemplate = `{
                     "description": "if nil, approves Rachel's classification as-is",
                     "type": "integer"
                 },
+                "raw_caratula": {
+                    "description": "carátula",
+                    "type": "string"
+                },
+                "raw_case_number": {
+                    "description": "nro. expediente",
+                    "type": "string"
+                },
+                "raw_claim_number": {
+                    "description": "Corrected identifiers (optional — reviewer can fix what Rachel missed)",
+                    "type": "string"
+                },
+                "raw_policy": {
+                    "description": "nro. póliza",
+                    "type": "string"
+                },
                 "review_comment": {
                     "description": "required when changing mail_type",
                     "type": "string"

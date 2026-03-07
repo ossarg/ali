@@ -206,6 +206,20 @@ func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCa
 	event.ReviewedAt = &now
 	event.ReviewComment = req.ReviewComment
 
+	// Apply corrected identifiers if provided by the reviewer
+	if req.RawClaimNumber != nil {
+		event.RawClaimNumber = *req.RawClaimNumber
+	}
+	if req.RawPolicy != nil {
+		event.RawPolicy = *req.RawPolicy
+	}
+	if req.RawCaseNumber != nil {
+		event.RawCaseNumber = *req.RawCaseNumber
+	}
+	if req.RawCaratula != nil {
+		event.RawCaratula = *req.RawCaratula
+	}
+
 	if err := s.caseRepo.UpdateEvent(event); err != nil {
 		return nil, apierrors.ErrInternalServer
 	}
