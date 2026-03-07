@@ -17,7 +17,7 @@ type CaseService interface {
 	ListPendingEvents() ([]dto.CaseEventResponse, error)
 	ListApprovedEvents() ([]dto.CaseEventResponse, error)
 	GetEventMetrics() (*dto.CaseEventMetrics, error)
-	ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, resolver ClaimResolutionService) (*dto.CaseEventResponse, error)
+	ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService) (*dto.CaseEventResponse, error)
 }
 
 type caseService struct {
@@ -167,7 +167,7 @@ func (s *caseService) GetEventMetrics() (*dto.CaseEventMetrics, error) {
 	}, nil
 }
 
-func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, resolver ClaimResolutionService) (*dto.CaseEventResponse, error) {
+func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService) (*dto.CaseEventResponse, error) {
 	if _, err := uuid.Parse(id); err != nil {
 		return nil, apierrors.ErrNotFound
 	}
@@ -211,8 +211,8 @@ func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCa
 	}
 
 	// Trigger async SISE resolution if raw_claim_number is available
-	if resolver != nil && event.RawClaimNumber != "" {
-		resolver.ResolveAsync(event.ID.String())
+	if claimSvc != nil && event.RawClaimNumber != "" {
+		claimSvc.ResolveAsync(event.ID.String())
 	}
 
 	resp := dto.ToCaseEventResponse(*event)

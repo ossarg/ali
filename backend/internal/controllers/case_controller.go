@@ -12,12 +12,12 @@ import (
 )
 
 type CaseController struct {
-	caseService     services.CaseService
-	resolutionSvc   services.ClaimResolutionService
+	caseService  services.CaseService
+	claimService services.ClaimService
 }
 
-func NewCaseController(caseService services.CaseService, resolutionSvc services.ClaimResolutionService) *CaseController {
-	return &CaseController{caseService: caseService, resolutionSvc: resolutionSvc}
+func NewCaseController(caseService services.CaseService, claimService services.ClaimService) *CaseController {
+	return &CaseController{caseService: caseService, claimService: claimService}
 }
 
 // ListCases godoc
@@ -148,7 +148,7 @@ func (cc *CaseController) ReviewEvent(c echo.Context) error {
 	}
 	reviewerID := claims.UserID
 
-	resp, err := cc.caseService.ReviewEvent(id, reviewerID, req, cc.resolutionSvc)
+	resp, err := cc.caseService.ReviewEvent(id, reviewerID, req, cc.claimService)
 	if err != nil {
 		return err
 	}
@@ -177,7 +177,7 @@ func (cc *CaseController) ReviewEvent(c echo.Context) error {
 // @Failure      401  {object}  map[string]string
 // @Router       /api/v1/claims/unresolved [get]
 func (cc *CaseController) ListUnresolvedEvents(c echo.Context) error {
-	events, err := cc.resolutionSvc.ListUnresolved()
+	events, err := cc.claimService.ListUnresolved()
 	if err != nil {
 		return err
 	}
@@ -206,7 +206,7 @@ func (cc *CaseController) RetryResolution(c echo.Context) error {
 	if req.CorrectedClaimNumber == "" {
 		return apierrors.New(http.StatusBadRequest, "corrected_claim_number is required")
 	}
-	resp, err := cc.resolutionSvc.RetryResolution(id, req.CorrectedClaimNumber, req.CorrectionComment)
+	resp, err := cc.claimService.RetryResolution(id, req.CorrectedClaimNumber, req.CorrectionComment)
 	if err != nil {
 		// Return partial response with error info even on SISE failure
 		if resp != nil {
@@ -230,7 +230,7 @@ func (cc *CaseController) RetryResolution(c echo.Context) error {
 // @Failure      401  {object}  map[string]string
 // @Router       /api/v1/claims/batch-resolve [post]
 func (cc *CaseController) BatchResolve(c echo.Context) error {
-	resolved, errs, err := cc.resolutionSvc.BatchResolveUnlinked()
+	resolved, errs, err := cc.claimService.BatchResolveUnlinked()
 	if err != nil {
 		return err
 	}

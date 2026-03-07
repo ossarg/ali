@@ -65,12 +65,11 @@ func main() {
 	// Services
 	authService  := services.NewAuthService(userRepo, cfg.JWT.Secret)
 	caseService  := services.NewCaseService(caseRepo)
-	claimService := services.NewClaimService(claimRepo, siseOrchestrator)
-	resolutionSvc := services.NewClaimResolutionService(caseRepo, claimRepo, siseOrchestrator)
+	claimService := services.NewClaimService(claimRepo, caseRepo, siseOrchestrator)
 
 	// Controllers
 	authController  := controllers.NewAuthController(authService)
-	caseController  := controllers.NewCaseController(caseService, resolutionSvc)
+	caseController  := controllers.NewCaseController(caseService, claimService)
 	claimController := controllers.NewClaimController(claimService)
 
 	e := router.InitRouter(cfg, authController, caseController, claimController)
