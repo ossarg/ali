@@ -1,0 +1,541 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Backend service for Libra Legal AI — legal case management platform",
+        "title": "Libra Legal API",
+        "contact": {
+            "name": "Libra Seguros Tech"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/api/v1/agents/case-events": {
+            "post": {
+                "description": "Called by Rachel after classifying an email. Requires X-Agent-Key header.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cases"
+                ],
+                "summary": "Register a case event from an incoming email",
+                "parameters": [
+                    {
+                        "description": "Case event payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateCaseEventRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CaseEventResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "description": "Authenticates a user and returns a JWT token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "description": "Credentials",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/logout": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Invalidates the session (client-side). JWT blacklist pending.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logout",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cases": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a list of legal cases. Supports optional filtering by status, pipeline_stage, and case_type.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cases"
+                ],
+                "summary": "List cases",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Case status (1=open, 2=closed, 3=suspended)",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pipeline stage (ingesta, extraccion, triage, asignado, borrador, completado)",
+                        "name": "pipeline_stage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Case type (1=lawsuit, 2=mediation, 3=third_party)",
+                        "name": "case_type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.CaseResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cases/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a single legal case with associated firm and user data.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cases"
+                ],
+                "summary": "Get case by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.CaseEventResponse": {
+            "type": "object",
+            "properties": {
+                "case_id": {
+                    "type": "string"
+                },
+                "confidence": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "mail_id": {
+                    "type": "string"
+                },
+                "mail_provider": {
+                    "type": "string"
+                },
+                "mail_type": {
+                    "type": "string"
+                },
+                "processed": {
+                    "type": "boolean"
+                },
+                "raw_caratula": {
+                    "type": "string"
+                },
+                "raw_case_number": {
+                    "type": "string"
+                },
+                "raw_claim_number": {
+                    "type": "string"
+                },
+                "raw_policy": {
+                    "type": "string"
+                },
+                "reasoning": {
+                    "type": "string"
+                },
+                "received_at": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CaseResponse": {
+            "type": "object",
+            "properties": {
+                "action_type": {
+                    "type": "string"
+                },
+                "assigned_user": {
+                    "$ref": "#/definitions/dto.UserSummary"
+                },
+                "case_number": {
+                    "type": "string"
+                },
+                "case_type": {
+                    "type": "string"
+                },
+                "claim_number": {
+                    "type": "string"
+                },
+                "court": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "defense_firm": {
+                    "$ref": "#/definitions/dto.FirmSummary"
+                },
+                "estimated_amount": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "incident_date": {
+                    "type": "string"
+                },
+                "opened_at": {
+                    "type": "string"
+                },
+                "pipeline_stage": {
+                    "type": "string"
+                },
+                "plaintiff_firm": {
+                    "$ref": "#/definitions/dto.FirmSummary"
+                },
+                "policy": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "tribunal": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateCaseEventRequest": {
+            "type": "object",
+            "required": [
+                "confidence",
+                "mail_id",
+                "mail_type",
+                "received_at"
+            ],
+            "properties": {
+                "confidence": {
+                    "type": "number",
+                    "maximum": 1,
+                    "minimum": 0
+                },
+                "mail_id": {
+                    "type": "string"
+                },
+                "mail_provider": {
+                    "type": "string"
+                },
+                "mail_type": {
+                    "type": "integer",
+                    "maximum": 7,
+                    "minimum": 1
+                },
+                "raw_caratula": {
+                    "type": "string"
+                },
+                "raw_case_number": {
+                    "type": "string"
+                },
+                "raw_claim_number": {
+                    "description": "Raw identifiers extracted from the mail (unnormalized)",
+                    "type": "string"
+                },
+                "raw_policy": {
+                    "type": "string"
+                },
+                "reasoning": {
+                    "type": "string"
+                },
+                "received_at": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.FirmSummary": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.LoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/dto.UserInfo"
+                }
+            }
+        },
+        "dto.UserInfo": {
+            "type": "object",
+            "properties": {
+                "capabilities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UserSummary": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Type \"Bearer\" followed by a space and the JWT token",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

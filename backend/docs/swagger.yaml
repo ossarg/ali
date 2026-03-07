@@ -1,0 +1,358 @@
+basePath: /
+definitions:
+  dto.CaseEventResponse:
+    properties:
+      case_id:
+        type: string
+      confidence:
+        type: number
+      created_at:
+        type: string
+      id:
+        type: string
+      mail_id:
+        type: string
+      mail_provider:
+        type: string
+      mail_type:
+        type: string
+      processed:
+        type: boolean
+      raw_caratula:
+        type: string
+      raw_case_number:
+        type: string
+      raw_claim_number:
+        type: string
+      raw_policy:
+        type: string
+      reasoning:
+        type: string
+      received_at:
+        type: string
+      subject:
+        type: string
+    type: object
+  dto.CaseResponse:
+    properties:
+      action_type:
+        type: string
+      assigned_user:
+        $ref: '#/definitions/dto.UserSummary'
+      case_number:
+        type: string
+      case_type:
+        type: string
+      claim_number:
+        type: string
+      court:
+        type: string
+      created_at:
+        type: string
+      defense_firm:
+        $ref: '#/definitions/dto.FirmSummary'
+      estimated_amount:
+        type: number
+      id:
+        type: string
+      incident_date:
+        type: string
+      opened_at:
+        type: string
+      pipeline_stage:
+        type: string
+      plaintiff_firm:
+        $ref: '#/definitions/dto.FirmSummary'
+      policy:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+      tribunal:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.CreateCaseEventRequest:
+    properties:
+      confidence:
+        maximum: 1
+        minimum: 0
+        type: number
+      mail_id:
+        type: string
+      mail_provider:
+        type: string
+      mail_type:
+        maximum: 7
+        minimum: 1
+        type: integer
+      raw_caratula:
+        type: string
+      raw_case_number:
+        type: string
+      raw_claim_number:
+        description: Raw identifiers extracted from the mail (unnormalized)
+        type: string
+      raw_policy:
+        type: string
+      reasoning:
+        type: string
+      received_at:
+        type: string
+      subject:
+        type: string
+    required:
+    - confidence
+    - mail_id
+    - mail_type
+    - received_at
+    type: object
+  dto.FirmSummary:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+    type: object
+  dto.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.LoginResponse:
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/dto.UserInfo'
+    type: object
+  dto.UserInfo:
+    properties:
+      capabilities:
+        items:
+          type: string
+        type: array
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      role:
+        type: string
+    type: object
+  dto.UserSummary:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: Libra Seguros Tech
+  description: Backend service for Libra Legal AI — legal case management platform
+  title: Libra Legal API
+  version: "1.0"
+paths:
+  /api/v1/agents/case-events:
+    post:
+      consumes:
+      - application/json
+      description: Called by Rachel after classifying an email. Requires X-Agent-Key
+        header.
+      parameters:
+      - description: Case event payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCaseEventRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.CaseEventResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a case event from an incoming email
+      tags:
+      - cases
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns a JWT token
+      parameters:
+      - description: Credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login
+      tags:
+      - auth
+  /api/v1/auth/logout:
+    post:
+      description: Invalidates the session (client-side). JWT blacklist pending.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Logout
+      tags:
+      - auth
+  /api/v1/cases:
+    get:
+      description: Returns a list of legal cases. Supports optional filtering by status,
+        pipeline_stage, and case_type.
+      parameters:
+      - description: Case status (1=open, 2=closed, 3=suspended)
+        in: query
+        name: status
+        type: integer
+      - description: Pipeline stage (ingesta, extraccion, triage, asignado, borrador,
+          completado)
+        in: query
+        name: pipeline_stage
+        type: string
+      - description: Case type (1=lawsuit, 2=mediation, 3=third_party)
+        in: query
+        name: case_type
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CaseResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List cases
+      tags:
+      - cases
+  /api/v1/cases/{id}:
+    get:
+      description: Returns a single legal case with associated firm and user data.
+      parameters:
+      - description: Case UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get case by ID
+      tags:
+      - cases
+schemes:
+- http
+- https
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and the JWT token
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

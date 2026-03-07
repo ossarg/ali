@@ -37,20 +37,26 @@ Un sistema de agentes de IA que actúa como co-worker legal del equipo de litigi
     ┌────────────▼──────────────────────────────────┐
     │                  Pipeline                      │
     │                                                │
-    │  [1] Intake Specialist                         │
-    │      → texto extraído + validación formal      │
+    │  [1] Rachel — Ingesta                          │
+    │      → procesa email, extrae metadatos         │
+    │      → identifica tipo, adjuntos, partes base  │
+    │      → NO procesa documentos adjuntos          │
     │                  │                             │
-    │  [2] Data Processing Specialist                │
-    │      → objeto estructurado + confidence scores │
+    │  [2] Data Processing Specialist — Extracción   │
+    │      → lee PDFs adjuntos (demanda, cédula)     │
+    │      → extrae 8 secciones estructuradas        │
+    │      → confidence scores por campo             │
     │                  │                             │
-    │  [3] Triage Analyst                            │
-    │      → prioridad + resumen ejecutivo           │
+    │         ┌────────┴────────┐                    │
+    │         │  (si automático) │                   │
+    │  [3] Triage Analyst    [3b] Agente de Borrador │
+    │      → relevancia           → draft completo   │
+    │      → score + flags        (en paralelo)      │
+    │         └────────┬────────┘                    │
     │                  │                             │
-    │  [4] Agente de Fichero                         │
-    │      → carpeta digital + póliza vinculada      │
-    │                  │                             │
-    │  [5] Agente de Borrador                        │
-    │      → draft de contestación                   │
+    │  [4] Asignación a abogado                      │
+    │      → gerente puede revocar                   │
+    │      → si borrador manual: abogado lo dispara  │
     └───────────────────────────────────────────────┘
                  │
               ┌──▼──────────────────────────┐
@@ -81,11 +87,10 @@ Un sistema de agentes de IA que actúa como co-worker legal del equipo de litigi
 
 | Agente | Rol | Input | Output |
 |--------|-----|-------|--------|
-| Intake Specialist | Recibe el documento, extrae texto, verifica formalidades procesales | PDF | Texto + flags de validación |
-| Data Processing Specialist | Produce objeto estructurado a partir del texto | Texto | JSON con campos + confidence scores |
-| Triage Analyst | Clasifica prioridad y genera resumen ejecutivo | JSON + texto | Prioridad + resumen 3-5 líneas |
-| Agente de Fichero | Crea carpeta digital, vincula póliza y antecedentes | JSON + docs | Carpeta organizada |
-| Agente de Borrador | Genera draft de contestación sobre templates | JSON + contexto | Draft editable marcado |
+| Rachel (Intake) | Procesa email: remitente, asunto, cuerpo, metadatos, adjuntos identificados. No lee el contenido de los adjuntos. | Email | Metadatos + lista de adjuntos |
+| Data Processing Specialist | Lee PDFs adjuntos. Extrae 8 secciones: identificación, partes, hechos, monto, cobertura, defensas, prueba, integridad documental. | PDFs de demanda | JSON estructurado + confidence scores |
+| Triage Analyst | Clasifica relevancia (Baja/Media/Alta) según parámetros configurables. | JSON del DPS | Score + justificación + flags |
+| Agente de Borrador | Genera draft completo según template de Libra. Corre en paralelo con triage si está habilitado automático; manual si no. | JSON del DPS | Draft editable con secciones estándar completas y placeholders |
 
 **Principio clave**: cada sub-agente recibe **solo el contexto mínimo necesario** para su tarea. No accede al documento completo si no lo necesita. Esto mantiene las ventanas de contexto pequeñas y los costos controlados.
 
