@@ -84,7 +84,20 @@ Identificá elementos atípicos o de alto impacto que el equipo necesita saber d
 - **Citación de múltiples aseguradoras**: hay más de una aseguradora citada o demandada.
 - **Planteo de abusividad de cláusulas**: el actor impugna cláusulas de la póliza como abusivas (art. 37 Ley 24.240, arts. 984-989 CCC).
 
-### Paso 5: Estado del documento
+### Paso 5: Datos económicos de la víctima (solo en casos con fallecimiento)
+
+Si el siniestro involucra el fallecimiento de una persona, extraé los datos económicos de la víctima que la demanda mencione. Estos datos son fundamentales para que el Extraction Agent (`extraction-claim-summary-ar`) y el Triage Agent auditen el cálculo del valor vida y estimen la exposición económica real.
+
+Extraé:
+- **Edad de la víctima** al momento del fallecimiento
+- **Ingresos mensuales y fuentes**: jubilación, salario, trabajo informal, emprendimiento, etc. Con montos si se indican.
+- **Vida útil estimada** según la demanda (hasta qué edad proyecta el actor la expectativa de vida de la víctima)
+- **Distribución porcentual del valor vida** si la demanda especifica qué porcentaje del reclamo corresponde a cada actor (ej: conviviente 60%, hijo 1 10%, hijo 2 10%, consumo propio de la víctima 20%)
+- **Base de cálculo del valor vida**: la fórmula o metodología que usa el actor (ej: ingreso mensual × meses de vida útil restante × coeficiente)
+
+Si estos datos no figuran en la demanda, registrá `null` con `confidence = low`. No inventés.
+
+### Paso 6: Estado del documento
 
 Evaluá la calidad y completitud del documento recibido:
 
@@ -144,6 +157,19 @@ Si el documento está incompleto o es ilegible, señalalo como bloqueante para e
 | tipo | string | Tipo de señal (medida_cautelar / daño_punitivo / fallecimiento / multiples_actores / demanda_colectiva / repercusion_publica / inconstitucionalidad / monto_excepcional / jurisdiccion_inusual / acumulacion / multiples_aseguradoras / abusividad_clausulas / otro) |
 | detalle | string | Descripción concreta de la señal |
 | impacto | string | Por qué importa para la aseguradora |
+
+### Datos económicos de la víctima (solo si `señales_atencion` incluye `fallecimiento`)
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| victima.edad | FieldWithConfidence | Edad de la víctima al momento del fallecimiento |
+| victima.ingresos_mensuales | FieldWithConfidence | Monto total mensual y fuentes (lista) |
+| victima.fuentes_ingresos | lista de objetos | Cada fuente con tipo (jubilación/salario/otro) y monto mensual |
+| victima.vida_util_estimada_hasta | FieldWithConfidence | Edad hasta la que la demanda proyecta la expectativa de vida |
+| victima.distribucion_porcentual_valor_vida | lista de objetos | Por cada actor: nombre y porcentaje asignado en la demanda |
+| victima.base_calculo_valor_vida | FieldWithConfidence | Fórmula o metodología usada por el actor, en texto |
+
+Si no hay fallecimiento o los datos no figuran en la demanda: `victima = null`.
 
 ### Estado del documento
 

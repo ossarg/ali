@@ -65,6 +65,21 @@ Verificá cada uno de los siguientes requisitos y asigná pass/fail/indeterminat
 - El art. 333 CPCyCN exige que con la demanda se acompañe la prueba documental y se agreguen los informes que estén en poder del actor.
 - Buscá: "se acompaña", "adjunto", "documental que se acompaña", referencia a cantidad de copias.
 - Si la demanda menciona documentos pero no queda claro si los acompaña, marcá indeterminate.
+- **Contar los documentos**: si la demanda lista los documentos que acompaña, contar cuántos son e incluir `count` en el detalle del check. Este número será validado por Ali contra el conteo de `extraction-claim-summary-ar`.
+
+#### 9. Requisitos de citación en garantía (art. 118 Ley 17.418) — solo si hay aseguradora citada
+
+Si la demanda cita a una aseguradora en garantía, verificar:
+- ¿Se invocó expresamente el art. 118 de la Ley 17.418 (o el art. 109 para la acción directa)?
+- ¿Se identifica el contrato de seguro (número de póliza, nombre de la aseguradora, o al menos el vehículo asegurado)?
+- ¿La citación fue tramitada por quien tiene legitimación para hacerlo? En la citación en garantía del art. 118, la solicita el demandado (asegurado), no el actor. Si el actor pide la citación, señalarlo como irregularidad a verificar.
+- ¿Se proporcionó el domicilio de la aseguradora para la notificación?
+
+- **pass**: cumple los requisitos básicos del art. 118 LS.
+- **indeterminate**: faltan datos (número de póliza, domicilio) pero la citación parece tramitada correctamente.
+- **fail**: la citación tiene un defecto que podría ser aprovechable (ej: solicitada por el actor en lugar del asegurado, o aseguradora incorrectamente identificada).
+
+Valor estratégico del fail: un defecto en la citación en garantía puede cuestionarse como excepción de falta de legitimación pasiva o nulidad del acto procesal.
 
 ## Output esperado
 

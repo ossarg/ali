@@ -54,8 +54,8 @@ VERDE siempre es bueno para la defensa. ROJO siempre es neutro o desfavorable. S
 Reglas de prescripción en seguros:
 - Art. 58 Ley 17.418: plazo de 1 año para acciones del contrato de seguros, desde que la obligación es exigible.
 - Art. 2561 CCC: plazo de 3 años para responsabilidad civil extracontractual.
-- Mediación obligatoria (Ley 26.589) suspende el plazo durante su trámite.
-- La citación en garantía del art. 118 Ley 17.418 tiene su propio análisis de plazo.
+- **Suspensión por mediación obligatoria (art. 18 Ley 26.589 / Ley 13.951 PBA)**: si hubo mediación previa, el plazo estuvo suspendido durante su trámite. Para el análisis de prescripción, restá el período de mediación del cómputo total. Si constan las fechas de inicio y cierre de mediación en la documentación, usarlas; si no constan, marcarlo como `datos_faltantes`.
+- La citación en garantía del art. 118 Ley 17.418 tiene su propio análisis de plazo (corre desde la notificación de la citación al asegurador, no desde el hecho).
 
 #### 3. Caducidad por falta de denuncia (arts. 46-47 Ley 17.418)
 
@@ -85,7 +85,32 @@ Advertencia sobre caducidad: la jurisprudencia argentina tiende a interpretar la
 
 Advertencia: la tendencia judicial pro-consumidor (art. 37 Ley 24.240, art. 1094 CCC) hace que muchas exclusiones sean resistidas por los tribunales, especialmente si no están redactadas de forma clara, no fueron destacadas al contratar, o se consideran abusivas. Una exclusión en VERDE requiere que sea clara, destacada y directamente aplicable a los hechos. Ante la duda, AMARILLO.
 
-#### 6. Cosa juzgada o litispendencia (arts. 347 incs. 6-7 CPCyCN)
+#### 6. Culpa o hecho de la víctima (art. 1729 CCC) — en RC Auto y siniestros corporales
+
+¿Hay elementos que indiquen que la víctima contribuyó causalmente al siniestro?
+
+Esta defensa es especialmente relevante en accidentes de tránsito y siniestros con lesiones o fallecimiento. No elimina la responsabilidad del asegurado pero puede reducir significativamente el monto de condena (art. 1773 CCC — concurrencia de causas).
+
+Factores a evaluar en RC Auto:
+- ¿La víctima usaba casco (motociclistas) o cinturón de seguridad?
+- ¿El vehículo de la víctima tenía luces reglamentarias?
+- ¿La velocidad de la víctima era adecuada?
+- ¿La víctima realizó alguna maniobra que contribuyó al accidente?
+- ¿Había señalización que la víctima no respetó?
+
+- VERDE: hay elementos concretos que sugieren culpa de la víctima que pueden acreditarse con prueba disponible o a producir.
+- AMARILLO: la demanda no describe la conducta de la víctima con suficiente detalle para evaluarla, o los hechos son consistentes con responsabilidad concurrente pero requieren prueba. **Este es el estado inicial por defecto en RC Auto con fallecimiento**: siempre plantear la defensa y producir pericia mecánica para evaluarla.
+- ROJO: de los hechos descriptos surge que la víctima no tuvo ninguna participación causal (ej: embestida por detrás, víctima peatón en vereda).
+
+#### 6b. Concurrencia de responsabilidad (art. 1773 CCC)
+
+¿Hay más de un factor causal contribuyente? ¿Puede distribuirse la responsabilidad entre el asegurado y la víctima, o entre el asegurado y un tercero?
+
+- VERDE: hay elementos que fundan una distribución de responsabilidad concurrente.
+- AMARILLO: posible pero requiere prueba pericial o testimonial.
+- ROJO: la responsabilidad del asegurado parece exclusiva según los hechos descriptos.
+
+#### 7. Cosa juzgada o litispendencia (arts. 347 incs. 6-7 CPCyCN)
 
 ¿El mismo reclamo ya fue resuelto o está siendo tramitado en otro proceso?
 
