@@ -238,8 +238,8 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
                   {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
                 </span>
                 {event.original_mail_type && (
-                  <div className="text-xs text-gray-400 mt-0.5">
-                    antes: {MAIL_TYPE_LABELS[event.original_mail_type] ?? event.original_mail_type}
+                  <div className="text-xs text-gray-400 mt-0.5 line-through">
+                    {MAIL_TYPE_LABELS[event.original_mail_type] ?? event.original_mail_type}
                   </div>
                 )}
               </td>
