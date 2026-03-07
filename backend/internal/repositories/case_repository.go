@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"errors"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/ossarg/ali/backend/internal/models"
@@ -28,6 +29,8 @@ type CaseRepository interface {
 	FindEventByID(id string) (*models.CaseEvent, error)
 	UpdateEvent(e *models.CaseEvent) error
 	ListPendingEvents() ([]models.CaseEvent, error)
+	ListApprovedEvents() ([]models.CaseEvent, error)
+	GetEventMetrics() (total, approved, pending, processed int64, lastEventAt *time.Time, err error)
 }
 
 type caseRepository struct {
@@ -119,4 +122,25 @@ func (r *caseRepository) ListPendingEvents() ([]models.CaseEvent, error) {
 		Order("received_at DESC").
 		Find(&events).Error
 	return events, err
+}
+
+func (r *caseRepository) ListApprovedEvents() ([]models.CaseEvent, error) {
+	var events []models.CaseEvent
+	err := r.db.Where("approved = true").
+		Order("reviewed_at DESC").
+		Find(&events).Error
+	return events, err
+}
+
+func (r *caseRepository) GetEventMetrics() (total, approved, pending, processed int64, lastEventAt *time.Time, err error) {
+	r.db.Model(&models.CaseEvent{}).Count(&total)
+	r.db.Model(&models.CaseEvent{}).Where("approved = true").Count(&approved)
+	r.db.Model(&models.CaseEvent{}).Where("approved = false OR approved IS NULL").Count(&pending)
+	r.db.Model(&models.CaseEvent{}).Where("processed = true").Count(&processed)
+
+	var last models.CaseEvent
+	if e := r.db.Order("created_at DESC").First(&last).Error; e == nil {
+		lastEventAt = &last.CreatedAt
+	}
+	return
 }

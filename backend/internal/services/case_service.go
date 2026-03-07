@@ -15,6 +15,8 @@ type CaseService interface {
 	GetByID(id string) (*dto.CaseResponse, error)
 	CreateEvent(req dto.CreateCaseEventRequest) (*dto.CaseEventResponse, error)
 	ListPendingEvents() ([]dto.CaseEventResponse, error)
+	ListApprovedEvents() ([]dto.CaseEventResponse, error)
+	GetEventMetrics() (*dto.CaseEventMetrics, error)
 	ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest) (*dto.CaseEventResponse, error)
 }
 
@@ -137,6 +139,32 @@ func (s *caseService) ListPendingEvents() ([]dto.CaseEventResponse, error) {
 		result[i] = dto.ToCaseEventResponse(e)
 	}
 	return result, nil
+}
+
+func (s *caseService) ListApprovedEvents() ([]dto.CaseEventResponse, error) {
+	events, err := s.caseRepo.ListApprovedEvents()
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	result := make([]dto.CaseEventResponse, len(events))
+	for i, e := range events {
+		result[i] = dto.ToCaseEventResponse(e)
+	}
+	return result, nil
+}
+
+func (s *caseService) GetEventMetrics() (*dto.CaseEventMetrics, error) {
+	total, approved, pending, processed, lastEventAt, err := s.caseRepo.GetEventMetrics()
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	return &dto.CaseEventMetrics{
+		Total:       total,
+		Approved:    approved,
+		Pending:     pending,
+		Processed:   processed,
+		LastEventAt: lastEventAt,
+	}, nil
 }
 
 func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest) (*dto.CaseEventResponse, error) {

@@ -34,3 +34,55 @@ export const CaseListResponseSchema = z.object({
 export type CaseStage = z.infer<typeof CaseStageSchema>;
 export type Case = z.infer<typeof CaseSchema>;
 export type CaseListResponse = z.infer<typeof CaseListResponseSchema>;
+
+// Case Events
+export const MailTypeSchema = z.enum([
+  'sentencia',
+  'reclamo_pago',
+  'intimacion',
+  'acuerdo',
+  'embargo',
+  'pericia',
+  'oficio',
+]);
+
+export const CaseEventSchema = z.object({
+  id: z.string().uuid(),
+  case_id: z.string().uuid().nullable().optional(),
+  mail_id: z.string(),
+  mail_provider: z.string().optional(),
+  subject: z.string().optional(),
+  mail_type: z.string(),
+  confidence: z.number(),
+  reasoning: z.string().optional(),
+  raw_claim_number: z.string().optional(),
+  raw_policy: z.string().optional(),
+  raw_case_number: z.string().optional(),
+  raw_caratula: z.string().optional(),
+  processed: z.boolean(),
+  received_at: z.string(),
+  created_at: z.string(),
+  approved: z.boolean().nullable().optional(),
+  original_mail_type: z.string().nullable().optional(),
+  reviewed_by: z.string().nullable().optional(),
+  reviewed_at: z.string().nullable().optional(),
+  review_comment: z.string().optional(),
+});
+
+export const CaseEventMetricsSchema = z.object({
+  total: z.number(),
+  approved: z.number(),
+  pending: z.number(),
+  processed: z.number(),
+  last_event_at: z.string().nullable().optional(),
+});
+
+export const ReviewCaseEventRequestSchema = z.object({
+  mail_type: z.number().int().min(1).max(7).optional(),
+  review_comment: z.string().optional(),
+});
+
+export type MailType = z.infer<typeof MailTypeSchema>;
+export type CaseEvent = z.infer<typeof CaseEventSchema>;
+export type CaseEventMetrics = z.infer<typeof CaseEventMetricsSchema>;
+export type ReviewCaseEventRequest = z.infer<typeof ReviewCaseEventRequestSchema>;
