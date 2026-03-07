@@ -183,18 +183,24 @@ func (c *ConsultasClient) executeQuery(bearerToken string, req QueryRequest) (*Q
 
 // ─── Domain methods ───────────────────────────────────────────────────────────
 
-// GetSiniestroByNumber retrieves a claim from SISE by its claim number.
-// TODO: add query filters once Nacho shares the filter spec for queryID 3618d606-243f-4ce7-bf95-1c2bdc7fcbe8
+// GetSiniestroByNumber retrieves a claim from SISE by its claim number (nro_stro).
+// codigoUsuario can be empty — SISE accepts it as optional.
 func (c *ConsultasClient) GetSiniestroByNumber(bearerToken, nroSiniestro string) (*Siniestro, error) {
 	req := QueryRequest{
 		QueryID: queryIDSiniestroByNumber,
 		Parameters: []QueryParameter{
-			// TODO: confirm parameter name and type with Nacho
 			{
-				Name:               "nro_siniestro",
+				Name:               "codigo_usuario",
+				Type:               "string",
+				Value:              "",
+				RequireOnExecution: false,
+				HiddenOnExecution:  false,
+			},
+			{
+				Name:               "nro_stro",
 				Type:               "string",
 				Value:              nroSiniestro,
-				RequireOnExecution: true,
+				RequireOnExecution: false,
 				HiddenOnExecution:  false,
 			},
 		},

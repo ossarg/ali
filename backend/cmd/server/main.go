@@ -29,6 +29,8 @@ import (
 	"github.com/ossarg/ali/backend/internal/repositories"
 	"github.com/ossarg/ali/backend/internal/router"
 	"github.com/ossarg/ali/backend/internal/services"
+	"github.com/ossarg/ali/backend/internal/services/cache"
+	"github.com/ossarg/ali/backend/internal/services/sise"
 )
 
 func main() {
@@ -43,6 +45,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
+
+	// Redis
+	if _, err := cache.Connect(cfg.Redis.URL); err != nil {
+		log.Fatalf("Failed to connect to Redis: %v", err)
+	}
+	defer cache.Close()
+
+	// SISE Consultas
+	siseClient := sise.NewConsultasClient(cfg.SISE.BaseURL, cfg.SISE.Username, cfg.SISE.Password)
+	siseOrchestrator := sise.NewConsultasOrchestrator(siseClient)
+	_ = siseOrchestrator // will be injected into services as needed
 
 	// Repositories
 	userRepo := repositories.NewUserRepository(db)
