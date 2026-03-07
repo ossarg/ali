@@ -1,10 +1,12 @@
 import { api } from '../client';
 import { CaseEventMetricsSchema, CaseEventSchema, CaseListResponseSchema, CaseSchema } from '../schemas';
+import { PaginatedCaseEventsSchema } from '../schemas/case.schemas';
 import type {
   Case,
   CaseEvent,
   CaseEventMetrics,
   CaseListResponse,
+  PaginatedCaseEvents,
   RetryResolutionRequest,
   ReviewCaseEventRequest,
 } from '../schemas/case.schemas';
@@ -29,6 +31,11 @@ export const caseService = {
     return CaseListResponseSchema.parse(response);
   },
 
+  listPaginated: async (page: number, limit: number, params?: Record<string, string>): Promise<CaseListResponse> => {
+    const response = await api.get(API_ENDPOINTS.CASES.LIST, { params: { ...params, page: String(page), limit: String(limit) } });
+    return CaseListResponseSchema.parse(response);
+  },
+
   get: async (id: string | number): Promise<Case> => {
     const response = await api.get(API_ENDPOINTS.CASES.DETAIL(id));
     return CaseSchema.parse(response);
@@ -44,6 +51,11 @@ export const caseEventService = {
   approved: async (): Promise<CaseEvent[]> => {
     const response = await api.get(API_ENDPOINTS.CASE_EVENTS.APPROVED);
     return CaseEventSchema.array().parse(response);
+  },
+
+  approvedPaginated: async (page: number, limit: number): Promise<PaginatedCaseEvents> => {
+    const response = await api.get(API_ENDPOINTS.CASE_EVENTS.APPROVED, { params: { page: String(page), limit: String(limit) } });
+    return PaginatedCaseEventsSchema.parse(response);
   },
 
   pending: async (): Promise<CaseEvent[]> => {

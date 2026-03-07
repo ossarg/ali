@@ -29,6 +29,8 @@ export const CaseSchema = z.object({
 export const CaseListResponseSchema = z.object({
   data: z.array(CaseSchema),
   total: z.number(),
+  page: z.number().optional(),
+  limit: z.number().optional(),
 });
 
 export type CaseStage = z.infer<typeof CaseStageSchema>;
@@ -75,6 +77,14 @@ export const CaseEventSchema = z.object({
   corrected_claim_number: z.string().optional(),
   correction_comment: z.string().optional(),
 });
+
+export const PaginatedCaseEventsSchema = z.object({
+  data:  CaseEventSchema.array(),
+  total: z.number(),
+  page:  z.number(),
+  limit: z.number(),
+});
+export type PaginatedCaseEvents = z.infer<typeof PaginatedCaseEventsSchema>;
 
 export const CaseEventMetricsSchema = z.object({
   total: z.number(),

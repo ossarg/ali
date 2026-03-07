@@ -14,6 +14,7 @@ import (
 
 type ClaimService interface {
 	List() ([]dto.ClaimResponse, error)
+	ListPaginated(page, limit int) (*dto.PaginatedClaims, error)
 	GetMetrics() (*dto.ClaimMetrics, error)
 	GetByID(id string) (*dto.ClaimResponse, error)
 	Lookup(nroStro string) (*dto.ClaimLookupResponse, error)
@@ -54,6 +55,19 @@ func (s *claimService) List() ([]dto.ClaimResponse, error) {
 		result[i] = dto.ToClaimResponse(c)
 	}
 	return result, nil
+}
+
+func (s *claimService) ListPaginated(page, limit int) (*dto.PaginatedClaims, error) {
+	pp := dto.PageParams{Page: page, Limit: limit}
+	claims, total, err := s.claimRepo.ListPaginated(pp.Offset(), limit)
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	data := make([]dto.ClaimResponse, len(claims))
+	for i, c := range claims {
+		data[i] = dto.ToClaimResponse(c)
+	}
+	return &dto.PaginatedClaims{Data: data, Total: total, Page: page, Limit: limit}, nil
 }
 
 func (s *claimService) GetMetrics() (*dto.ClaimMetrics, error) {

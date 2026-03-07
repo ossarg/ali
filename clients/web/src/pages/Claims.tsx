@@ -4,7 +4,8 @@ import { format, formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { formatTableTime } from '../lib/formatTime';
 import { Search, Plus, X, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
-import { useClaims, useClaimLookup, useCreateClaim, useClaimMetrics } from '../api/hooks/useClaims';
+import { useClaimsPaginated, useClaimLookup, useCreateClaim, useClaimMetrics } from '../api/hooks/useClaims';
+import Pagination from '../components/Pagination';
 import { useUnresolvedEvents, useRetryResolution, useBatchResolve } from '../api/hooks/useCaseEvents';
 import { useQueryClient } from '@tanstack/react-query';
 import { claimKeys } from '../api/services/claim.service';
@@ -405,8 +406,10 @@ function UnresolvedSection() {
 export default function ClaimsPage() {
   const [showModal, setShowModal] = useState(false);
   const [lastSync, setLastSync] = useState<Date>(new Date());
+  const [page, setPage] = useState(1);
   const queryClient = useQueryClient();
-  const { data: claims = [], isLoading } = useClaims();
+  const { data: claimsData, isLoading } = useClaimsPaginated(page, 10);
+  const claims = claimsData?.data ?? [];
   const { data: metrics, isFetching } = useClaimMetrics();
 
   const handleReload = () => {
@@ -488,6 +491,10 @@ export default function ClaimsPage() {
             </table>
           </div>
         )}
+      </div>
+
+      <div className="px-1">
+        <Pagination page={page} limit={10} total={claimsData?.total ?? 0} onChange={setPage} />
       </div>
 
       {showModal && <AddClaimModal onClose={() => setShowModal(false)} />}

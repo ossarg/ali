@@ -1,6 +1,6 @@
 import { api } from '../client';
-import { ClaimLookupResponseSchema, ClaimMetricsSchema, ClaimSchema } from '../schemas/claim.schemas';
-import type { Claim, ClaimLookupResponse, ClaimMetrics } from '../schemas/claim.schemas';
+import { ClaimLookupResponseSchema, ClaimMetricsSchema, ClaimSchema, PaginatedClaimsSchema } from '../schemas/claim.schemas';
+import type { Claim, ClaimLookupResponse, ClaimMetrics, PaginatedClaims } from '../schemas/claim.schemas';
 
 export const claimKeys = {
   all:     ['claims'] as const,
@@ -26,6 +26,11 @@ export const claimService = {
   list: async (): Promise<Claim[]> => {
     const res = await api.get(CLAIMS_BASE);
     return ClaimSchema.array().parse(res);
+  },
+
+  listPaginated: async (page: number, limit: number): Promise<PaginatedClaims> => {
+    const res = await api.get(CLAIMS_BASE, { params: { page: String(page), limit: String(limit) } });
+    return PaginatedClaimsSchema.parse(res);
   },
 
   lookup: async (nroStro: string): Promise<ClaimLookupResponse> => {

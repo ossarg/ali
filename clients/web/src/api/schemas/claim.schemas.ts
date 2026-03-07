@@ -131,3 +131,11 @@ export type ClaimLookupResponse = z.infer<typeof ClaimLookupResponseSchema>;
 export type SISEClaimResult   = z.infer<typeof SISEClaimResultSchema>;
 export type SISEPolicy        = z.infer<typeof SISEPolicySchema>;
 export type SISEProducer      = z.infer<typeof SISEProducerSchema>;
+
+export const PaginatedClaimsSchema = z.object({
+  data:  ClaimSchema.array(),
+  total: z.number(),
+  page:  z.number(),
+  limit: z.number(),
+});
+export type PaginatedClaims = z.infer<typeof PaginatedClaimsSchema>;

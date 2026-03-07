@@ -18,6 +18,7 @@ type CaseFilters struct {
 
 type CaseRepository interface {
 	List(filters CaseFilters) ([]models.Case, error)
+	ListPaginated(filters CaseFilters, offset, limit int) ([]models.Case, int64, error)
 	FindByID(id string) (*models.Case, error)
 	Create(c *models.Case) error
 	Update(c *models.Case) error
@@ -30,6 +31,7 @@ type CaseRepository interface {
 	UpdateEvent(e *models.CaseEvent) error
 	ListPendingEvents() ([]models.CaseEvent, error)
 	ListApprovedEvents() ([]models.CaseEvent, error)
+	ListApprovedEventsPaginated(offset, limit int) ([]models.CaseEvent, int64, error)
 	ListUnresolvedEvents() ([]models.CaseEvent, error)
 	ListPendingResolutionEvents() ([]models.CaseEvent, error)
 	GetEventMetrics() (total, approved, pending, processed int64, lastEventAt *time.Time, err error)
@@ -68,6 +70,35 @@ func (r *caseRepository) List(filters CaseFilters) ([]models.Case, error) {
 
 	err := q.Order("cases.created_at DESC").Find(&cases).Error
 	return cases, err
+}
+
+func (r *caseRepository) ListPaginated(filters CaseFilters, offset, limit int) ([]models.Case, int64, error) {
+	var cases []models.Case
+	var total int64
+	q := r.db.Model(&models.Case{}).Where("cases.deleted_at IS NULL")
+
+	if filters.Status != nil {
+		q = q.Where("cases.status = ?", *filters.Status)
+	}
+	if filters.PipelineStage != nil {
+		q = q.Where("cases.pipeline_stage = ?", *filters.PipelineStage)
+	}
+	if filters.AssignedUserID != nil {
+		q = q.Where("cases.assigned_user_id = ?", *filters.AssignedUserID)
+	}
+	if filters.CaseType != nil {
+		q = q.Where("cases.case_type = ?", *filters.CaseType)
+	}
+
+	if err := q.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	err := q.Preload("DefenseFirm").Preload("PlaintiffFirm").Preload("AssignedUser").
+		Order("cases.created_at DESC").
+		Offset(offset).Limit(limit).
+		Find(&cases).Error
+	return cases, total, err
 }
 
 func (r *caseRepository) FindByID(id string) (*models.Case, error) {
@@ -135,6 +166,17 @@ func (r *caseRepository) ListApprovedEvents() ([]models.CaseEvent, error) {
 		Order("reviewed_at DESC").
 		Find(&events).Error
 	return events, err
+}
+
+func (r *caseRepository) ListApprovedEventsPaginated(offset, limit int) ([]models.CaseEvent, int64, error) {
+	var events []models.CaseEvent
+	var total int64
+	q := r.db.Model(&models.CaseEvent{}).Where("approved = true")
+	if err := q.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := q.Order("reviewed_at DESC").Offset(offset).Limit(limit).Find(&events).Error
+	return events, total, err
 }
 
 func (r *caseRepository) ListUnresolvedEvents() ([]models.CaseEvent, error) {

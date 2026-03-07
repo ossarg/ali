@@ -38,13 +38,12 @@ func (cc *CaseController) List(c echo.Context) error {
 	if err := c.Bind(&req); err != nil {
 		return apierrors.ErrBadRequest
 	}
-
-	cases, err := cc.caseService.List(req)
+	pp := dto.ParsePageParams(c.QueryParam("page"), c.QueryParam("limit"))
+	result, err := cc.caseService.ListPaginated(req, pp.Page, pp.Limit)
 	if err != nil {
 		return err
 	}
-
-	return c.JSON(http.StatusOK, cases)
+	return c.JSON(http.StatusOK, result)
 }
 
 // GetCase godoc
@@ -96,11 +95,12 @@ func (cc *CaseController) GetEventMetrics(c echo.Context) error {
 // @Failure      401  {object}  map[string]string
 // @Router       /api/v1/case-events/approved [get]
 func (cc *CaseController) ListApprovedEvents(c echo.Context) error {
-	events, err := cc.caseService.ListApprovedEvents()
+	pp := dto.ParsePageParams(c.QueryParam("page"), c.QueryParam("limit"))
+	result, err := cc.caseService.ListApprovedEventsPaginated(pp.Page, pp.Limit)
 	if err != nil {
 		return err
 	}
-	return c.JSON(http.StatusOK, events)
+	return c.JSON(http.StatusOK, result)
 }
 
 // ListPendingEvents godoc
