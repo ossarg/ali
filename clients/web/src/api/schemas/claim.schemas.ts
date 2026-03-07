@@ -59,7 +59,7 @@ export const SISEClaimPaymentRowSchema = z.object({
 export const SISEClaimStageSchema = z.object({
   StageNumber: z.number(),
   Status:      z.string(),
-  Payments:    z.array(SISEClaimPaymentRowSchema).default([]),
+  Payments:    z.array(SISEClaimPaymentRowSchema).nullable().default([]),
 });
 
 export const SISEClaimHeaderSchema = z.object({
