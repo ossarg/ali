@@ -14,7 +14,7 @@ import (
 	_ "github.com/swaggo/files"
 )
 
-func InitRouter(cfg *config.Config, authController *controllers.AuthController, caseController *controllers.CaseController) *echo.Echo {
+func InitRouter(cfg *config.Config, authController *controllers.AuthController, caseController *controllers.CaseController, mailEventController *controllers.MailEventController) *echo.Echo {
 	e := echo.New()
 	e.HTTPErrorHandler = apierrors.Handler
 
@@ -23,7 +23,7 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: cfg.CORS.AllowedOrigins,
 		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
-		AllowHeaders: []string{echo.HeaderContentType, echo.HeaderAuthorization},
+		AllowHeaders: []string{echo.HeaderContentType, echo.HeaderAuthorization, "X-Agent-Key"},
 	}))
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
@@ -36,6 +36,10 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	auth := e.Group("/api/v1/auth")
 	auth.POST("/login", authController.Login)
 	auth.POST("/logout", authController.Logout, appMiddleware.JWTMiddleware())
+
+	// Agent endpoints (API key auth)
+	agents := e.Group("/api/v1/agents", appMiddleware.AgentKeyMiddleware())
+	agents.POST("/mail-events", mailEventController.Create)
 
 	// Protected routes
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())

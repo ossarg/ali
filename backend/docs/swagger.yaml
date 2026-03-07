@@ -41,6 +41,32 @@ definitions:
       updated_at:
         type: string
     type: object
+  dto.CreateMailEventRequest:
+    properties:
+      confidence:
+        maximum: 1
+        minimum: 0
+        type: number
+      mail_id:
+        type: string
+      mail_provider:
+        type: string
+      mail_type:
+        maximum: 7
+        minimum: 1
+        type: integer
+      reasoning:
+        type: string
+      received_at:
+        type: string
+      subject:
+        type: string
+    required:
+    - confidence
+    - mail_id
+    - mail_type
+    - received_at
+    type: object
   dto.FirmSummary:
     properties:
       id:
@@ -66,6 +92,29 @@ definitions:
         type: string
       user:
         $ref: '#/definitions/dto.UserInfo'
+    type: object
+  dto.MailEventResponse:
+    properties:
+      confidence:
+        type: number
+      created_at:
+        type: string
+      id:
+        type: string
+      mail_id:
+        type: string
+      mail_provider:
+        type: string
+      mail_type:
+        type: string
+      processed:
+        type: boolean
+      reasoning:
+        type: string
+      received_at:
+        type: string
+      subject:
+        type: string
     type: object
   dto.UserInfo:
     properties:
@@ -237,6 +286,47 @@ paths:
       summary: Get case by ID
       tags:
       - cases
+  /api/v1/mail-events:
+    post:
+      consumes:
+      - application/json
+      description: Called by Rachel after classifying an incoming mail. Requires X-Agent-Key
+        header.
+      parameters:
+      - description: Mail event payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateMailEventRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.MailEventResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a mail event
+      tags:
+      - mail-events
 schemes:
 - http
 - https
