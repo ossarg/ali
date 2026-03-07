@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { formatTableTime } from '../lib/formatTime';
 import { Search, Plus, X, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { useClaims, useClaimLookup, useCreateClaim } from '../api/hooks/useClaims';
+import { useClaims, useClaimLookup, useCreateClaim, useClaimMetrics } from '../api/hooks/useClaims';
 import type { ClaimLookupResponse, Claim } from '../api/schemas/claim.schemas';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -233,9 +233,19 @@ function ClaimRow({ claim }: ClaimRowProps) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
+function MetricCard({ label, value, color }: { label: string; value: number; color: string }) {
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 px-5 py-4">
+      <p className="text-xs text-gray-400 uppercase tracking-wide font-medium">{label}</p>
+      <p className={`text-3xl font-bold mt-1 ${color}`}>{value}</p>
+    </div>
+  );
+}
+
 export default function ClaimsPage() {
   const [showModal, setShowModal] = useState(false);
   const { data: claims = [], isLoading } = useClaims();
+  const { data: metrics } = useClaimMetrics();
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
@@ -248,6 +258,14 @@ export default function ClaimsPage() {
           <Plus className="w-4 h-4" />
           Agregar siniestro
         </button>
+      </div>
+
+      {/* Metrics */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <MetricCard label="Total"        value={metrics?.total     ?? 0} color="text-gray-800" />
+        <MetricCard label="Abiertos"     value={metrics?.open      ?? 0} color="text-green-600" />
+        <MetricCard label="En mediación" value={metrics?.mediation ?? 0} color="text-amber-600" />
+        <MetricCard label="En juicio"    value={metrics?.lawsuit   ?? 0} color="text-red-600" />
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">

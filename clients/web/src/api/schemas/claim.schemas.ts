@@ -116,6 +116,14 @@ export const ClaimLookupResponseSchema = z.object({
   producer: SISEProducerSchema.nullable().optional(),
 });
 
+export const ClaimMetricsSchema = z.object({
+  total:     z.number(),
+  open:      z.number(),
+  mediation: z.number(),
+  lawsuit:   z.number(),
+});
+
+export type ClaimMetrics      = z.infer<typeof ClaimMetricsSchema>;
 export type Claim             = z.infer<typeof ClaimSchema>;
 export type ClaimStage        = z.infer<typeof ClaimStageSchema>;
 export type ClaimPayment      = z.infer<typeof ClaimPaymentSchema>;

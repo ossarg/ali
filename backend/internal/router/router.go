@@ -49,6 +49,7 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	api.GET("/activity/events/approved", caseController.ListApprovedEvents)
 	api.GET("/activity/events/pending", caseController.ListPendingEvents)
 	api.PATCH("/activity/events/:id/review", caseController.ReviewEvent)
+	api.GET("/claims/metrics", claimController.Metrics)
 	api.GET("/claims", claimController.List)
 	api.GET("/claims/lookup", claimController.Lookup)
 	api.GET("/claims/:id", claimController.Get)

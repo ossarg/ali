@@ -13,6 +13,7 @@ import (
 
 type ClaimService interface {
 	List() ([]dto.ClaimResponse, error)
+	GetMetrics() (*dto.ClaimMetrics, error)
 	GetByID(id string) (*dto.ClaimResponse, error)
 	Lookup(nroStro string) (*dto.ClaimLookupResponse, error)
 	Create(nroStro string) (*dto.ClaimResponse, error)
@@ -40,6 +41,19 @@ func (s *claimService) List() ([]dto.ClaimResponse, error) {
 		result[i] = dto.ToClaimResponse(c)
 	}
 	return result, nil
+}
+
+func (s *claimService) GetMetrics() (*dto.ClaimMetrics, error) {
+	total, open, mediation, lawsuit, err := s.claimRepo.GetMetrics()
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	return &dto.ClaimMetrics{
+		Total:     total,
+		Open:      open,
+		Mediation: mediation,
+		Lawsuit:   lawsuit,
+	}, nil
 }
 
 func (s *claimService) GetByID(id string) (*dto.ClaimResponse, error) {

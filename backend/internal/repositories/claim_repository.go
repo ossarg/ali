@@ -16,6 +16,7 @@ type ClaimRepository interface {
 	UpsertStage(stage *models.ClaimStage) error
 	CreatePayment(payment *models.ClaimPayment) error
 	UpdateCurrentStatus(claimID string, status string) error
+	GetMetrics() (total, open, mediation, lawsuit int64, err error)
 }
 
 type claimRepository struct {
@@ -77,6 +78,33 @@ func (r *claimRepository) UpsertStage(stage *models.ClaimStage) error {
 // CreatePayment inserts a payment row (no upsert — payments are immutable records).
 func (r *claimRepository) CreatePayment(payment *models.ClaimPayment) error {
 	return r.db.Create(payment).Error
+}
+
+func (r *claimRepository) GetMetrics() (total, open, mediation, lawsuit int64, err error) {
+	type row struct {
+		Status string
+		Count  int64
+	}
+	var rows []row
+	err = r.db.Model(&models.Claim{}).
+		Select("current_status as status, count(*) as count").
+		Group("current_status").
+		Scan(&rows).Error
+	if err != nil {
+		return
+	}
+	for _, rw := range rows {
+		total += rw.Count
+		switch rw.Status {
+		case "ABIERTO":
+			open = rw.Count
+		case "MEDIACION":
+			mediation = rw.Count
+		case "JUICIO":
+			lawsuit = rw.Count
+		}
+	}
+	return
 }
 
 // UpdateCurrentStatus updates the denormalized current_status on the claims header.
