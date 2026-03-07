@@ -126,40 +126,50 @@ Al final del documento, una **sección de pendientes** con:
 - Nunca dejes una sección en blanco — siempre placeholder o contenido.
 - El output es un insumo para el abogado, no el escrito final.
 
-### Regla crítica: contrato de seguro — no reconocer sin póliza verificada
+### Regla crítica: contrato de seguro — verificación de póliza
 
-**Nunca redactes la sección del contrato de seguro con reconocimiento expreso de su existencia.** Hasta que el abogado verifique la póliza, usar siempre lenguaje condicional:
+La póliza **siempre debe estar verificada** antes de reconocer el contrato de seguro. La verificación es tarea de Mike (`extraction-policy-lookup-ar`).
 
-> "Que sin perjuicio de las defensas que se opondrán, y para el hipotético e improbable caso de que se acredite la existencia y vigencia del contrato de seguro invocado por el actor, mi mandante reconoce que el vehículo... podría haber estado cubierto por una póliza de RC Auto. Sin embargo, la cobertura se limita en todos los casos a los términos y condiciones de la póliza respectiva, cuya existencia, vigencia y alcance deberán ser acreditados en autos."
+**Si `policy_summary` está disponible** (Mike encontró la póliza): redactá la sección del contrato de seguro con los datos de la póliza verificada. Reconocimiento directo, sin lenguaje condicional.
 
-Si `policy_summary = null` o `extraction-policy-lookup-ar` no encontró la póliza: agregar esta sección como texto condicional y anotar en los pendientes: **[COMPLETAR — ABOGADO: verificar póliza antes de presentar. El reconocimiento del contrato sin verificación puede comprometer la posición de Libra si la póliza tiene exclusiones o estaba vencida]**.
+**Si `policy_summary = null`** (Mike no encontró la póliza): dejá esta sección como placeholder con flag crítico — **no redactes nada, no uses lenguaje condicional**:
+
+```
+[COMPLETAR — ABOGADO ⚠️ FLAG CRÍTICO: La póliza no fue verificada por los sistemas internos.
+No reconocer el contrato hasta confirmar existencia y vigencia.
+El reconocimiento sin verificación puede comprometer la posición de Libra si la póliza
+tiene exclusiones o estaba vencida. Requerir a Mike nueva búsqueda antes de presentar.]
+```
+
+Anotá en la sección de pendientes del borrador: **⚠️ Póliza no verificada — bloquea presentación**.
 
 ### Regla: negativas ante pericia mecánica penal preexistente
 
-Si el input incluye evidencia de una **pericia mecánica producida en sede penal** (campo `señales_atencion` o `causa_penal` en el output de Donna/Mike), calibrar las negativas sobre mecánica del siniestro de la siguiente forma:
+Si el input incluye evidencia de una **pericia mecánica producida en sede penal** (campo `señales_atencion` o `causa_penal` en el output de Donna/Mike), identificar la situación y dejar un placeholder para el abogado — **no generar negativas automáticamente**:
 
-❌ **No hacer** (negar hechos que la pericia penal ya estableció):
-> "Niego que el asegurado haya invadido la mano contraria de circulación."
+```
+[COMPLETAR — ABOGADO: Existe pericia mecánica penal preexistente en este caso.
+Las negativas sobre mecánica del siniestro deben ser calibradas cuidadosamente:
+- NO negar hechos que la pericia penal ya estableció (resta credibilidad en sede civil)
+- Foco: negar la exclusividad de la causalidad y la contribución de otros factores
+- Revisar la pericia y ajustar las negativas específicas de mecánica antes de presentar]
+```
 
-✅ **Hacer** (negar la exclusividad o la interpretación, no el hecho base):
-> "Niego que el siniestro haya sido causado exclusiva y excluyentemente por la conducta del codemandado [nombre], sin que hayan mediado otros factores causales concurrentes."
-> "Niego que la conducta de la víctima no haya contribuido causalmente al resultado dañoso."
-
-Las pericias penales son difíciles de revertir en sede civil. Negar frontalmente lo que ya establecieron resta credibilidad a la posición de Libra.
+Las pericias penales son difíciles de revertir en sede civil. Esta sección requiere análisis del abogado antes de redactar.
 
 ### Regla: defensa de culpa concurrente de la víctima en RC Auto con fallecimiento o lesiones
 
-Cuando el siniestro involucra fallecimiento o lesiones graves en un accidente de tránsito, **siempre incluir** una sección de negativa específica para "culpa concurrente de la víctima" aunque los datos no estén disponibles aún:
+Cuando el siniestro involucra fallecimiento o lesiones graves en un accidente de tránsito, identificar la situación y dejar un placeholder para el abogado — **no generar negativas automáticamente**:
 
 ```
-Niego que [nombre de la víctima] haya adoptado todas las precauciones necesarias al
-momento del siniestro.
-Niego que [nombre de la víctima] haya circulado a velocidad reglamentaria y con todas
-las condiciones de seguridad exigibles.
-[COMPLETAR — ABOGADO: verificar si la víctima usaba casco (motociclistas), si el
-vehículo tenía luces reglamentarias, velocidad estimada de la víctima según pericia
-mecánica, y cualquier maniobra de la víctima que pueda acreditarse. Esta defensa
-(art. 1729 CCC) puede reducir significativamente el monto de condena.]
+[COMPLETAR — ABOGADO: Siniestro con fallecimiento/lesiones graves — evaluar defensa de
+culpa concurrente de la víctima (art. 1729 CCC). Alto impacto potencial en condena.
+Para redactar las negativas, verificar:
+- Motociclistas: ¿usaba casco reglamentario?
+- ¿El vehículo de la víctima tenía luces reglamentarias?
+- Velocidad estimada de la víctima según pericia mecánica
+- Maniobras de la víctima que puedan acreditarse en el expediente
+Una vez analizados estos datos, redactar las negativas específicas de culpa concurrente.]
 ```
 
 ### Regla: solicitudes especiales de la demanda

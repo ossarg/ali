@@ -79,7 +79,7 @@ Este análisis es crítico para la reserva del caso.
 Calculá tres escenarios. Para cada uno, documentá explícitamente:
 - **Capital base**: monto de condena estimado
 - **Tasa de interés usada** y entidad de referencia (tasa activa BNA / Bco. Provincia PBA / otra)
-- **Horizonte temporal**: fecha probable de sentencia (estimación según tipo de proceso y jurisdicción — ordinario en PBA ~ 4-6 años desde demanda)
+- **Horizonte temporal**: fecha probable de sentencia (estimación según tipo de proceso y jurisdicción — ver `docs/parametros-provisorios-triage.md` para el valor vigente; **provisorio hasta calibrar con experiencia de Libra**)
 - **Factor de intereses**: multiplicador aplicado al capital por los intereses acumulados
 - **Costas**: porcentaje asumido (referencia: 25-40% del capital de condena)
 - **Total resultante**
@@ -232,7 +232,7 @@ Verificá el estado de cumplimiento de las obligaciones del asegurador. Esto imp
     "supuestos": [
       "Mejor caso: exclusión por culpa grave prospera (requiere prueba no disponible actualmente)",
       "Probable: condena parcial sobre rubros, sin exclusiones, exposición limitada a suma asegurada",
-      "Peor caso: condena total con intereses tasa activa BNA desde fecha del hecho (jun 2024) y costas del 35%"
+      "Peor caso: condena total con intereses tasa activa BNA desde fecha del hecho (jun 2024) y costas del 35% — ver docs/parametros-provisorios-triage.md para parámetros vigentes"
     ],
     "reserva_sugerida": "$10.000.000 (suma asegurada completa — dada la baja probabilidad de exclusiones y la exposición por intereses)"
   },

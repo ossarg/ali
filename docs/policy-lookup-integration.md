@@ -1,8 +1,11 @@
 # Policy Lookup Integration — Spec
 
-**Estado:** Pendiente de definición con Juan Mazzochi
+**Estado:** Pendiente de definición con el responsable de sistemas internos de Libra
+**Contacto clave:** Responsable de sistemas internos (Discord: 862520281964740648) — conoce y maneja los sistemas. Definir con él antes de ajustar el SKILL.md.
 **Skill relacionado:** `skills/extraction-policy-lookup-ar/SKILL.md`
 **Agente:** Mike (Extraction Agent)
+
+> **Nota:** Este documento es un salva-memoria. No avanzar con la implementación del skill hasta tener las respuestas a las preguntas de definición. El SKILL.md actual es un stub que se ajustará en función del input de sistemas.
 
 ---
 
