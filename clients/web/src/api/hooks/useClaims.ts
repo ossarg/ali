@@ -1,6 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { claimKeys, claimService } from '../services/claim.service';
 
+export function useClaimMetrics() {
+  return useQuery({
+    queryKey: claimKeys.metrics(),
+    queryFn:  claimService.getMetrics,
+  });
+}
+
 export function useClaimById(id: string) {
   return useQuery({
     queryKey: claimKeys.detail(id),

@@ -106,6 +106,20 @@ definitions:
       producer:
         $ref: '#/definitions/sise.Producer'
     type: object
+  dto.ClaimMetrics:
+    properties:
+      lawsuit:
+        description: JUICIO (sise_status_id=3)
+        type: integer
+      mediation:
+        description: MEDIACION (sise_status_id=5)
+        type: integer
+      open:
+        description: ABIERTO (sise_status_id=4)
+        type: integer
+      total:
+        type: integer
+    type: object
   dto.ClaimPaymentResponse:
     properties:
       amount:
@@ -374,6 +388,9 @@ definitions:
         type: integer
       status:
         type: string
+      statusID:
+        format: int32
+        type: integer
     type: object
   sise.PolicySummary:
     properties:
@@ -894,6 +911,27 @@ paths:
       security:
       - BearerAuth: []
       summary: Look up a claim in SISE
+      tags:
+      - claims
+  /api/v1/claims/metrics:
+    get:
+      description: Returns aggregated claim counts by status.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ClaimMetrics'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get claim metrics
       tags:
       - claims
 schemes:

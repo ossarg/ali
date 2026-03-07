@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { formatTableTime } from '../lib/formatTime';
-import { Search, Plus, X, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { useClaims, useClaimLookup, useCreateClaim } from '../api/hooks/useClaims';
+import { Search, Plus, X, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
+import { useClaims, useClaimLookup, useCreateClaim, useClaimMetrics } from '../api/hooks/useClaims';
+import { useQueryClient } from '@tanstack/react-query';
+import { claimKeys } from '../api/services/claim.service';
 import type { ClaimLookupResponse, Claim } from '../api/schemas/claim.schemas';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -233,9 +235,26 @@ function ClaimRow({ claim }: ClaimRowProps) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
+function MetricCard({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-1">
+      <span className="text-sm text-gray-500">{label}</span>
+      <span className="text-3xl font-bold text-gray-900">{value}</span>
+    </div>
+  );
+}
+
 export default function ClaimsPage() {
   const [showModal, setShowModal] = useState(false);
+  const [lastSync, setLastSync] = useState<Date>(new Date());
+  const queryClient = useQueryClient();
   const { data: claims = [], isLoading } = useClaims();
+  const { data: metrics, isFetching } = useClaimMetrics();
+
+  const handleReload = () => {
+    queryClient.invalidateQueries({ queryKey: claimKeys.all });
+    setLastSync(new Date());
+  };
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
@@ -248,6 +267,29 @@ export default function ClaimsPage() {
           <Plus className="w-4 h-4" />
           Agregar siniestro
         </button>
+      </div>
+
+      {/* Metrics */}
+      <div className="space-y-2">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <MetricCard label="Total"        value={metrics?.total     ?? 0} />
+          <MetricCard label="Abiertos"     value={metrics?.open      ?? 0} />
+          <MetricCard label="En mediación" value={metrics?.mediation ?? 0} />
+          <MetricCard label="En juicio"    value={metrics?.lawsuit   ?? 0} />
+        </div>
+        <div className="flex items-center justify-end gap-3">
+          <span className="text-xs text-gray-400">
+            Última sincronización: {format(lastSync, 'HH:mm', { locale: es })}
+          </span>
+          <button
+            onClick={handleReload}
+            disabled={isFetching}
+            className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-40"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isFetching ? 'animate-spin' : ''}`} />
+            Actualizar
+          </button>
+        </div>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">

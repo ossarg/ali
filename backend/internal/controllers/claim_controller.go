@@ -16,6 +16,23 @@ func NewClaimController(claimService services.ClaimService) *ClaimController {
 	return &ClaimController{claimService: claimService}
 }
 
+// GetClaimMetrics godoc
+// @Summary      Get claim metrics
+// @Description  Returns aggregated claim counts by status.
+// @Tags         claims
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {object}  dto.ClaimMetrics
+// @Failure      401  {object}  map[string]string
+// @Router       /api/v1/claims/metrics [get]
+func (cc *ClaimController) Metrics(c echo.Context) error {
+	metrics, err := cc.claimService.GetMetrics()
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, metrics)
+}
+
 // ListClaims godoc
 // @Summary      List all claims
 // @Description  Returns all claims persisted in our DB, ordered by creation date desc.

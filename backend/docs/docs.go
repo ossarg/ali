@@ -633,6 +633,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/claims/metrics": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns aggregated claim counts by status.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "claims"
+                ],
+                "summary": "Get claim metrics",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClaimMetrics"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/claims/{id}": {
             "get": {
                 "security": [
@@ -836,6 +870,26 @@ const docTemplate = `{
                 },
                 "producer": {
                     "$ref": "#/definitions/sise.Producer"
+                }
+            }
+        },
+        "dto.ClaimMetrics": {
+            "type": "object",
+            "properties": {
+                "lawsuit": {
+                    "description": "JUICIO (sise_status_id=3)",
+                    "type": "integer"
+                },
+                "mediation": {
+                    "description": "MEDIACION (sise_status_id=5)",
+                    "type": "integer"
+                },
+                "open": {
+                    "description": "ABIERTO (sise_status_id=4)",
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },
@@ -1241,6 +1295,10 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
+                },
+                "statusID": {
+                    "type": "integer",
+                    "format": "int32"
                 }
             }
         },
