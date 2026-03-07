@@ -69,7 +69,6 @@ function InfoTab({ claim }: { claim: Claim }) {
     <div className="space-y-4">
       <Card title="Siniestro">
         <Row label="Nro. siniestro"   value={String(claim.claim_number)} />
-        <Row label="Subreclamo"       value={String(claim.claim_subnumber)} />
         <Row label="Ramo"             value={String(claim.ramo_code)} />
         <Row label="Causa"            value={claim.cause} />
         <Row label="Cobertura"        value={claim.coverage} />
@@ -176,7 +175,7 @@ export default function ClaimDetail() {
   const linkedCaseId: string | null = null;
 
   return (
-    <div className="p-6 max-w-5xl mx-auto space-y-6">
+    <div className="p-6 max-w-7xl mx-auto space-y-6">
       {/* Back */}
       <button
         onClick={() => navigate('/siniestros')}
