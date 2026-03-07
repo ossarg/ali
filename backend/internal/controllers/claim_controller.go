@@ -16,6 +16,23 @@ func NewClaimController(claimService services.ClaimService) *ClaimController {
 	return &ClaimController{claimService: claimService}
 }
 
+// ListClaims godoc
+// @Summary      List all claims
+// @Description  Returns all claims persisted in our DB, ordered by creation date desc.
+// @Tags         claims
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {array}   dto.ClaimResponse
+// @Failure      401  {object}  map[string]string
+// @Router       /api/v1/claims [get]
+func (cc *ClaimController) List(c echo.Context) error {
+	claims, err := cc.claimService.List()
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, claims)
+}
+
 // LookupClaim godoc
 // @Summary      Look up a claim in SISE
 // @Description  Fetches claim + policy + producer from SISE by claim number. Does not persist.

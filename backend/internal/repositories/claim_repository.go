@@ -9,6 +9,7 @@ import (
 
 type ClaimRepository interface {
 	Create(c *models.Claim) error
+	List() ([]models.Claim, error)
 	FindByID(id string) (*models.Claim, error)
 	FindBySISEClaimID(siseClaimID int64) (*models.Claim, error)
 	ExistsBySISEClaimID(siseClaimID int64) (bool, error)
@@ -24,6 +25,12 @@ func NewClaimRepository(db *gorm.DB) ClaimRepository {
 
 func (r *claimRepository) Create(c *models.Claim) error {
 	return r.db.Create(c).Error
+}
+
+func (r *claimRepository) List() ([]models.Claim, error) {
+	var claims []models.Claim
+	err := r.db.Order("created_at DESC").Find(&claims).Error
+	return claims, err
 }
 
 func (r *claimRepository) FindByID(id string) (*models.Claim, error) {

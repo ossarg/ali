@@ -465,6 +465,41 @@
             }
         },
         "/api/v1/claims": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns all claims persisted in our DB, ordered by creation date desc.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "claims"
+                ],
+                "summary": "List all claims",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ClaimResponse"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {

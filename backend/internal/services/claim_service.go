@@ -12,6 +12,7 @@ import (
 )
 
 type ClaimService interface {
+	List() ([]dto.ClaimResponse, error)
 	Lookup(nroStro string) (*dto.ClaimLookupResponse, error)
 	Create(nroStro string) (*dto.ClaimResponse, error)
 }
@@ -26,6 +27,18 @@ func NewClaimService(claimRepo repositories.ClaimRepository, siseOrch *sise.Cons
 		claimRepo: claimRepo,
 		siseOrch:  siseOrch,
 	}
+}
+
+func (s *claimService) List() ([]dto.ClaimResponse, error) {
+	claims, err := s.claimRepo.List()
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	result := make([]dto.ClaimResponse, len(claims))
+	for i, c := range claims {
+		result[i] = dto.ToClaimResponse(c)
+	}
+	return result, nil
 }
 
 // Lookup fetches claim + policy + producer from SISE without persisting.

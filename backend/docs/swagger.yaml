@@ -711,6 +711,29 @@ paths:
       tags:
       - cases
   /api/v1/claims:
+    get:
+      description: Returns all claims persisted in our DB, ordered by creation date
+        desc.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.ClaimResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List all claims
+      tags:
+      - claims
     post:
       consumes:
       - application/json
