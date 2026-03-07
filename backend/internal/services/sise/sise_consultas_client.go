@@ -84,15 +84,29 @@ type SchemaField struct {
 
 // Siniestro represents a claim returned by SISE
 type Siniestro struct {
-	NroSiniestro  string  `json:"nro_siniestro"`
-	NroPoliza     string  `json:"nro_poliza"`
-	FechaSiniestro string `json:"fecha_siniestro"`
-	Ramo          string  `json:"ramo"`
-	Estado        string  `json:"estado"`
-	Asegurado     string  `json:"asegurado"`
-	NroDocumento  string  `json:"nro_documento"`
-	Descripcion   string  `json:"descripcion"`
-	MontoReserva  float64 `json:"monto_reserva"`
+	IDStro             int64   `json:"id_stro"`
+	IDPV               int64   `json:"id_pv"`
+	NroSiniestro       int64   `json:"nro_siniestro"`
+	NroSubreclamo      int64   `json:"nro_subreclamo"`
+	NroPoliza          float64 `json:"nro_poliza"`
+	NroEndoso          float64 `json:"nro_endoso"`
+	CodigoRamo         float64 `json:"codigo_ramo"`
+	FechaRegistro      string  `json:"fecha_resgistro"` // typo is SISE's own
+	FechaAviso         string  `json:"fecha_aviso"`
+	FechaIncurrido     string  `json:"fecha_incurrido"`
+	FechaPago          *string `json:"fecha_pago"`
+	ContratantePagador string  `json:"contratante_pagador"`
+	Titular            string  `json:"titular"`
+	Paciente           string  `json:"paciente"`
+	Parentesco         *string `json:"parentesco"`
+	ImporteEstimado    float64 `json:"importe_estimado"`
+	ImportePago        float64 `json:"importe_pago"`
+	Diagnostico        string  `json:"diagnostico"`
+	Causa              string  `json:"causa"`
+	Cobertura          string  `json:"cobertura"`
+	Estado             string  `json:"estado"`
+	TomadorTipoDoc     string  `json:"tomador_tipo_doc"`
+	TomadorDoc         string  `json:"tomador_doc"`
 }
 
 // ─── Client ───────────────────────────────────────────────────────────────────
@@ -221,35 +235,76 @@ func (c *ConsultasClient) GetSiniestroByNumber(bearerToken, nroSiniestro string)
 }
 
 // parseSiniestro maps a raw SISE row to a Siniestro struct.
-// Field names are placeholders — update once Nacho shares the actual schema.
 func parseSiniestro(item map[string]interface{}) *Siniestro {
 	s := &Siniestro{}
-	if v, ok := item["nro_siniestro"].(string); ok {
-		s.NroSiniestro = v
+	if v, ok := item["id_stro"].(float64); ok {
+		s.IDStro = int64(v)
 	}
-	if v, ok := item["nro_poliza"].(string); ok {
+	if v, ok := item["id_pv"].(float64); ok {
+		s.IDPV = int64(v)
+	}
+	if v, ok := item["Nro_siniestro"].(float64); ok {
+		s.NroSiniestro = int64(v)
+	}
+	if v, ok := item["nro_subreclamo"].(float64); ok {
+		s.NroSubreclamo = int64(v)
+	}
+	if v, ok := item["nro_poliza"].(float64); ok {
 		s.NroPoliza = v
 	}
-	if v, ok := item["fecha_siniestro"].(string); ok {
-		s.FechaSiniestro = v
+	if v, ok := item["nro_endoso"].(float64); ok {
+		s.NroEndoso = v
 	}
-	if v, ok := item["ramo"].(string); ok {
-		s.Ramo = v
+	if v, ok := item["codigo_ramo"].(float64); ok {
+		s.CodigoRamo = v
+	}
+	if v, ok := item["fecha_resgistro"].(string); ok {
+		s.FechaRegistro = v
+	}
+	if v, ok := item["fecha_aviso"].(string); ok {
+		s.FechaAviso = v
+	}
+	if v, ok := item["fecha_incurrido"].(string); ok {
+		s.FechaIncurrido = v
+	}
+	if v, ok := item["fecha_pago"].(string); ok {
+		s.FechaPago = &v
+	}
+	if v, ok := item["contratante_pagador"].(string); ok {
+		s.ContratantePagador = v
+	}
+	if v, ok := item["titular"].(string); ok {
+		s.Titular = v
+	}
+	if v, ok := item["paciente"].(string); ok {
+		s.Paciente = v
+	}
+	if v, ok := item["parentesco"].(string); ok {
+		s.Parentesco = &v
+	}
+	if v, ok := item["importe_estimado"].(float64); ok {
+		s.ImporteEstimado = v
+	}
+	if v, ok := item["importe_pago"].(float64); ok {
+		s.ImportePago = v
+	}
+	if v, ok := item["diagnostico"].(string); ok {
+		s.Diagnostico = v
+	}
+	if v, ok := item["causa"].(string); ok {
+		s.Causa = v
+	}
+	if v, ok := item["cobertura"].(string); ok {
+		s.Cobertura = v
 	}
 	if v, ok := item["estado"].(string); ok {
 		s.Estado = v
 	}
-	if v, ok := item["asegurado"].(string); ok {
-		s.Asegurado = v
+	if v, ok := item["tomador_tipo_doc"].(string); ok {
+		s.TomadorTipoDoc = v
 	}
-	if v, ok := item["nro_documento"].(string); ok {
-		s.NroDocumento = v
-	}
-	if v, ok := item["descripcion"].(string); ok {
-		s.Descripcion = v
-	}
-	if v, ok := item["monto_reserva"].(float64); ok {
-		s.MontoReserva = v
+	if v, ok := item["tomador_doc"].(string); ok {
+		s.TomadorDoc = v
 	}
 	return s
 }
