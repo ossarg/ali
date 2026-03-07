@@ -15,6 +15,16 @@
 En PoC v1: el trigger es manual (Juan sube el PDF → Ali recibe el path).
 En producción: Rachel detecta el mail, extrae el PDF y dispara el trigger.
 
+### Regla: `fecha_notificacion_asegurador` en modo manual
+
+| Origen | `fecha_notificacion_asegurador` | Acción de Ali |
+|--------|--------------------------------|---------------|
+| `email` / `api` | Rachel la provee en el envelope | Continuar sin interrumpir |
+| `manual` — el operador la conoce | Se informa al invocar el pipeline | Continuar |
+| `manual` — el operador no la conoce | `null` | Continuar con `null`; marcar como **pendiente crítico** en la entrega al abogado; incluir en la lista de `secciones_requieren_revision` del borrador |
+
+En modo `manual`, Ali solicita explícitamente este dato antes de invocar a Mike. Si no se provee, no bloquea el pipeline pero lo registra como dato faltante crítico.
+
 ---
 
 ## Flujo de orquestación
@@ -86,6 +96,7 @@ En producción: Rachel detecta el mail, extrae el PDF y dispara el trigger.
 | `edu.coverage_opinion.dictamen = INDETERMINADO` | Continuar — Jess marca secciones como requieren_revision |
 | `review.resultado = corregir` | Re-activar Jess (1 vez máximo) |
 | `review.resultado = rechazar` o 2do fallo | STOP — revisión humana directa |
+| `donna.formal_review.checks[documental].count` ≠ `mike.claim_summary.prueba_ofrecida.documental.count` | FLAG — inconsistencia de conteo; registrar en metadata del caso |
 
 ---
 

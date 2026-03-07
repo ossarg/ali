@@ -70,9 +70,24 @@ Nota: estos datos se extraen de lo que menciona la demanda. El análisis complet
 Extraé el monto total y cada rubro individual con su monto. Esto es crítico: los skills de triage y drafting necesitan el desglose para evaluar razonabilidad rubro por rubro e impugnar montos en la contestación.
 
 - Monto total reclamado y moneda
-- Rubros individuales con monto, moneda y base de cálculo si se indica
+- Rubros individuales con: monto, moneda, `base_calculo` (la metodología de cuantificación usada por el actor si la explicita, ej: "2 sesiones semanales × 3 años × $8.000/sesión"), y `distribucion_porcentual` si la demanda asigna porcentajes del rubro a distintos actores
 - Intereses solicitados (tipo de tasa, desde cuándo)
 - Si el actor usa la fórmula "o lo que en más o en menos resulte de la prueba", señalá que el monto es estimativo
+- `solicitud_astreintes`: boolean; si `true`, extraer monto o porcentaje diario si se especifica (ej: "1% diario sobre el monto de condena actualizado con costas")
+- `solicitud_tasa_interes`: objeto con `tipo_tasa` (tasa activa / tasa pasiva / UVA / otra), `entidad_referencia` (Banco Provincia / BNA / otro) y `desde` (fecha del hecho / fecha de mora / fecha de notificación / otra)
+
+#### Datos económicos de la víctima (solo en casos con fallecimiento)
+
+Extraé los datos económicos de la víctima si el siniestro involucra fallecimiento. Estos datos son necesarios para que `triage-coverage-opinion-ar` calibre la exposición económica y para que el borrador pueda impugnar el cálculo de valor vida con precisión.
+
+- `victima.edad`: edad al momento del fallecimiento
+- `victima.fuentes_ingresos`: lista de fuentes con tipo y monto mensual (jubilación, salario, trabajo informal, etc.)
+- `victima.ingresos_mensuales_total`: suma total mensual
+- `victima.vida_util_estimada_hasta`: edad hasta la que la demanda proyecta la expectativa de vida de la víctima
+- `victima.distribucion_porcentual_valor_vida`: por cada actor, el porcentaje del valor vida que la demanda le asigna (ej: Segovia 60%, Brian 10%, Angel 10%, consumo propio víctima 20%)
+- `victima.base_calculo_valor_vida`: la fórmula o metodología usada (en texto, tal como aparece en la demanda)
+
+Si estos datos no figuran en la demanda, registrar `null` con `confidence = low` en el campo correspondiente.
 
 #### Prueba ofrecida por el actor
 
@@ -157,15 +172,32 @@ Extraé toda la prueba que ofrece el actor. Esto lo necesita `risk-assessment-ar
 | monto_estimativo | boolean | Si el actor usa "o lo que en más o en menos resulte" |
 | rubros | lista de objetos | Ver detalle abajo |
 | intereses | objeto o null | Tipo de tasa solicitada y desde cuándo |
+| solicitud_astreintes | objeto o null | `{ tiene: boolean, detalle: string }` — si el actor pide astreintes, con el monto o porcentaje si se especifica |
+| solicitud_tasa_interes | objeto o null | `{ tipo_tasa, entidad_referencia, desde }` — tipo de tasa, entidad de referencia (Bco. Provincia, BNA, etc.) y desde cuándo corren |
 
 **Detalle de cada rubro:**
 
 | Campo | Tipo | Descripción |
 |-------|------|-------------|
-| rubro | string | Nombre del rubro (daño emergente, incapacidad sobreviniente, daño moral, etc.) |
+| actor | string | A qué actor corresponde este rubro (si hay varios actores) |
+| rubro | string | Nombre del rubro (daño emergente, incapacidad sobreviniente, daño moral, valor vida, etc.) |
 | monto | FieldWithConfidence | Monto reclamado para este rubro |
 | moneda | string | Moneda |
-| base_calculo | string o null | Cómo lo calcula el actor (ej: "45% incapacidad x ingreso mensual x coef. edad") |
+| base_calculo | string o null | Metodología de cuantificación usada por el actor (ej: "2 sesiones × 3 años × $8.000" o "ingreso mensual × meses vida útil remanente") |
+| distribucion_porcentual | lista de objetos o null | Si el rubro se distribuye entre actores por porcentaje: `[{ actor, porcentaje }]` |
+
+### Datos económicos de la víctima (solo en casos con fallecimiento)
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| victima.edad | FieldWithConfidence | Edad de la víctima al momento del fallecimiento |
+| victima.fuentes_ingresos | lista de objetos | Cada fuente: `{ tipo, monto_mensual }` |
+| victima.ingresos_mensuales_total | FieldWithConfidence | Suma mensual total de todos los ingresos |
+| victima.vida_util_estimada_hasta | FieldWithConfidence | Edad hasta la que la demanda proyecta la expectativa de vida |
+| victima.distribucion_porcentual_valor_vida | lista de objetos | `[{ actor, porcentaje }]` — distribución del valor vida entre actores según la demanda |
+| victima.base_calculo_valor_vida | FieldWithConfidence | Fórmula o metodología usada, en texto tal como aparece en la demanda |
+
+Si no hay fallecimiento o los datos no figuran en la demanda: `victima = null`.
 
 ### Prueba ofrecida
 

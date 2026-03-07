@@ -76,10 +76,22 @@ Este análisis es crítico para la reserva del caso.
 - **Sublímites**: ¿hay sublímites por cobertura (ej: RC voluntario hasta $X, daño moral hasta $Y)?
 - **Exposición neta**: monto reclamado menos franquicia, con tope en suma asegurada. Si el reclamo excede la suma asegurada, el excedente es riesgo del asegurado — pero verificá si hay jurisprudencia que extienda la obligación del asegurador (art. 118 Ley 17.418, acción directa).
 
-Calculá tres escenarios:
-- **Mejor caso**: se aplican exclusiones o franquicia alta, exposición mínima.
-- **Caso probable**: cobertura con franquicia, sin exclusiones, condena parcial sobre rubros.
-- **Peor caso**: condena total, con intereses (tasa activa BNA es lo habitual en CABA), costas y honorarios.
+Calculá tres escenarios. Para cada uno, documentá explícitamente:
+- **Capital base**: monto de condena estimado
+- **Tasa de interés usada** y entidad de referencia (tasa activa BNA / Bco. Provincia PBA / otra)
+- **Horizonte temporal**: fecha probable de sentencia (estimación según tipo de proceso y jurisdicción — ordinario en PBA ~ 4-6 años desde demanda)
+- **Factor de intereses**: multiplicador aplicado al capital por los intereses acumulados
+- **Costas**: porcentaje asumido (referencia: 25-40% del capital de condena)
+- **Total resultante**
+
+Escenarios:
+- **Mejor caso**: se aplican exclusiones o franquicia alta; o condena mínima por reducción de rubros; exposición mínima.
+- **Caso probable**: cobertura con franquicia, sin exclusiones, condena parcial sobre rubros principales; intereses acumulados hasta sentencia estimada.
+- **Peor caso**: condena total sobre monto pedido, con intereses a tasa activa desde la fecha del hecho hasta sentencia, más costas del 35-40%.
+
+**Nota crítica sobre intereses**: En juicios de más de 3 años, los intereses a tasa activa pueden duplicar o triplicar el capital original. La reserva sugerida debe incluir capital + intereses acumulados hasta hoy + estimación de intereses hasta sentencia + costas. Nunca reservar solo el capital de la demanda.
+
+**Nota sobre pericia mecánica penal preexistente**: Si en el caso existe una pericia mecánica producida en sede penal que establece responsabilidad del asegurado como agente activo del accidente, esto eleva significativamente la probabilidad de condena. Reflejarlo en la evaluación de riesgo judicial y en el escenario probable (aumentar probabilidad de condena).
 
 #### 6. Riesgo judicial
 
@@ -151,11 +163,11 @@ Verificá el estado de cumplimiento de las obligaciones del asegurador. Esto imp
 | monto_reclamado | string | Monto total reclamado en la demanda |
 | franquicia | string o null | Franquicia/deducible aplicable |
 | suma_asegurada | string o null | Suma asegurada / límite de cobertura |
-| exposicion_mejor_caso | string | Exposición mínima (se aplican exclusiones/franquicia) |
-| exposicion_probable | string | Exposición probable (cobertura parcial, condena parcial) |
-| exposicion_peor_caso | string | Exposición máxima (condena total + intereses + costas) |
-| supuestos | lista de strings | Supuestos detrás de cada escenario |
-| reserva_sugerida | string | Monto sugerido para reservar |
+| exposicion_mejor_caso | objeto | `{ capital, intereses, costas, total, tasa_usada, horizonte_temporal }` — exposición mínima |
+| exposicion_probable | objeto | `{ capital, intereses, costas, total, tasa_usada, horizonte_temporal }` — exposición probable |
+| exposicion_peor_caso | objeto | `{ capital, intereses, costas, total, tasa_usada, horizonte_temporal }` — exposición máxima (condena total + intereses desde fecha del hecho + costas) |
+| supuestos | lista de strings | Supuestos explícitos detrás de cada escenario (tasa, horizonte, probabilidad de condena) |
+| reserva_sugerida | objeto | `{ monto, metodologia }` — el monto incluye capital + intereses acumulados hasta hoy + estimación hasta sentencia + costas. Nunca usar solo el capital de la demanda como base. |
 
 ### Obligaciones del asegurador
 

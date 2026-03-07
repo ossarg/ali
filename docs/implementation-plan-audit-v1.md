@@ -24,7 +24,7 @@ cd /home/legales/.openclaw/workspace/ali
 git checkout -b feature/audit-v1-improvements
 ```
 
-**Status:** [ ] Branch creada
+**Status:** [x] Branch creada
 
 ---
 
@@ -34,19 +34,19 @@ git checkout -b feature/audit-v1-improvements
 **Archivo:** `agents/ali/ORCHESTRATION.md`
 **Cambio:** Agregar regla explícita: si `origen = manual` y `fecha_notificacion_asegurador = null`, Ali solicita el dato al operador antes de pasar a Mike. Si el operador no lo conoce, continuar con null y marcar como pendiente crítico en la entrega al abogado.
 
-**Status:** [ ] Implementado
+**Status:** [x] Implementado
 
 ### 0.2 Skill stub — `extraction-policy-lookup-ar`
 **Archivo:** `skills/extraction-policy-lookup-ar/SKILL.md` (nuevo)
 **Cambio:** Crear skill stub que describe la integración con sistemas internos de Libra para obtener la póliza a partir de datos del asegurado/vehículo. El mapping técnico queda como TODO pendiente de definición con Juan.
 
-**Status:** [ ] Implementado
+**Status:** [x] Implementado
 
 ### 0.3 Docs — Policy lookup integration spec
 **Archivo:** `docs/policy-lookup-integration.md` (nuevo)
 **Cambio:** Documento para definir con Juan cómo conectar con el sistema interno: formato de respuesta, autenticación, campos de búsqueda (número de póliza / dominio del vehículo / datos del asegurado).
 
-**Status:** [ ] Implementado
+**Status:** [x] Implementado
 
 ---
 
