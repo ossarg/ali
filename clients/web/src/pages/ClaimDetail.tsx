@@ -175,7 +175,7 @@ export default function ClaimDetail() {
   const linkedCaseId: string | null = null;
 
   return (
-    <div className="px-6 pt-3 pb-6 max-w-7xl mx-auto space-y-6">
+    <div className="px-6 pt-1 pb-6 max-w-7xl mx-auto space-y-6">
       {/* Back */}
       <button
         onClick={() => navigate('/siniestros')}
