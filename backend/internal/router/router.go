@@ -23,7 +23,7 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: cfg.CORS.AllowedOrigins,
 		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
-		AllowHeaders: []string{echo.HeaderContentType, echo.HeaderAuthorization},
+		AllowHeaders: []string{echo.HeaderContentType, echo.HeaderAuthorization, "X-Agent-Key"},
 	}))
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
@@ -37,7 +37,11 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	auth.POST("/login", authController.Login)
 	auth.POST("/logout", authController.Logout, appMiddleware.JWTMiddleware())
 
-	// Protected routes
+	// Agent endpoints (API key auth) — called by Rachel and other agents
+	agents := e.Group("/api/v1/agents", appMiddleware.AgentKeyMiddleware())
+	agents.POST("/case-events", caseController.CreateEvent)
+
+	// Protected routes (JWT)
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
 	api.GET("/cases", caseController.List)
 	api.GET("/cases/:id", caseController.GetByID)

@@ -6,6 +6,7 @@ _Estado actual, decisiones en curso, contexto activo. Se limpia regularmente._
 - Última sesión real: 2025-12-23 (Nacho + Juan)
 - Branch: sesion/2025-12-23 (sin cambios — PR no abierto)
 - Cron activo desde 2026-02-27
+- Gap acumulado: ~72 días sin sesión humana
 
 ## Pendientes al retomar
 1. Prueba de Rachel en #rachel (pendiente desde 2025-12-23)
@@ -19,4 +20,4 @@ _Estado actual, decisiones en curso, contexto activo. Se limpia regularmente._
 - Loops implementados: 1-5 (Loop 6 descartado, 7-9 en Fase B/C)
 
 ## Nota para próxima sesión
-Gap de ~70 días. Conviene que Nacho o Juan confirmen si hubo cambios fuera del sistema antes de retomar trabajo.
+Gap de ~72 días. Conviene que Nacho o Juan confirmen si hubo cambios fuera del sistema antes de retomar trabajo.

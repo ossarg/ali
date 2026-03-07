@@ -17,6 +17,67 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/agents/case-events": {
+            "post": {
+                "description": "Called by Rachel after classifying an email. Requires X-Agent-Key header.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cases"
+                ],
+                "summary": "Register a case event from an incoming email",
+                "parameters": [
+                    {
+                        "description": "Case event payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateCaseEventRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CaseEventResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/auth/login": {
             "post": {
                 "description": "Authenticates a user and returns a JWT token",
@@ -226,6 +287,56 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.CaseEventResponse": {
+            "type": "object",
+            "properties": {
+                "case_id": {
+                    "type": "string"
+                },
+                "confidence": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "mail_id": {
+                    "type": "string"
+                },
+                "mail_provider": {
+                    "type": "string"
+                },
+                "mail_type": {
+                    "type": "string"
+                },
+                "processed": {
+                    "type": "boolean"
+                },
+                "raw_caratula": {
+                    "type": "string"
+                },
+                "raw_case_number": {
+                    "type": "string"
+                },
+                "raw_claim_number": {
+                    "type": "string"
+                },
+                "raw_policy": {
+                    "type": "string"
+                },
+                "reasoning": {
+                    "type": "string"
+                },
+                "received_at": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.CaseResponse": {
             "type": "object",
             "properties": {
@@ -284,6 +395,55 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateCaseEventRequest": {
+            "type": "object",
+            "required": [
+                "confidence",
+                "mail_id",
+                "mail_type",
+                "received_at"
+            ],
+            "properties": {
+                "confidence": {
+                    "type": "number",
+                    "maximum": 1,
+                    "minimum": 0
+                },
+                "mail_id": {
+                    "type": "string"
+                },
+                "mail_provider": {
+                    "type": "string"
+                },
+                "mail_type": {
+                    "type": "integer",
+                    "maximum": 7,
+                    "minimum": 1
+                },
+                "raw_caratula": {
+                    "type": "string"
+                },
+                "raw_case_number": {
+                    "type": "string"
+                },
+                "raw_claim_number": {
+                    "description": "Raw identifiers extracted from the mail (unnormalized)",
+                    "type": "string"
+                },
+                "raw_policy": {
+                    "type": "string"
+                },
+                "reasoning": {
+                    "type": "string"
+                },
+                "received_at": {
+                    "type": "string"
+                },
+                "subject": {
                     "type": "string"
                 }
             }

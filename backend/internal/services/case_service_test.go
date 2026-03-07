@@ -2,12 +2,15 @@ package services
 
 import (
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/ossarg/ali/backend/internal/dto"
 	"github.com/ossarg/ali/backend/internal/models"
 	"github.com/ossarg/ali/backend/internal/repositories"
 )
+
+var testTime = time.Now()
 
 // mockCaseRepository implements repositories.CaseRepository for tests
 type mockCaseRepository struct {
@@ -24,9 +27,14 @@ func (m *mockCaseRepository) FindByID(_ string) (*models.Case, error) {
 	return m.one, m.err
 }
 
-func (m *mockCaseRepository) Create(c *models.Case) error   { return m.err }
-func (m *mockCaseRepository) Update(c *models.Case) error   { return m.err }
-func (m *mockCaseRepository) Delete(_ string) error         { return m.err }
+func (m *mockCaseRepository) Create(c *models.Case) error { return m.err }
+func (m *mockCaseRepository) Update(c *models.Case) error { return m.err }
+func (m *mockCaseRepository) Delete(_ string) error       { return m.err }
+
+func (m *mockCaseRepository) CreateEvent(e *models.CaseEvent) error { return m.err }
+func (m *mockCaseRepository) EventExistsByMailID(_ string) (bool, error) {
+	return false, m.err
+}
 
 func sampleCase() models.Case {
 	return models.Case{
@@ -110,5 +118,62 @@ func TestCaseService_GetByID_InvalidUUID(t *testing.T) {
 	_, err := svc.GetByID("not-a-uuid")
 	if err == nil {
 		t.Fatal("expected error for invalid UUID, got nil")
+	}
+}
+
+func TestCaseService_CreateEvent_Success(t *testing.T) {
+	svc := NewCaseService(&mockCaseRepository{})
+
+	req := dto.CreateCaseEventRequest{
+		MailID:         "gmail-abc123",
+		Subject:        "Sentencia caso García",
+		MailType:       1,
+		Confidence:     0.95,
+		Reasoning:      "El asunto menciona sentencia explícitamente.",
+		RawClaimNumber: "SIN-2024-001",
+		ReceivedAt:     testTime,
+	}
+
+	resp, err := svc.CreateEvent(req)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if resp.MailType != "sentencia" {
+		t.Errorf("expected mail_type=sentencia, got %s", resp.MailType)
+	}
+	if resp.MailProvider != "gmail" {
+		t.Errorf("expected mail_provider=gmail, got %s", resp.MailProvider)
+	}
+}
+
+func TestCaseService_CreateEvent_InvalidMailType(t *testing.T) {
+	svc := NewCaseService(&mockCaseRepository{})
+
+	req := dto.CreateCaseEventRequest{
+		MailID:     "gmail-abc123",
+		MailType:   99,
+		Confidence: 0.9,
+		ReceivedAt: testTime,
+	}
+
+	_, err := svc.CreateEvent(req)
+	if err == nil {
+		t.Fatal("expected error for invalid mail_type, got nil")
+	}
+}
+
+func TestCaseService_CreateEvent_InvalidConfidence(t *testing.T) {
+	svc := NewCaseService(&mockCaseRepository{})
+
+	req := dto.CreateCaseEventRequest{
+		MailID:     "gmail-abc456",
+		MailType:   2,
+		Confidence: 1.5,
+		ReceivedAt: testTime,
+	}
+
+	_, err := svc.CreateEvent(req)
+	if err == nil {
+		t.Fatal("expected error for invalid confidence, got nil")
 	}
 }

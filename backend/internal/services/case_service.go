@@ -11,6 +11,7 @@ import (
 type CaseService interface {
 	List(req dto.ListCasesRequest) ([]dto.CaseResponse, error)
 	GetByID(id string) (*dto.CaseResponse, error)
+	CreateEvent(req dto.CreateCaseEventRequest) (*dto.CaseEventResponse, error)
 }
 
 type caseService struct {
@@ -74,5 +75,50 @@ func (s *caseService) GetByID(id string) (*dto.CaseResponse, error) {
 	}
 
 	resp := dto.ToCaseResponse(*c)
+	return &resp, nil
+}
+
+func (s *caseService) CreateEvent(req dto.CreateCaseEventRequest) (*dto.CaseEventResponse, error) {
+	mailType := models.MailType(req.MailType)
+	if !mailType.IsValid() {
+		return nil, apierrors.New(400, "invalid mail_type value")
+	}
+
+	if req.Confidence < 0 || req.Confidence > 1 {
+		return nil, apierrors.New(400, "confidence must be between 0 and 1")
+	}
+
+	exists, err := s.caseRepo.EventExistsByMailID(req.MailID)
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	if exists {
+		return nil, apierrors.New(409, "mail_id already registered")
+	}
+
+	provider := req.MailProvider
+	if provider == "" {
+		provider = "gmail"
+	}
+
+	event := &models.CaseEvent{
+		MailID:         req.MailID,
+		MailProvider:   provider,
+		Subject:        req.Subject,
+		MailType:       mailType,
+		Confidence:     req.Confidence,
+		Reasoning:      req.Reasoning,
+		RawClaimNumber: req.RawClaimNumber,
+		RawPolicy:      req.RawPolicy,
+		RawCaseNumber:  req.RawCaseNumber,
+		RawCaratula:    req.RawCaratula,
+		ReceivedAt:     req.ReceivedAt,
+	}
+
+	if err := s.caseRepo.CreateEvent(event); err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+
+	resp := dto.ToCaseEventResponse(*event)
 	return &resp, nil
 }

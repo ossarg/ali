@@ -65,3 +65,36 @@ func (cc *CaseController) GetByID(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, caseResp)
 }
+
+// CreateCaseEvent godoc
+// @Summary      Register a case event from an incoming email
+// @Description  Called by Rachel after classifying an email. Requires X-Agent-Key header.
+// @Tags         cases
+// @Accept       json
+// @Produce      json
+// @Param        body  body      dto.CreateCaseEventRequest  true  "Case event payload"
+// @Success      201   {object}  dto.CaseEventResponse
+// @Failure      400   {object}  map[string]string
+// @Failure      401   {object}  map[string]string
+// @Failure      409   {object}  map[string]string
+// @Router       /api/v1/agents/case-events [post]
+func (cc *CaseController) CreateEvent(c echo.Context) error {
+	var req dto.CreateCaseEventRequest
+	if err := c.Bind(&req); err != nil {
+		return apierrors.ErrBadRequest
+	}
+
+	if req.MailID == "" {
+		return apierrors.New(http.StatusBadRequest, "mail_id is required")
+	}
+	if req.ReceivedAt.IsZero() {
+		return apierrors.New(http.StatusBadRequest, "received_at is required")
+	}
+
+	resp, err := cc.caseService.CreateEvent(req)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusCreated, resp)
+}

@@ -11,6 +11,7 @@ type Config struct {
 	Database DatabaseConfig
 	JWT      JWTConfig
 	CORS     CORSConfig
+	AgentKey string
 }
 
 type ServerConfig struct {
@@ -45,6 +46,7 @@ func Load() (*Config, error) {
 	viper.SetDefault("SERVER_PORT", "8080")
 	viper.SetDefault("ENVIRONMENT", "development")
 	viper.SetDefault("CORS_ALLOWED_ORIGINS", "http://localhost:5173")
+	viper.SetDefault("AGENT_KEY", "")
 
 	_ = viper.ReadInConfig()
 
@@ -62,6 +64,7 @@ func Load() (*Config, error) {
 		CORS: CORSConfig{
 			AllowedOrigins: viper.GetStringSlice("CORS_ALLOWED_ORIGINS"),
 		},
+		AgentKey: viper.GetString("AGENT_KEY"),
 	}
 
 	if err := cfg.validate(); err != nil {
@@ -88,6 +91,9 @@ func (c *Config) validate() error {
 	}
 	if c.JWT.Secret == "" {
 		return fmt.Errorf("JWT_SECRET is required")
+	}
+	if c.AgentKey == "" {
+		return fmt.Errorf("AGENT_KEY is required")
 	}
 	return nil
 }
