@@ -183,18 +183,18 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
         </colgroup>
         <thead>
           <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
-            <th className="pb-3 pr-4">Asunto / Mail ID</th>
-            <th className="pb-3 pr-4">Tipo</th>
-            {showActions && <th className="pb-3 pr-4">Confianza</th>}
-            <th className="pb-3 pr-4">Recibido</th>
-            {!showActions && <th className="pb-3 pr-4">Revisado</th>}
+            <th className="pb-3 pr-8">Asunto / Mail ID</th>
+            <th className="pb-3 pr-8">Tipo</th>
+            {showActions && <th className="pb-3 pr-8">Confianza</th>}
+            <th className="pb-3 pr-8">Recibido</th>
+            {!showActions && <th className="pb-3 pr-8">Revisado</th>}
             {showActions && <th className="pb-3" />}
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-50">
           {events.map(event => (
             <tr key={event.id} className="hover:bg-gray-50 transition-colors">
-              <td className="py-3 pr-4 min-w-0">
+              <td className="py-3 pr-8 min-w-0">
                 <div className="font-medium text-gray-800 truncate">
                   {event.subject || event.mail_id}
                 </div>
@@ -202,7 +202,7 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
                   <div className="text-xs text-gray-400 truncate">{event.mail_id}</div>
                 )}
               </td>
-              <td className="py-3 pr-4">
+              <td className="py-3 pr-8">
                 <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
                   {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
                 </span>
@@ -213,15 +213,15 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
                 )}
               </td>
               {showActions && (
-                <td className="py-3 pr-4">
+                <td className="py-3 pr-8">
                   <ConfidenceBar value={event.confidence} />
                 </td>
               )}
-              <td className="py-3 pr-4 text-gray-500 whitespace-nowrap">
+              <td className="py-3 pr-8 text-gray-500 whitespace-nowrap">
                 {formatTableTime(event.received_at)}
               </td>
               {!showActions && (
-                <td className="py-3 pr-4 text-gray-500 text-xs">
+                <td className="py-3 pr-8 text-gray-500 text-xs">
                   {event.reviewed_at ? formatTableTime(event.reviewed_at) : '—'}
                 </td>
               )}
