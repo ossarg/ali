@@ -208,7 +208,7 @@ export default function Activity() {
         {tab === 'pendientes' && (
           pendingLoading
             ? <p className="text-sm text-gray-400 animate-pulse px-4 py-8">Cargando...</p>
-            : <EventTable events={pending} showConfidence showCase />
+            : <EventTable events={pending} showConfidence />
         )}
 
         {tab === 'aprobados' && (
