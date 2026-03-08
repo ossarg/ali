@@ -285,9 +285,9 @@ export default function CaseDetail() {
                 {caseEvents.map(event => (
                   <div key={event.id} className="relative pl-8">
                     <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white bg-[#eb5d2a]" />
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-[#1a1a1a]">
+                        <span className="text-sm text-[#6b7280]">
                           {format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}
                         </span>
                         <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
