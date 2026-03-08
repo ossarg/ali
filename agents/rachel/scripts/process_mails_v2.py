@@ -277,7 +277,11 @@ MAIL_TYPES_DESC = """
 8 = gestion       → Consultas entre partes, pedidos de autorización, coordinación, remito de documentos, cualquier comunicación interna o de gestión que no encaje en las categorías anteriores.
 """
 
-def analyze_mail(subject: str, body_clean: str) -> dict:
+def _strip_subject_prefixes(subject: str) -> str:
+    """Elimina prefijos heredados de reply/forward (RV:, RE:, FW:, FWD:) del asunto."""
+    return re.sub(r'^(RV|RE|FW|FWD|R|Res):\s*', '', subject, flags=re.IGNORECASE).strip()
+
+def analyze_mail(subject: str, body_clean: str, subject_inherited: bool = False) -> dict:
     """
     Clasifica el mail y genera título + descripción en una sola llamada a Claude Haiku.
     Retorna dict con: mail_type (int), confidence (float), reasoning (str), title (str), description (str).
@@ -288,9 +292,14 @@ def analyze_mail(subject: str, body_clean: str) -> dict:
 
     try:
         client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+        subject_note = (
+            '\n⚠️ IMPORTANTE: El asunto fue heredado de un reenvío y puede no reflejar el tema real de este mensaje. '
+            'Priorizá el contenido del cuerpo para clasificar.'
+            if subject_inherited else ''
+        )
         prompt = f"""Sos un asistente legal especializado en gestión de expedientes judiciales de seguros.
 
-Analizá el siguiente mail y respondé con JSON válido únicamente (sin texto extra).
+Analizá el siguiente mail y respondé con JSON válido únicamente (sin texto extra).{subject_note}
 
 ## Tipos de evento posibles:
 {MAIL_TYPES_DESC}
@@ -450,7 +459,7 @@ def process_message(service, msg_id: str, label_cache: dict) -> list:
 
     # ── Evento principal (mensaje de Axel) ────────────────────────────────────
     # Clasificamos con el body COMPLETO para que Claude vea el contexto del forward
-    analysis    = analyze_mail(content['subject'], content['body'])
+    analysis    = analyze_mail(content['subject'], content['body'], subject_inherited=False)
     mail_type   = analysis['mail_type']
 
     results = []
@@ -483,7 +492,10 @@ def process_message(service, msg_id: str, label_cache: dict) -> list:
     # ── Eventos de forwards embebidos ─────────────────────────────────────────
     forwards = extract_forward_chain(content['body'], content['thread_id'])
     for fwd in forwards:
-        fwd_analysis = analyze_mail(fwd['subject'], fwd['body_text'])
+        # Para forwards embebidos: strip de prefijos RV:/RE: y aviso a Claude que el asunto es heredado
+        fwd_subject  = _strip_subject_prefixes(fwd['subject'])
+        fwd_inherited = fwd_subject != fwd['subject']   # había prefijo → asunto era heredado
+        fwd_analysis = analyze_mail(fwd_subject, fwd['body_text'], subject_inherited=fwd_inherited)
         fwd_type     = fwd_analysis['mail_type']
         if fwd_type is None:
             results.append(f'  ↳ SIN CLASIFICAR (fwd) | {fwd["subject"][:50]}')
@@ -492,7 +504,7 @@ def process_message(service, msg_id: str, label_cache: dict) -> list:
         caratula, policy, claim, case_num = extract_fields(fwd['subject'], fwd['body_text'])
         fwd_payload = {
             'mail_id':     fwd['synthetic_id'],
-            'subject':     fwd['subject'][:500],
+            'subject':     fwd_subject[:500],
             'mail_type':   fwd_type,
             'confidence':  fwd_analysis['confidence'],
             'reasoning':   fwd_analysis['reasoning'],
