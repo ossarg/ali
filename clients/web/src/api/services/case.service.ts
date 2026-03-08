@@ -68,6 +68,11 @@ export const caseEventService = {
     return CaseEventSchema.array().parse(response);
   },
 
+  pendingPaginated: async (page: number, limit: number): Promise<PaginatedCaseEvents> => {
+    const response = await api.get(API_ENDPOINTS.CASE_EVENTS.PENDING, { params: { page: String(page), limit: String(limit) } });
+    return PaginatedCaseEventsSchema.parse(response);
+  },
+
   byCaseID: async (caseId: string): Promise<CaseEvent[]> => {
     const response = await api.get(API_ENDPOINTS.CASES.EVENTS(caseId));
     return CaseEventSchema.array().parse(response);

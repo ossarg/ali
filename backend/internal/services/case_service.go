@@ -17,6 +17,7 @@ type CaseService interface {
 	CreateEvent(req dto.CreateCaseEventRequest) (*dto.CaseEventResponse, error)
 	ListPendingEvents() ([]dto.CaseEventResponse, error)
 	ListApprovedEvents() ([]dto.CaseEventResponse, error)
+	ListPendingEventsPaginated(page, limit int) (*dto.PaginatedCaseEvents, error)
 	ListApprovedEventsPaginated(page, limit int) (*dto.PaginatedCaseEvents, error)
 	GetEventMetrics() (*dto.CaseEventMetrics, error)
 	ListEventsByCaseID(caseID string) ([]dto.CaseEventResponse, error)
@@ -209,6 +210,19 @@ func (s *caseService) ListApprovedEvents() ([]dto.CaseEventResponse, error) {
 		result[i] = dto.ToCaseEventResponse(e)
 	}
 	return result, nil
+}
+
+func (s *caseService) ListPendingEventsPaginated(page, limit int) (*dto.PaginatedCaseEvents, error) {
+	offset := (page - 1) * limit
+	events, total, err := s.caseRepo.ListPendingEventsPaginated(offset, limit)
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	result := make([]dto.CaseEventResponse, len(events))
+	for i, e := range events {
+		result[i] = dto.ToCaseEventResponse(e)
+	}
+	return &dto.PaginatedCaseEvents{Data: result, Total: total, Page: page, Limit: limit}, nil
 }
 
 func (s *caseService) ListApprovedEventsPaginated(page, limit int) (*dto.PaginatedCaseEvents, error) {

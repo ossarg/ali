@@ -40,6 +40,14 @@ export function usePendingEvents() {
   });
 }
 
+export function usePendingEventsPaginated(page: number, limit = 10) {
+  return useQuery({
+    queryKey: [...caseEventKeys.pending(), 'paginated', page, limit],
+    queryFn:  () => caseEventService.pendingPaginated(page, limit),
+    placeholderData: (prev: any) => prev,
+  });
+}
+
 export function useReviewEvent() {
   const queryClient = useQueryClient();
   return useMutation({

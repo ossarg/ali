@@ -31,6 +31,7 @@ type CaseRepository interface {
 	UpdateEvent(e *models.CaseEvent) error
 	DeleteEvent(id string) error
 	ListPendingEvents() ([]models.CaseEvent, error)
+	ListPendingEventsPaginated(offset, limit int) ([]models.CaseEvent, int64, error)
 	ListApprovedEvents() ([]models.CaseEvent, error)
 	ListApprovedEventsPaginated(offset, limit int) ([]models.CaseEvent, int64, error)
 	ListUnresolvedEvents() ([]models.CaseEvent, error)
@@ -181,6 +182,17 @@ func (r *caseRepository) ListPendingEvents() ([]models.CaseEvent, error) {
 		Order("case_events.raw_claim_number NULLS LAST, case_events.received_at DESC").
 		Find(&events).Error
 	return events, err
+}
+
+func (r *caseRepository) ListPendingEventsPaginated(offset, limit int) ([]models.CaseEvent, int64, error) {
+	var events []models.CaseEvent
+	var total int64
+	q := r.db.Model(&models.CaseEvent{}).Where("(approved = false OR approved IS NULL) AND deleted_at IS NULL")
+	if err := q.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	err := q.Order("raw_claim_number NULLS LAST, received_at DESC").Offset(offset).Limit(limit).Find(&events).Error
+	return events, total, err
 }
 
 func (r *caseRepository) ListApprovedEvents() ([]models.CaseEvent, error) {

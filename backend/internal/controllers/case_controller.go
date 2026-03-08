@@ -134,11 +134,12 @@ func (cc *CaseController) ListApprovedEvents(c echo.Context) error {
 // @Failure      401  {object}  map[string]string
 // @Router       /api/v1/case-events/pending [get]
 func (cc *CaseController) ListPendingEvents(c echo.Context) error {
-	events, err := cc.caseService.ListPendingEvents()
+	pp := dto.ParsePageParams(c.QueryParam("page"), c.QueryParam("limit"))
+	result, err := cc.caseService.ListPendingEventsPaginated(pp.Page, pp.Limit)
 	if err != nil {
 		return err
 	}
-	return c.JSON(http.StatusOK, events)
+	return c.JSON(http.StatusOK, result)
 }
 
 // ReviewCaseEvent godoc
