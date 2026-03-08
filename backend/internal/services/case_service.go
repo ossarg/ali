@@ -19,6 +19,7 @@ type CaseService interface {
 	ListApprovedEvents() ([]dto.CaseEventResponse, error)
 	ListApprovedEventsPaginated(page, limit int) (*dto.PaginatedCaseEvents, error)
 	GetEventMetrics() (*dto.CaseEventMetrics, error)
+	ListEventsByCaseID(caseID string) ([]dto.CaseEventResponse, error)
 	ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService) (*dto.CaseEventResponse, error)
 }
 
@@ -207,6 +208,22 @@ func (s *caseService) GetEventMetrics() (*dto.CaseEventMetrics, error) {
 		Processed:   processed,
 		LastEventAt: lastEventAt,
 	}, nil
+}
+
+
+func (s *caseService) ListEventsByCaseID(caseID string) ([]dto.CaseEventResponse, error) {
+	if _, err := uuid.Parse(caseID); err != nil {
+		return nil, apierrors.ErrNotFound
+	}
+	events, err := s.caseRepo.ListEventsByCaseID(caseID)
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	result := make([]dto.CaseEventResponse, len(events))
+	for i, e := range events {
+		result[i] = dto.ToCaseEventResponse(e)
+	}
+	return result, nil
 }
 
 func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService) (*dto.CaseEventResponse, error) {

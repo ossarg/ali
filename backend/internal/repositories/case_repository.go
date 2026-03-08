@@ -38,6 +38,9 @@ type CaseRepository interface {
 
 	// Cases
 	GetByID(id string) (*models.Case, error)
+
+	// ListEventsByCaseID returns all case events linked to a case, ordered by received_at DESC.
+	ListEventsByCaseID(caseID string) ([]models.CaseEvent, error)
 }
 
 type caseRepository struct {
@@ -217,4 +220,12 @@ func (r *caseRepository) GetEventMetrics() (total, approved, pending, processed 
 		lastEventAt = &last.CreatedAt
 	}
 	return
+}
+
+func (r *caseRepository) ListEventsByCaseID(caseID string) ([]models.CaseEvent, error) {
+	var events []models.CaseEvent
+	err := r.db.Where("case_id = ?", caseID).
+		Order("received_at DESC").
+		Find(&events).Error
+	return events, err
 }

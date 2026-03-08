@@ -1,14 +1,28 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useCaseEvents } from '../api/hooks/useCaseEvents';
 import { MOCK_CASES, MOCK_LAWYERS } from '../data/mockData';
 import { ArrowLeft, Clock, AlertTriangle, FileText, CheckCircle2, User, Activity, Download, Eye } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 
+
+const MAIL_TYPE_LABELS: Record<string, string> = {
+  sentencia:    'Sentencia',
+  reclamo_pago: 'Reclamo de Pago',
+  intimacion:   'Intimación',
+  acuerdo:      'Acuerdo',
+  embargo:      'Embargo',
+  pericia:      'Pericia',
+  oficio:       'Oficio',
+};
+
 export default function CaseDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'resumen' | 'documentos' | 'borrador' | 'actividad' | 'asignacion'>('resumen');
+
+  const { data: caseEvents = [], isLoading: eventsLoading } = useCaseEvents(id ?? '');
 
   const caseData = MOCK_CASES.find(c => c.id === id);
 
@@ -205,32 +219,42 @@ export default function CaseDetail() {
         {/* ACTIVIDAD TAB */}
         {activeTab === 'actividad' && (
           <div className="p-8">
-            <h3 className="text-lg font-semibold text-[#1a1a1a] mb-8">Línea de Tiempo</h3>
-            {caseData.timeline.length > 0 ? (
-              <div className="relative border-l-2 border-[#e5e7eb] ml-4 space-y-8">
-                {caseData.timeline.map((event, index) => (
+            <h3 className="text-lg font-semibold text-[#1a1a1a] mb-6">Eventos del caso</h3>
+            {eventsLoading ? (
+              <div className="space-y-3">
+                {[1,2,3].map(i => <div key={i} className="h-16 bg-gray-100 rounded-lg animate-pulse" />)}
+              </div>
+            ) : caseEvents.length === 0 ? (
+              <div className="text-center py-12 text-[#6b7280]">
+                <p>No hay eventos registrados para este caso.</p>
+                <p className="text-sm mt-1 text-gray-400">Los emails clasificados por Rachel aparecerán aquí una vez aprobados.</p>
+              </div>
+            ) : (
+              <div className="relative border-l-2 border-[#e5e7eb] ml-4 space-y-6">
+                {caseEvents.map(event => (
                   <div key={event.id} className="relative pl-8">
-                    <div className={cn(
-                      "absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white",
-                      event.result === 'Éxito' ? 'bg-[#22c55e]' : 
-                      event.result === 'Requiere revisión' ? 'bg-[#eab308]' : 'bg-[#ef4444]'
-                    )} />
+                    <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white bg-[#eb5d2a]" />
                     <div className="flex items-start justify-between mb-1">
-                      <span className="text-sm font-semibold text-[#eb5d2a]">{event.agent}</span>
-                      <span className="text-xs text-[#6b7280]">{format(new Date(event.timestamp), 'dd/MM/yyyy HH:mm')}</span>
+                      <span className="text-sm font-semibold text-[#eb5d2a]">Rachel</span>
+                      <span className="text-xs text-[#6b7280]">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}</span>
                     </div>
-                    <h4 className="text-base font-medium text-[#1a1a1a] mb-2">{event.action}</h4>
-                    {event.details && (
-                      <p className="text-sm text-[#455362] bg-[#f7f8fa] p-3 rounded border border-[#e5e7eb]">
-                        {event.details}
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
+                        {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
+                      </span>
+                      <span className="text-xs text-gray-400">{Math.round(event.confidence * 100)}% confianza</span>
+                      {event.approved && <span className="text-xs text-green-600 font-medium">✓ Aprobado</span>}
+                    </div>
+                    {event.subject && (
+                      <p className="text-sm text-[#455362] bg-[#f7f8fa] p-3 rounded border border-[#e5e7eb] truncate">
+                        {event.subject}
                       </p>
+                    )}
+                    {event.reasoning && (
+                      <p className="text-xs text-gray-400 italic mt-1">{event.reasoning}</p>
                     )}
                   </div>
                 ))}
-              </div>
-            ) : (
-              <div className="text-center py-12 text-[#6b7280]">
-                <p>No hay actividad registrada para este caso.</p>
               </div>
             )}
           </div>

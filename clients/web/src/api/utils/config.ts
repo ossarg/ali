@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
   CASES: {
     LIST: '/api/v1/cases',
     DETAIL: (id: string | number) => `/api/v1/cases/${id}`,
+    EVENTS: (id: string | number) => `/api/v1/cases/${id}/events`,
   },
   CASE_EVENTS: {
     METRICS:  '/api/v1/activity/metrics',

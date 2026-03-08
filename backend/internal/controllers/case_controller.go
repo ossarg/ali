@@ -68,6 +68,27 @@ func (cc *CaseController) GetByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, caseResp)
 }
 
+
+// ListCaseEvents godoc
+// @Summary      List events for a case
+// @Description  Returns all case events linked to a case (approved emails from Rachel), ordered by received_at DESC.
+// @Tags         cases
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id   path      string  true  "Case UUID"
+// @Success      200  {array}   dto.CaseEventResponse
+// @Failure      401  {object}  map[string]string
+// @Failure      404  {object}  map[string]string
+// @Router       /api/v1/cases/{id}/events [get]
+func (cc *CaseController) ListCaseEvents(c echo.Context) error {
+	id := c.Param("id")
+	events, err := cc.caseService.ListEventsByCaseID(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, events)
+}
+
 // GetEventMetrics godoc
 // @Summary      Get case event metrics
 // @Description  Returns aggregated stats: total, approved, pending, processed, and last event timestamp.

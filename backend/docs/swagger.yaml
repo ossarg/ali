@@ -871,6 +871,42 @@ paths:
       summary: Get case by ID
       tags:
       - cases
+  /api/v1/cases/{id}/events:
+    get:
+      description: Returns all case events linked to a case (approved emails from
+        Rachel), ordered by received_at DESC.
+      parameters:
+      - description: Case UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.CaseEventResponse'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List events for a case
+      tags:
+      - cases
   /api/v1/claims:
     get:
       description: Returns all claims persisted in our DB, ordered by creation date

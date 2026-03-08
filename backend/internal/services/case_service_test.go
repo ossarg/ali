@@ -46,6 +46,7 @@ func (m *mockCaseRepository) ListUnresolvedEvents() ([]models.CaseEvent, error) 
 func (m *mockCaseRepository) ListPendingResolutionEvents() ([]models.CaseEvent, error)                 { return nil, m.err }
 func (m *mockCaseRepository) ListPaginated(_ repositories.CaseFilters, _, _ int) ([]models.Case, int64, error) { return nil, 0, m.err }
 func (m *mockCaseRepository) GetByID(_ string) (*models.Case, error)                                  { return nil, m.err }
+func (m *mockCaseRepository) ListEventsByCaseID(_ string) ([]models.CaseEvent, error)               { return nil, m.err }
 func (m *mockCaseRepository) GetEventMetrics() (int64, int64, int64, int64, *time.Time, error) {
 	return 0, 0, 0, 0, nil, m.err
 }
