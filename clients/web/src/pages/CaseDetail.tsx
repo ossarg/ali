@@ -104,7 +104,7 @@ export default function CaseDetail() {
             {caso.caratula || caso.title}
           </h1>
           {caso.case_type && (
-            <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${CASE_TYPE_COLORS[caso.case_type] ?? 'bg-gray-100 text-gray-600'}`}>
+            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${CASE_TYPE_COLORS[caso.case_type] ?? 'bg-gray-100 text-gray-600'}`}>
               {CASE_TYPE_LABELS[caso.case_type] ?? caso.case_type}
             </span>
           )}
@@ -128,7 +128,7 @@ export default function CaseDetail() {
             <span className="font-medium">Expediente:</span>
             {caso.case_number
               ? <span className="text-[#1a1a1a] font-mono">{caso.case_number}</span>
-              : <span className="text-gray-400 italic">Sin asignar</span>}
+              : <span className="text-gray-400">—</span>}
           </div>
           <div className="w-px h-4 bg-[#e5e7eb]" />
 
@@ -149,7 +149,7 @@ export default function CaseDetail() {
             <span className="text-[#1a1a1a]">
               {caso.assigned_user
                 ? `${caso.assigned_user.first_name} ${caso.assigned_user.last_name}`
-                : 'Sin asignar'}
+                : '—'}
             </span>
           </div>
 

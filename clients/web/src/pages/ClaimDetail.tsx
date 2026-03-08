@@ -28,7 +28,7 @@ function StatusBadge({ status }: { status: string }) {
     upper === 'TERMINADO' ? 'bg-blue-100 text-blue-700'    :
     'bg-gray-100 text-gray-600';
   return (
-    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${color}`}>
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${color}`}>
       {status || '—'}
     </span>
   );
@@ -331,7 +331,7 @@ export default function ClaimDetail() {
             <div className="flex items-center gap-2">
               <User className="w-4 h-4 text-gray-400" />
               <span className="font-medium">Asignado a:</span>
-              <span className="text-gray-900">Sin asignar</span>
+              <span className="text-gray-400">—</span>
             </div>
           </div>
         </div>
