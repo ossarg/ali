@@ -1,0 +1,45 @@
+{
+  "tipo_evento": "sentencia",
+  "confianza": 0.95,
+  "nivel_confianza": "alta",
+  "justificacion": "El email reporta explícitamente una sentencia de primera instancia dictada el 28/02/2026 que condena solidariamente a los demandados (incluyendo Libra Seguros) al pago de $18.500.000 por daños y perjuicios. Incluye desglose de rubros reconocidos, rechazo de daño punitivo, plazo para apelar, y solicita instrucciones sobre interposición de recurso.",
+  "gmail_label": "triage/sentencia",
+  "señales_detectadas": [
+    "se dictó sentencia de primera instancia",
+    "condenando solidariamente a los demandados",
+    "pago de $18.500.000",
+    "Desglose de rubros reconocidos",
+    "Se rechaza el rubro daño punitivo",
+    "El plazo para apelar vence el 12/03/2026",
+    "Quedamos a la espera de instrucciones respecto a si desean que interpongamos recurso de apelación"
+  ],
+  "tipos_descartados": [
+    {
+      "tipo": "reclamo_pago",
+      "motivo": "Aunque la sentencia incluye una condena al pago, el email no contiene una solicitud de pago a Libra por parte del estudio. La acción esperada es una decisión sobre apelación, no un pago de honorarios."
+    },
+    {
+      "tipo": "acuerdo",
+      "motivo": "No hay propuesta o negociación de acuerdo. La sentencia es una decisión judicial impuesta, no transaccional."
+    },
+    {
+      "tipo": "oficio",
+      "motivo": "Este es un reporte de una sentencia definitiva, no una comunicación procedural de la corte."
+    }
+  ],
+  "requiere_revision_humana": false,
+  "motivo_revision": null,
+  "metadata": {
+    "nro_siniestro": "STRO 14523",
+    "nro_expediente": "45.892/2023",
+    "estudio_remitente": "Estudio Fernández & Asociados (estudio.fernandez@abogadosfernandez.com.ar)",
+    "urgencia_detectada": true,
+    "tiene_adjuntos": false,
+    "adjuntos": [],
+    "corte": "Juzgado Nacional en lo Civil N° 47, Secretaría 93",
+    "fecha_sentencia": "2026-02-28",
+    "fecha_vencimiento_apelacion": "2026-03-12",
+    "monto_condenado": 18500000,
+    "moneda": "ARS"
+  }
+}

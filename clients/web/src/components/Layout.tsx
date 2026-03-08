@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { formatTableTime } from '../lib/formatTime';
 import { es } from 'date-fns/locale';
 import { useCaseEventMetrics, usePendingEvents } from '../api/hooks/useCaseEvents';
+import CommandPalette from './CommandPalette';
 
 export default function Layout() {
   const location = useLocation();
@@ -22,8 +23,10 @@ export default function Layout() {
 
   const [notifOpen, setNotifOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
+  
+  const [cmdKOpen, setCmdKOpen] = useState(false);
 
-  // Close dropdown when clicking outside
+  // Close notif dropdown when clicking outside
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
@@ -34,30 +37,40 @@ export default function Layout() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
+  // Global Cmd+K listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setCmdKOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const navItems = [
     { name: 'Panel Principal', path: '/', icon: LayoutDashboard },
+    { name: 'Inbox', path: '/actividad', icon: Activity, badge: pendingCount > 0 ? pendingCount : undefined },
     { name: 'Siniestros', path: '/siniestros', icon: ShieldAlert },
     { name: 'Casos', path: '/casos', icon: Briefcase },
-    { name: 'Contestaciones', path: '/contestaciones', icon: MessageSquareText },
-    { name: 'Agentes', path: '/agentes', icon: Bot },
+    { name: 'Documentos', path: '/documentos', icon: FileText },
     { name: 'Equipo', path: '/equipo', icon: Users },
     { name: 'Métricas', path: '/metricas', icon: BarChart3 },
-    { name: 'Documentos', path: '/documentos', icon: FileText },
-    { name: 'Actividad', path: '/actividad', icon: Activity, badge: pendingCount > 0 ? pendingCount : undefined },
     { name: 'Acuerdos',  path: '/acuerdos',  icon: Handshake },
   ];
 
   return (
-    <div className="flex h-screen bg-[#f7f8fa] text-[#1a1a1a] font-sans overflow-hidden">
+    <div className="flex h-screen bg-[var(--color-surface-bg)] text-[var(--color-text-primary)] font-sans overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-64 bg-[#455362] text-white flex flex-col shrink-0">
-        <div className="p-6 flex items-center gap-3 border-b border-white/10">
-          <div className="w-8 h-8 bg-[#eb5d2a] rounded flex items-center justify-center font-bold text-lg">L</div>
-          <span className="font-semibold text-lg tracking-wide">Libra Seguros</span>
+      <aside className="w-64 bg-[var(--color-surface-sidebar)] text-[var(--color-sidebar-text)] flex flex-col shrink-0 border-r border-[var(--color-border-dim)]">
+        <div className="p-6 flex items-center gap-3 border-b border-[var(--color-border-dim)]">
+          <div className="w-8 h-8 bg-[var(--color-brand-primary)] rounded flex items-center justify-center font-bold text-lg text-white">L</div>
+          <span className="font-semibold text-lg text-white tracking-wide">Libra Seguros</span>
         </div>
         
         <div className="px-4 py-6">
-          <div className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-4 px-2">Panel de Control</div>
+          <div className="text-xs font-semibold text-[var(--color-text-tertiary)] uppercase tracking-wider mb-4 px-2">Panel de Control</div>
           <nav className="space-y-1">
             {navItems.map((item) => {
               const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
@@ -66,13 +79,13 @@ export default function Layout() {
                   key={item.name}
                   to={item.path}
                   className={cn(
-                    "flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors text-sm font-medium",
+                    "flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 text-sm font-medium",
                     isActive 
-                      ? "bg-white/10 text-white" 
-                      : "text-white/70 hover:bg-white/5 hover:text-white"
+                      ? "bg-[var(--color-sidebar-bg-active)] text-[var(--color-sidebar-text-active)]" 
+                      : "text-[var(--color-sidebar-text)] hover:bg-[var(--color-sidebar-bg-hover)] hover:text-[var(--color-sidebar-text-hover)]"
                   )}
                 >
-                  <item.icon className={cn("w-5 h-5", isActive ? "text-[#eb5d2a]" : "text-white/50")} />
+                  <item.icon className={cn("w-5 h-5", isActive ? "text-[var(--color-sidebar-text-active)]" : "text-[var(--color-text-tertiary)]")} />
                   <span className="flex-1">{item.name}</span>
                   {'badge' in item && item.badge !== undefined && (
                     <span className="ml-auto bg-amber-400 text-amber-900 text-xs font-bold rounded-full px-1.5 py-0.5 min-w-[1.25rem] text-center">
@@ -85,62 +98,77 @@ export default function Layout() {
           </nav>
         </div>
 
-        <div className="mt-auto p-4 border-t border-white/10">
-          <button className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white w-full">
-            <Settings className="w-5 h-5 text-white/50" />
-            Configuración
-          </button>
+        <div className="mt-auto p-4 border-t border-[var(--color-border-dim)]">
+          <Link 
+            to="/agentes" 
+            className={cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-md transition-all text-sm font-medium w-full",
+              location.pathname === '/agentes'
+                ? "bg-[var(--color-sidebar-bg-active)] text-[var(--color-sidebar-text-active)]"
+                : "text-[var(--color-sidebar-text)] hover:bg-[var(--color-sidebar-bg-hover)] hover:text-[var(--color-sidebar-text-hover)]"
+            )}
+          >
+             <Settings className={cn("w-5 h-5", location.pathname === '/agentes' ? "text-[var(--color-sidebar-text-active)]" : "text-[var(--color-text-tertiary)]")} />
+             Configuración
+          </Link>
           <div className="mt-4 flex items-center gap-3 px-3">
-            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-medium">
+            <div className="w-8 h-8 bg-[var(--color-surface-bg)] text-[var(--color-text-primary)] rounded-full flex items-center justify-center text-sm font-medium border border-[var(--color-border-dim)]">
               {initials}
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-medium">{displayName}</span>
-              <span className="text-xs text-white/50 capitalize">{user?.role ?? ''}</span>
+              <span className="text-sm font-medium text-white">{displayName}</span>
+              <span className="text-xs text-[var(--color-text-tertiary)] capitalize">{user?.role ?? ''}</span>
             </div>
           </div>
         </div>
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Topbar */}
-        <header className="h-16 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-8 shrink-0">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+        {/* Topbar w/ Glassmorphism */}
+        <header className="h-16 glass-panel border-b border-[var(--color-border-dim)] flex items-center justify-between px-8 shrink-0 absolute top-0 w-full z-10 transition-all">
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-semibold text-[#455362]">
+            <h1 className="text-lg font-semibold text-[var(--color-text-primary)] tracking-tight">
               Buenos días, {user?.first_name ?? ''}
             </h1>
-            <span className="text-sm text-[#6b7280] ml-2 capitalize">{today}</span>
+            <span className="text-sm text-[var(--color-text-secondary)] ml-2 capitalize font-medium">{today}</span>
           </div>
 
           <div className="flex items-center gap-6">
-            <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280]" />
-              <input 
-                type="text" 
-                placeholder="Buscar caso, póliza, abogado..." 
-                className="pl-9 pr-4 py-1.5 bg-[#f7f8fa] border border-[#e5e7eb] rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#eb5d2a]/20 focus:border-[#eb5d2a] w-64 transition-all"
-              />
-            </div>
+            <button
+              onClick={() => setCmdKOpen(true)}
+              className="relative flex items-center w-64 h-9 pl-3 pr-2 bg-[var(--color-surface-bg)] border border-[var(--color-border-dim)] hover:border-[var(--color-border-focus)] rounded-md text-sm transition-all group shadow-sm"
+            >
+              <Search className="w-4 h-4 text-[var(--color-text-tertiary)] group-hover:text-[var(--color-brand-primary)] transition-colors" />
+              <span className="ml-2 text-[var(--color-text-secondary)]">Buscar...</span>
+              <div className="ml-auto flex items-center gap-1">
+                <kbd className="hidden sm:inline-flex items-center justify-center font-sans text-xs font-semibold text-[var(--color-text-tertiary)] bg-white border border-[var(--color-border-dim)] rounded-md px-1.5 h-5 shadow-sm">
+                  ⌘
+                </kbd>
+                <kbd className="hidden sm:inline-flex items-center justify-center font-sans text-xs font-semibold text-[var(--color-text-tertiary)] bg-white border border-[var(--color-border-dim)] rounded-md px-1.5 h-5 shadow-sm">
+                  K
+                </kbd>
+              </div>
+            </button>
             <div className="relative" ref={notifRef}>
               <button
                 onClick={() => setNotifOpen(o => !o)}
-                className="relative text-[#6b7280] hover:text-[#1a1a1a] transition-colors"
+                className="relative text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
               >
                 <Bell className="w-5 h-5" />
                 {pendingCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 min-w-[1.1rem] h-[1.1rem] bg-amber-400 text-amber-900 text-[10px] font-bold rounded-full flex items-center justify-center px-0.5">
+                  <span className="absolute -top-1.5 -right-1.5 min-w-[1.1rem] h-[1.1rem] bg-[var(--color-brand-primary)] text-white text-[10px] font-bold rounded-full flex items-center justify-center px-0.5 shadow-sm">
                     {pendingCount}
                   </span>
                 )}
               </button>
 
               {notifOpen && (
-                <div className="absolute right-0 top-8 w-80 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden">
-                  <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
-                    <span className="font-semibold text-sm text-gray-800">Notificaciones</span>
+                <div className="absolute right-0 top-8 w-80 bg-[var(--color-surface-card)] rounded-xl shadow-lg border border-[var(--color-border-dim)] animate-in z-50 overflow-hidden">
+                  <div className="px-4 py-3 border-b border-[var(--color-border-dim)] flex items-center justify-between">
+                    <span className="font-semibold text-sm text-[var(--color-text-primary)]">Notificaciones</span>
                     {pendingCount > 0 && (
-                      <span className="text-xs bg-amber-100 text-amber-700 font-medium px-2 py-0.5 rounded-full">
+                      <span className="text-xs bg-[var(--color-sidebar-bg-active)] text-[var(--color-brand-primary)] font-medium px-2 py-0.5 rounded-full">
                         {pendingCount} pendiente{pendingCount > 1 ? 's' : ''}
                       </span>
                     )}
@@ -175,10 +203,10 @@ export default function Layout() {
                   </div>
 
                   {pendingEvents.length > 0 && (
-                    <div className="border-t border-gray-100">
+                    <div className="border-t border-[var(--color-border-dim)]">
                       <button
                         onClick={() => { navigate('/actividad'); setNotifOpen(false); }}
-                        className="w-full text-sm text-indigo-600 hover:text-indigo-700 font-medium py-3 hover:bg-indigo-50 transition-colors"
+                        className="w-full text-sm text-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary-hover)] font-medium py-3 hover:bg-[var(--color-sidebar-bg-active)] transition-colors"
                       >
                         Ver todas las clasificaciones →
                       </button>
@@ -191,10 +219,14 @@ export default function Layout() {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-auto p-8">
-          <Outlet />
+        <main className="flex-1 overflow-auto p-8 pt-24">
+          <div className="animate-in">
+            <Outlet />
+          </div>
         </main>
       </div>
+
+      <CommandPalette isOpen={cmdKOpen} onClose={() => setCmdKOpen(false)} />
     </div>
   );
 }

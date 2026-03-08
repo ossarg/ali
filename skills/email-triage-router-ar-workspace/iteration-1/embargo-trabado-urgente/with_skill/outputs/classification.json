@@ -1,0 +1,46 @@
+{
+  "tipo_evento": "embargo",
+  "confianza": 0.95,
+  "nivel_confianza": "alta",
+  "justificacion": "El email reporta que se trabó embargo sobre las cuentas bancarias de Libra Seguros SA en el Banco Nación Argentina. La notificación de traba de embargo es el evento principal y requiere respuesta legal inmediata.",
+  "gmail_label": "triage/embargo",
+  "señales_detectadas": [
+    "Se trabó embargo sobre las cuentas bancarias",
+    "Banco Nación Argentina, Sucursal Plaza de Mayo",
+    "embargo trabado",
+    "oficio fue librado por el Juzgado Comercial N° 12",
+    "URGENTE"
+  ],
+  "tipos_descartados": [
+    {
+      "tipo": "oficio",
+      "motivo": "Si bien el email menciona un oficio del juzgado, el evento principal no es la comunicación procedural sino la ejecución del embargo en sí."
+    },
+    {
+      "tipo": "sentencia",
+      "motivo": "No se reporta una sentencia. El embargo es una medida cautelar/ejecutiva ordenada por el tribunal en el marco del caso."
+    },
+    {
+      "tipo": "intimacion",
+      "motivo": "El embargo no es una intimación a actuar; es una orden ejecutada de congelamiento de bienes."
+    }
+  ],
+  "requiere_revision_humana": false,
+  "motivo_revision": null,
+  "metadata": {
+    "nro_siniestro": null,
+    "nro_expediente": "23.441/2021",
+    "estudio_remitente": "Estudio Ruiz Pardo & Asociados (Dra. Carolina Ruiz)",
+    "urgencia_detectada": true,
+    "tiene_adjuntos": true,
+    "adjuntos": [
+      "copia del oficio",
+      "constancia de traba"
+    ],
+    "monto_embargo": "$5.200.000",
+    "tribunal": "Juzgado Comercial N° 12",
+    "fecha_orden": "03/03/2026",
+    "banco_afectado": "Banco Nación Argentina, Sucursal Plaza de Mayo",
+    "referencia_caso": "Domínguez, Roberto c/ Transportes del Sur SRL y otro s/ cobro de pesos (STRO 11987)"
+  }
+}

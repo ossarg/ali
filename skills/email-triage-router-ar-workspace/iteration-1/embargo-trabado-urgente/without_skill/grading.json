@@ -1,0 +1,12 @@
+{
+  "eval_name": "embargo-trabado-urgente",
+  "configuration": "without_skill",
+  "expectations": [
+    {"text": "tipo_evento is 'embargo'", "passed": true, "evidence": "tipo_evento = 'embargo'"},
+    {"text": "confianza is >= 0.85 (alta)", "passed": true, "evidence": "confianza = 0.99"},
+    {"text": "nro_siniestro extracted as '11987'", "passed": true, "evidence": "metadata.stro_reference = '11987'"},
+    {"text": "urgencia_detectada is true", "passed": true, "evidence": "metadata.urgencia = 'alta'"},
+    {"text": "estudio_remitente identifies original sender", "passed": true, "evidence": "metadata.estudio_juridico = 'Estudio Ruiz Pardo & Asociados'"},
+    {"text": "tiene_adjuntos is true", "passed": false, "evidence": "No tiene_adjuntos boolean field in output"}
+  ]
+}

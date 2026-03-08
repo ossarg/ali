@@ -1,0 +1,39 @@
+{
+  "tipo_evento": "sentencia",
+  "confianza": 0.98,
+  "justificacion": "Email es un informe formal de sentencia de primera instancia dictada por Juzgado Nacional en lo Civil. Contiene elementos definitorios de sentencia: (1) comunicación de resolución judicial con fecha de dicción (28/02/2026), (2) caratulación completa de los autos, (3) decisión sobre el fondo del litigio (condena solidaria), (4) desglose detallado de rubros condenados, (5) referencia expresa a plazo recursivo. La confianza no es absoluta (0.98 vs 1.0) únicamente porque se trata de un informe cursado por abogado patrocinante, no copia de sentencia original del tribunal, aunque esto es procedimiento estándar en práctica forense argentina.",
+  "metadata": {
+    "siniestro_reference": "STRO 14523",
+    "expediente": "45.892/2023",
+    "tribunal": "Juzgado Nacional en lo Civil Nº 47, Secretaría 93",
+    "fecha_sentencia": "2026-02-28",
+    "partes": {
+      "demandante": "González, María Laura",
+      "demandados": [
+        "Pérez, Carlos Alberto",
+        "Libra Seguros SA"
+      ]
+    },
+    "tipo_causa": "Daños y perjuicios derivados de accidente de tránsito",
+    "fecha_hecho": "2022-03-15",
+    "monto_condenado_total": "$18.500.000 ARS",
+    "condena_tipo": "Solidaria",
+    "desglose_rubros": {
+      "incapacidad_sobreviniente": "$8.000.000",
+      "daño_moral": "$4.500.000",
+      "gastos_medicos_farmaceuticos": "$2.000.000",
+      "tratamiento_psicologico_futuro": "$1.500.000",
+      "daño_estetico": "$1.000.000",
+      "privacion_uso_vehiculo": "$1.500.000"
+    },
+    "rubros_rechazados": [
+      "Daño punitivo"
+    ],
+    "intereses": "Tasa activa del BNA desde fecha del hecho",
+    "costas": "A los vencidos",
+    "plazo_apelacion_vence": "2026-03-12",
+    "law_firm": "Estudio Fernández & Asociados",
+    "contact_email_abogado": "mfernandez@abogadosfernandez.com.ar",
+    "contact_email_estudio": "estudio.fernandez@abogadosfernandez.com.ar"
+  }
+}
