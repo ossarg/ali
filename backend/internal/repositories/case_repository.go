@@ -42,6 +42,8 @@ type CaseRepository interface {
 
 	// ListEventsByCaseID returns all case events linked to a case, ordered by received_at DESC.
 	ListEventsByCaseID(caseID string) ([]models.CaseEvent, error)
+	// ListApprovedEventsByCaseID returns only approved events with reviewer name.
+	ListApprovedEventsByCaseID(caseID string) ([]models.CaseEvent, error)
 	// FindByClaim returns the case linked to a given claim UUID, or nil if none exists.
 	FindByClaim(claimID string) (*models.Case, error)
 }
@@ -253,6 +255,14 @@ func (r *caseRepository) GetEventMetrics() (total, approved, pending, processed 
 func (r *caseRepository) ListEventsByCaseID(caseID string) ([]models.CaseEvent, error) {
 	var events []models.CaseEvent
 	err := r.db.Where("case_id = ? AND deleted_at IS NULL", caseID).
+		Order("received_at DESC").
+		Find(&events).Error
+	return events, err
+}
+
+func (r *caseRepository) ListApprovedEventsByCaseID(caseID string) ([]models.CaseEvent, error) {
+	var events []models.CaseEvent
+	err := r.db.Where("case_id = ? AND approved = true AND deleted_at IS NULL", caseID).
 		Order("received_at DESC").
 		Find(&events).Error
 	return events, err

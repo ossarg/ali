@@ -68,11 +68,12 @@ type CaseEventResponse struct {
 	Subject      string     `json:"subject,omitempty"`
 	MailType     string     `json:"mail_type"`
 	Confidence   float64    `json:"confidence"`
-	Reasoning    string     `json:"reasoning,omitempty"`
-	Title        string     `json:"title,omitempty"`
-	Description  string     `json:"description,omitempty"`
-	BodyClean    string     `json:"body_clean,omitempty"`
-	Attachments  []AttachmentMetaDTO `json:"attachments"`
+	Reasoning       string     `json:"reasoning,omitempty"`
+	Title           string     `json:"title,omitempty"`
+	Description     string     `json:"description,omitempty"`
+	BodyClean       string     `json:"body_clean,omitempty"`
+	Attachments     []AttachmentMetaDTO `json:"attachments"`
+	ReviewedByName  string     `json:"reviewed_by_name,omitempty"`
 
 	RawClaimNumber string `json:"raw_claim_number,omitempty"`
 	RawPolicy      string `json:"raw_policy,omitempty"`

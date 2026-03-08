@@ -65,7 +65,7 @@ func main() {
 
 	// Services
 	authService  := services.NewAuthService(userRepo, cfg.JWT.Secret)
-	caseService  := services.NewCaseService(caseRepo)
+	caseService  := services.NewCaseService(caseRepo, userRepo)
 	claimService := services.NewClaimService(claimRepo, caseRepo, siseOrchestrator)
 
 	// Storage

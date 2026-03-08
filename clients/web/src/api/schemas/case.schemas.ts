@@ -99,6 +99,7 @@ export const CaseEventSchema = z.object({
   original_mail_type: z.string().nullable().optional(),
   reviewed_by: z.string().nullable().optional(),
   reviewed_at: z.string().nullable().optional(),
+  reviewed_by_name: z.string().optional(),
   review_comment: z.string().optional(),
   resolution_status: z.string().optional(),
   resolution_error: z.string().optional(),

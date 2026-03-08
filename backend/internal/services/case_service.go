@@ -27,10 +27,11 @@ type CaseService interface {
 
 type caseService struct {
 	caseRepo repositories.CaseRepository
+	userRepo repositories.UserRepository
 }
 
-func NewCaseService(caseRepo repositories.CaseRepository) CaseService {
-	return &caseService{caseRepo: caseRepo}
+func NewCaseService(caseRepo repositories.CaseRepository, userRepo repositories.UserRepository) CaseService {
+	return &caseService{caseRepo: caseRepo, userRepo: userRepo}
 }
 
 func (s *caseService) List(req dto.ListCasesRequest) ([]dto.CaseResponse, error) {
@@ -221,13 +222,20 @@ func (s *caseService) ListEventsByCaseID(caseID string) ([]dto.CaseEventResponse
 	if _, err := uuid.Parse(caseID); err != nil {
 		return nil, apierrors.ErrNotFound
 	}
-	events, err := s.caseRepo.ListEventsByCaseID(caseID)
+	events, err := s.caseRepo.ListApprovedEventsByCaseID(caseID)
 	if err != nil {
 		return nil, apierrors.ErrInternalServer
 	}
 	result := make([]dto.CaseEventResponse, len(events))
 	for i, e := range events {
-		result[i] = dto.ToCaseEventResponse(e)
+		resp := dto.ToCaseEventResponse(e)
+		// Populate reviewer name
+		if e.ReviewedBy != nil {
+			if user, err := s.userRepo.FindByID(e.ReviewedBy.String()); err == nil {
+				resp.ReviewedByName = user.FirstName + " " + user.LastName
+			}
+		}
+		result[i] = resp
 	}
 	return result, nil
 }
