@@ -117,121 +117,134 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 p-6 flex flex-col gap-4">
-        <div className="flex justify-between items-start">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl flex flex-col">
+        {/* Header */}
+        <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
           <h3 className="text-lg font-semibold text-gray-900">Revisar clasificación</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">×</button>
         </div>
 
-        {/* Mail info */}
-        <div className="text-sm text-gray-600 space-y-2 bg-gray-50 rounded-lg p-3">
-          {/* Asunto con botón copiar */}
-          {event.subject && (
-            <div className="flex items-start gap-2">
-              <p className="font-medium text-gray-800 text-xs leading-snug flex-1">{event.subject}</p>
-              <button
-                onClick={() => navigator.clipboard.writeText(event.subject ?? '')}
-                title="Copiar asunto"
-                className="flex-shrink-0 text-gray-400 hover:text-indigo-600 transition-colors p-0.5 rounded"
+        {/* Two-column body */}
+        <div className="flex divide-x divide-gray-100 min-h-0">
+
+          {/* LEFT — contexto (solo lectura) */}
+          <div className="flex-1 p-6 space-y-4 overflow-y-auto text-sm text-gray-600">
+            {/* Asunto */}
+            {event.subject && (
+              <div className="flex items-start gap-2">
+                <p className="font-medium text-gray-800 text-xs leading-snug flex-1">{event.subject}</p>
+                <button
+                  onClick={() => navigator.clipboard.writeText(event.subject ?? '')}
+                  title="Copiar asunto"
+                  className="flex-shrink-0 text-gray-400 hover:text-indigo-600 transition-colors p-0.5 rounded"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                  </svg>
+                </button>
+              </div>
+            )}
+
+            <p className="text-xs text-gray-400">
+              Recibido: <span className="font-medium text-gray-500">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}</span>
+            </p>
+
+            <div className="bg-gray-50 rounded-lg p-3 space-y-1.5">
+              <p className="text-xs">
+                <span className="font-medium">Rachel clasificó:</span>{' '}
+                <span className="font-semibold text-indigo-600">
+                  {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
+                </span>
+                {' '}({Math.round(event.confidence * 100)}% confianza)
+              </p>
+              {event.reasoning && (
+                <p className="text-xs text-gray-400 italic">{event.reasoning}</p>
+              )}
+            </div>
+
+            {/* Título y descripción generados */}
+            {(event.title || event.description) && (
+              <div className="space-y-2">
+                {event.title && (
+                  <p className="text-sm font-semibold text-gray-800">{event.title}</p>
+                )}
+                {event.description && (
+                  <p className="text-xs text-gray-500 leading-relaxed">{event.description}</p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* RIGHT — acciones */}
+          <div className="flex-1 p-6 space-y-4 overflow-y-auto">
+            {/* Tipo */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tipo correcto</label>
+              <select
+                value={selectedType}
+                onChange={e => setSelectedType(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-                </svg>
-              </button>
+                {Object.entries(MAIL_TYPE_LABELS).map(([key, label]) => (
+                  <option key={key} value={key}>{label}</option>
+                ))}
+              </select>
             </div>
-          )}
 
-          <p className="text-xs text-gray-400">
-            Recibido: <span className="font-medium text-gray-500">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}</span>
-          </p>
-
-          <p>
-            <span className="font-medium">Rachel clasificó:</span>{' '}
-            <span className="font-semibold text-indigo-600">
-              {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
-            </span>
-            {' '}({Math.round(event.confidence * 100)}% confianza)
-          </p>
-          {event.reasoning && <p className="text-xs text-gray-400 italic">{event.reasoning}</p>}
-
-          {/* Título y descripción generados */}
-          {(event.title || event.description) && (
-            <div className="border-t border-gray-200 pt-2 mt-1 space-y-1">
-              {event.title && (
-                <p className="text-xs font-semibold text-gray-700">{event.title}</p>
-              )}
-              {event.description && (
-                <p className="text-xs text-gray-500 leading-relaxed">{event.description}</p>
-              )}
+            {/* Identificadores */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Identificadores
+                <span className="text-xs text-gray-400 font-normal ml-1">— corregí lo que Rachel haya extraído mal o dejado vacío</span>
+              </label>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium text-gray-700 w-28 shrink-0">
+                    Nro. siniestro <span className="text-red-500">*</span>
+                  </span>
+                  <input
+                    value={claimNumber}
+                    onChange={e => setClaimNumber(e.target.value)}
+                    placeholder="Ej: 123456"
+                    className={`flex-1 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 ${
+                      claimNumber.trim() === ''
+                        ? 'border-red-300 bg-red-50 focus:ring-red-400'
+                        : 'border-gray-200 focus:ring-indigo-400'
+                    }`}
+                  />
+                </div>
+                {claimNumber.trim() === '' && (
+                  <p className="text-xs text-red-500 pl-[7.5rem]">Requerido para poder aprobar</p>
+                )}
+                <IdentifierField label="Póliza"          value={policy}     onChange={setPolicy}     />
+                <IdentifierField label="Nro. expediente" value={caseNumber} onChange={setCaseNumber} />
+                <IdentifierField label="Carátula"        value={caratula}   onChange={setCaratula}   />
+              </div>
             </div>
-          )}
-        </div>
 
-        {/* Tipo */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Tipo correcto</label>
-          <select
-            value={selectedType}
-            onChange={e => setSelectedType(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            {Object.entries(MAIL_TYPE_LABELS).map(([key, label]) => (
-              <option key={key} value={key}>{label}</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Identificadores */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Identificadores
-            <span className="text-xs text-gray-400 font-normal ml-1">— corregí lo que Rachel haya extraído mal o dejado vacío</span>
-          </label>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-gray-700 w-28 shrink-0">
-                Nro. siniestro <span className="text-red-500">*</span>
-              </span>
-              <input
-                value={claimNumber}
-                onChange={e => setClaimNumber(e.target.value)}
-                placeholder="Ej: 123456"
-                className={`flex-1 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 ${
-                  claimNumber.trim() === ''
-                    ? 'border-red-300 bg-red-50 focus:ring-red-400'
-                    : 'border-gray-200 focus:ring-indigo-400'
-                }`}
+            {/* Comentario */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Comentario {isChanging && <span className="text-red-500">*</span>}
+              </label>
+              <textarea
+                value={comment}
+                onChange={e => setComment(e.target.value)}
+                rows={3}
+                placeholder={isChanging ? 'Explicá por qué cambiás la clasificación...' : 'Opcional — dejá una nota para Rachel'}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
               />
             </div>
-            {claimNumber.trim() === '' && (
-              <p className="text-xs text-red-500 pl-[7.5rem]">Requerido para poder aprobar</p>
+
+            {reviewEvent.error && (
+              <p className="text-sm text-red-500">{(reviewEvent.error as Error).message ?? 'Error al guardar'}</p>
             )}
-            <IdentifierField label="Póliza"          value={policy}      onChange={setPolicy}      />
-            <IdentifierField label="Nro. expediente" value={caseNumber}  onChange={setCaseNumber}  />
-            <IdentifierField label="Carátula"        value={caratula}    onChange={setCaratula}    />
           </div>
         </div>
 
-        {/* Comentario */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Comentario {isChanging && <span className="text-red-500">*</span>}
-          </label>
-          <textarea
-            value={comment}
-            onChange={e => setComment(e.target.value)}
-            rows={2}
-            placeholder={isChanging ? 'Explicá por qué cambiás la clasificación...' : 'Opcional — dejá una nota para Rachel'}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-          />
-        </div>
-
-        {reviewEvent.error && (
-          <p className="text-sm text-red-500">{(reviewEvent.error as Error).message ?? 'Error al guardar'}</p>
-        )}
-
-        <div className="flex gap-3 justify-end">
+        {/* Footer */}
+        <div className="flex gap-3 justify-end px-6 py-4 border-t border-gray-100">
           <button onClick={onClose} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
             Cancelar
           </button>
