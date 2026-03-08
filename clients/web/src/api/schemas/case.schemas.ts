@@ -79,6 +79,7 @@ export const MailTypeSchema = z.enum([
   'embargo',
   'pericia',
   'oficio',
+  'gestion',
 ]);
 
 export const ResolutionStatusSchema = z.enum(['pending', 'resolved', 'unresolved']);
@@ -129,7 +130,7 @@ export const CaseEventMetricsSchema = z.object({
 
 export const ReviewCaseEventRequestSchema = z.object({
   claim_number:    z.string().min(1),                       // required — SISE lookup needs it
-  mail_type:       z.number().int().min(1).max(7).optional(),
+  mail_type:       z.number().int().min(1).max(8).optional(),
   review_comment:  z.string().optional(),
   raw_policy:      z.string().optional(),
   raw_case_number: z.string().optional(),

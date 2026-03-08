@@ -20,6 +20,7 @@ const MAIL_TYPE_LABELS: Record<string, string> = {
   embargo:      'Embargo',
   pericia:      'Pericia',
   oficio:       'Oficio',
+  gestion:      'Gestión',
 };
 
 const MAIL_TYPE_VALUES: Record<string, number> = {
@@ -30,6 +31,7 @@ const MAIL_TYPE_VALUES: Record<string, number> = {
   embargo:      5,
   pericia:      6,
   oficio:       7,
+  gestion:      8,
 };
 
 // ─── Sub-components ──────────────────────────────────────────────────────────

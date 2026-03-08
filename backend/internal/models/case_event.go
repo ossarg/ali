@@ -37,6 +37,7 @@ const (
 	MailTypeEmbargo     MailType = 5
 	MailTypePericia     MailType = 6
 	MailTypeOficio      MailType = 7
+	MailTypeGestion     MailType = 8
 )
 
 var mailTypeNames = map[MailType]string{
@@ -47,6 +48,7 @@ var mailTypeNames = map[MailType]string{
 	MailTypeEmbargo:     "embargo",
 	MailTypePericia:     "pericia",
 	MailTypeOficio:      "oficio",
+	MailTypeGestion:     "gestion",
 }
 
 func (m MailType) String() string {

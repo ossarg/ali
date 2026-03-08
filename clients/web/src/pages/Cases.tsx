@@ -26,6 +26,7 @@ const MailTypeLabel: Record<string, string> = {
   embargo:      'Embargo',
   pericia:      'Pericia',
   oficio:       'Oficio',
+  gestion:      'Gestión',
 };
 
 export default function Cases() {

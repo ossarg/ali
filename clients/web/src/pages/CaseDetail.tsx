@@ -14,6 +14,7 @@ const MAIL_TYPE_LABELS: Record<string, string> = {
   embargo:      'Embargo',
   pericia:      'Pericia',
   oficio:       'Oficio',
+  gestion:      'Gestión',
 };
 
 const CASE_TYPE_LABELS: Record<string, string> = {
