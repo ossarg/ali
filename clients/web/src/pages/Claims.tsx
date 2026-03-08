@@ -28,9 +28,16 @@ function StatusBadge({ status }: { status: string }) {
     upper === 'RECHAZO'   ? 'bg-orange-100 text-orange-700':
     upper === 'TERMINADO' ? 'bg-blue-100 text-blue-700'    :
     'bg-gray-100 text-gray-600';
+  const STATUS_LABELS: Record<string, string> = {
+    ABIERTO:   'Abierto',
+    MEDIACION: 'Mediación',
+    JUICIO:    'Juicio',
+    RECHAZO:   'Rechazo',
+    TERMINADO: 'Terminado',
+  };
   return (
     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${color}`}>
-      {status}
+      {STATUS_LABELS[upper] ?? status}
     </span>
   );
 }
