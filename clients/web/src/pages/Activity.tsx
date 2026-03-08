@@ -1,14 +1,11 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { MoreVertical } from 'lucide-react';
-import { format } from 'date-fns';
-import PageHeader from '../components/PageHeader';
 import { formatMetricTime, formatTableTime } from '../lib/formatTime';
 import {
   useApprovedEventsPaginated,
   usePendingEventsPaginated,
   useCaseEventMetrics,
+  usePendingEvents,
 } from '../api/hooks/useCaseEvents';
 import Pagination from '../components/Pagination';
 import type { CaseEvent } from '../api/schemas/case.schemas';
@@ -54,397 +51,12 @@ function ConfidenceBar({ value }: { value: number }) {
   );
 }
 
-// ─── Review Modal ─────────────────────────────────────────────────────────────
-
-interface ReviewModalProps {
-  event: CaseEvent;
-  onClose: () => void;
-}
-
-function IdentifierField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="text-xs text-[var(--color-text-tertiary)] w-28 shrink-0">{label}</span>
-      <input
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        className="flex-1 border border-[var(--color-border-dim)] bg-[var(--color-surface-bg)] rounded px-2 py-1 text-sm text-[var(--color-text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--color-border-focus)]"
-        placeholder="—"
-      />
-    </div>
-  );
-}
-
-function ReviewModal({ event, onClose }: ReviewModalProps) {
-  const deleteCaseEventFromModal = useDeleteCaseEvent();
-  const [selectedType,   setSelectedType]   = useState<string>(event.mail_type);
-  const [comment,        setComment]         = useState('');
-  const [claimNumber,    setClaimNumber]     = useState(event.raw_claim_number ?? '');
-  const [policy,         setPolicy]          = useState(event.raw_policy ?? '');
-  const [caseNumber,     setCaseNumber]      = useState(event.raw_case_number ?? '');
-  const [caratula,       setCaratula]        = useState(event.raw_caratula ?? '');
-
-  const reviewEvent = useReviewEvent();
-  const isChanging  = selectedType !== event.mail_type;
-  const canSubmit   = claimNumber.trim() !== '' &&
-                      (!isChanging || comment.trim() !== '') &&
-                      !reviewEvent.isPending;
-
-  const handleSubmit = () => {
-    if (!canSubmit) return;
-    const req: ReviewCaseEventRequest = {
-      claim_number:   claimNumber.trim(),
-      review_comment: comment,
-      ...(isChanging  && { mail_type:       MAIL_TYPE_VALUES[selectedType] }),
-      ...(policy      && { raw_policy:      policy }),
-      ...(caseNumber  && { raw_case_number: caseNumber }),
-      ...(caratula    && { raw_caratula:    caratula }),
-    };
-    reviewEvent.mutate({ id: event.id, req }, { onSuccess: onClose });
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl flex flex-col">
-        {/* Header */}
-        <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900">Revisar clasificación</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">×</button>
-        </div>
-
-        {/* Two-column body */}
-        <div className="flex divide-x divide-gray-100 min-h-0">
-
-          {/* LEFT — contexto (solo lectura) */}
-          <div className="flex-1 p-6 space-y-4 overflow-y-auto text-sm text-gray-600">
-            {/* Asunto */}
-            {event.subject && (
-              <div className="flex items-start gap-2">
-                <p className="font-medium text-gray-800 text-xs leading-snug flex-1">{event.subject}</p>
-                <button
-                  onClick={() => {
-                  const text = event.subject ?? '';
-                  if (navigator.clipboard) {
-                    navigator.clipboard.writeText(text).catch(() => {
-                      const el = document.createElement('textarea');
-                      el.value = text; document.body.appendChild(el);
-                      el.select(); document.execCommand('copy');
-                      document.body.removeChild(el);
-                    });
-                  } else {
-                    const el = document.createElement('textarea');
-                    el.value = text; document.body.appendChild(el);
-                    el.select(); document.execCommand('copy');
-                    document.body.removeChild(el);
-                  }
-                }}
-                  title="Copiar asunto"
-                  className="flex-shrink-0 text-gray-400 hover:text-indigo-600 transition-colors p-0.5 rounded"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-                  </svg>
-                </button>
-              </div>
-            )}
-
-            <p className="text-xs text-gray-400">
-              Recibido: <span className="font-medium text-gray-500">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}</span>
-            </p>
-
-            <div className="bg-gray-50 rounded-lg p-3 space-y-1.5">
-              <p className="text-xs">
-                <span className="font-medium">Rachel clasificó:</span>{' '}
-                <span className="font-semibold text-indigo-600">
-                  {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
-                </span>
-                {' '}({Math.round(event.confidence * 100)}% confianza)
-              </p>
-              {event.reasoning && (
-                <p className="text-xs text-gray-400 italic">{event.reasoning}</p>
-              )}
-            </div>
-
-            {/* Título y descripción generados */}
-            {(event.title || event.description) && (
-              <div className="space-y-2">
-                {event.title && (
-                  <p className="text-sm font-semibold text-gray-800">{event.title}</p>
-                )}
-                {event.description && (
-                  <p className="text-xs text-gray-500 leading-relaxed">{event.description}</p>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* RIGHT — acciones */}
-          <div className="flex-1 p-6 space-y-4 overflow-y-auto">
-            {/* Tipo */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tipo correcto</label>
-              <select
-                value={selectedType}
-                onChange={e => setSelectedType(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                {Object.entries(MAIL_TYPE_LABELS).map(([key, label]) => (
-                  <option key={key} value={key}>{label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Identificadores */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Identificadores
-                <span className="text-xs text-gray-400 font-normal ml-1">— corregí lo que Rachel haya extraído mal o dejado vacío</span>
-              </label>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium text-gray-700 w-28 shrink-0">
-                    Nro. siniestro <span className="text-red-500">*</span>
-                  </span>
-                  <input
-                    value={claimNumber}
-                    onChange={e => setClaimNumber(e.target.value)}
-                    placeholder="Ej: 123456"
-                    className={`flex-1 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 ${
-                      claimNumber.trim() === ''
-                        ? 'border-red-300 bg-red-50 focus:ring-red-400'
-                        : 'border-gray-200 focus:ring-indigo-400'
-                    }`}
-                  />
-                </div>
-                {claimNumber.trim() === '' && (
-                  <p className="text-xs text-red-500 pl-[7.5rem]">Requerido para poder aprobar</p>
-                )}
-                <IdentifierField label="Póliza"          value={policy}     onChange={setPolicy}     />
-                <IdentifierField label="Nro. expediente" value={caseNumber} onChange={setCaseNumber} />
-                <IdentifierField label="Carátula"        value={caratula}   onChange={setCaratula}   />
-              </div>
-            </div>
-
-            {/* Comentario */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Comentario {isChanging && <span className="text-red-500">*</span>}
-              </label>
-              <textarea
-                value={comment}
-                onChange={e => setComment(e.target.value)}
-                rows={3}
-                placeholder={isChanging ? 'Explicá por qué cambiás la clasificación...' : 'Opcional — dejá una nota para Rachel'}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-              />
-            </div>
-
-            {reviewEvent.error && (
-              <p className="text-sm text-red-500">{(reviewEvent.error as Error).message ?? 'Error al guardar'}</p>
-            )}
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="flex gap-3 px-6 py-4 border-t border-gray-100">
-          <button
-            onClick={() => {
-              if (window.confirm('¿Eliminar este evento? Esta acción no se puede deshacer.')) {
-                deleteCaseEventFromModal.mutate(event.id, { onSuccess: onClose });
-              }
-            }}
-            className="px-4 py-2 text-sm rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
-          >
-            Eliminar
-          </button>
-          <div className="flex-1" />
-          <button onClick={onClose} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
-            Cancelar
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={!canSubmit}
-            className="px-4 py-2 text-sm rounded-lg bg-[var(--color-brand-primary)] text-white hover:bg-[var(--color-brand-primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {reviewEvent.isPending ? 'Guardando...' : isChanging ? 'Corregir' : 'Aprobar'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Edit modal ───────────────────────────────────────────────────────────────
-
-interface EditModalProps {
-  event: CaseEvent;
-  onClose: () => void;
-}
-
-function EditModal({ event, onClose }: EditModalProps) {
-  const [mailType, setMailType]     = useState<string>(event.mail_type);
-  const [title, setTitle]           = useState(event.title ?? '');
-  const [description, setDescription] = useState(event.description ?? '');
-  const [receivedAt, setReceivedAt] = useState(
-    event.received_at ? format(new Date(event.received_at), "yyyy-MM-dd'T'HH:mm") : ''
-  );
-  const updateEvent = useUpdateCaseEvent();
-
-  const handleSave = () => {
-    const req: UpdateCaseEventRequest = {};
-    const typeNum = MAIL_TYPE_VALUES[mailType];
-    if (typeNum && typeNum !== MAIL_TYPE_VALUES[event.mail_type]) req.mail_type = typeNum;
-    if (title !== (event.title ?? ''))             req.title       = title;
-    if (description !== (event.description ?? '')) req.description = description;
-    if (receivedAt) req.received_at = new Date(receivedAt).toISOString();
-
-    updateEvent.mutate({ id: event.id, req }, { onSuccess: onClose });
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-5">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-800">Editar evento</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">✕</button>
-        </div>
-
-        <div className="space-y-4">
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Tipo</label>
-            <select
-              value={mailType}
-              onChange={e => setMailType(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              {Object.entries(MAIL_TYPE_LABELS).map(([key, label]) => (
-                <option key={key} value={key}>{label}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Título</label>
-            <input
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Descripción</label>
-            <textarea
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Fecha de recepción</label>
-            <input
-              type="datetime-local"
-              value={receivedAt}
-              onChange={e => setReceivedAt(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-        </div>
-
-        {updateEvent.error && (
-          <p className="text-sm text-red-500">Error al guardar</p>
-        )}
-
-        <div className="flex gap-3 justify-end">
-          <button onClick={onClose} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
-            Cancelar
-          </button>
-          <button
-            onClick={handleSave}
-            disabled={updateEvent.isPending}
-            className="px-4 py-2 text-sm rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50"
-          >
-            {updateEvent.isPending ? 'Guardando...' : 'Guardar cambios'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Kebab menu ───────────────────────────────────────────────────────────────
-
-interface KebabMenuProps {
-  onEdit?: () => void;
-  onDelete?: () => void;
-  onReview?: () => void;
-}
-
-function KebabMenu({ onEdit, onDelete, onReview }: KebabMenuProps) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
-
-  return (
-    <div className="relative" ref={ref}>
-      <button
-        onClick={() => setOpen(o => !o)}
-        className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
-      >
-        <MoreVertical size={16} />
-      </button>
-
-      {open && (
-        <div className="absolute right-0 mt-1 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-20 py-1 text-sm">
-          {onReview && (
-            <button
-              onClick={() => { setOpen(false); onReview(); }}
-              className="w-full text-left px-4 py-2 hover:bg-gray-50 text-indigo-700 font-medium"
-            >
-              Revisar
-            </button>
-          )}
-          {onEdit && (
-            <button
-              onClick={() => { setOpen(false); onEdit(); }}
-              className="w-full text-left px-4 py-2 hover:bg-gray-50 text-gray-700"
-            >
-              Editar
-            </button>
-          )}
-          {onDelete && (
-            <>
-              <div className="border-t border-gray-100 my-1" />
-              <button
-                onClick={() => { setOpen(false); onDelete(); }}
-                className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600"
-              >
-                Eliminar
-              </button>
-            </>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
 // ─── Event table ──────────────────────────────────────────────────────────────
 
-function EventTable({ events, showConfidence, showReviewed, showCase }: {
+function EventTable({ events, showConfidence, showReviewed }: {
   events: CaseEvent[];
   showConfidence?: boolean;
   showReviewed?: boolean;
-  showCase?: boolean;
 }) {
   const navigate = useNavigate();
 
@@ -457,73 +69,57 @@ function EventTable({ events, showConfidence, showReviewed, showCase }: {
   }
 
   return (
-    <div>
-      <table className="w-full text-sm table-fixed">
-        <colgroup>
-          <col style={{ width: '50%' }} />
-          <col /><col /><col />
-          {(showActions || onEdit || onDelete) && <col style={{ width: '44px' }} />}
-        </colgroup>
-        <thead>
-          <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
-            <th className="pb-3 pt-4 pl-4 pr-4">Asunto</th>
-            <th className="pb-3 pt-4 pr-4">Tipo</th>
-            {showActions && <th className="pb-3 pt-4 pr-4">Confianza</th>}
-            <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Recibido</th>
-            {!showActions && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Revisado</th>}
-            {(showActions || onEdit || onDelete) && <th className="pb-3 pt-4 pr-2" />}
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-50">
-          {events.map(event => (
-            <tr
-              key={event.id}
-              onClick={!showActions ? () => navigate(`/actividad/${event.id}`) : undefined}
-              className={`hover:bg-gray-50 transition-colors ${!showActions ? 'cursor-pointer' : ''}`}
-            >
-              <td className="pl-4 pr-4 py-3.5 min-w-0 max-w-xs">
-                <div className="font-medium text-gray-800 truncate">
-                  {event.title || event.subject || event.mail_id}
-                </div>
-                {event.description && (
-                  <div className="text-xs text-gray-400 truncate mt-0.5">{event.description}</div>
-                )}
-                {!event.description && event.subject && (
-                  <div className="text-xs text-gray-400 truncate">{event.mail_id}</div>
-                )}
-              </td>
+    <table className="w-full text-sm table-fixed">
+      <colgroup>
+        <col style={{ width: '45%' }} />
+        <col /><col /><col />
+      </colgroup>
+      <thead>
+        <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
+          <th className="pb-3 pt-4 pl-4 pr-4">Asunto</th>
+          <th className="pb-3 pt-4 pr-4">Tipo</th>
+          {showConfidence && <th className="pb-3 pt-4 pr-4">Confianza</th>}
+          <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Recibido</th>
+          {showReviewed && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Revisado</th>}
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-gray-50">
+        {events.map(event => (
+          <tr
+            key={event.id}
+            onClick={() => navigate(`/actividad/${event.id}`)}
+            className="hover:bg-gray-50 transition-colors cursor-pointer"
+          >
+            <td className="pl-4 pr-4 py-3.5 min-w-0 max-w-xs">
+              <div className="font-medium text-gray-800 truncate">
+                {event.title || event.subject || event.mail_id}
+              </div>
+              {event.description && (
+                <div className="text-xs text-gray-400 truncate mt-0.5">{event.description}</div>
+              )}
+            </td>
+            <td className="pr-4 py-3.5">
+              <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
+                {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
+              </span>
+            </td>
+            {showConfidence && (
               <td className="pr-4 py-3.5">
-                <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
-                  {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
-                </span>
+                <ConfidenceBar value={event.confidence} />
               </td>
-              {showActions && (
-                <td className="pr-4 py-3.5">
-                  <ConfidenceBar value={event.confidence} />
-                </td>
-              )}
-              <td className="pr-4 py-3.5 text-gray-500 whitespace-nowrap text-xs">
-                {formatTableTime(event.received_at)}
+            )}
+            <td className="pr-4 py-3.5 text-gray-500 whitespace-nowrap text-xs">
+              {formatTableTime(event.received_at)}
+            </td>
+            {showReviewed && (
+              <td className="pr-4 py-3.5 text-gray-500 text-xs">
+                {event.reviewed_at ? formatTableTime(event.reviewed_at) : '—'}
               </td>
-              {!showActions && (
-                <td className="pr-4 py-3.5 text-gray-500 text-xs">
-                  {event.reviewed_at ? formatTableTime(event.reviewed_at) : '—'}
-                </td>
-              )}
-              {(showActions || onEdit || onDelete) && (
-                <td className="py-3 text-right">
-                  <KebabMenu
-                    onReview={showActions && onReview ? () => onReview(event) : undefined}
-                    onEdit={onEdit ? () => onEdit(event) : undefined}
-                    onDelete={onDelete ? () => onDelete(event) : undefined}
-                  />
-                </td>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+            )}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
@@ -533,14 +129,12 @@ type Tab = 'pendientes' | 'aprobados';
 
 export default function Activity() {
   const [tab, setTab]             = useState<Tab>('pendientes');
-  const [pendingPage, setPendingPage]   = useState(1);
   const [approvedPage, setApprovedPage] = useState(1);
 
   const { data: metrics, isLoading: metricsLoading } = useCaseEventMetrics();
   const { data: approvedData, isLoading: approvedLoading } = useApprovedEventsPaginated(approvedPage, 10);
   const approved = approvedData?.data ?? [];
-  const { data: pendingData, isLoading: pendingLoading } = usePendingEventsPaginated(pendingPage, 10);
-  const pending = pendingData?.data ?? [];
+  const { data: pending = [], isLoading: pendingLoading } = usePendingEvents();
 
   const lastSeen = metrics?.last_event_at ? formatMetricTime(metrics.last_event_at) : null;
   const pendingCount = metrics?.pending ?? 0;
@@ -602,21 +196,14 @@ export default function Activity() {
         {tab === 'pendientes' && (
           pendingLoading
             ? <p className="text-sm text-gray-400 animate-pulse px-4 py-8">Cargando...</p>
-            : <>
-                <EventTable events={pending} showConfidence showCase />
-                {(pendingData?.total ?? 0) > 10 && (
-                  <div className="px-4 pb-4">
-                    <Pagination page={pendingPage} limit={10} total={pendingData?.total ?? 0} onChange={setPendingPage} />
-                  </div>
-                )}
-              </>
+            : <EventTable events={pending} showConfidence />
         )}
 
         {tab === 'aprobados' && (
           approvedLoading
             ? <p className="text-sm text-gray-400 animate-pulse px-4 py-8">Cargando...</p>
             : <>
-                <EventTable events={approved} showReviewed showCase />
+                <EventTable events={approved} showReviewed />
                 {(approvedData?.total ?? 0) > 10 && (
                   <div className="px-4 pb-4">
                     <Pagination page={approvedPage} limit={10} total={approvedData?.total ?? 0} onChange={setApprovedPage} />

@@ -416,10 +416,10 @@ export default function ActivityDetail() {
       </button>
 
       {/* Header */}
-      <div className="flex items-start justify-between gap-6">
-        <div className="w-1/2 min-w-0">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 flex-wrap mb-2">
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-gray-900 truncate">
               {event.title || event.subject || 'Sin título'}
             </h1>
             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 shrink-0">
@@ -437,7 +437,7 @@ export default function ActivityDetail() {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 shrink-0 mt-1">
+        <div className="flex items-center gap-2 shrink-0">
           {isPending && (
             <button
               onClick={() => setShowReview(true)}
@@ -453,58 +453,12 @@ export default function ActivityDetail() {
         </div>
       </div>
 
-      {/* Fila resumen */}
-      <div className="flex items-center flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600 bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-        {/* Nro. siniestro */}
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-500">Siniestro:</span>
-          {event.raw_claim_number
-            ? <span className="font-mono text-gray-900">{event.raw_claim_number}</span>
-            : <span className="text-gray-300">—</span>}
-        </div>
-        <div className="w-px h-4 bg-gray-200" />
-
-        {/* Nro. expediente */}
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-500">Expediente:</span>
-          {event.raw_case_number
-            ? <span className="font-mono text-gray-900">{event.raw_case_number}</span>
-            : <span className="text-gray-300">—</span>}
-        </div>
-        <div className="w-px h-4 bg-gray-200" />
-
-        {/* Nro. póliza */}
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-500">Póliza:</span>
-          {event.raw_policy
-            ? <span className="font-mono text-gray-900">{event.raw_policy}</span>
-            : <span className="text-gray-300">—</span>}
-        </div>
-        <div className="w-px h-4 bg-gray-200" />
-
-        {/* Confianza */}
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-500">Confianza:</span>
-          <ConfidenceBar value={event.confidence} />
-        </div>
-        <div className="w-px h-4 bg-gray-200" />
-
-        {/* Recibido */}
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-500">Recibido:</span>
-          <span className="text-gray-900 text-xs">
-            {format(new Date(event.received_at), 'dd/MM/yyyy HH:mm', { locale: es })}
-          </span>
-        </div>
-      </div>
-
-      {/* Dos columnas: cuerpo (2/3) + sidebar (1/3) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-
-        {/* Izquierda — mail + adjuntos */}
-        <div className="lg:col-span-2 flex flex-col gap-4 min-h-0">
-          <div className="bg-white rounded-xl border border-gray-200 flex flex-col flex-1 min-h-0">
-            <div className="px-5 py-4 border-b border-gray-100 shrink-0">
+      {/* Body */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left */}
+        <div className="lg:col-span-2 space-y-4">
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="text-sm font-semibold text-gray-700">Contenido del mail</h2>
             </div>
             {event.body_clean ? (
@@ -547,29 +501,16 @@ export default function ActivityDetail() {
           )}
         </div>
 
-        {/* Derecha — sidebar */}
+        {/* Right */}
         <div className="space-y-4">
-          {/* Clasificación + contexto IA */}
+          {/* Clasificación */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
             <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="text-sm font-semibold text-gray-700">Clasificación</h2>
             </div>
             <dl className="px-5">
-              <InfoRow label="Tipo">
-                <span className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">
-                  {typeLabel}
-                </span>
-              </InfoRow>
-              {event.title && (
-                <InfoRow label="Título generado">
-                  <span className="font-medium text-gray-800">{event.title}</span>
-                </InfoRow>
-              )}
-              {event.description && (
-                <InfoRow label="Descripción">
-                  <span className="text-gray-600 leading-snug">{event.description}</span>
-                </InfoRow>
-              )}
+              <InfoRow label="Tipo"><span className="font-medium">{typeLabel}</span></InfoRow>
+              <InfoRow label="Confianza"><ConfidenceBar value={event.confidence} /></InfoRow>
               {event.reasoning && (
                 <InfoRow label="Razonamiento">
                   <span className="text-gray-500 italic leading-snug text-xs">{event.reasoning}</span>
@@ -577,6 +518,47 @@ export default function ActivityDetail() {
               )}
             </dl>
           </div>
+
+          {/* Mail metadata */}
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div className="px-5 py-4 border-b border-gray-100">
+              <h2 className="text-sm font-semibold text-gray-700">Datos del mail</h2>
+            </div>
+            <dl className="px-5">
+              {event.subject && (
+                <InfoRow label="Asunto"><span className="break-words">{event.subject}</span></InfoRow>
+              )}
+              <InfoRow label="Recibido">
+                {format(new Date(event.received_at), 'dd/MM/yyyy HH:mm', { locale: es })}
+              </InfoRow>
+              <InfoRow label="Mail ID">
+                <span className="font-mono text-xs text-gray-500 break-all">{event.mail_id}</span>
+              </InfoRow>
+            </dl>
+          </div>
+
+          {/* Identificadores */}
+          {(event.raw_claim_number || event.raw_policy || event.raw_case_number || event.raw_caratula) && (
+            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div className="px-5 py-4 border-b border-gray-100">
+                <h2 className="text-sm font-semibold text-gray-700">Identificadores</h2>
+              </div>
+              <dl className="px-5">
+                {event.raw_claim_number && (
+                  <InfoRow label="Nro. siniestro"><span className="font-mono">{event.raw_claim_number}</span></InfoRow>
+                )}
+                {event.raw_policy && (
+                  <InfoRow label="Nro. póliza"><span className="font-mono">{event.raw_policy}</span></InfoRow>
+                )}
+                {event.raw_case_number && (
+                  <InfoRow label="Nro. expediente"><span className="font-mono">{event.raw_case_number}</span></InfoRow>
+                )}
+                {event.raw_caratula && (
+                  <InfoRow label="Carátula">{event.raw_caratula}</InfoRow>
+                )}
+              </dl>
+            </div>
+          )}
 
           {/* Revisión */}
           {event.approved && (
