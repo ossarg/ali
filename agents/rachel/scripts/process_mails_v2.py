@@ -10,7 +10,7 @@ Flujo por mensaje:
   3. POST /api/v1/agents/case-events → obtener event_id
   4. Para cada adjunto PDF/doc: POST /api/v1/agents/attachments
 """
-import json, urllib.request, base64, re, time, sys, os
+import json, urllib.request, base64, re, time, sys, os, hashlib
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from google.oauth2.credentials import Credentials
@@ -126,7 +126,7 @@ def get_message_content(service, msg_id):
         'from':          hdrs.get('From', ''),
         'date':          hdrs.get('Date', ''),
         'internal_date': msg.get('internalDate'),  # ms desde epoch, siempre preciso
-        'body':          body[:4000],
+        'body':          body[:8000],   # más largo para capturar cadenas de forward
         'attachments':   attachments,              # solo PDF/docs
         'label_ids':     msg.get('labelIds', []),
     }
@@ -167,7 +167,7 @@ def apply_label(service, msg_id, label_id, remove_ids=None):
 
 # ── Limpieza de cuerpo ────────────────────────────────────────────────────────
 def clean_body(body: str) -> str:
-    """Extrae solo el texto del mail nuevo, sin el historial citado."""
+    """Extrae solo el texto del mail nuevo (de Axel), sin el historial reenviado."""
     cutoff = re.search(
         r'\n(El |On |De: |From: |>{1}|\-{5,}|_{5,})',
         body
@@ -176,6 +176,94 @@ def clean_body(body: str) -> str:
         body = body[:cutoff.start()]
     lines = [l for l in body.splitlines() if not l.strip().startswith('>')]
     return '\n'.join(lines).strip()[:4000]
+
+# ── Parser de forward chain (Outlook) ────────────────────────────────────────
+# Separador de Outlook: línea de guiones bajos (opcional) + bloque De:/Enviado:/Para:/Asunto:
+_FORWARD_BLOCK = re.compile(
+    r'(?:_{5,}\s*\n)?'                            # separador ___ (opcional)
+    r'((?:De|From): .+?\n'                         # De: nombre <email>
+    r'(?:Enviado(?: el)?|Sent): .+?\n'             # Enviado: / Enviado el: / Sent:
+    r'(?:Para|To): .+?\n'                          # Para: / To:
+    r'(?:(?:CC?|Cc): .+?\n)?'                      # CC: (opcional)
+    r'(?:Asunto|Subject): .+?\n)',                 # Asunto: / Subject:
+    re.IGNORECASE,
+)
+
+_MESES_ES = {
+    'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4,
+    'mayo': 5, 'junio': 6, 'julio': 7, 'agosto': 8,
+    'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12,
+}
+
+def _parse_outlook_date(date_str: str) -> str:
+    """Convierte fecha de Outlook (español o inglés) a ISO UTC."""
+    # Español: "viernes, 6 de marzo de 2026 11:21"
+    m = re.search(r'(\d{1,2}) de (\w+) de (\d{4})\s+(\d{1,2}):(\d{2})', date_str, re.IGNORECASE)
+    if m:
+        day, month_name, year, hour, minute = m.groups()
+        month = _MESES_ES.get(month_name.lower(), 1)
+        dt = datetime(int(year), month, int(day), int(hour), int(minute), tzinfo=timezone.utc)
+        return dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+    # Inglés / fallback
+    try:
+        dt = parsedate_to_datetime(date_str)
+        return dt.astimezone(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    except Exception:
+        pass
+    return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+
+def extract_forward_chain(body: str, thread_id: str) -> list:
+    """
+    Parsea la cadena de forwards de Outlook embebida en el body.
+    Retorna lista de dicts ordenados del más antiguo al más nuevo:
+      { synthetic_id, from_email, from_name, date_str, received_at, subject, body_text }
+
+    NO incluye el mensaje raíz de Axel (ya procesado como Gmail message).
+    """
+    header_matches = list(_FORWARD_BLOCK.finditer(body))
+    if not header_matches:
+        return []
+
+    messages = []
+    for i, m in enumerate(header_matches):
+        header_text = m.group(1)
+        body_start   = m.end()
+        body_end     = header_matches[i + 1].start() if i + 1 < len(header_matches) else len(body)
+        msg_body     = body[body_start:body_end].strip()
+
+        from_m = re.search(r'(?:De|From): (.+)',                   header_text, re.IGNORECASE)
+        date_m = re.search(r'(?:Enviado(?: el)?|Sent): (.+)',      header_text, re.IGNORECASE)
+        subj_m = re.search(r'(?:Asunto|Subject): (.+)',            header_text, re.IGNORECASE)
+
+        if not from_m or not date_m:
+            continue
+
+        from_line  = from_m.group(1).strip()
+        date_str   = date_m.group(1).strip()
+        subject    = subj_m.group(1).strip() if subj_m else ''
+
+        email_m    = re.search(r'<([^>]+)>', from_line)
+        from_email = email_m.group(1).lower() if email_m else from_line.strip()
+        from_name  = re.sub(r'\s*<[^>]+>', '', from_line).strip()
+
+        # ID sintético reproducible — sirve como dedup key en el backend
+        synthetic_id = 'fwd_' + hashlib.md5(
+            f'{thread_id}:{from_email}:{date_str}'.encode()
+        ).hexdigest()[:16]
+
+        messages.append({
+            'synthetic_id': synthetic_id,
+            'from_email':   from_email,
+            'from_name':    from_name,
+            'date_str':     date_str,
+            'received_at':  _parse_outlook_date(date_str),
+            'subject':      subject,
+            'body_text':    msg_body[:3000],
+        })
+
+    # Outlook embebe los forwards del más nuevo al más viejo → invertir
+    messages.reverse()
+    return messages
 
 # ── Clasificador + Summary (una sola llamada LLM) ─────────────────────────────
 MAIL_TYPES_DESC = """
@@ -312,71 +400,118 @@ def extract_fields(subject, body):
     return caratula, policy, claim, case_num
 
 # ── Procesamiento de un mensaje ───────────────────────────────────────────────
-def process_message(service, msg_id, label_cache):
-    content = get_message_content(service, msg_id)
-
-    # Fecha desde internalDate (confiable) o header Date
+def _build_received_at(content: dict) -> str:
     if content.get('internal_date'):
-        received_at = datetime.fromtimestamp(
+        return datetime.fromtimestamp(
             int(content['internal_date']) / 1000, tz=timezone.utc
         ).strftime('%Y-%m-%dT%H:%M:%SZ')
-    else:
-        try:
-            received_at = parsedate_to_datetime(content['date']).astimezone(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
-        except Exception:
-            received_at = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    try:
+        return parsedate_to_datetime(content['date']).astimezone(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    except Exception:
+        return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
-    # Cuerpo limpio
-    body_clean = clean_body(content['body'])
+def _post_and_upload(service, msg_id, payload, attachments, label_cache):
+    """
+    Registra el evento en el backend y sube adjuntos si el registro es nuevo.
+    Retorna (status_str, stats_key).
+    """
+    mail_type  = payload.get('mail_type')
+    subject_sh = payload.get('subject', '')[:50]
 
-    # Clasificación + summary en una sola llamada LLM
-    analysis   = analyze_mail(content['subject'], body_clean)
-    mail_type  = analysis['mail_type']
-    confidence = analysis['confidence']
-    reasoning  = analysis['reasoning']
-    title      = analysis['title']
-    description = analysis['description']
-
-    # Aplicar label en Gmail
+    # Aplicar label Gmail
     label_name = TIPO_LABELS.get(mail_type, LABEL_SIN_CLASIF)
     label_id   = get_or_create_label(service, label_name, label_cache)
-    apply_label(service, msg_id, label_id)
-
-    if mail_type is None:
-        return f'SIN CLASIFICAR | {content["subject"][:50]}'
-
-    caratula, policy, claim, case_num = extract_fields(content['subject'], content['body'])
-
-    payload = {
-        'mail_id':     msg_id,
-        'subject':     content['subject'][:500],
-        'mail_type':   mail_type,
-        'confidence':  confidence,
-        'reasoning':   reasoning,
-        'received_at': received_at,
-        'body_clean':  body_clean,
-        'title':       title,
-        'description': description,
-    }
-    if caratula:    payload['raw_caratula']     = caratula
-    if policy:      payload['raw_policy']       = policy
-    if claim:       payload['raw_claim_number'] = claim
-    if case_num:    payload['raw_case_number']  = case_num
+    if msg_id:   # solo si es un mensaje real de Gmail (no un forward sintético)
+        apply_label(service, msg_id, label_id)
 
     status_code, resp = post_event(payload)
 
     if status_code == 201:
         event_id = resp.get('id', '')
-        # Subir adjuntos PDF/doc
-        for att in content['attachments']:
+        for att in attachments:
             ok = upload_attachment(service, msg_id, event_id, att)
-            status = '✓' if ok else '✗'
-            print(f'    [adjunto] {status} {att["filename"]}')
-        return f'✓ {TIPOS[mail_type]} ({confidence:.2f}) | {content["subject"][:50]}'
+            print(f'    [adjunto] {"✓" if ok else "✗"} {att["filename"]}')
+        tipo_str = TIPOS.get(mail_type, '?')
+        conf     = payload.get('confidence', 0)
+        return f'✓ {tipo_str} ({conf:.2f}) | {subject_sh}', 'nuevos'
     elif status_code == 409:
-        return f'⟳ ya existía | {content["subject"][:50]}'
+        return f'⟳ ya existía | {subject_sh}', 'ya_existia'
     else:
-        return f'✗ backend {status_code} | {content["subject"][:50]}'
+        return f'✗ backend {status_code} | {subject_sh}', 'errores'
+
+def process_message(service, msg_id: str, label_cache: dict) -> list:
+    """
+    Procesa un mensaje de Gmail y su cadena de forwards embebidos.
+    Retorna lista de strings de status (uno por evento registrado).
+    """
+    content     = get_message_content(service, msg_id)
+    received_at = _build_received_at(content)
+    body_clean  = clean_body(content['body'])   # solo el texto de Axel (para storage)
+
+    # ── Evento principal (mensaje de Axel) ────────────────────────────────────
+    # Clasificamos con el body COMPLETO para que Claude vea el contexto del forward
+    analysis    = analyze_mail(content['subject'], content['body'])
+    mail_type   = analysis['mail_type']
+
+    results = []
+
+    if mail_type is None:
+        label_id = get_or_create_label(service, LABEL_SIN_CLASIF, label_cache)
+        apply_label(service, msg_id, label_id)
+        results.append(f'SIN CLASIFICAR | {content["subject"][:50]}')
+    else:
+        caratula, policy, claim, case_num = extract_fields(content['subject'], content['body'])
+        payload = {
+            'mail_id':     msg_id,
+            'subject':     content['subject'][:500],
+            'mail_type':   mail_type,
+            'confidence':  analysis['confidence'],
+            'reasoning':   analysis['reasoning'],
+            'received_at': received_at,
+            'body_clean':  body_clean,
+            'title':       analysis['title'],
+            'description': analysis['description'],
+        }
+        if caratula:  payload['raw_caratula']     = caratula
+        if policy:    payload['raw_policy']       = policy
+        if claim:     payload['raw_claim_number'] = claim
+        if case_num:  payload['raw_case_number']  = case_num
+
+        status_str, _ = _post_and_upload(service, msg_id, payload, content['attachments'], label_cache)
+        results.append(status_str)
+
+    # ── Eventos de forwards embebidos ─────────────────────────────────────────
+    forwards = extract_forward_chain(content['body'], content['thread_id'])
+    for fwd in forwards:
+        fwd_analysis = analyze_mail(fwd['subject'], fwd['body_text'])
+        fwd_type     = fwd_analysis['mail_type']
+        if fwd_type is None:
+            results.append(f'  ↳ SIN CLASIFICAR (fwd) | {fwd["subject"][:50]}')
+            continue
+
+        caratula, policy, claim, case_num = extract_fields(fwd['subject'], fwd['body_text'])
+        fwd_payload = {
+            'mail_id':     fwd['synthetic_id'],
+            'subject':     fwd['subject'][:500],
+            'mail_type':   fwd_type,
+            'confidence':  fwd_analysis['confidence'],
+            'reasoning':   fwd_analysis['reasoning'],
+            'received_at': fwd['received_at'],
+            'body_clean':  fwd['body_text'],
+            'title':       fwd_analysis['title'],
+            'description': fwd_analysis['description'],
+        }
+        if caratula:  fwd_payload['raw_caratula']     = caratula
+        if policy:    fwd_payload['raw_policy']       = policy
+        if claim:     fwd_payload['raw_claim_number'] = claim
+        if case_num:  fwd_payload['raw_case_number']  = case_num
+
+        # No aplicamos label en Gmail (no es un msg real) → pasamos msg_id=None
+        fwd_status, _ = _post_and_upload(service, None, fwd_payload, [], label_cache)
+        results.append(f'  ↳ fwd [{fwd["from_name"][:30]}] {fwd_status}')
+        time.sleep(0.1)
+
+    return results
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main(dry_run=False, limit=None, thread_id=None):
@@ -402,11 +537,13 @@ def main(dry_run=False, limit=None, thread_id=None):
                 print(f'  [dry-run] {msg_id}')
                 continue
             try:
-                result = process_message(service, msg_id, label_cache)
-                print(f'  [{msg_id[:12]}] {result}')
-                if '✓' in result:      stats['nuevos']     += 1
-                elif '⟳' in result:   stats['ya_existia'] += 1
-                elif 'SIN' in result:  stats['sin_clasif'] += 1
+                results = process_message(service, msg_id, label_cache)
+                for result in results:
+                    prefix = f'  [{msg_id[:12]}]' if not result.startswith('  ↳') else '  '
+                    print(f'{prefix} {result}')
+                    if '✓' in result:      stats['nuevos']     += 1
+                    elif '⟳' in result:   stats['ya_existia'] += 1
+                    elif 'SIN' in result:  stats['sin_clasif'] += 1
                 time.sleep(0.15)
             except Exception as ex:
                 print(f'  [{msg_id[:12]}] ERROR: {ex}', file=sys.stderr)
@@ -481,12 +618,13 @@ def main(dry_run=False, limit=None, thread_id=None):
                     print(f'  [dry-run] {msg_id}')
                     continue
 
-                result = process_message(service, msg_id, label_cache)
-                print(f'  [{msg_id[:12]}] {result}')
-
-                if '✓' in result:   stats['nuevos']     += 1
-                elif '⟳' in result: stats['ya_existia'] += 1
-                elif 'SIN'  in result: stats['sin_clasif'] += 1
+                results = process_message(service, msg_id, label_cache)
+                for result in results:
+                    prefix = f'  [{msg_id[:12]}]' if not result.startswith('  ↳') else '  '
+                    print(f'{prefix} {result}')
+                    if '✓' in result:      stats['nuevos']     += 1
+                    elif '⟳' in result:   stats['ya_existia'] += 1
+                    elif 'SIN' in result:  stats['sin_clasif'] += 1
 
                 time.sleep(0.15)
 
