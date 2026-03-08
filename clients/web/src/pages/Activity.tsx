@@ -522,7 +522,7 @@ function EventTable({ events, showActions, onReview, onEdit, onDelete }: EventTa
                 </td>
               )}
               {(showActions || onEdit || onDelete) && (
-                <td className="py-3 text-right">
+                <td className="py-3 pr-4 text-right">
                   <KebabMenu
                     onReview={showActions && onReview ? () => onReview(event) : undefined}
                     onEdit={onEdit ? () => onEdit(event) : undefined}

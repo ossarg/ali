@@ -122,6 +122,17 @@ export default function CaseDetail() {
             </>
           )}
 
+          {caso.case_number && (
+            <>
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4 text-[#6b7280]" />
+                <span className="font-medium">Expediente:</span>
+                <span className="text-[#1a1a1a] font-mono">{caso.case_number}</span>
+              </div>
+              <div className="w-px h-4 bg-[#e5e7eb]" />
+            </>
+          )}
+
           {caso.incident_date && (
             <>
               <div className="flex items-center gap-2">

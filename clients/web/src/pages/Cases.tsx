@@ -74,7 +74,7 @@ export default function Cases() {
 
       {/* Metrics */}
       {!isLoading && !isError && (
-        <>
+        <div className="space-y-2">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <MetricCard label="Total de casos" value={total} />
             <MetricCard label="Juicios"         value={byType['lawsuit']     ?? 0} />
@@ -94,7 +94,7 @@ export default function Cases() {
               Actualizar
             </button>
           </div>
-        </>
+        </div>
       )}
 
       {/* Table */}

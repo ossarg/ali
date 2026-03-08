@@ -316,13 +316,13 @@ export default function ClaimDetail() {
               </>
             )}
 
-            {claim.policy && (
+            {claim.policy_number && (
               <>
                 <div className="w-px h-4 bg-gray-200" />
                 <div className="flex items-center gap-2">
                   <CreditCard className="w-4 h-4 text-gray-400" />
                   <span className="font-medium">Póliza:</span>
-                  <span className="text-gray-900 font-mono">{claim.policy.policy_number ?? '—'}</span>
+                  <span className="text-gray-900 font-mono">{claim.policy_number}</span>
                 </div>
               </>
             )}
@@ -336,8 +336,8 @@ export default function ClaimDetail() {
           </div>
         </div>
 
-        {/* CTA */}
-        {linkedCaseId ? (
+        {/* CTA — solo si ya existe caso vinculado */}
+        {linkedCaseId && (
           <a
             href={`/casos/${linkedCaseId}`}
             className="flex items-center gap-2 px-4 py-2 text-sm border border-[#eb5d2a] text-[#eb5d2a] rounded-lg hover:bg-[#eb5d2a]/5 transition-colors shrink-0"
@@ -345,14 +345,6 @@ export default function ClaimDetail() {
             <ExternalLink className="w-4 h-4" />
             Ver caso judicial
           </a>
-        ) : (
-          <button
-            disabled
-            className="flex items-center gap-2 px-4 py-2 text-sm bg-[#eb5d2a] text-white rounded-lg opacity-40 cursor-not-allowed shrink-0"
-          >
-            <FileText className="w-4 h-4" />
-            Iniciar caso judicial
-          </button>
         )}
       </div>
 
