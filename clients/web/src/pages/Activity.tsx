@@ -87,17 +87,20 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
 
   const reviewEvent = useReviewEvent();
   const isChanging  = selectedType !== event.mail_type;
+  const canSubmit   = claimNumber.trim() !== '' &&
+                      (!isChanging || comment.trim() !== '') &&
+                      !reviewEvent.isPending;
 
   const handleSubmit = () => {
-    const req: ReviewCaseEventRequest = { review_comment: comment };
-    if (isChanging) req.mail_type = MAIL_TYPE_VALUES[selectedType];
-
-    // Send identifiers only if changed from what Rachel extracted
-    if (claimNumber !== (event.raw_claim_number ?? '')) req.raw_claim_number = claimNumber;
-    if (policy      !== (event.raw_policy      ?? '')) req.raw_policy        = policy;
-    if (caseNumber  !== (event.raw_case_number ?? '')) req.raw_case_number   = caseNumber;
-    if (caratula    !== (event.raw_caratula    ?? '')) req.raw_caratula      = caratula;
-
+    if (!canSubmit) return;
+    const req: ReviewCaseEventRequest = {
+      claim_number:   claimNumber.trim(),
+      review_comment: comment,
+      ...(isChanging  && { mail_type:       MAIL_TYPE_VALUES[selectedType] }),
+      ...(policy      && { raw_policy:      policy }),
+      ...(caseNumber  && { raw_case_number: caseNumber }),
+      ...(caratula    && { raw_caratula:    caratula }),
+    };
     reviewEvent.mutate({ id: event.id, req }, { onSuccess: onClose });
   };
 
@@ -144,7 +147,24 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
             <span className="text-xs text-gray-400 font-normal ml-1">— corregí lo que Rachel haya extraído mal o dejado vacío</span>
           </label>
           <div className="space-y-2">
-            <IdentifierField label="Nro. siniestro"  value={claimNumber} onChange={setClaimNumber} />
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-medium text-gray-700 w-28 shrink-0">
+                Nro. siniestro <span className="text-red-500">*</span>
+              </span>
+              <input
+                value={claimNumber}
+                onChange={e => setClaimNumber(e.target.value)}
+                placeholder="Ej: 123456"
+                className={`flex-1 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 ${
+                  claimNumber.trim() === ''
+                    ? 'border-red-300 bg-red-50 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-indigo-400'
+                }`}
+              />
+            </div>
+            {claimNumber.trim() === '' && (
+              <p className="text-xs text-red-500 pl-[7.5rem]">Requerido para poder aprobar</p>
+            )}
             <IdentifierField label="Póliza"          value={policy}      onChange={setPolicy}      />
             <IdentifierField label="Nro. expediente" value={caseNumber}  onChange={setCaseNumber}  />
             <IdentifierField label="Carátula"        value={caratula}    onChange={setCaratula}    />
@@ -175,7 +195,7 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
           </button>
           <button
             onClick={handleSubmit}
-            disabled={reviewEvent.isPending || (isChanging && !comment.trim())}
+            disabled={!canSubmit}
             className="px-4 py-2 text-sm rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {reviewEvent.isPending ? 'Guardando...' : isChanging ? 'Corregir' : 'Aprobar'}

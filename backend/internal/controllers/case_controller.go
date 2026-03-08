@@ -176,6 +176,8 @@ func (cc *CaseController) ReviewEvent(c echo.Context) error {
 	return c.JSON(http.StatusOK, resp)
 }
 
+
+
 // CreateCaseEvent godoc
 // @Summary      Register a case event from an incoming email
 // @Description  Called by Rachel after classifying an email. Requires X-Agent-Key header.
@@ -198,7 +200,7 @@ func (cc *CaseController) ReviewEvent(c echo.Context) error {
 // @Failure      401  {object}  map[string]string
 // @Router       /api/v1/claims/unresolved [get]
 func (cc *CaseController) ListUnresolvedEvents(c echo.Context) error {
-	events, err := cc.claimService.ListUnresolved()
+	events, err := cc.claimService.ListUnresolvedEvents()
 	if err != nil {
 		return err
 	}
@@ -227,7 +229,7 @@ func (cc *CaseController) RetryResolution(c echo.Context) error {
 	if req.CorrectedClaimNumber == "" {
 		return apierrors.New(http.StatusBadRequest, "corrected_claim_number is required")
 	}
-	resp, err := cc.claimService.RetryResolution(id, req.CorrectedClaimNumber, req.CorrectionComment)
+	resp, err := cc.claimService.RetryEventResolution(id, req.CorrectedClaimNumber, req.CorrectionComment)
 	if err != nil {
 		// Return partial response with error info even on SISE failure
 		if resp != nil {
@@ -251,7 +253,7 @@ func (cc *CaseController) RetryResolution(c echo.Context) error {
 // @Failure      401  {object}  map[string]string
 // @Router       /api/v1/claims/batch-resolve [post]
 func (cc *CaseController) BatchResolve(c echo.Context) error {
-	resolved, errs, err := cc.claimService.BatchResolveUnlinked()
+	resolved, errs, err := cc.claimService.BatchResolvePendingEvents()
 	if err != nil {
 		return err
 	}

@@ -120,7 +120,7 @@ func (cc *ClaimController) Create(c echo.Context) error {
 		return apierrors.New(http.StatusBadRequest, "nro_stro is required")
 	}
 
-	claim, err := cc.claimService.Create(body.NroStro)
+	claim, err := cc.claimService.SyncFromSISE(body.NroStro)
 	if err != nil {
 		return err
 	}
