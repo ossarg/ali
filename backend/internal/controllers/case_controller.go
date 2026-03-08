@@ -299,8 +299,8 @@ func (cc *CaseController) UpdateEvent(c echo.Context) error {
 	if err := c.Bind(&req); err != nil {
 		return apierrors.New(http.StatusBadRequest, "invalid request body")
 	}
-	if err := c.Validate(&req); err != nil {
-		return apierrors.New(http.StatusBadRequest, err.Error())
+	if req.MailType != nil && (*req.MailType < 1 || *req.MailType > 11) {
+		return apierrors.New(http.StatusBadRequest, "mail_type must be between 1 and 11")
 	}
 	resp, err := cc.caseService.UpdateCaseEvent(id, req)
 	if err != nil {
