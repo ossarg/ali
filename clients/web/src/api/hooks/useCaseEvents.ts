@@ -45,8 +45,9 @@ export function useReviewEvent() {
   return useMutation({
     mutationFn: ({ id, req }: { id: string; req: ReviewCaseEventRequest }) =>
       caseEventService.review(id, req),
-    onSuccess: () => {
+    onSuccess: (data, { id }) => {
       queryClient.invalidateQueries({ queryKey: caseEventKeys.all });
+      queryClient.invalidateQueries({ queryKey: ['case-event', id] });
     },
   });
 }
