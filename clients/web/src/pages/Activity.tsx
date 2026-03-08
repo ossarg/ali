@@ -125,14 +125,28 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
         </div>
 
         {/* Mail info */}
-        <div className="text-sm text-gray-600 space-y-1 bg-gray-50 rounded-lg p-3">
-          {event.subject && <p className="font-medium text-gray-800 text-xs leading-snug">{event.subject}</p>}
-          <div className="flex items-center gap-3 text-xs text-gray-400">
-            <span>{event.mail_id}</span>
-            <span>·</span>
-            <span>Recibido: <span className="font-medium text-gray-500">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}</span></span>
-          </div>
-          <p className="mt-1">
+        <div className="text-sm text-gray-600 space-y-2 bg-gray-50 rounded-lg p-3">
+          {/* Asunto con botón copiar */}
+          {event.subject && (
+            <div className="flex items-start gap-2">
+              <p className="font-medium text-gray-800 text-xs leading-snug flex-1">{event.subject}</p>
+              <button
+                onClick={() => navigator.clipboard.writeText(event.subject ?? '')}
+                title="Copiar asunto"
+                className="flex-shrink-0 text-gray-400 hover:text-indigo-600 transition-colors p-0.5 rounded"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                </svg>
+              </button>
+            </div>
+          )}
+
+          <p className="text-xs text-gray-400">
+            Recibido: <span className="font-medium text-gray-500">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}</span>
+          </p>
+
+          <p>
             <span className="font-medium">Rachel clasificó:</span>{' '}
             <span className="font-semibold text-indigo-600">
               {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
@@ -140,6 +154,18 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
             {' '}({Math.round(event.confidence * 100)}% confianza)
           </p>
           {event.reasoning && <p className="text-xs text-gray-400 italic">{event.reasoning}</p>}
+
+          {/* Título y descripción generados */}
+          {(event.title || event.description) && (
+            <div className="border-t border-gray-200 pt-2 mt-1 space-y-1">
+              {event.title && (
+                <p className="text-xs font-semibold text-gray-700">{event.title}</p>
+              )}
+              {event.description && (
+                <p className="text-xs text-gray-500 leading-relaxed">{event.description}</p>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Tipo */}
