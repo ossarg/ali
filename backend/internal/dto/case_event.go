@@ -44,7 +44,7 @@ type CreateCaseEventRequest struct {
 	MailID       string    `json:"mail_id"        validate:"required"`
 	MailProvider string    `json:"mail_provider"`
 	Subject      string    `json:"subject"`
-	MailType     int16     `json:"mail_type"      validate:"required,min=1,max=8"`
+	MailType     int16     `json:"mail_type"      validate:"required,min=1,max=11"`
 	Confidence   float64   `json:"confidence"     validate:"required,min=0,max=1"`
 	Reasoning    string    `json:"reasoning"`
 	Title        string    `json:"title"`

@@ -15,6 +15,9 @@ const MAIL_TYPE_LABELS: Record<string, string> = {
   pericia:      'Pericia',
   oficio:       'Oficio',
   gestion:      'Gestión',
+  apertura:     'Apertura',
+  apelacion:    'Apelación',
+  cierre:       'Cierre',
 };
 
 const CASE_TYPE_LABELS: Record<string, string> = {

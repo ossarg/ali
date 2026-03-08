@@ -51,18 +51,23 @@ LABEL_EMBARGO      = 'Rachel/Embargo'
 LABEL_PERICIA      = 'Rachel/Pericia'
 LABEL_OFICIO       = 'Rachel/Oficio'
 LABEL_GESTION      = 'Rachel/Gestión'
+LABEL_APERTURA     = 'Rachel/Apertura'
+LABEL_APELACION    = 'Rachel/Apelación'
+LABEL_CIERRE       = 'Rachel/Cierre'
 LABEL_SIN_CLASIF   = 'Rachel/Sin Clasificar'
 
 TIPO_LABELS = {
     1: LABEL_SENTENCIA, 2: LABEL_RECLAMO_PAGO, 3: LABEL_INTIMACION,
     4: LABEL_ACUERDO,   5: LABEL_EMBARGO,       6: LABEL_PERICIA,
     7: LABEL_OFICIO,    8: LABEL_GESTION,
+    9: LABEL_APERTURA,  10: LABEL_APELACION,    11: LABEL_CIERRE,
 }
 
 TIPOS = {
     1: 'sentencia', 2: 'reclamo_pago', 3: 'intimacion',
     4: 'acuerdo',   5: 'embargo',      6: 'pericia',
     7: 'oficio',    8: 'gestion',
+    9: 'apertura',  10: 'apelacion',   11: 'cierre',
 }
 
 # ── Tipos de adjunto permitidos (solo PDFs y documentos) ─────────────────────
@@ -267,14 +272,17 @@ def extract_forward_chain(body: str, thread_id: str) -> list:
 
 # ── Clasificador + Summary (una sola llamada LLM) ─────────────────────────────
 MAIL_TYPES_DESC = """
-1 = sentencia     → Fallos judiciales, sentencias condenatorias o absolutorias, informes de sentencia, proyecciones de pago de sentencia.
-2 = reclamo_pago  → Honorarios, liquidaciones, minutas de pago, facturas, pedidos de fondos, regulaciones arancelarias.
-3 = intimacion    → Cédulas, notificaciones con plazo, apercibimientos, juicios nuevos, vencimientos procesales.
-4 = acuerdo       → Mediación, transacción, conciliación, propuesta de acuerdo, avenimiento, convenio.
-5 = embargo       → Traba o levantamiento de embargo, inhibición de bienes.
-6 = pericia       → Designación de perito, informe pericial, pericia médica, contable o psicológica.
-7 = oficio        → Oficio judicial, libramiento, diligencia de oficio.
-8 = gestion       → Consultas entre partes, pedidos de autorización, coordinación, remito de documentos, cualquier comunicación interna o de gestión que no encaje en las categorías anteriores.
+1  = sentencia     → Fallos judiciales, sentencias condenatorias o absolutorias, informes de sentencia, proyecciones de pago de sentencia.
+2  = reclamo_pago  → Honorarios, liquidaciones, minutas de pago, facturas, pedidos de fondos, regulaciones arancelarias.
+3  = intimacion    → Cédulas, notificaciones con plazo, apercibimientos, vencimientos procesales.
+4  = acuerdo       → Mediación, transacción, conciliación, propuesta de acuerdo, avenimiento, convenio de pago.
+5  = embargo       → Traba o levantamiento de embargo, inhibición de bienes.
+6  = pericia       → Designación de perito, informe pericial, pericia médica, contable o psicológica.
+7  = oficio        → Oficio judicial, libramiento, diligencia de oficio.
+8  = gestion       → Consultas entre partes, pedidos de autorización, coordinación interna, remito de documentos sin relevancia procesal propia.
+9  = apertura      → Juicio nuevo, inicio de expediente, primera presentación del caso (asunto suele decir JUICIO NUEVO).
+10 = apelacion     → Recurso de apelación, apelación de sentencia, expresión de agravios, respuesta a agravios.
+11 = cierre        → Cierre del expediente, caso cerrado, baja del caso, homologación de acuerdo final.
 """
 
 def _strip_subject_prefixes(subject: str) -> str:
@@ -308,7 +316,7 @@ Cuerpo: {body_text[:1200]}
 
 ## Tu respuesta debe tener exactamente este formato:
 {{
-  "mail_type": <número entero del 1 al 8>,
+  "mail_type": <número entero del 1 al 11>,
   "confidence": <número entre 0.0 y 1.0>,
   "reasoning": "<una oración explicando por qué elegiste ese tipo>",
   "title": "<exactamente una oración sin punto final que describa el evento>",
@@ -325,7 +333,7 @@ Cuerpo: {body_text[:1200]}
         if match:
             data = json.loads(match.group())
             mail_type = int(data.get('mail_type', 0))
-            if mail_type not in range(1, 9):
+            if mail_type not in range(1, 12):
                 mail_type = None
             return {
                 'mail_type':   mail_type,

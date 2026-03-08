@@ -100,6 +100,9 @@ const (
 	MailTypePericia     MailType = 6
 	MailTypeOficio      MailType = 7
 	MailTypeGestion     MailType = 8
+	MailTypeApertura    MailType = 9
+	MailTypeApelacion   MailType = 10
+	MailTypeCierre      MailType = 11
 )
 
 var mailTypeNames = map[MailType]string{
@@ -111,6 +114,9 @@ var mailTypeNames = map[MailType]string{
 	MailTypePericia:     "pericia",
 	MailTypeOficio:      "oficio",
 	MailTypeGestion:     "gestion",
+	MailTypeApertura:    "apertura",
+	MailTypeApelacion:   "apelacion",
+	MailTypeCierre:      "cierre",
 }
 
 func (m MailType) String() string {
