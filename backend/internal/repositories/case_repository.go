@@ -36,8 +36,8 @@ type CaseRepository interface {
 	ListPendingResolutionEvents() ([]models.CaseEvent, error)
 	GetEventMetrics() (total, approved, pending, processed int64, lastEventAt *time.Time, err error)
 
-	// Cases
-	GetByID(id string) (*models.Case, error)
+	// FindByClaim returns the case linked to a given claim UUID, or nil if none exists.
+	FindByClaim(claimID string) (*models.Case, error)
 }
 
 type caseRepository struct {
@@ -197,9 +197,9 @@ func (r *caseRepository) ListPendingResolutionEvents() ([]models.CaseEvent, erro
 	return events, err
 }
 
-func (r *caseRepository) GetByID(id string) (*models.Case, error) {
+func (r *caseRepository) FindByClaim(claimID string) (*models.Case, error) {
 	var c models.Case
-	err := r.db.Where("id = ?", id).First(&c).Error
+	err := r.db.Where("claim_id = ? AND deleted_at IS NULL", claimID).First(&c).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, nil
 	}
