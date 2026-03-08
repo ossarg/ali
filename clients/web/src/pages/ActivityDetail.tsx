@@ -548,62 +548,34 @@ export default function ActivityDetail() {
 
         {/* Right */}
         <div className="space-y-4">
-          {/* Clasificación */}
+          {/* Clasificación + contexto IA */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
             <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="text-sm font-semibold text-gray-700">Clasificación</h2>
             </div>
             <dl className="px-5">
-              <InfoRow label="Tipo"><span className="font-medium">{typeLabel}</span></InfoRow>
-              <InfoRow label="Confianza"><ConfidenceBar value={event.confidence} /></InfoRow>
+              <InfoRow label="Tipo">
+                <span className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">
+                  {typeLabel}
+                </span>
+              </InfoRow>
+              {event.title && (
+                <InfoRow label="Título generado">
+                  <span className="font-medium text-gray-800">{event.title}</span>
+                </InfoRow>
+              )}
+              {event.description && (
+                <InfoRow label="Descripción">
+                  <span className="text-gray-600 leading-snug">{event.description}</span>
+                </InfoRow>
+              )}
               {event.reasoning && (
                 <InfoRow label="Razonamiento">
-                  <span className="text-gray-600 leading-snug">{event.reasoning}</span>
+                  <span className="text-gray-500 italic leading-snug text-xs">{event.reasoning}</span>
                 </InfoRow>
               )}
             </dl>
           </div>
-
-          {/* Mail metadata */}
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            <div className="px-5 py-4 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-700">Datos del mail</h2>
-            </div>
-            <dl className="px-5">
-              {event.subject && (
-                <InfoRow label="Asunto"><span className="break-words">{event.subject}</span></InfoRow>
-              )}
-              <InfoRow label="Recibido">
-                {format(new Date(event.received_at), 'dd/MM/yyyy HH:mm', { locale: es })}
-              </InfoRow>
-              <InfoRow label="Mail ID">
-                <span className="font-mono text-xs text-gray-500 break-all">{event.mail_id}</span>
-              </InfoRow>
-            </dl>
-          </div>
-
-          {/* Identificadores */}
-          {(event.raw_claim_number || event.raw_policy || event.raw_case_number || event.raw_caratula) && (
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-              <div className="px-5 py-4 border-b border-gray-100">
-                <h2 className="text-sm font-semibold text-gray-700">Identificadores</h2>
-              </div>
-              <dl className="px-5">
-                {event.raw_claim_number && (
-                  <InfoRow label="Nro. siniestro"><span className="font-mono">{event.raw_claim_number}</span></InfoRow>
-                )}
-                {event.raw_policy && (
-                  <InfoRow label="Nro. póliza"><span className="font-mono">{event.raw_policy}</span></InfoRow>
-                )}
-                {event.raw_case_number && (
-                  <InfoRow label="Nro. expediente"><span className="font-mono">{event.raw_case_number}</span></InfoRow>
-                )}
-                {event.raw_caratula && (
-                  <InfoRow label="Carátula">{event.raw_caratula}</InfoRow>
-                )}
-              </dl>
-            </div>
-          )}
 
           {/* Revisión */}
           {event.approved && (
