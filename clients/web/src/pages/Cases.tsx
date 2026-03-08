@@ -39,7 +39,7 @@ export default function Cases() {
 
   const { data, isLoading, isFetching, isError } = useCasesPaginated(
     page,
-    20,
+    10,
     searchQuery ? { search: searchQuery } : undefined
   );
   const casos = data?.data ?? [];
@@ -196,7 +196,7 @@ export default function Cases() {
         </div>
       )}
 
-      <Pagination page={page} limit={20} total={total} onChange={setPage} />
+      <Pagination page={page} limit={10} total={total} onChange={setPage} />
     </div>
   );
 }
