@@ -7,8 +7,6 @@ import { format } from 'date-fns';
 import { useCasesPaginated } from '../api/hooks/useCases';
 import Pagination from '../components/Pagination';
 
-const RelevanciaLabel: Record<number, string> = { 1: 'Baja', 2: 'Media', 3: 'Alta' };
-
 export default function Cases() {
   const [view, setView] = useState<'pipeline' | 'table'>('pipeline');
   const [searchQuery, setSearchQuery] = useState('');
@@ -20,23 +18,25 @@ export default function Cases() {
   const { data, isLoading, isError } = useCasesPaginated(page, 10, searchQuery ? { search: searchQuery } : undefined);
   const casos = data?.data ?? [];
 
-  // Map backend stage (English) → display stage (Spanish)
+  // Map backend pipeline_stage → display stage (Spanish)
   const stageMap: Record<string, Stage> = {
-    intake: 'Ingesta',
-    triage: 'Triage',
-    review: 'Revisión Humana',
-    closed: 'Completado',
+    ingesta:    'Ingesta',
+    extraccion: 'Extracción',
+    triage:     'Triage',
+    asignado:   'Fichero',
+    borrador:   'Borrador',
+    completado: 'Completado',
   };
 
   const filteredCases = casos.map(c => ({
-    id: c.nro_siniestro || c.id,
-    title: c.caratula,
-    amount: c.monto_estimado || 0,
-    priority: RelevanciaLabel[c.triage_relevancia] || 'Baja',
-    stage: (c.pipeline_stage ? stageMap[c.pipeline_stage] : null) ?? 'Ingesta',
-    deadline: c.pipeline_updated_at || new Date().toISOString(),
-    lawyerId: c.estudio_id || null,
-    dataExtraction: { fields: { 'Tipo de Siniestro': { value: c.tipo_accion || 'N/A' } } }
+    id:       c.id,
+    title:    c.title,
+    amount:   c.estimated_amount || 0,
+    priority: 'Baja' as string,  // relevancia no viene del backend aún
+    stage:    (c.pipeline_stage ? stageMap[c.pipeline_stage] : null) ?? 'Ingesta',
+    deadline: c.updated_at,
+    lawyerId: c.assigned_user?.id || null,
+    dataExtraction: { fields: { 'Tipo de Siniestro': { value: c.action_type || c.case_type || 'N/A' } } }
   }));
 
   return (
