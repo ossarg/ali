@@ -86,9 +86,15 @@ func (r *claimRepository) UpsertStage(stage *models.ClaimStage) error {
 		FirstOrCreate(stage).Error
 }
 
-// CreatePayment inserts a payment row (no upsert — payments are immutable records).
+// CreatePayment upserts a payment row by (stage_id, amount, payment_date) — safe on re-sync.
 func (r *claimRepository) CreatePayment(payment *models.ClaimPayment) error {
-	return r.db.Create(payment).Error
+	return r.db.
+		Where(models.ClaimPayment{
+			StageID:     payment.StageID,
+			Amount:      payment.Amount,
+			PaymentDate: payment.PaymentDate,
+		}).
+		FirstOrCreate(payment).Error
 }
 
 func (r *claimRepository) GetMetrics() (total, open, mediation, lawsuit int64, err error) {
