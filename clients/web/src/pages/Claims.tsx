@@ -225,11 +225,9 @@ function ClaimRow({ claim }: ClaimRowProps) {
     >
       <td className="py-3 pl-4 pr-4">
         <div className="font-medium text-gray-800">{claim.claim_number}</div>
-        <div className="text-xs text-gray-400">{claim.sise_claim_id}</div>
       </td>
       <td className="py-3 pr-4">
-        <div className="text-sm text-gray-700 truncate max-w-[180px]">{claim.cause || '—'}</div>
-        <div className="text-xs text-gray-400 truncate max-w-[180px]">{claim.coverage}</div>
+        <div className="text-sm text-gray-700 truncate max-w-[220px]">{claim.cause || '—'}</div>
       </td>
       <td className="py-3 pr-4 text-sm text-gray-600">{claim.contratante.trim()}</td>
       <td className="py-3 pr-4 text-sm text-gray-500">{formatDate(claim.incident_date)}</td>
