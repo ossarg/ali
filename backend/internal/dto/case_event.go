@@ -21,11 +21,13 @@ type ReviewCaseEventRequest struct {
 	MailType      *int16  `json:"mail_type"`      // if nil, approves Rachel's classification as-is
 	ReviewComment string  `json:"review_comment"` // required when changing mail_type
 
-	// Corrected identifiers (optional — reviewer can fix what Rachel missed)
-	RawClaimNumber *string `json:"raw_claim_number"` // nro. siniestro
-	RawPolicy      *string `json:"raw_policy"`       // nro. póliza
-	RawCaseNumber  *string `json:"raw_case_number"`  // nro. expediente
-	RawCaratula    *string `json:"raw_caratula"`     // carátula
+	// ClaimNumber is required to approve — without it the SISE resolution will always fail.
+	ClaimNumber string `json:"claim_number"`
+
+	// Corrected identifiers (optional)
+	RawPolicy    *string `json:"raw_policy"`    // nro. póliza
+	RawCaseNumber *string `json:"raw_case_number"` // nro. expediente
+	RawCaratula   *string `json:"raw_caratula"`    // carátula
 }
 
 // CreateCaseEventRequest — payload sent by Rachel after classifying an email

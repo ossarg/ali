@@ -218,6 +218,11 @@ func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCa
 		return nil, apierrors.New(400, "invalid reviewer id")
 	}
 
+	// claim_number is required — without it the SISE resolution will fail
+	if req.ClaimNumber == "" {
+		return nil, apierrors.New(400, "claim_number is required to approve an event")
+	}
+
 	event, err := s.caseRepo.FindEventByID(id)
 	if err != nil {
 		return nil, apierrors.ErrInternalServer
@@ -248,10 +253,9 @@ func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCa
 	event.ReviewedAt = &now
 	event.ReviewComment = req.ReviewComment
 
-	// Apply corrected identifiers if provided by the reviewer
-	if req.RawClaimNumber != nil {
-		event.RawClaimNumber = *req.RawClaimNumber
-	}
+	// Always overwrite raw_claim_number with what the reviewer confirmed/corrected
+	event.RawClaimNumber = req.ClaimNumber
+
 	if req.RawPolicy != nil {
 		event.RawPolicy = *req.RawPolicy
 	}
