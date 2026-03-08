@@ -42,6 +42,10 @@ export const caseService = {
   },
 };
 
+export const caseEventsByCaseKey = {
+  all: (caseId: string) => ['case-events-by-case', caseId] as const,
+};
+
 export const caseEventService = {
   metrics: async (): Promise<CaseEventMetrics> => {
     const response = await api.get(API_ENDPOINTS.CASE_EVENTS.METRICS);
@@ -60,6 +64,11 @@ export const caseEventService = {
 
   pending: async (): Promise<CaseEvent[]> => {
     const response = await api.get(API_ENDPOINTS.CASE_EVENTS.PENDING);
+    return CaseEventSchema.array().parse(response);
+  },
+
+  byCaseID: async (caseId: string): Promise<CaseEvent[]> => {
+    const response = await api.get(API_ENDPOINTS.CASES.EVENTS(caseId));
     return CaseEventSchema.array().parse(response);
   },
 

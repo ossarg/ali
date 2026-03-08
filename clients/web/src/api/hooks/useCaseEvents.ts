@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { caseEventKeys, caseEventService } from '../services/case.service';
+import { caseEventKeys, caseEventsByCaseKey, caseEventService } from '../services/case.service';
 import type { RetryResolutionRequest, ReviewCaseEventRequest } from '../schemas/case.schemas';
 
 export function useCaseEventMetrics() {
@@ -68,5 +68,13 @@ export function useBatchResolve() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: caseEventKeys.all });
     },
+  });
+}
+
+export function useCaseEvents(caseId: string) {
+  return useQuery({
+    queryKey: caseEventsByCaseKey.all(caseId),
+    queryFn:  () => caseEventService.byCaseID(caseId),
+    enabled:  !!caseId,
   });
 }
