@@ -37,6 +37,7 @@ const (
 	MailTypeEmbargo     MailType = 5
 	MailTypePericia     MailType = 6
 	MailTypeOficio      MailType = 7
+	MailTypeGestion     MailType = 8
 )
 
 var mailTypeNames = map[MailType]string{
@@ -47,6 +48,7 @@ var mailTypeNames = map[MailType]string{
 	MailTypeEmbargo:     "embargo",
 	MailTypePericia:     "pericia",
 	MailTypeOficio:      "oficio",
+	MailTypeGestion:     "gestion",
 }
 
 func (m MailType) String() string {
@@ -76,6 +78,9 @@ type CaseEvent struct {
 	RawPolicy      string `gorm:"type:varchar(100)" json:"raw_policy,omitempty"`
 	RawCaseNumber  string `gorm:"type:varchar(100)" json:"raw_case_number,omitempty"`
 	RawCaratula    string `gorm:"type:varchar(500)" json:"raw_caratula,omitempty"`
+
+	Title       string `gorm:"type:varchar(200)"      json:"title,omitempty"`
+	Description string `gorm:"type:text"              json:"description,omitempty"`
 
 	Processed  bool      `gorm:"not null;default:false" json:"processed"`
 	ReceivedAt time.Time `gorm:"not null"               json:"received_at"`

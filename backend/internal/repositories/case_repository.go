@@ -241,3 +241,4 @@ func (r *caseRepository) ListEventsByCaseID(caseID string) ([]models.CaseEvent, 
 		Find(&events).Error
 	return events, err
 }
+

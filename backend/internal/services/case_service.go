@@ -90,6 +90,7 @@ func (s *caseService) ListPaginated(req dto.ListCasesRequest, page, limit int) (
 	if err != nil {
 		return nil, apierrors.ErrInternalServer
 	}
+
 	data := make([]dto.CaseResponse, len(cases))
 	for i, c := range cases {
 		data[i] = dto.ToCaseResponse(c)
@@ -144,6 +145,8 @@ func (s *caseService) CreateEvent(req dto.CreateCaseEventRequest) (*dto.CaseEven
 		MailType:       mailType,
 		Confidence:     req.Confidence,
 		Reasoning:      req.Reasoning,
+		Title:          req.Title,
+		Description:    req.Description,
 		RawClaimNumber: req.RawClaimNumber,
 		RawPolicy:      req.RawPolicy,
 		RawCaseNumber:  req.RawCaseNumber,

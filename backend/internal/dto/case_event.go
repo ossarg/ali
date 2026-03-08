@@ -35,9 +35,11 @@ type CreateCaseEventRequest struct {
 	MailID       string    `json:"mail_id"        validate:"required"`
 	MailProvider string    `json:"mail_provider"`
 	Subject      string    `json:"subject"`
-	MailType     int16     `json:"mail_type"      validate:"required,min=1,max=7"`
+	MailType     int16     `json:"mail_type"      validate:"required,min=1,max=8"`
 	Confidence   float64   `json:"confidence"     validate:"required,min=0,max=1"`
 	Reasoning    string    `json:"reasoning"`
+	Title        string    `json:"title"`
+	Description  string    `json:"description"`
 	ReceivedAt   time.Time `json:"received_at"    validate:"required"`
 
 	// Raw identifiers extracted from the mail (unnormalized)
@@ -57,6 +59,8 @@ type CaseEventResponse struct {
 	MailType     string     `json:"mail_type"`
 	Confidence   float64    `json:"confidence"`
 	Reasoning    string     `json:"reasoning,omitempty"`
+	Title        string     `json:"title,omitempty"`
+	Description  string     `json:"description,omitempty"`
 
 	RawClaimNumber string `json:"raw_claim_number,omitempty"`
 	RawPolicy      string `json:"raw_policy,omitempty"`
@@ -103,6 +107,8 @@ func ToCaseEventResponse(e models.CaseEvent) CaseEventResponse {
 		MailType:       e.MailType.String(),
 		Confidence:     e.Confidence,
 		Reasoning:      e.Reasoning,
+		Title:          e.Title,
+		Description:    e.Description,
 		RawClaimNumber: e.RawClaimNumber,
 		RawPolicy:      e.RawPolicy,
 		RawCaseNumber:  e.RawCaseNumber,

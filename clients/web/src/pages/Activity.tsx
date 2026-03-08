@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { format } from 'date-fns';
 import { formatMetricTime, formatTableTime } from '../lib/formatTime';
 import {
   useApprovedEventsPaginated,
@@ -19,6 +20,7 @@ const MAIL_TYPE_LABELS: Record<string, string> = {
   embargo:      'Embargo',
   pericia:      'Pericia',
   oficio:       'Oficio',
+  gestion:      'Gestión',
 };
 
 const MAIL_TYPE_VALUES: Record<string, number> = {
@@ -29,6 +31,7 @@ const MAIL_TYPE_VALUES: Record<string, number> = {
   embargo:      5,
   pericia:      6,
   oficio:       7,
+  gestion:      8,
 };
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
@@ -115,7 +118,11 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
         {/* Mail info */}
         <div className="text-sm text-gray-600 space-y-1 bg-gray-50 rounded-lg p-3">
           {event.subject && <p className="font-medium text-gray-800 text-xs leading-snug">{event.subject}</p>}
-          <p className="text-xs text-gray-400">{event.mail_id}</p>
+          <div className="flex items-center gap-3 text-xs text-gray-400">
+            <span>{event.mail_id}</span>
+            <span>·</span>
+            <span>Recibido: <span className="font-medium text-gray-500">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}</span></span>
+          </div>
           <p className="mt-1">
             <span className="font-medium">Rachel clasificó:</span>{' '}
             <span className="font-semibold text-indigo-600">
@@ -246,11 +253,14 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
         <tbody className="divide-y divide-gray-50">
           {events.map(event => (
             <tr key={event.id} className="hover:bg-gray-50 transition-colors">
-              <td className="py-3 pr-8 min-w-0">
+              <td className="py-3 pr-8 min-w-0 max-w-xs">
                 <div className="font-medium text-gray-800 truncate">
-                  {event.subject || event.mail_id}
+                  {event.title || event.subject || event.mail_id}
                 </div>
-                {event.subject && (
+                {event.description && (
+                  <div className="text-xs text-gray-400 truncate mt-0.5">{event.description}</div>
+                )}
+                {!event.description && event.subject && (
                   <div className="text-xs text-gray-400 truncate">{event.mail_id}</div>
                 )}
               </td>

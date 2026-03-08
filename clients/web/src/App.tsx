@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Cases from './pages/Cases';
+import Contestaciones from './pages/Contestaciones';
 import CaseDetail from './pages/CaseDetail';
 import Agents from './pages/Agents';
 import AgentDetail from './pages/AgentDetail';
@@ -24,6 +25,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="casos" element={<Cases />} />
           <Route path="casos/:id" element={<CaseDetail />} />
+          <Route path="contestaciones" element={<Contestaciones />} />
           <Route path="agentes" element={<Agents />} />
           <Route path="agentes/:id" element={<AgentDetail />} />
           <Route path="equipo" element={<Team />} />
