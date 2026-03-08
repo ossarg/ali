@@ -277,6 +277,10 @@ MAIL_TYPES_DESC = """
 8 = gestion       → Consultas entre partes, pedidos de autorización, coordinación, remito de documentos, cualquier comunicación interna o de gestión que no encaje en las categorías anteriores.
 """
 
+def _strip_subject_prefixes(subject: str) -> str:
+    """Elimina prefijos heredados de reply/forward (RV:, RE:, FW:, FWD:) del asunto."""
+    return re.sub(r'^(RV|RE|FW|FWD|R|Res):\s*', '', subject, flags=re.IGNORECASE).strip()
+
 def analyze_mail(subject: str, body_text: str) -> dict:
     """
     Clasifica el mail y genera título + descripción en una sola llamada a Claude Haiku.
