@@ -39,6 +39,12 @@ const CASE_TYPE_LABELS: Record<string, string> = {
   third_party: 'Administrativo',
 };
 
+const CASE_TYPE_COLORS: Record<string, string> = {
+  lawsuit:     'bg-red-50 text-red-700',
+  mediation:   'bg-amber-50 text-amber-700',
+  third_party: 'bg-blue-50 text-blue-700',
+};
+
 const PIPELINE_STAGE_LABELS: Record<string, string> = {
   ingesta:    'Ingesta',
   extraccion: 'Extracción',
@@ -98,13 +104,8 @@ export default function CaseDetail() {
             {caso.caratula || caso.title}
           </h1>
           {caso.case_type && (
-            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">
+            <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${CASE_TYPE_COLORS[caso.case_type] ?? 'bg-gray-100 text-gray-600'}`}>
               {CASE_TYPE_LABELS[caso.case_type] ?? caso.case_type}
-            </span>
-          )}
-          {caso.pipeline_stage && (
-            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eb5d2a]/10 text-[#eb5d2a]">
-              {PIPELINE_STAGE_LABELS[caso.pipeline_stage] ?? caso.pipeline_stage}
             </span>
           )}
         </div>
@@ -122,21 +123,19 @@ export default function CaseDetail() {
             </>
           )}
 
-          {caso.case_number && (
-            <>
-              <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4 text-[#6b7280]" />
-                <span className="font-medium">Expediente:</span>
-                <span className="text-[#1a1a1a] font-mono">{caso.case_number}</span>
-              </div>
-              <div className="w-px h-4 bg-[#e5e7eb]" />
-            </>
-          )}
+          <div className="flex items-center gap-2">
+            <FileText className="w-4 h-4 text-[#6b7280]" />
+            <span className="font-medium">Expediente:</span>
+            {caso.case_number
+              ? <span className="text-[#1a1a1a] font-mono">{caso.case_number}</span>
+              : <span className="text-gray-400 italic">Sin asignar</span>}
+          </div>
+          <div className="w-px h-4 bg-[#e5e7eb]" />
 
           {caso.incident_date && (
             <>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#eb5d2a]" />
+                <Clock className="w-4 h-4 text-[#6b7280]" />
                 <span className="font-medium">Fecha siniestro:</span>
                 <span className="text-[#1a1a1a]">{format(new Date(caso.incident_date), 'dd/MM/yyyy')}</span>
               </div>
