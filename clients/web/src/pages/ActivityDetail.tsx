@@ -498,53 +498,56 @@ export default function ActivityDetail() {
         </div>
       </div>
 
-      {/* Contenido del mail — full width */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div className="px-5 py-4 border-b border-gray-100">
-          <h2 className="text-sm font-semibold text-gray-700">Contenido del mail</h2>
-        </div>
-        {event.body_clean ? (
-          <pre className="px-5 py-4 text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed">
-            {event.body_clean}
-          </pre>
-        ) : (
-          <p className="px-5 py-8 text-sm text-gray-400 text-center italic">Sin contenido guardado</p>
-        )}
-      </div>
+      {/* Dos columnas: cuerpo (2/3) + sidebar (1/3) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
-      {/* Adjuntos — full width */}
-      {attachments.length > 0 && (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
-            <Paperclip className="w-4 h-4 text-gray-400" />
-            <h2 className="text-sm font-semibold text-gray-700">
-              Archivos adjuntos ({attachments.length})
-            </h2>
+        {/* Izquierda — mail + adjuntos */}
+        <div className="lg:col-span-2 flex flex-col gap-4">
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden flex flex-col flex-1">
+            <div className="px-5 py-4 border-b border-gray-100 shrink-0">
+              <h2 className="text-sm font-semibold text-gray-700">Contenido del mail</h2>
+            </div>
+            {event.body_clean ? (
+              <pre className="px-5 py-4 text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed flex-1">
+                {event.body_clean}
+              </pre>
+            ) : (
+              <p className="px-5 py-8 text-sm text-gray-400 text-center italic">Sin contenido guardado</p>
+            )}
           </div>
-          <div className="divide-y divide-gray-50">
-            {attachments.map((att, i) => (
-              <div key={i} className="flex items-center justify-between px-5 py-3">
-                <div>
-                  <p className="text-sm text-gray-800">{att.name}</p>
-                  {att.size && <p className="text-xs text-gray-400">{formatFileSize(att.size)}</p>}
-                </div>
-                <a
-                  href={`/api/v1/attachments/${att.key}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 transition-colors"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  Descargar
-                </a>
+
+          {attachments.length > 0 && (
+            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
+                <Paperclip className="w-4 h-4 text-gray-400" />
+                <h2 className="text-sm font-semibold text-gray-700">
+                  Archivos adjuntos ({attachments.length})
+                </h2>
               </div>
-            ))}
-          </div>
+              <div className="divide-y divide-gray-50">
+                {attachments.map((att, i) => (
+                  <div key={i} className="flex items-center justify-between px-5 py-3">
+                    <div>
+                      <p className="text-sm text-gray-800">{att.name}</p>
+                      {att.size && <p className="text-xs text-gray-400">{formatFileSize(att.size)}</p>}
+                    </div>
+                    <a
+                      href={`/api/v1/attachments/${att.key}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 transition-colors"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      Descargar
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      )}
 
-      {/* Cards — clasificación + revisión (un tercio del ancho) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Derecha — sidebar */}
         <div className="space-y-4">
           {/* Clasificación + contexto IA */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
