@@ -73,6 +73,11 @@ export const caseEventService = {
     return CaseEventSchema.array().parse(response);
   },
 
+  getEvent: async (id: string): Promise<CaseEvent> => {
+    const response = await api.get(API_ENDPOINTS.CASE_EVENTS.DETAIL(id));
+    return CaseEventSchema.parse(response);
+  },
+
   review: async (id: string, req: ReviewCaseEventRequest): Promise<CaseEvent> => {
     const response = await api.patch(API_ENDPOINTS.CASE_EVENTS.REVIEW(id), req);
     return CaseEventSchema.parse(response);

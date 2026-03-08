@@ -22,6 +22,7 @@ type CaseService interface {
 	ListEventsByCaseID(caseID string) ([]dto.CaseEventResponse, error)
 	ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService) (*dto.CaseEventResponse, error)
 	UpdateCaseEvent(id string, req dto.UpdateCaseEventRequest) (*dto.CaseEventResponse, error)
+	GetEvent(id string) (*dto.CaseEventResponse, error)
 	DeleteCaseEvent(id string) error
 }
 
@@ -347,6 +348,20 @@ func (s *caseService) UpdateCaseEvent(id string, req dto.UpdateCaseEventRequest)
 		return nil, apierrors.ErrInternalServer
 	}
 	resp := dto.ToCaseEventResponse(*event)
+	return &resp, nil
+}
+
+func (s *caseService) GetEvent(id string) (*dto.CaseEventResponse, error) {
+	event, err := s.caseRepo.FindEventByID(id)
+	if err != nil || event == nil {
+		return nil, apierrors.ErrNotFound
+	}
+	resp := dto.ToCaseEventResponse(*event)
+	if event.ReviewedBy != nil {
+		if user, err := s.userRepo.FindByID(event.ReviewedBy.String()); err == nil && user != nil {
+			resp.ReviewedByName = user.FirstName + " " + user.LastName
+		}
+	}
 	return &resp, nil
 }
 

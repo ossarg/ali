@@ -14,6 +14,7 @@ export const API_ENDPOINTS = {
     PENDING:  '/api/v1/activity/events/pending',
     REVIEW:   (id: string) => `/api/v1/activity/events/${id}/review`,
     RESOLVE:  (id: string) => `/api/v1/activity/events/${id}/resolve`,
+    DETAIL:   (id: string) => `/api/v1/activity/events/${id}`,
     UPDATE:   (id: string) => `/api/v1/activity/events/${id}`,
     DELETE:   (id: string) => `/api/v1/activity/events/${id}`,
   },

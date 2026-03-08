@@ -102,6 +102,13 @@ export const CaseEventSchema = z.object({
   reviewed_at: z.string().nullable().optional(),
   reviewed_by_name: z.string().optional(),
   review_comment: z.string().optional(),
+  body_clean: z.string().optional(),
+  attachments: z.array(z.object({
+    name: z.string(),
+    key:  z.string(),
+    size: z.number().optional(),
+    mime: z.string().optional(),
+  })).optional(),
   resolution_status: z.string().optional(),
   resolution_error: z.string().optional(),
   resolved_claim_id: z.string().optional(),

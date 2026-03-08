@@ -2,6 +2,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { caseEventKeys, caseEventsByCaseKey, caseEventService } from '../services/case.service';
 import type { RetryResolutionRequest, ReviewCaseEventRequest, UpdateCaseEventRequest } from '../schemas/case.schemas';
 
+export function useCaseEvent(id: string) {
+  return useQuery({
+    queryKey: ['case-event', id],
+    queryFn:  () => caseEventService.getEvent(id),
+    enabled:  !!id,
+  });
+}
+
 export function useCaseEventMetrics() {
   return useQuery({
     queryKey: caseEventKeys.metrics(),

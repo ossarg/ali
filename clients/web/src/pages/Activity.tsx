@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MoreVertical } from 'lucide-react';
 import { format } from 'date-fns';
 import { formatMetricTime, formatTableTime } from '../lib/formatTime';
@@ -463,6 +464,8 @@ interface EventTableProps {
 }
 
 function EventTable({ events, showActions, onReview, onEdit, onDelete }: EventTableProps) {
+  const navigate = useNavigate();
+
   if (events.length === 0) {
     return (
       <p className="text-sm text-gray-400 py-6 text-center">
@@ -491,7 +494,11 @@ function EventTable({ events, showActions, onReview, onEdit, onDelete }: EventTa
         </thead>
         <tbody className="divide-y divide-gray-50">
           {events.map(event => (
-            <tr key={event.id} className="hover:bg-gray-50 transition-colors">
+            <tr
+              key={event.id}
+              onClick={!showActions ? () => navigate(`/actividad/${event.id}`) : undefined}
+              className={`hover:bg-gray-50 transition-colors ${!showActions ? 'cursor-pointer' : ''}`}
+            >
               <td className="pl-4 pr-4 py-3.5 min-w-0 max-w-xs">
                 <div className="font-medium text-gray-800 truncate">
                   {event.title || event.subject || event.mail_id}
@@ -522,7 +529,7 @@ function EventTable({ events, showActions, onReview, onEdit, onDelete }: EventTa
                 </td>
               )}
               {(showActions || onEdit || onDelete) && (
-                <td className="py-3 pr-4 text-right">
+                <td className="py-3 pr-4 text-right" onClick={e => e.stopPropagation()}>
                   <KebabMenu
                     onReview={showActions && onReview ? () => onReview(event) : undefined}
                     onEdit={onEdit ? () => onEdit(event) : undefined}

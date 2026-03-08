@@ -315,6 +315,15 @@ func (cc *CaseController) UpdateEvent(c echo.Context) error {
 // @Param        id   path  string  true  "Event UUID"
 // @Success      204
 // @Router       /api/v1/activity/events/{id} [delete]
+func (cc *CaseController) GetEvent(c echo.Context) error {
+	id := c.Param("id")
+	resp, err := cc.caseService.GetEvent(id)
+	if err != nil {
+		return err
+	}
+	return c.JSON(200, resp)
+}
+
 func (cc *CaseController) DeleteEvent(c echo.Context) error {
 	id := c.Param("id")
 	if err := cc.caseService.DeleteCaseEvent(id); err != nil {
