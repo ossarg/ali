@@ -407,10 +407,18 @@ def main(dry_run=False):
     all_labels       = service.users().labels().list(userId='me').execute().get('labels', [])
     rachel_label_ids = {l['id'] for l in all_labels if l['name'].startswith('Rachel/')}
 
-    results = service.users().messages().list(
-        userId='me', labelIds=['INBOX'], maxResults=100
-    ).execute()
-    msgs = results.get('messages', [])
+    # Paginar hasta traer todos los mails del INBOX
+    msgs = []
+    page_token = None
+    while True:
+        params = {'userId': 'me', 'labelIds': ['INBOX'], 'maxResults': 500}
+        if page_token:
+            params['pageToken'] = page_token
+        results = service.users().messages().list(**params).execute()
+        msgs.extend(results.get('messages', []))
+        page_token = results.get('nextPageToken')
+        if not page_token:
+            break
 
     if not msgs:
         print('No hay mails nuevos en INBOX.')
