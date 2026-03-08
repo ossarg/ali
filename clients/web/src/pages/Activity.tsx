@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { MoreVertical } from 'lucide-react';
 import { format } from 'date-fns';
 import PageHeader from '../components/PageHeader';
 import { formatMetricTime, formatTableTime } from '../lib/formatTime';
@@ -206,6 +207,170 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
   );
 }
 
+// ─── Edit modal ───────────────────────────────────────────────────────────────
+
+interface EditModalProps {
+  event: CaseEvent;
+  onClose: () => void;
+}
+
+function EditModal({ event, onClose }: EditModalProps) {
+  const [mailType, setMailType]     = useState<string>(event.mail_type);
+  const [title, setTitle]           = useState(event.title ?? '');
+  const [description, setDescription] = useState(event.description ?? '');
+  const [receivedAt, setReceivedAt] = useState(
+    event.received_at ? format(new Date(event.received_at), "yyyy-MM-dd'T'HH:mm") : ''
+  );
+  const updateEvent = useUpdateCaseEvent();
+
+  const handleSave = () => {
+    const req: UpdateCaseEventRequest = {};
+    const typeNum = MAIL_TYPE_VALUES[mailType];
+    if (typeNum && typeNum !== MAIL_TYPE_VALUES[event.mail_type]) req.mail_type = typeNum;
+    if (title !== (event.title ?? ''))             req.title       = title;
+    if (description !== (event.description ?? '')) req.description = description;
+    if (receivedAt) req.received_at = new Date(receivedAt).toISOString();
+
+    updateEvent.mutate({ id: event.id, req }, { onSuccess: onClose });
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-5">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-800">Editar evento</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">✕</button>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Tipo</label>
+            <select
+              value={mailType}
+              onChange={e => setMailType(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              {Object.entries(MAIL_TYPE_LABELS).map(([key, label]) => (
+                <option key={key} value={key}>{label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Título</label>
+            <input
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Descripción</label>
+            <textarea
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              rows={3}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Fecha de recepción</label>
+            <input
+              type="datetime-local"
+              value={receivedAt}
+              onChange={e => setReceivedAt(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+        </div>
+
+        {updateEvent.error && (
+          <p className="text-sm text-red-500">Error al guardar</p>
+        )}
+
+        <div className="flex gap-3 justify-end">
+          <button onClick={onClose} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
+            Cancelar
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={updateEvent.isPending}
+            className="px-4 py-2 text-sm rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50"
+          >
+            {updateEvent.isPending ? 'Guardando...' : 'Guardar cambios'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Kebab menu ───────────────────────────────────────────────────────────────
+
+interface KebabMenuProps {
+  onEdit?: () => void;
+  onDelete?: () => void;
+  onReview?: () => void;
+}
+
+function KebabMenu({ onEdit, onDelete, onReview }: KebabMenuProps) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+      >
+        <MoreVertical size={16} />
+      </button>
+
+      {open && (
+        <div className="absolute right-0 mt-1 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-20 py-1 text-sm">
+          {onReview && (
+            <button
+              onClick={() => { setOpen(false); onReview(); }}
+              className="w-full text-left px-4 py-2 hover:bg-gray-50 text-indigo-700 font-medium"
+            >
+              Revisar
+            </button>
+          )}
+          {onEdit && (
+            <button
+              onClick={() => { setOpen(false); onEdit(); }}
+              className="w-full text-left px-4 py-2 hover:bg-gray-50 text-gray-700"
+            >
+              Editar
+            </button>
+          )}
+          {onDelete && (
+            <>
+              <div className="border-t border-gray-100 my-1" />
+              <button
+                onClick={() => { setOpen(false); onDelete(); }}
+                className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600"
+              >
+                Eliminar
+              </button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Event table ──────────────────────────────────────────────────────────────
 
 function EventTable({ events, showConfidence, showReviewed, showCase }: {
@@ -225,58 +390,69 @@ function EventTable({ events, showConfidence, showReviewed, showCase }: {
   }
 
   return (
-    <table className="w-full text-sm">
-      <thead>
-        <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
-          {showCase && <th className="pb-3 pt-4 pl-4 pr-4 w-36 whitespace-nowrap">Nro. siniestro</th>}
-          <th className="pb-3 pt-4 pl-4 pr-4">Asunto</th>
-          <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Tipo</th>
-          {showConfidence && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Confianza</th>}
-          <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Recibido</th>
-          {showReviewed && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Revisado</th>}
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-gray-50">
-        {events.map(event => (
-          <tr
-            key={event.id}
-            onClick={() => navigate(`/actividad/${event.id}`)}
-            className="hover:bg-gray-50 transition-colors cursor-pointer"
-          >
-            {showCase && (
-              <td className="pl-4 pr-4 py-3.5 w-36">
-                {event.raw_claim_number
-                  ? <span className="font-mono text-xs text-gray-700">{event.raw_claim_number}</span>
-                  : <span className="text-gray-300 text-xs">—</span>}
-              </td>
-            )}
-            <td className="pl-4 pr-4 py-3.5 min-w-0 max-w-xs">
-              <div className="font-medium text-gray-800 truncate">
-                {event.title || event.subject || event.mail_id}
-              </div>
-            </td>
-            <td className="pr-4 py-3.5 whitespace-nowrap">
-              <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
-                {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
-              </span>
-            </td>
-            {showConfidence && (
-              <td className="pr-4 py-3.5">
-                <ConfidenceBar value={event.confidence} />
-              </td>
-            )}
-            <td className="pr-4 py-3.5 text-gray-500 whitespace-nowrap text-xs">
-              {formatTableTime(event.received_at)}
-            </td>
-            {showReviewed && (
-              <td className="pr-4 py-3.5 text-gray-500 text-xs">
-                {event.reviewed_at ? formatTableTime(event.reviewed_at) : '—'}
-              </td>
-            )}
+    <div>
+      <table className="w-full text-sm table-fixed">
+        <colgroup>
+          <col style={{ width: '50%' }} />
+          <col /><col /><col />
+          {(showActions || onEdit || onDelete) && <col style={{ width: '44px' }} />}
+        </colgroup>
+        <thead>
+          <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
+            <th className="pb-3 pr-8">Asunto / Mail ID</th>
+            <th className="pb-3 pr-8">Tipo</th>
+            {showActions && <th className="pb-3 pr-8">Confianza</th>}
+            <th className="pb-3 pr-8">Recibido</th>
+            {!showActions && <th className="pb-3 pr-8">Revisado</th>}
+            {(showActions || onEdit || onDelete) && <th className="pb-3" />}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className="divide-y divide-gray-50">
+          {events.map(event => (
+            <tr key={event.id} className="hover:bg-gray-50 transition-colors">
+              <td className="py-3 pr-8 min-w-0 max-w-xs">
+                <div className="font-medium text-gray-800 truncate">
+                  {event.title || event.subject || event.mail_id}
+                </div>
+                {event.description && (
+                  <div className="text-xs text-gray-400 truncate mt-0.5">{event.description}</div>
+                )}
+                {!event.description && event.subject && (
+                  <div className="text-xs text-gray-400 truncate">{event.mail_id}</div>
+                )}
+              </td>
+              <td className="py-3 pr-8">
+                <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
+                  {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
+                </span>
+              </td>
+              {showActions && (
+                <td className="py-3 pr-8">
+                  <ConfidenceBar value={event.confidence} />
+                </td>
+              )}
+              <td className="py-3 pr-8 text-gray-500 whitespace-nowrap">
+                {formatTableTime(event.received_at)}
+              </td>
+              {!showActions && (
+                <td className="py-3 pr-8 text-gray-500 text-xs">
+                  {event.reviewed_at ? formatTableTime(event.reviewed_at) : '—'}
+                </td>
+              )}
+              {(showActions || onEdit || onDelete) && (
+                <td className="py-3 text-right">
+                  <KebabMenu
+                    onReview={showActions && onReview ? () => onReview(event) : undefined}
+                    onEdit={onEdit ? () => onEdit(event) : undefined}
+                    onDelete={onDelete ? () => onDelete(event) : undefined}
+                  />
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
