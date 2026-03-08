@@ -126,7 +126,7 @@ def get_message_content(service, msg_id):
         'from':          hdrs.get('From', ''),
         'date':          hdrs.get('Date', ''),
         'internal_date': msg.get('internalDate'),  # ms desde epoch, siempre preciso
-        'body':          body[:8000],   # más largo para capturar cadenas de forward
+        'body':          body,            # sin truncar — el parser de forwards necesita el body completo
         'attachments':   attachments,              # solo PDF/docs
         'label_ids':     msg.get('labelIds', []),
     }
@@ -175,7 +175,7 @@ def clean_body(body: str) -> str:
     if cutoff:
         body = body[:cutoff.start()]
     lines = [l for l in body.splitlines() if not l.strip().startswith('>')]
-    return '\n'.join(lines).strip()[:4000]
+    return '\n'.join(lines).strip()[:3000]
 
 # ── Parser de forward chain (Outlook) ────────────────────────────────────────
 # Separador de Outlook: línea de guiones bajos (opcional) + bloque De:/Enviado:/Para:/Asunto:
