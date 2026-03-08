@@ -1,7 +1,7 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText, Activity, ShieldAlert } from 'lucide-react';
+import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText, Activity, ShieldAlert, MessageSquareText } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { formatTableTime } from '../lib/formatTime';
@@ -38,6 +38,7 @@ export default function Layout() {
     { name: 'Panel Principal', path: '/', icon: LayoutDashboard },
     { name: 'Siniestros', path: '/siniestros', icon: ShieldAlert },
     { name: 'Casos', path: '/casos', icon: Briefcase },
+    { name: 'Contestaciones', path: '/contestaciones', icon: MessageSquareText },
     { name: 'Agentes', path: '/agentes', icon: Bot },
     { name: 'Equipo', path: '/equipo', icon: Users },
     { name: 'Métricas', path: '/metricas', icon: BarChart3 },

@@ -1,40 +1,73 @@
 import { z } from 'zod';
 
-// Backend enums (English, stored as SMALLINT, returned as string)
+// Backend enums
 export const CaseStageSchema = z.enum([
-  'intake',
+  'ingesta',
+  'extraccion',
   'triage',
-  'review',
-  'closed',
+  'asignado',
+  'borrador',
+  'completado',
 ]);
 
-export const CaseRelevanceSchema = z.union([
-  z.literal(1),
-  z.literal(2),
-  z.literal(3),
-]);
+export const CaseStatusSchema = z.enum(['open', 'closed', 'suspended']);
+export const CaseTypeSchema   = z.enum(['lawsuit', 'mediation', 'third_party']);
+
+export const FirmSummarySchema = z.object({
+  id:   z.string().uuid(),
+  name: z.string(),
+  type: z.string(),
+});
+
+export const UserSummarySchema = z.object({
+  id:         z.string().uuid(),
+  email:      z.string(),
+  first_name: z.string(),
+  last_name:  z.string(),
+});
+
+export const LastEventSummarySchema = z.object({
+  mail_type:   z.string(),
+  received_at: z.string(),
+});
 
 export const CaseSchema = z.object({
-  id: z.number(),
-  nro_siniestro: z.string().nullable().optional(),
-  caratula: z.string(),
-  monto_estimado: z.number().nullable().optional(),
-  triage_relevancia: CaseRelevanceSchema.nullable().optional(),
-  pipeline_stage: CaseStageSchema.nullable().optional(),
-  pipeline_updated_at: z.string().nullable().optional(),
-  estudio_id: z.number().nullable().optional(),
-  tipo_accion: z.string().nullable().optional(),
+  id:               z.string().uuid(),
+  claim_number:     z.string().optional(),
+  case_number:      z.string().optional(),
+  title:            z.string(),
+  policy:           z.string().optional(),
+  case_type:        CaseTypeSchema,
+  action_type:      z.string().nullable().optional(),
+  court:            z.string().optional(),
+  tribunal:         z.string().optional(),
+  defense_firm:     FirmSummarySchema.nullable().optional(),
+  plaintiff_firm:   FirmSummarySchema.nullable().optional(),
+  assigned_user:    UserSummarySchema.nullable().optional(),
+  status:           CaseStatusSchema,
+  estimated_amount: z.number().nullable().optional(),
+  incident_date:    z.string().nullable().optional(),
+  opened_at:        z.string().nullable().optional(),
+  pipeline_stage:   CaseStageSchema,
+  last_event:       LastEventSummarySchema.nullable().optional(),
+  created_at:       z.string(),
+  updated_at:       z.string(),
 });
 
 export const CaseListResponseSchema = z.object({
-  data: z.array(CaseSchema),
+  data:  z.array(CaseSchema),
   total: z.number(),
-  page: z.number().optional(),
+  page:  z.number().optional(),
   limit: z.number().optional(),
 });
 
-export type CaseStage = z.infer<typeof CaseStageSchema>;
-export type Case = z.infer<typeof CaseSchema>;
+export type CaseStage      = z.infer<typeof CaseStageSchema>;
+export type CaseStatus     = z.infer<typeof CaseStatusSchema>;
+export type CaseType       = z.infer<typeof CaseTypeSchema>;
+export type FirmSummary    = z.infer<typeof FirmSummarySchema>;
+export type UserSummary    = z.infer<typeof UserSummarySchema>;
+export type LastEventSummary = z.infer<typeof LastEventSummarySchema>;
+export type Case           = z.infer<typeof CaseSchema>;
 export type CaseListResponse = z.infer<typeof CaseListResponseSchema>;
 
 // Case Events

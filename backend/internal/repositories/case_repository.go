@@ -41,6 +41,8 @@ type CaseRepository interface {
 
 	// ListEventsByCaseID returns all case events linked to a case, ordered by received_at DESC.
 	ListEventsByCaseID(caseID string) ([]models.CaseEvent, error)
+	// LatestEventByCaseIDs returns the most recent approved event for each of the given case IDs.
+	LatestEventByCaseIDs(caseIDs []uuid.UUID) (map[uuid.UUID]*models.CaseEvent, error)
 	// FindByClaim returns the case linked to a given claim UUID, or nil if none exists.
 	FindByClaim(claimID string) (*models.Case, error)
 }
@@ -240,4 +242,33 @@ func (r *caseRepository) ListEventsByCaseID(caseID string) ([]models.CaseEvent, 
 		Order("received_at DESC").
 		Find(&events).Error
 	return events, err
+}
+
+// LatestEventByCaseIDs fetches the most recent approved event per case in one query.
+func (r *caseRepository) LatestEventByCaseIDs(caseIDs []uuid.UUID) (map[uuid.UUID]*models.CaseEvent, error) {
+	if len(caseIDs) == 0 {
+		return nil, nil
+	}
+	// Subquery: max received_at per case_id among approved events
+	subq := r.db.Model(&models.CaseEvent{}).
+		Select("case_id, MAX(received_at) AS max_received_at").
+		Where("case_id IN ? AND approved = true", caseIDs).
+		Group("case_id")
+
+	var events []models.CaseEvent
+	err := r.db.Model(&models.CaseEvent{}).
+		Joins("JOIN (?) sub ON case_events.case_id = sub.case_id AND case_events.received_at = sub.max_received_at", subq).
+		Where("case_events.approved = true").
+		Find(&events).Error
+	if err != nil {
+		return nil, err
+	}
+
+	m := make(map[uuid.UUID]*models.CaseEvent, len(events))
+	for i := range events {
+		if events[i].CaseID != nil {
+			m[*events[i].CaseID] = &events[i]
+		}
+	}
+	return m, nil
 }
