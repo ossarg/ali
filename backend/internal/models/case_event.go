@@ -1,10 +1,72 @@
 package models
 
 import (
+	"database/sql/driver"
+	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 )
+
+// JSON is a GORM-compatible JSONB type.
+type JSON []byte
+
+func (j JSON) Value() (driver.Value, error) {
+	if len(j) == 0 {
+		return "[]", nil
+	}
+	return string(j), nil
+}
+
+func (j *JSON) Scan(value any) error {
+	if value == nil {
+		*j = JSON("[]")
+		return nil
+	}
+	switch v := value.(type) {
+	case []byte:
+		*j = append((*j)[0:0], v...)
+	case string:
+		*j = JSON(v)
+	default:
+		return fmt.Errorf("JSON.Scan: unsupported type %T", value)
+	}
+	return nil
+}
+
+func (j JSON) MarshalJSON() ([]byte, error) {
+	if len(j) == 0 {
+		return []byte("[]"), nil
+	}
+	return j, nil
+}
+
+func (j *JSON) UnmarshalJSON(data []byte) error {
+	*j = append((*j)[0:0], data...)
+	return nil
+}
+
+// AttachmentMeta holds metadata for a single stored attachment.
+type AttachmentMeta struct {
+	Name string `json:"name"`
+	Key  string `json:"key"`
+	Mime string `json:"mime"`
+	Size int64  `json:"size"`
+}
+
+func AttachmentsFromJSON(j JSON) ([]AttachmentMeta, error) {
+	var out []AttachmentMeta
+	if err := json.Unmarshal(j, &out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func AttachmentsToJSON(metas []AttachmentMeta) (JSON, error) {
+	b, err := json.Marshal(metas)
+	return JSON(b), err
+}
 
 // ResolutionStatus tracks whether the raw_claim_number was validated against SISE.
 type ResolutionStatus int16
@@ -81,6 +143,8 @@ type CaseEvent struct {
 
 	Title       string `gorm:"type:varchar(200)"      json:"title,omitempty"`
 	Description string `gorm:"type:text"              json:"description,omitempty"`
+	BodyClean   string `gorm:"type:text"              json:"body_clean,omitempty"`
+	Attachments JSON   `gorm:"type:jsonb;default:'[]'" json:"attachments"`
 
 	Processed  bool      `gorm:"not null;default:false" json:"processed"`
 	ReceivedAt time.Time `gorm:"not null"               json:"received_at"`

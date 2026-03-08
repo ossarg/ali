@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"encoding/json"
 	"time"
 
 	"github.com/google/uuid"
@@ -8,6 +9,14 @@ import (
 )
 
 // CaseEventMetrics — aggregated stats for the activity panel
+// AttachmentMetaDTO is the public representation of a stored attachment.
+type AttachmentMetaDTO struct {
+	Name string `json:"name"`
+	Key  string `json:"key"`
+	Mime string `json:"mime"`
+	Size int64  `json:"size"`
+}
+
 type CaseEventMetrics struct {
 	Total       int64      `json:"total"`
 	Approved    int64      `json:"approved"`
@@ -40,6 +49,7 @@ type CreateCaseEventRequest struct {
 	Reasoning    string    `json:"reasoning"`
 	Title        string    `json:"title"`
 	Description  string    `json:"description"`
+	BodyClean    string    `json:"body_clean"`
 	ReceivedAt   time.Time `json:"received_at"    validate:"required"`
 
 	// Raw identifiers extracted from the mail (unnormalized)
@@ -61,6 +71,8 @@ type CaseEventResponse struct {
 	Reasoning    string     `json:"reasoning,omitempty"`
 	Title        string     `json:"title,omitempty"`
 	Description  string     `json:"description,omitempty"`
+	BodyClean    string     `json:"body_clean,omitempty"`
+	Attachments  []AttachmentMetaDTO `json:"attachments"`
 
 	RawClaimNumber string `json:"raw_claim_number,omitempty"`
 	RawPolicy      string `json:"raw_policy,omitempty"`
@@ -109,6 +121,7 @@ func ToCaseEventResponse(e models.CaseEvent) CaseEventResponse {
 		Reasoning:      e.Reasoning,
 		Title:          e.Title,
 		Description:    e.Description,
+		BodyClean:      e.BodyClean,
 		RawClaimNumber: e.RawClaimNumber,
 		RawPolicy:      e.RawPolicy,
 		RawCaseNumber:  e.RawCaseNumber,
@@ -120,6 +133,17 @@ func ToCaseEventResponse(e models.CaseEvent) CaseEventResponse {
 		ReviewedAt:     e.ReviewedAt,
 		ReviewComment:  e.ReviewComment,
 	}
+
+	// Deserialize attachments JSONB → []AttachmentMetaDTO
+	var metas []AttachmentMetaDTO
+	if len(e.Attachments) > 0 {
+		_ = json.Unmarshal(e.Attachments, &metas)
+	}
+	if metas == nil {
+		metas = []AttachmentMetaDTO{}
+	}
+	resp.Attachments = metas
+
 	if e.OriginalMailType != nil {
 		s := e.OriginalMailType.String()
 		resp.OriginalMailType = &s

@@ -147,6 +147,7 @@ func (s *caseService) CreateEvent(req dto.CreateCaseEventRequest) (*dto.CaseEven
 		Reasoning:      req.Reasoning,
 		Title:          req.Title,
 		Description:    req.Description,
+		BodyClean:      req.BodyClean,
 		RawClaimNumber: req.RawClaimNumber,
 		RawPolicy:      req.RawPolicy,
 		RawCaseNumber:  req.RawCaseNumber,

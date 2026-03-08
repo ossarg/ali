@@ -14,7 +14,7 @@ import (
 	_ "github.com/swaggo/files"
 )
 
-func InitRouter(cfg *config.Config, authController *controllers.AuthController, caseController *controllers.CaseController, claimController *controllers.ClaimController) *echo.Echo {
+func InitRouter(cfg *config.Config, authController *controllers.AuthController, caseController *controllers.CaseController, claimController *controllers.ClaimController, attachmentController *controllers.AttachmentController) *echo.Echo {
 	e := echo.New()
 	e.HTTPErrorHandler = apierrors.Handler
 
@@ -40,12 +40,15 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	// Agent endpoints (API key auth) — must be registered BEFORE /api/v1 JWT group
 	agents := e.Group("/api/v1/agents", appMiddleware.AgentKeyMiddleware())
 	agents.POST("/case-events", caseController.CreateEvent)
+	agents.POST("/attachments", attachmentController.Upload)
 
 	// Protected routes (JWT) — registered last so /api/v1/agents is not captured here
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
 	api.GET("/cases", caseController.List)
 	api.GET("/cases/:id", caseController.GetByID)
 	api.GET("/cases/:id/events", caseController.ListCaseEvents)
+	api.GET("/case-events/:id/attachments", attachmentController.ListByEvent)
+	api.GET("/attachments/*", attachmentController.Serve)
 	api.GET("/activity/metrics", caseController.GetEventMetrics)
 	api.GET("/activity/events/approved", caseController.ListApprovedEvents)
 	api.GET("/activity/events/pending", caseController.ListPendingEvents)

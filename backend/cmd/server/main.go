@@ -31,6 +31,7 @@ import (
 	"github.com/ossarg/ali/backend/internal/services"
 	"github.com/ossarg/ali/backend/internal/services/cache"
 	"github.com/ossarg/ali/backend/internal/services/sise"
+	"github.com/ossarg/ali/backend/internal/storage"
 )
 
 func main() {
@@ -67,12 +68,23 @@ func main() {
 	caseService  := services.NewCaseService(caseRepo)
 	claimService := services.NewClaimService(claimRepo, caseRepo, siseOrchestrator)
 
-	// Controllers
-	authController  := controllers.NewAuthController(authService)
-	caseController  := controllers.NewCaseController(caseService, claimService)
-	claimController := controllers.NewClaimController(claimService)
+	// Storage
+	attachmentsDir := os.Getenv("ATTACHMENTS_DIR")
+	if attachmentsDir == "" {
+		attachmentsDir = "./data/attachments"
+	}
+	fileStore, err := storage.NewLocalStore(attachmentsDir)
+	if err != nil {
+		log.Fatalf("Failed to init file storage: %v", err)
+	}
 
-	e := router.InitRouter(cfg, authController, caseController, claimController)
+	// Controllers
+	authController       := controllers.NewAuthController(authService)
+	caseController       := controllers.NewCaseController(caseService, claimService)
+	claimController      := controllers.NewClaimController(claimService)
+	attachmentController := controllers.NewAttachmentController(fileStore, caseRepo)
+
+	e := router.InitRouter(cfg, authController, caseController, claimController, attachmentController)
 
 	addr := fmt.Sprintf(":%s", cfg.Server.Port)
 
