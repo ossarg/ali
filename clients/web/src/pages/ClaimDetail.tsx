@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, FileText, Scale } from 'lucide-react';
+import { ArrowLeft, ExternalLink, FileText, Scale, User, Shield, CreditCard } from 'lucide-react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { formatTableTime } from '../lib/formatTime';
@@ -290,17 +290,50 @@ export default function ClaimDetail() {
 
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold text-gray-900">#{claim.claim_number}</h1>
+        <div className="flex-1">
+          {/* Título + badge estado */}
+          <div className="flex items-center gap-3 flex-wrap mb-3">
+            <h1 className="text-2xl font-bold text-gray-900">STRO. {claim.claim_number}</h1>
             <StatusBadge status={claim.current_status} />
           </div>
-          <p className="mt-1 text-sm text-gray-500">
-            {claim.contratante.trim()} • {claim.doc_type} {claim.doc_number}
-          </p>
-          <p className="text-xs text-gray-400 mt-0.5">
-            Registrado {formatTableTime(claim.created_at)}
-          </p>
+
+          {/* Fila resumen */}
+          <div className="flex items-center flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600 bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4 text-gray-400" />
+              <span className="font-medium">Asegurado:</span>
+              <span className="text-gray-900">{claim.contratante.trim()}</span>
+            </div>
+
+            {(claim.doc_type || claim.doc_number) && (
+              <>
+                <div className="w-px h-4 bg-gray-200" />
+                <div className="flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-gray-400" />
+                  <span className="font-medium">DNI:</span>
+                  <span className="text-gray-900">{claim.doc_type} {claim.doc_number}</span>
+                </div>
+              </>
+            )}
+
+            {claim.policy && (
+              <>
+                <div className="w-px h-4 bg-gray-200" />
+                <div className="flex items-center gap-2">
+                  <CreditCard className="w-4 h-4 text-gray-400" />
+                  <span className="font-medium">Póliza:</span>
+                  <span className="text-gray-900 font-mono">{claim.policy.policy_number ?? '—'}</span>
+                </div>
+              </>
+            )}
+
+            <div className="w-px h-4 bg-gray-200" />
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4 text-gray-400" />
+              <span className="font-medium">Asignado a:</span>
+              <span className="text-gray-900">Sin asignar</span>
+            </div>
+          </div>
         </div>
 
         {/* CTA */}

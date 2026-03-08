@@ -91,70 +91,68 @@ export default function CaseDetail() {
       </button>
 
       {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-1">
-            <h1 className="text-2xl font-bold text-gray-900">
-              {caso.caratula || caso.title}
-            </h1>
+      <div>
+        {/* Carátula + labels en la misma línea */}
+        <div className="flex items-center gap-3 flex-wrap mb-3">
+          <h1 className="text-2xl font-bold text-gray-900">
+            {caso.caratula || caso.title}
+          </h1>
+          {caso.case_type && (
+            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">
+              {CASE_TYPE_LABELS[caso.case_type] ?? caso.case_type}
+            </span>
+          )}
+          {caso.pipeline_stage && (
+            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eb5d2a]/10 text-[#eb5d2a]">
+              {PIPELINE_STAGE_LABELS[caso.pipeline_stage] ?? caso.pipeline_stage}
+            </span>
+          )}
+        </div>
+
+        {/* Fila resumen: siniestro primero, luego fecha, luego asignado */}
+        <div className="flex items-center flex-wrap gap-x-6 gap-y-2 text-sm text-[#455362] bg-white p-4 rounded-lg border border-[#e5e7eb] shadow-sm">
+          {caso.claim_number && (
+            <>
+              <div className="flex items-center gap-2">
+                <Gavel className="w-4 h-4 text-[#6b7280]" />
+                <span className="font-medium">Siniestro:</span>
+                <span className="text-[#1a1a1a] font-mono">{caso.claim_number}</span>
+              </div>
+              <div className="w-px h-4 bg-[#e5e7eb]" />
+            </>
+          )}
+
+          {caso.incident_date && (
+            <>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#eb5d2a]" />
+                <span className="font-medium">Fecha siniestro:</span>
+                <span className="text-[#1a1a1a]">{format(new Date(caso.incident_date), 'dd/MM/yyyy')}</span>
+              </div>
+              <div className="w-px h-4 bg-[#e5e7eb]" />
+            </>
+          )}
+
+          <div className="flex items-center gap-2">
+            <User className="w-4 h-4 text-[#6b7280]" />
+            <span className="font-medium">Asignado a:</span>
+            <span className="text-[#1a1a1a]">
+              {caso.assigned_user
+                ? `${caso.assigned_user.first_name} ${caso.assigned_user.last_name}`
+                : 'Sin asignar'}
+            </span>
           </div>
-          <div className="flex items-center gap-2 mt-1 flex-wrap">
-            {caso.case_type && (
-              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">
-                {CASE_TYPE_LABELS[caso.case_type] ?? caso.case_type}
-              </span>
-            )}
-            {caso.pipeline_stage && (
-              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#eb5d2a]/10 text-[#eb5d2a]">
-                {PIPELINE_STAGE_LABELS[caso.pipeline_stage] ?? caso.pipeline_stage}
-              </span>
-            )}
-          </div>
 
-          <div className="flex items-center flex-wrap gap-x-6 gap-y-2 text-sm text-[#455362] bg-white p-4 rounded-lg border border-[#e5e7eb] shadow-sm">
-            {caso.incident_date && (
-              <>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-[#eb5d2a]" />
-                  <span className="font-medium">Fecha siniestro:</span>
-                  <span className="text-[#1a1a1a]">{format(new Date(caso.incident_date), 'dd/MM/yyyy')}</span>
-                </div>
-                <div className="w-px h-4 bg-[#e5e7eb]" />
-              </>
-            )}
-
-            <div className="flex items-center gap-2">
-              <User className="w-4 h-4 text-[#6b7280]" />
-              <span className="font-medium">Asignado a:</span>
-              <span className="text-[#1a1a1a]">
-                {caso.assigned_user
-                  ? `${caso.assigned_user.first_name} ${caso.assigned_user.last_name}`
-                  : 'Sin asignar'}
-              </span>
-            </div>
-
-            {caso.defense_firm && (
-              <>
-                <div className="w-px h-4 bg-[#e5e7eb]" />
-                <div className="flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-[#6b7280]" />
-                  <span className="font-medium">Estudio defensor:</span>
-                  <span className="text-[#1a1a1a]">{caso.defense_firm.name}</span>
-                </div>
-              </>
-            )}
-
-            {caso.claim_number && (
-              <>
-                <div className="w-px h-4 bg-[#e5e7eb]" />
-                <div className="flex items-center gap-2">
-                  <Gavel className="w-4 h-4 text-[#6b7280]" />
-                  <span className="font-medium">Siniestro:</span>
-                  <span className="text-[#1a1a1a] font-mono">{caso.claim_number}</span>
-                </div>
-              </>
-            )}
-          </div>
+          {caso.defense_firm && (
+            <>
+              <div className="w-px h-4 bg-[#e5e7eb]" />
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-[#6b7280]" />
+                <span className="font-medium">Estudio defensor:</span>
+                <span className="text-[#1a1a1a]">{caso.defense_firm.name}</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
