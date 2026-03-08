@@ -72,7 +72,7 @@ function EventTable({ events, showConfidence, showReviewed, showCase }: {
     <table className="w-full text-sm">
       <thead>
         <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
-          {showCase && <th className="pb-3 pt-4 pl-4 pr-4 w-48">Caso</th>}
+          {showCase && <th className="pb-3 pt-4 pl-4 pr-4 w-36 whitespace-nowrap">Nro. siniestro</th>}
           <th className="pb-3 pt-4 pl-4 pr-4">Asunto</th>
           <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Tipo</th>
           {showConfidence && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Confianza</th>}
@@ -88,18 +88,10 @@ function EventTable({ events, showConfidence, showReviewed, showCase }: {
             className="hover:bg-gray-50 transition-colors cursor-pointer"
           >
             {showCase && (
-              <td className="pl-4 pr-4 py-3.5 w-48">
-                {event.case_id ? (
-                  <span
-                    className="text-xs text-indigo-600 font-medium truncate block max-w-[11rem]"
-                    title={event.case_caratula || event.case_title}
-                    onClick={e => { e.stopPropagation(); navigate(`/casos/${event.case_id}`); }}
-                  >
-                    {event.case_caratula || event.case_title || '—'}
-                  </span>
-                ) : (
-                  <span className="text-xs text-gray-300">Sin caso</span>
-                )}
+              <td className="pl-4 pr-4 py-3.5 w-36">
+                {event.raw_claim_number
+                  ? <span className="font-mono text-xs text-gray-700">{event.raw_claim_number}</span>
+                  : <span className="text-gray-300 text-xs">—</span>}
               </td>
             )}
             <td className="pl-4 pr-4 py-3.5 min-w-0 max-w-xs">
@@ -208,7 +200,7 @@ export default function Activity() {
         {tab === 'pendientes' && (
           pendingLoading
             ? <p className="text-sm text-gray-400 animate-pulse px-4 py-8">Cargando...</p>
-            : <EventTable events={pending} showConfidence />
+            : <EventTable events={pending} showConfidence showCase />
         )}
 
         {tab === 'aprobados' && (

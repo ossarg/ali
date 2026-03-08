@@ -178,7 +178,7 @@ func (r *caseRepository) DeleteEvent(id string) error {
 func (r *caseRepository) ListPendingEvents() ([]models.CaseEvent, error) {
 	var events []models.CaseEvent
 	err := r.db.Where("(case_events.approved = false OR case_events.approved IS NULL) AND case_events.deleted_at IS NULL").
-		Order("case_events.case_id NULLS LAST, case_events.received_at DESC").
+		Order("case_events.raw_claim_number NULLS LAST, case_events.received_at DESC").
 		Find(&events).Error
 	return events, err
 }
