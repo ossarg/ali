@@ -1,7 +1,8 @@
-import { MOCK_CASES, MOCK_INBOX, type Stage } from '../data/mockData';
-import { AlertCircle, CheckCircle2, Clock, FileText, ArrowRight, Activity } from 'lucide-react';
+import { MOCK_CASES, MOCK_INBOX } from '../data/mockData';
+import { AlertCircle, CheckCircle2, Clock, Activity, ArrowRight, Zap } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { cn } from '../lib/utils';
+import LiveActivityFeed from '../components/LiveActivityFeed';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -11,66 +12,95 @@ export default function Home() {
   const upcomingDeadlinesCount = MOCK_CASES.filter(c => c.priority === 'Alta' && c.stage !== 'Completado').length;
   const processedTodayCount = 42; // Mock stat
 
-  const stages: Stage[] = ['Ingesta', 'Extracción', 'Triage', 'Fichero', 'Borrador', 'Revisión Humana', 'Completado'];
-
   return (
-    <div className="space-y-8">
-      {/* KPI Cards */}
-      <div className="grid grid-cols-4 gap-6">
-        <div className="bg-white p-5 rounded-lg border border-[#e5e7eb] shadow-sm cursor-pointer hover:border-[#eb5d2a]/50 transition-colors" onClick={() => navigate('/casos')}>
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-[#6b7280]">Casos Activos</h3>
-            <Activity className="w-5 h-5 text-[#455362]" />
-          </div>
-          <div className="text-3xl font-semibold text-[#1a1a1a]">{activeCasesCount}</div>
-        </div>
-        
-        <div className="bg-white p-5 rounded-lg border border-[#e5e7eb] shadow-sm cursor-pointer hover:border-[#eb5d2a]/50 transition-colors">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-[#6b7280]">Pendientes de Revisión</h3>
-            <AlertCircle className="w-5 h-5 text-[#eab308]" />
-          </div>
-          <div className="text-3xl font-semibold text-[#1a1a1a]">{pendingReviewCount}</div>
-        </div>
-
-        <div className="bg-white p-5 rounded-lg border border-[#e5e7eb] shadow-sm cursor-pointer hover:border-[#eb5d2a]/50 transition-colors">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-[#6b7280]">Vencimientos Próximos</h3>
-            <Clock className="w-5 h-5 text-[#ef4444]" />
-          </div>
-          <div className="text-3xl font-semibold text-[#1a1a1a]">{upcomingDeadlinesCount}</div>
-        </div>
-
-        <div className="bg-white p-5 rounded-lg border border-[#e5e7eb] shadow-sm cursor-pointer hover:border-[#eb5d2a]/50 transition-colors">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-[#6b7280]">Procesados Hoy</h3>
-            <CheckCircle2 className="w-5 h-5 text-[#22c55e]" />
-          </div>
-          <div className="text-3xl font-semibold text-[#1a1a1a]">{processedTodayCount}</div>
+    <div className="space-y-8 max-w-7xl mx-auto">
+      {/* Header section */}
+      <div className="flex items-center justify-between mb-2">
+        <div>
+          <h2 className="text-2xl font-bold text-[var(--color-text-primary)] tracking-tight">Overview</h2>
+          <p className="text-[var(--color-text-secondary)] mt-1 text-sm">Monitor your AI agents and active litigation pipeline.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-8">
-        {/* Inbox */}
-        <div className="col-span-1 bg-white rounded-lg border border-[#e5e7eb] shadow-sm flex flex-col h-[500px]">
-          <div className="p-5 border-b border-[#e5e7eb] flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-[#455362]">Bandeja de Entrada</h2>
-            <span className="bg-[#ef4444]/10 text-[#ef4444] text-xs font-medium px-2.5 py-1 rounded-full">{pendingReviewCount} tareas</span>
+      {/* KPI Cards - Linear Style */}
+      <div className="grid grid-cols-4 gap-4">
+        <div 
+          className="glass-panel p-5 rounded-xl cursor-pointer hover:border-[var(--color-border-focus)] transition-all group" 
+          onClick={() => navigate('/casos')}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-8 h-8 rounded-lg bg-[var(--color-surface-sidebar)] flex items-center justify-center">
+              <Activity className="w-4 h-4 text-white" />
+            </div>
+            <ArrowRight className="w-4 h-4 text-[var(--color-text-tertiary)] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
           </div>
-          <div className="flex-1 overflow-y-auto p-2">
+          <div className="space-y-1">
+            <h3 className="text-[var(--color-text-secondary)] text-sm font-medium">Casos Activos</h3>
+            <div className="text-3xl font-semibold text-[var(--color-text-primary)] tracking-tight">{activeCasesCount}</div>
+          </div>
+        </div>
+        
+        <div className="glass-panel p-5 rounded-xl cursor-pointer hover:border-[var(--color-border-focus)] transition-all group">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
+              <AlertCircle className="w-4 h-4 text-amber-600" />
+            </div>
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-[var(--color-text-secondary)] text-sm font-medium">Revisión Humana</h3>
+            <div className="text-3xl font-semibold text-[var(--color-text-primary)] tracking-tight">{pendingReviewCount}</div>
+          </div>
+        </div>
+
+        <div className="glass-panel p-5 rounded-xl cursor-pointer hover:border-[var(--color-border-focus)] transition-all group">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
+              <Clock className="w-4 h-4 text-red-600" />
+            </div>
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-[var(--color-text-secondary)] text-sm font-medium">Vencimientos Próximos</h3>
+            <div className="text-3xl font-semibold text-[var(--color-text-primary)] tracking-tight">{upcomingDeadlinesCount}</div>
+          </div>
+        </div>
+
+        <div className="glass-panel p-5 rounded-xl cursor-pointer hover:border-[var(--color-border-focus)] transition-all group">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
+              <CheckCircle2 className="w-4 h-4 text-green-600" />
+            </div>
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-[var(--color-text-secondary)] text-sm font-medium">Procesados Hoy</h3>
+            <div className="text-3xl font-semibold text-[var(--color-text-primary)] tracking-tight">{processedTodayCount}</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-6">
+        {/* Action Center - Refined Inbox */}
+        <div className="glass-panel rounded-xl flex flex-col h-[500px] overflow-hidden">
+          <div className="p-5 border-b border-[var(--color-border-dim)] flex items-center justify-between bg-white/50">
+            <div className="flex items-center gap-2">
+              <Zap className="w-4 h-4 text-amber-500" />
+              <h2 className="text-base font-semibold text-[var(--color-text-primary)]">Action Center</h2>
+            </div>
+            <span className="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1 rounded-full">{pendingReviewCount} requiere atención</span>
+          </div>
+          <div className="flex-1 overflow-y-auto p-3 space-y-2">
             {MOCK_INBOX.map((item) => (
               <Link 
                 key={item.id} 
                 to={`/casos/${item.caseId}`}
-                className="block p-4 hover:bg-[#f7f8fa] rounded-md transition-colors border-b border-transparent hover:border-[#e5e7eb] mb-1"
+                className="block p-4 bg-white rounded-lg border border-[var(--color-border-dim)] hover:border-[var(--color-border-focus)] transition-all group shadow-sm hover:shadow-md"
               >
-                <div className="flex items-start justify-between mb-1">
-                  <span className="text-xs font-medium text-[#eb5d2a]">{item.agent}</span>
-                  <span className="text-xs text-[#6b7280]">Hace 2h</span>
+                <div className="flex items-start justify-between mb-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-brand-primary)]">{item.agent}</span>
+                  <span className="text-xs text-[var(--color-text-tertiary)] font-medium">Hace 2h</span>
                 </div>
-                <h4 className="text-sm font-semibold text-[#1a1a1a] mb-1 line-clamp-1">{item.caseName}</h4>
-                <p className="text-sm text-[#455362] flex items-center gap-2">
-                  <AlertCircle className={cn("w-4 h-4", item.urgency === 'Alta' ? 'text-[#ef4444]' : 'text-[#eab308]')} />
+                <h4 className="text-sm font-semibold text-[var(--color-text-primary)] mb-1.5 line-clamp-1 group-hover:text-[var(--color-brand-primary)] transition-colors">{item.caseName}</h4>
+                <p className="text-sm text-[var(--color-text-secondary)] flex items-center gap-2 bg-[var(--color-surface-bg)] p-2 rounded-md">
+                  <AlertCircle className={cn("w-4 h-4", item.urgency === 'Alta' ? 'text-red-500' : 'text-amber-500')} />
                   {item.actionRequired}
                 </p>
               </Link>
@@ -78,51 +108,18 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Pipeline Kanban Mini */}
-        <div className="col-span-2 bg-white rounded-lg border border-[#e5e7eb] shadow-sm flex flex-col h-[500px]">
-          <div className="p-5 border-b border-[#e5e7eb] flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-[#455362]">Pipeline Activo</h2>
-            <Link to="/casos" className="text-sm text-[#eb5d2a] font-medium hover:underline flex items-center gap-1">
-              Ver todos <ArrowRight className="w-4 h-4" />
+        {/* Live Activity Feed */}
+        <div className="glass-panel rounded-xl flex flex-col h-[500px] overflow-hidden relative">
+          <div className="p-5 border-b border-[var(--color-border-dim)] flex items-center justify-between bg-white/50">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <h2 className="text-base font-semibold text-[var(--color-text-primary)]">Live Agent Flow</h2>
+            </div>
+            <Link to="/actividad" className="text-xs font-semibold text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors">
+              Ver Actividad Completa →
             </Link>
           </div>
-          <div className="flex-1 overflow-x-auto p-5">
-            <div className="flex gap-4 h-full min-w-max">
-              {stages.map(stage => {
-                const stageCases = MOCK_CASES.filter(c => c.stage === stage);
-                return (
-                  <div key={stage} className="w-64 flex flex-col bg-[#f7f8fa] rounded-md border border-[#e5e7eb]">
-                    <div className="p-3 border-b border-[#e5e7eb] flex items-center justify-between bg-white rounded-t-md">
-                      <h3 className="text-sm font-medium text-[#455362]">{stage}</h3>
-                      <span className="text-xs font-medium text-[#6b7280] bg-[#e5e7eb] px-2 py-0.5 rounded-full">{stageCases.length}</span>
-                    </div>
-                    <div className="p-2 flex-1 overflow-y-auto space-y-2">
-                      {stageCases.map(c => (
-                        <Link 
-                          key={c.id} 
-                          to={`/casos/${c.id}`}
-                          className="block bg-white p-3 rounded border border-[#e5e7eb] shadow-sm hover:border-[#eb5d2a]/50 transition-colors"
-                        >
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-xs font-mono text-[#6b7280]">{c.id}</span>
-                            <span className={cn(
-                              "w-2 h-2 rounded-full",
-                              c.priority === 'Alta' ? 'bg-[#ef4444]' : c.priority === 'Media' ? 'bg-[#eab308]' : 'bg-[#22c55e]'
-                            )} />
-                          </div>
-                          <h4 className="text-sm font-medium text-[#1a1a1a] line-clamp-2 mb-2" title={c.title}>{c.title}</h4>
-                          <div className="flex items-center justify-between text-xs text-[#6b7280]">
-                            <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {new Date(c.deadline).toLocaleDateString()}</span>
-                            {c.lawyerId && <span className="bg-[#455362]/10 text-[#455362] px-1.5 py-0.5 rounded">Asignado</span>}
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <LiveActivityFeed />
         </div>
       </div>
     </div>

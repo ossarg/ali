@@ -1,0 +1,11 @@
+{
+  "eval_name": "email-ambiguo-acuerdo-con-pago",
+  "configuration": "with_skill",
+  "expectations": [
+    {"text": "tipo_evento is 'acuerdo'", "passed": false, "evidence": "tipo_evento = 'reclamo_pago' — should be 'acuerdo'. The skill's disambiguation table was followed too literally; the email's primary event is the settlement, not the payment request."},
+    {"text": "confianza reflects ambiguity (media 0.60-0.84)", "passed": true, "evidence": "confianza = 0.73"},
+    {"text": "nro_siniestro extracted as '09854'", "passed": true, "evidence": "metadata.nro_siniestro = '09854'"},
+    {"text": "tipos_descartados includes reclamo_pago with reasoning", "passed": false, "evidence": "tipos_descartados includes 'acuerdo' as discarded (inverse of expected). Since it classified as reclamo_pago, acuerdo is in descartados instead."},
+    {"text": "señales_detectadas includes acuerdo-related signals", "passed": true, "evidence": "señales include 'se llegó a un principio de acuerdo' and 'acta de mediación firmada'"}
+  ]
+}
