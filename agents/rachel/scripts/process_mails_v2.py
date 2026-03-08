@@ -5,11 +5,10 @@ Para cada mail nuevo, expande el thread completo y procesa
 cada mensaje individualmente. El backend (409) protege contra duplicados.
 
 Flujo por mensaje:
-  1. Clasificar (keywords)
-  2. Generar title + description (Claude Haiku)
-  3. Limpiar cuerpo (body_clean)
-  4. POST /api/v1/agents/case-events → obtener event_id
-  5. Para cada adjunto PDF/doc: POST /api/v1/agents/attachments
+  1. Clasificar + generar title/description (una sola llamada a Claude Haiku)
+  2. Limpiar cuerpo (body_clean)
+  3. POST /api/v1/agents/case-events → obtener event_id
+  4. Para cada adjunto PDF/doc: POST /api/v1/agents/attachments
 """
 import json, urllib.request, base64, re, time, sys, os
 from datetime import datetime, timezone
@@ -178,91 +177,72 @@ def clean_body(body: str) -> str:
     lines = [l for l in body.splitlines() if not l.strip().startswith('>')]
     return '\n'.join(lines).strip()[:4000]
 
-# ── Clasificador ──────────────────────────────────────────────────────────────
-KEYWORDS = {
-    1: ['SENTENCIA', 'FALLO', 'CONDENATORIA', 'ABSOLUTORIA', 'RESOLUCION JUDICIAL',
-        'PRIMERA INSTANCIA', 'SEGUNDA INSTANCIA', 'CAMARA', 'DICTADO', 'INFORME DE SENTENCIA',
-        'PROYECCION DE PAGO DE SENTENCIA', 'SENT.'],
-    2: ['HONORARIOS', 'LIQUIDACION', 'MINUTA DE PAGO', 'MINUTA', 'RECLAMO DE PAGO',
-        'REGULACION', 'PEDIDO DE FONDOS', 'PEDIDO FONDOS', 'FACTURA', 'ARANCEL',
-        'PAGO DE HONORARIOS', 'FONDOS'],
-    3: ['INTIMACION', 'CEDULA', 'NOTIFICACION', 'PLAZO', 'APERCIBIMIENTO',
-        'NOTIFICA', 'INTIMA', 'VENCIMIENTO', 'SUMARISIMO', 'JUICIO NUEVO'],
-    4: ['ACUERDO', 'MEDIACION', 'TRANSACCION', 'CONCILIACION', 'PROPUESTA DE ACUERDO',
-        'AVENIMIENTO', 'CONVENIO', 'RECLAMO SINIESTRO'],
-    5: ['EMBARGO', 'INHIBICION', 'TRABA DE EMBARGO', 'LEVANTAMIENTO DE EMBARGO'],
-    6: ['PERICIA', 'PERITO', 'INFORME PERICIAL', 'DESIGNACION DE PERITO',
-        'PERICIA MEDICA', 'PERICIA CONTABLE', 'IP PSICOL', 'IP '],
-    7: ['OFICIO', 'OFICIO JUDICIAL', 'DILIGENCIA OFICIO', 'LIBRAMIENTO'],
-    8: ['CONSULTA', 'AUTORIZACION', 'AUTORIZACION DE PAGO', 'PODRAN', 'PUEDEN',
-        'NOS PASAN', 'NOS PODRIAN', 'INFORMAR', 'INFORMAME', 'COMO VA',
-        'NECESITAMOS', 'NECESITO', 'COORDINACION', 'COORDINAR', 'REMITO',
-        'TE PASO', 'LES PASO', 'CERTIFICAR', 'CERTIFICACION'],
-}
+# ── Clasificador + Summary (una sola llamada LLM) ─────────────────────────────
+MAIL_TYPES_DESC = """
+1 = sentencia     → Fallos judiciales, sentencias condenatorias o absolutorias, informes de sentencia, proyecciones de pago de sentencia.
+2 = reclamo_pago  → Honorarios, liquidaciones, minutas de pago, facturas, pedidos de fondos, regulaciones arancelarias.
+3 = intimacion    → Cédulas, notificaciones con plazo, apercibimientos, juicios nuevos, vencimientos procesales.
+4 = acuerdo       → Mediación, transacción, conciliación, propuesta de acuerdo, avenimiento, convenio.
+5 = embargo       → Traba o levantamiento de embargo, inhibición de bienes.
+6 = pericia       → Designación de perito, informe pericial, pericia médica, contable o psicológica.
+7 = oficio        → Oficio judicial, libramiento, diligencia de oficio.
+8 = gestion       → Consultas entre partes, pedidos de autorización, coordinación, remito de documentos, cualquier comunicación interna o de gestión que no encaje en las categorías anteriores.
+"""
 
-TIPO_ES = {
-    'sentencia': 'Sentencia', 'reclamo_pago': 'Reclamo de pago',
-    'intimacion': 'Intimación', 'acuerdo': 'Acuerdo', 'embargo': 'Embargo',
-    'pericia': 'Pericia', 'oficio': 'Oficio', 'gestion': 'Gestión',
-}
-
-def _normalize(text: str) -> str:
-    import unicodedata
-    nfkd = unicodedata.normalize('NFKD', text)
-    return ''.join(c for c in nfkd if not unicodedata.combining(c)).upper()
-
-def classify(subject, body, attachments):
-    att_names = [a['filename'] for a in attachments] if attachments and isinstance(attachments[0], dict) else attachments
-    subject_norm = _normalize(subject)
-    body_norm    = _normalize(body + ' ' + ' '.join(att_names))
-    scores = {}
-    for tipo, kws in KEYWORDS.items():
-        kws_norm     = [_normalize(kw) for kw in kws]
-        subject_hits = sum(1 for kw in kws_norm if kw in subject_norm)
-        body_hits    = sum(1 for kw in kws_norm if kw in body_norm)
-        score = subject_hits * 2 + body_hits
-        if score > 0:
-            scores[tipo] = score
-    if not scores:
-        return None, 0.0, 'Sin keywords reconocibles'
-    best = max(scores, key=scores.get)
-    confidence = min(0.50 + scores[best] * 0.10, 0.97)
-    matched = [kw for kw in KEYWORDS[best] if _normalize(kw) in subject_norm or _normalize(kw) in body_norm]
-    reasoning = f"Keywords ({TIPOS[best]}): {', '.join(matched[:5])}"
-    return best, confidence, reasoning
-
-# ── LLM: título y descripción ─────────────────────────────────────────────────
-def generate_summary(mail_type_str: str, subject: str, body_clean: str) -> tuple[str, str]:
-    """Genera título y descripción usando el cuerpo limpio del mail."""
+def analyze_mail(subject: str, body_clean: str) -> dict:
+    """
+    Clasifica el mail y genera título + descripción en una sola llamada a Claude Haiku.
+    Retorna dict con: mail_type (int), confidence (float), reasoning (str), title (str), description (str).
+    En caso de error retorna mail_type=None.
+    """
     if not ANTHROPIC_API_KEY:
-        return '', ''
+        return {'mail_type': None, 'confidence': 0.0, 'reasoning': 'Sin API key', 'title': '', 'description': ''}
+
     try:
         client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-        tipo_label = TIPO_ES.get(mail_type_str, mail_type_str)
-        prompt = f"""Sos un asistente legal. Analizá este mail judicial y generá:
-1. TÍTULO: exactamente una oración, sin punto final, que describa de qué trata este mail.
-2. DESCRIPCIÓN: máximo 3 oraciones que resuman la acción o información clave para el expediente. Sin paja, solo lo relevante.
+        prompt = f"""Sos un asistente legal especializado en gestión de expedientes judiciales de seguros.
 
-Tipo de evento: {tipo_label}
+Analizá el siguiente mail y respondé con JSON válido únicamente (sin texto extra).
+
+## Tipos de evento posibles:
+{MAIL_TYPES_DESC}
+
+## Mail a analizar:
 Asunto: {subject}
-Cuerpo del mail: {body_clean[:800]}
+Cuerpo: {body_clean[:1200]}
 
-Respondé ÚNICAMENTE con JSON válido, sin texto extra:
-{{"title": "...", "description": "..."}}"""
+## Tu respuesta debe tener exactamente este formato:
+{{
+  "mail_type": <número entero del 1 al 8>,
+  "confidence": <número entre 0.0 y 1.0>,
+  "reasoning": "<una oración explicando por qué elegiste ese tipo>",
+  "title": "<exactamente una oración sin punto final que describa el evento>",
+  "description": "<máximo 3 oraciones con la información clave para el expediente, sin relleno>"
+}}"""
 
         msg = client.messages.create(
             model='claude-haiku-4-5',
-            max_tokens=200,
+            max_tokens=300,
             messages=[{'role': 'user', 'content': prompt}]
         )
         raw = msg.content[0].text.strip()
-        match = re.search(r'\{[^}]+\}', raw, re.DOTALL)
+        match = re.search(r'\{.*\}', raw, re.DOTALL)
         if match:
             data = json.loads(match.group())
-            return data.get('title', '')[:200], data.get('description', '')
+            mail_type = int(data.get('mail_type', 0))
+            if mail_type not in range(1, 9):
+                mail_type = None
+            return {
+                'mail_type':   mail_type,
+                'confidence':  float(data.get('confidence', 0.7)),
+                'reasoning':   str(data.get('reasoning', ''))[:500],
+                'title':       str(data.get('title', ''))[:200],
+                'description': str(data.get('description', '')),
+            }
     except Exception as e:
-        print(f'  [summary] Error: {e}')
-    return '', ''
+        print(f'  [analyze] Error LLM: {e}')
+
+    return {'mail_type': None, 'confidence': 0.0, 'reasoning': f'Error LLM', 'title': '', 'description': ''}
 
 # ── Backend API ───────────────────────────────────────────────────────────────
 def post_event(payload) -> tuple[int, dict]:
@@ -335,10 +315,6 @@ def extract_fields(subject, body):
 def process_message(service, msg_id, label_cache):
     content = get_message_content(service, msg_id)
 
-    mail_type, confidence, reasoning = classify(
-        content['subject'], content['body'], content['attachments']
-    )
-
     # Fecha desde internalDate (confiable) o header Date
     if content.get('internal_date'):
         received_at = datetime.fromtimestamp(
@@ -350,6 +326,17 @@ def process_message(service, msg_id, label_cache):
         except Exception:
             received_at = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
+    # Cuerpo limpio
+    body_clean = clean_body(content['body'])
+
+    # Clasificación + summary en una sola llamada LLM
+    analysis   = analyze_mail(content['subject'], body_clean)
+    mail_type  = analysis['mail_type']
+    confidence = analysis['confidence']
+    reasoning  = analysis['reasoning']
+    title      = analysis['title']
+    description = analysis['description']
+
     # Aplicar label en Gmail
     label_name = TIPO_LABELS.get(mail_type, LABEL_SIN_CLASIF)
     label_id   = get_or_create_label(service, label_name, label_cache)
@@ -358,11 +345,6 @@ def process_message(service, msg_id, label_cache):
     if mail_type is None:
         return f'SIN CLASIFICAR | {content["subject"][:50]}'
 
-    # Cuerpo limpio y summary LLM
-    mail_type_str = TIPOS.get(mail_type, '')
-    body_clean    = clean_body(content['body'])
-    title, description = generate_summary(mail_type_str, content['subject'], body_clean)
-
     caratula, policy, claim, case_num = extract_fields(content['subject'], content['body'])
 
     payload = {
@@ -370,12 +352,12 @@ def process_message(service, msg_id, label_cache):
         'subject':     content['subject'][:500],
         'mail_type':   mail_type,
         'confidence':  confidence,
-        'reasoning':   reasoning[:500],
+        'reasoning':   reasoning,
         'received_at': received_at,
         'body_clean':  body_clean,
+        'title':       title,
+        'description': description,
     }
-    if title:       payload['title']            = title
-    if description: payload['description']      = description
     if caratula:    payload['raw_caratula']     = caratula
     if policy:      payload['raw_policy']       = policy
     if claim:       payload['raw_claim_number'] = claim
