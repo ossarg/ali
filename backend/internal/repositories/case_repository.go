@@ -202,6 +202,16 @@ func (r *caseRepository) ListPendingResolutionEvents() ([]models.CaseEvent, erro
 	return events, err
 }
 
+
+func (r *caseRepository) GetByID(id string) (*models.Case, error) {
+	var c models.Case
+	err := r.db.Where("id = ?", id).First(&c).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, nil
+	}
+	return &c, err
+}
+
 func (r *caseRepository) FindByClaim(claimID string) (*models.Case, error) {
 	var c models.Case
 	err := r.db.Where("claim_id = ? AND deleted_at IS NULL", claimID).First(&c).Error
