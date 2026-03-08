@@ -90,6 +90,7 @@ function IdentifierField({ label, value, onChange }: { label: string; value: str
 }
 
 function ReviewModal({ event, onClose }: ReviewModalProps) {
+  const deleteCaseEventFromModal = useDeleteCaseEvent();
   const [selectedType,   setSelectedType]   = useState<string>(event.mail_type);
   const [comment,        setComment]         = useState('');
   const [claimNumber,    setClaimNumber]     = useState(event.raw_claim_number ?? '');
@@ -135,7 +136,22 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
               <div className="flex items-start gap-2">
                 <p className="font-medium text-gray-800 text-xs leading-snug flex-1">{event.subject}</p>
                 <button
-                  onClick={() => navigator.clipboard.writeText(event.subject ?? '')}
+                  onClick={() => {
+                  const text = event.subject ?? '';
+                  if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).catch(() => {
+                      const el = document.createElement('textarea');
+                      el.value = text; document.body.appendChild(el);
+                      el.select(); document.execCommand('copy');
+                      document.body.removeChild(el);
+                    });
+                  } else {
+                    const el = document.createElement('textarea');
+                    el.value = text; document.body.appendChild(el);
+                    el.select(); document.execCommand('copy');
+                    document.body.removeChild(el);
+                  }
+                }}
                   title="Copiar asunto"
                   className="flex-shrink-0 text-gray-400 hover:text-indigo-600 transition-colors p-0.5 rounded"
                 >
@@ -244,7 +260,18 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex gap-3 justify-end px-6 py-4 border-t border-gray-100">
+        <div className="flex gap-3 px-6 py-4 border-t border-gray-100">
+          <button
+            onClick={() => {
+              if (window.confirm('¿Eliminar este evento? Esta acción no se puede deshacer.')) {
+                deleteCaseEventFromModal.mutate(event.id, { onSuccess: onClose });
+              }
+            }}
+            className="px-4 py-2 text-sm rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
+          >
+            Eliminar
+          </button>
+          <div className="flex-1" />
           <button onClick={onClose} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
             Cancelar
           </button>
@@ -454,18 +481,18 @@ function EventTable({ events, showActions, onReview, onEdit, onDelete }: EventTa
         </colgroup>
         <thead>
           <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
-            <th className="pb-3 pr-8">Asunto / Mail ID</th>
-            <th className="pb-3 pr-8">Tipo</th>
-            {showActions && <th className="pb-3 pr-8">Confianza</th>}
-            <th className="pb-3 pr-8">Recibido</th>
-            {!showActions && <th className="pb-3 pr-8">Revisado</th>}
-            {(showActions || onEdit || onDelete) && <th className="pb-3" />}
+            <th className="pb-3 pt-4 pl-4 pr-4">Asunto</th>
+            <th className="pb-3 pt-4 pr-4">Tipo</th>
+            {showActions && <th className="pb-3 pt-4 pr-4">Confianza</th>}
+            <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Recibido</th>
+            {!showActions && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Revisado</th>}
+            {(showActions || onEdit || onDelete) && <th className="pb-3 pt-4 pr-2" />}
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-50">
           {events.map(event => (
             <tr key={event.id} className="hover:bg-gray-50 transition-colors">
-              <td className="py-3 pr-8 min-w-0 max-w-xs">
+              <td className="pl-4 pr-4 py-3.5 min-w-0 max-w-xs">
                 <div className="font-medium text-gray-800 truncate">
                   {event.title || event.subject || event.mail_id}
                 </div>
@@ -476,21 +503,21 @@ function EventTable({ events, showActions, onReview, onEdit, onDelete }: EventTa
                   <div className="text-xs text-gray-400 truncate">{event.mail_id}</div>
                 )}
               </td>
-              <td className="py-3 pr-8">
+              <td className="pr-4 py-3.5">
                 <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
                   {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
                 </span>
               </td>
               {showActions && (
-                <td className="py-3 pr-8">
+                <td className="pr-4 py-3.5">
                   <ConfidenceBar value={event.confidence} />
                 </td>
               )}
-              <td className="py-3 pr-8 text-gray-500 whitespace-nowrap">
+              <td className="pr-4 py-3.5 text-gray-500 whitespace-nowrap text-xs">
                 {formatTableTime(event.received_at)}
               </td>
               {!showActions && (
-                <td className="py-3 pr-8 text-gray-500 text-xs">
+                <td className="pr-4 py-3.5 text-gray-500 text-xs">
                   {event.reviewed_at ? formatTableTime(event.reviewed_at) : '—'}
                 </td>
               )}
@@ -530,7 +557,7 @@ export default function Activity() {
     : null;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-900">Actividad</h1>
 
       {/* Metrics */}
@@ -576,10 +603,12 @@ export default function Activity() {
 
       {/* Pending table (collapsible) */}
       {pendingOpen && (
-        <div className="bg-white rounded-xl border border-amber-200 p-5 space-y-3">
-          <h2 className="font-semibold text-gray-800">Pendientes de revisión</h2>
+        <div className="bg-white rounded-xl border border-amber-200 overflow-hidden">
+          <div className="px-4 py-4 border-b border-amber-100">
+            <h2 className="font-semibold text-gray-800">Pendientes de revisión</h2>
+          </div>
           {pendingLoading ? (
-            <p className="text-sm text-gray-400 animate-pulse">Cargando...</p>
+            <p className="text-sm text-gray-400 animate-pulse px-4 py-6">Cargando...</p>
           ) : (
             <EventTable
               events={pending}
@@ -593,12 +622,14 @@ export default function Activity() {
       )}
 
       {/* Approved history */}
-      <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-3">
-        <h2 className="font-semibold text-gray-800">Historial de clasificaciones aprobadas</h2>
+      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="px-4 py-4 border-b border-gray-100">
+          <h2 className="font-semibold text-gray-800">Historial de clasificaciones aprobadas</h2>
+        </div>
         {approvedLoading ? (
-          <p className="text-sm text-gray-400 animate-pulse">Cargando...</p>
+          <p className="text-sm text-gray-400 animate-pulse px-4 py-6">Cargando...</p>
         ) : approved.length === 0 ? (
-          <p className="text-sm text-gray-400 py-6 text-center">
+          <p className="text-sm text-gray-400 py-12 text-center">
             Rachel está al día — no hay clasificaciones aprobadas todavía.
           </p>
         ) : (
@@ -608,7 +639,9 @@ export default function Activity() {
               onEdit={e => setEditTarget(e)}
               onDelete={e => { if (window.confirm('Este evento está aprobado. ¿Eliminarlo de todas formas? (se marcará como eliminado)')) deleteCaseEvent.mutate(e.id); }}
             />
-            <Pagination page={approvedPage} limit={10} total={approvedData?.total ?? 0} onChange={setApprovedPage} />
+            <div className="px-4 pb-4">
+              <Pagination page={approvedPage} limit={10} total={approvedData?.total ?? 0} onChange={setApprovedPage} />
+            </div>
           </>
         )}
       </div>

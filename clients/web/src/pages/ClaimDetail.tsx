@@ -278,7 +278,7 @@ export default function ClaimDetail() {
   const linkedCaseId: string | null = null; // TODO: from claim.case_id once wired
 
   return (
-    <div className="px-6 pt-1 pb-6 max-w-7xl mx-auto space-y-6">
+    <div className="pb-6 space-y-6">
       {/* Back */}
       <button
         onClick={() => navigate('/siniestros')}

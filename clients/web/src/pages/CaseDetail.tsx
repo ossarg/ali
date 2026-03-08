@@ -80,7 +80,7 @@ export default function CaseDetail() {
   const displayId = caso.case_number || caso.id.slice(0, 8).toUpperCase();
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 pb-12">
+    <div className="space-y-6 pb-12">
       {/* Header */}
       <div className="flex items-start gap-4">
         <button
