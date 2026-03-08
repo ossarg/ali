@@ -268,7 +268,7 @@ func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCa
 
 	// Trigger async SISE resolution if raw_claim_number is available
 	if claimSvc != nil && event.RawClaimNumber != "" {
-		claimSvc.ResolveAsync(event.ID.String())
+		claimSvc.ResolveEventAsync(event.ID.String())
 	}
 
 	resp := dto.ToCaseEventResponse(*event)
