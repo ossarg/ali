@@ -285,20 +285,20 @@ export default function CaseDetail() {
                 {caseEvents.map(event => (
                   <div key={event.id} className="relative pl-8">
                     <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white bg-[#eb5d2a]" />
-                    <div className="flex items-start justify-between mb-1">
-                      <span className="text-sm font-semibold text-[#1a1a1a]">
-                        {format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}
-                      </span>
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-[#1a1a1a]">
+                          {format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}
+                        </span>
+                        <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
+                          {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
+                        </span>
+                      </div>
                       {event.reviewed_by_name && (
                         <span className="text-xs text-[#6b7280]">
                           Aprobado por: <span className="font-medium text-[#455362]">{event.reviewed_by_name}</span>
                         </span>
                       )}
-                    </div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
-                        {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
-                      </span>
                     </div>
                     {event.title && (
                       <p className="text-sm font-medium text-[#1a1a1a] mb-1">{event.title}</p>
