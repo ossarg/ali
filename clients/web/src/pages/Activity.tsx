@@ -98,9 +98,6 @@ function EventTable({ events, showConfidence, showReviewed, showCase }: {
               <div className="font-medium text-gray-800 truncate">
                 {event.title || event.subject || event.mail_id}
               </div>
-              {event.description && (
-                <div className="text-xs text-gray-400 truncate mt-0.5">{event.description}</div>
-              )}
             </td>
             <td className="pr-4 py-3.5 whitespace-nowrap">
               <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">

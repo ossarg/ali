@@ -70,7 +70,14 @@ export const caseEventService = {
 
   pendingPaginated: async (page: number, limit: number): Promise<PaginatedCaseEvents> => {
     const response = await api.get(API_ENDPOINTS.CASE_EVENTS.PENDING, { params: { page: String(page), limit: String(limit) } });
-    return PaginatedCaseEventsSchema.parse(response);
+    const parsed = PaginatedCaseEventsSchema.safeParse(response);
+    if (!parsed.success) {
+      console.error('[pendingPaginated] Zod error:', parsed.error.issues);
+      // Fallback: return raw data cast
+      const raw = response as any;
+      return { data: raw.data ?? [], total: raw.total ?? 0, page: raw.page ?? page, limit: raw.limit ?? limit };
+    }
+    return parsed.data;
   },
 
   byCaseID: async (caseId: string): Promise<CaseEvent[]> => {
