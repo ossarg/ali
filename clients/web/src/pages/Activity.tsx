@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { format } from 'date-fns';
 import { formatMetricTime, formatTableTime } from '../lib/formatTime';
 import {
   useApprovedEventsPaginated,
@@ -118,7 +119,7 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
           <div className="flex items-center gap-3 text-xs text-gray-400">
             <span>{event.mail_id}</span>
             <span>·</span>
-            <span>Recibido: <span className="font-medium text-gray-500">{formatTableTime(event.received_at)}</span></span>
+            <span>Recibido: <span className="font-medium text-gray-500">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}</span></span>
           </div>
           <p className="mt-1">
             <span className="font-medium">Rachel clasificó:</span>{' '}
