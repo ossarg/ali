@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { MoreVertical } from 'lucide-react';
 import { format } from 'date-fns';
 import { formatMetricTime, formatTableTime } from '../lib/formatTime';
 import {
@@ -321,6 +322,70 @@ function EditModal({ event, onClose }: EditModalProps) {
   );
 }
 
+// ─── Kebab menu ───────────────────────────────────────────────────────────────
+
+interface KebabMenuProps {
+  onEdit?: () => void;
+  onDelete?: () => void;
+  onReview?: () => void;
+}
+
+function KebabMenu({ onEdit, onDelete, onReview }: KebabMenuProps) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+      >
+        <MoreVertical size={16} />
+      </button>
+
+      {open && (
+        <div className="absolute right-0 mt-1 w-40 bg-white border border-gray-200 rounded-xl shadow-lg z-20 py-1 text-sm">
+          {onReview && (
+            <button
+              onClick={() => { setOpen(false); onReview(); }}
+              className="w-full text-left px-4 py-2 hover:bg-gray-50 text-indigo-700 font-medium"
+            >
+              Revisar
+            </button>
+          )}
+          {onEdit && (
+            <button
+              onClick={() => { setOpen(false); onEdit(); }}
+              className="w-full text-left px-4 py-2 hover:bg-gray-50 text-gray-700"
+            >
+              Editar
+            </button>
+          )}
+          {onDelete && (
+            <>
+              <div className="border-t border-gray-100 my-1" />
+              <button
+                onClick={() => { setOpen(false); onDelete(); }}
+                className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600"
+              >
+                Eliminar
+              </button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Event table ──────────────────────────────────────────────────────────────
 
 interface EventTableProps {
@@ -345,10 +410,8 @@ function EventTable({ events, showActions, onReview, onEdit, onDelete }: EventTa
       <table className="w-full text-sm table-fixed">
         <colgroup>
           <col style={{ width: '50%' }} />
-          {showActions
-            ? <><col /><col /><col /><col style={{ width: '80px' }} /></>
-            : <><col /><col /><col /></>
-          }
+          <col /><col /><col />
+          {(showActions || onEdit || onDelete) && <col style={{ width: '44px' }} />}
         </colgroup>
         <thead>
           <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
@@ -357,7 +420,7 @@ function EventTable({ events, showActions, onReview, onEdit, onDelete }: EventTa
             {showActions && <th className="pb-3 pr-8">Confianza</th>}
             <th className="pb-3 pr-8">Recibido</th>
             {!showActions && <th className="pb-3 pr-8">Revisado</th>}
-            {showActions && <th className="pb-3" />}
+            {(showActions || onEdit || onDelete) && <th className="pb-3" />}
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-50">
@@ -392,50 +455,13 @@ function EventTable({ events, showActions, onReview, onEdit, onDelete }: EventTa
                   {event.reviewed_at ? formatTableTime(event.reviewed_at) : '—'}
                 </td>
               )}
-              {showActions && (
+              {(showActions || onEdit || onDelete) && (
                 <td className="py-3 text-right">
-                  <div className="flex gap-1.5 justify-end">
-                    <button
-                      onClick={() => onReview?.(event)}
-                      className="px-3 py-1.5 text-xs rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
-                    >
-                      Revisar
-                    </button>
-                    <button
-                      onClick={() => onEdit?.(event)}
-                      className="px-3 py-1.5 text-xs rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => onDelete?.(event)}
-                      className="px-3 py-1.5 text-xs rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </td>
-              )}
-              {!showActions && (onEdit || onDelete) && (
-                <td className="py-3 text-right">
-                  <div className="flex gap-1.5 justify-end">
-                    {onEdit && (
-                      <button
-                        onClick={() => onEdit(event)}
-                        className="px-3 py-1.5 text-xs rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
-                      >
-                        Editar
-                      </button>
-                    )}
-                    {onDelete && (
-                      <button
-                        onClick={() => onDelete(event)}
-                        className="px-3 py-1.5 text-xs rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
-                      >
-                        Eliminar
-                      </button>
-                    )}
-                  </div>
+                  <KebabMenu
+                    onReview={showActions && onReview ? () => onReview(event) : undefined}
+                    onEdit={onEdit ? () => onEdit(event) : undefined}
+                    onDelete={onDelete ? () => onDelete(event) : undefined}
+                  />
                 </td>
               )}
             </tr>
