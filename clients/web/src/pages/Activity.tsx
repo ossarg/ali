@@ -118,7 +118,7 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl flex flex-col">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-5xl flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
           <h3 className="text-lg font-semibold text-gray-900">Revisar clasificación</h3>
