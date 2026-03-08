@@ -379,12 +379,44 @@ def process_message(service, msg_id, label_cache):
         return f'✗ backend {status_code} | {content["subject"][:50]}'
 
 # ── Main ──────────────────────────────────────────────────────────────────────
-def main(dry_run=False):
+def main(dry_run=False, limit=None, thread_id=None):
     ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f'[{ts}] Rachel v2 — iniciando...')
+    flags = []
+    if dry_run:   flags.append('dry-run')
+    if limit:     flags.append(f'limit={limit}')
+    if thread_id: flags.append(f'thread={thread_id}')
+    print(f'[{ts}] Rachel v2 — iniciando...{" (" + ", ".join(flags) + ")" if flags else ""}')
 
     service     = get_gmail_service()
     label_cache = {}
+
+    # Modo thread único: procesar solo ese thread
+    if thread_id:
+        print(f'Modo thread único: {thread_id}')
+        processed_msg_ids = set()
+        stats = {'nuevos': 0, 'ya_existia': 0, 'sin_clasif': 0, 'errores': 0}
+        thread_msg_ids = get_thread_message_ids(service, thread_id)
+        print(f'Thread {thread_id[:12]} — {len(thread_msg_ids)} mensaje(s)')
+        for msg_id in thread_msg_ids:
+            if dry_run:
+                print(f'  [dry-run] {msg_id}')
+                continue
+            try:
+                result = process_message(service, msg_id, label_cache)
+                print(f'  [{msg_id[:12]}] {result}')
+                if '✓' in result:      stats['nuevos']     += 1
+                elif '⟳' in result:   stats['ya_existia'] += 1
+                elif 'SIN' in result:  stats['sin_clasif'] += 1
+                time.sleep(0.15)
+            except Exception as ex:
+                print(f'  [{msg_id[:12]}] ERROR: {ex}', file=sys.stderr)
+                stats['errores'] += 1
+        print(f'\n=== Resultado ===')
+        print(f'Nuevos registrados: {stats["nuevos"]}')
+        print(f'Ya existían:        {stats["ya_existia"]}')
+        print(f'Sin clasificar:     {stats["sin_clasif"]}')
+        print(f'Errores:            {stats["errores"]}')
+        return
 
     all_labels       = service.users().labels().list(userId='me').execute().get('labels', [])
     rachel_label_ids = {l['id'] for l in all_labels if l['name'].startswith('Rachel/')}
@@ -416,6 +448,9 @@ def main(dry_run=False):
     if not to_process:
         print('Todos los mails del INBOX ya tienen label Rachel/*. Nada nuevo.')
         return
+
+    if limit:
+        to_process = to_process[:limit]
 
     print(f'Mails sin procesar: {len(to_process)}')
 
@@ -466,4 +501,12 @@ def main(dry_run=False):
     print(f'Errores:            {stats["errores"]}')
 
 if __name__ == '__main__':
-    main(dry_run='--dry-run' in sys.argv)
+    dry_run    = '--dry-run' in sys.argv
+    limit      = None
+    thread_id  = None
+    for arg in sys.argv[1:]:
+        if arg.startswith('--limit='):
+            limit = int(arg.split('=')[1])
+        elif arg.startswith('--thread='):
+            thread_id = arg.split('=')[1]
+    main(dry_run=dry_run, limit=limit, thread_id=thread_id)
