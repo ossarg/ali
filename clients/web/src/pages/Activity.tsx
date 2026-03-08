@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MoreVertical } from 'lucide-react';
 import { format } from 'date-fns';
 import PageHeader from '../components/PageHeader';
@@ -475,7 +476,11 @@ function EventTable({ events, showConfidence, showReviewed, showCase }: {
         </thead>
         <tbody className="divide-y divide-gray-50">
           {events.map(event => (
-            <tr key={event.id} className="hover:bg-gray-50 transition-colors">
+            <tr
+              key={event.id}
+              onClick={!showActions ? () => navigate(`/actividad/${event.id}`) : undefined}
+              className={`hover:bg-gray-50 transition-colors ${!showActions ? 'cursor-pointer' : ''}`}
+            >
               <td className="pl-4 pr-4 py-3.5 min-w-0 max-w-xs">
                 <div className="font-medium text-gray-800 truncate">
                   {event.title || event.subject || event.mail_id}
