@@ -416,10 +416,10 @@ export default function ActivityDetail() {
       </button>
 
       {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex-1 min-w-0">
+      <div className="flex items-start justify-between gap-6">
+        <div className="w-1/2 min-w-0">
           <div className="flex items-center gap-3 flex-wrap mb-2">
-            <h1 className="text-2xl font-bold text-gray-900 truncate">
+            <h1 className="text-2xl font-bold text-gray-900">
               {event.title || event.subject || 'Sin título'}
             </h1>
             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 shrink-0">
@@ -437,7 +437,7 @@ export default function ActivityDetail() {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 mt-1">
           {isPending && (
             <button
               onClick={() => setShowReview(true)}
@@ -453,6 +453,51 @@ export default function ActivityDetail() {
         </div>
       </div>
 
+      {/* Fila resumen */}
+      <div className="flex items-center flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600 bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+        {/* Nro. siniestro */}
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-gray-500">Siniestro:</span>
+          {event.raw_claim_number
+            ? <span className="font-mono text-gray-900">{event.raw_claim_number}</span>
+            : <span className="text-gray-300">—</span>}
+        </div>
+        <div className="w-px h-4 bg-gray-200" />
+
+        {/* Nro. expediente */}
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-gray-500">Expediente:</span>
+          {event.raw_case_number
+            ? <span className="font-mono text-gray-900">{event.raw_case_number}</span>
+            : <span className="text-gray-300">—</span>}
+        </div>
+        <div className="w-px h-4 bg-gray-200" />
+
+        {/* Nro. póliza */}
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-gray-500">Póliza:</span>
+          {event.raw_policy
+            ? <span className="font-mono text-gray-900">{event.raw_policy}</span>
+            : <span className="text-gray-300">—</span>}
+        </div>
+        <div className="w-px h-4 bg-gray-200" />
+
+        {/* Confianza */}
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-gray-500">Confianza:</span>
+          <ConfidenceBar value={event.confidence} />
+        </div>
+        <div className="w-px h-4 bg-gray-200" />
+
+        {/* Recibido */}
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-gray-500">Recibido:</span>
+          <span className="text-gray-900 text-xs">
+            {format(new Date(event.received_at), 'dd/MM/yyyy HH:mm', { locale: es })}
+          </span>
+        </div>
+      </div>
+
       {/* Body */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left */}
@@ -462,7 +507,7 @@ export default function ActivityDetail() {
               <h2 className="text-sm font-semibold text-gray-700">Contenido del mail</h2>
             </div>
             {event.body_clean ? (
-              <pre className="px-5 py-4 text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed">
+              <pre className="px-5 py-4 text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed max-h-96 overflow-y-auto">
                 {event.body_clean}
               </pre>
             ) : (
