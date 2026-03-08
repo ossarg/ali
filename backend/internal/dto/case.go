@@ -14,12 +14,6 @@ type ListCasesRequest struct {
 	CaseType      *int16 `query:"case_type"`
 }
 
-// LastEventSummary is a compact view of the most recent case event.
-type LastEventSummary struct {
-	MailType   string    `json:"mail_type"`
-	ReceivedAt time.Time `json:"received_at"`
-}
-
 // CaseResponse is the public representation of a case
 type CaseResponse struct {
 	ID              uuid.UUID              `json:"id"`
@@ -39,7 +33,6 @@ type CaseResponse struct {
 	IncidentDate    *time.Time             `json:"incident_date,omitempty"`
 	OpenedAt        *time.Time             `json:"opened_at,omitempty"`
 	PipelineStage   string                 `json:"pipeline_stage"`
-	LastEvent       *LastEventSummary      `json:"last_event,omitempty"`
 	CreatedAt       time.Time              `json:"created_at"`
 	UpdatedAt       time.Time              `json:"updated_at"`
 }

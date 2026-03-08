@@ -26,11 +26,6 @@ export const UserSummarySchema = z.object({
   last_name:  z.string(),
 });
 
-export const LastEventSummarySchema = z.object({
-  mail_type:   z.string(),
-  received_at: z.string(),
-});
-
 export const CaseSchema = z.object({
   id:               z.string().uuid(),
   claim_number:     z.string().optional(),
@@ -49,7 +44,6 @@ export const CaseSchema = z.object({
   incident_date:    z.string().nullable().optional(),
   opened_at:        z.string().nullable().optional(),
   pipeline_stage:   CaseStageSchema,
-  last_event:       LastEventSummarySchema.nullable().optional(),
   created_at:       z.string(),
   updated_at:       z.string(),
 });
@@ -66,7 +60,6 @@ export type CaseStatus     = z.infer<typeof CaseStatusSchema>;
 export type CaseType       = z.infer<typeof CaseTypeSchema>;
 export type FirmSummary    = z.infer<typeof FirmSummarySchema>;
 export type UserSummary    = z.infer<typeof UserSummarySchema>;
-export type LastEventSummary = z.infer<typeof LastEventSummarySchema>;
 export type Case           = z.infer<typeof CaseSchema>;
 export type CaseListResponse = z.infer<typeof CaseListResponseSchema>;
 

@@ -18,16 +18,6 @@ const CaseTypeColor: Record<string, string> = {
   third_party: 'bg-blue-50 text-blue-700',
 };
 
-const MailTypeLabel: Record<string, string> = {
-  sentencia:    'Sentencia',
-  reclamo_pago: 'Reclamo de pago',
-  intimacion:   'Intimación',
-  acuerdo:      'Acuerdo',
-  embargo:      'Embargo',
-  pericia:      'Pericia',
-  oficio:       'Oficio',
-  gestion:      'Gestión',
-};
 
 export default function Cases() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -84,7 +74,6 @@ export default function Cases() {
                     <th className="px-5 py-3.5">Carátula</th>
                     <th className="px-5 py-3.5 whitespace-nowrap">Nro. siniestro</th>
                     <th className="px-5 py-3.5 whitespace-nowrap">Estado</th>
-                    <th className="px-5 py-3.5 whitespace-nowrap">Último evento</th>
                     <th className="px-5 py-3.5 whitespace-nowrap">Estudio defensor</th>
                     <th className="px-5 py-3.5 w-8" />
                   </tr>
@@ -127,22 +116,6 @@ export default function Cases() {
                           )}>
                             {CaseTypeLabel[c.case_type] ?? c.case_type}
                           </span>
-                        </td>
-
-                        {/* Último evento */}
-                        <td className="px-5 py-4 whitespace-nowrap">
-                          {c.last_event ? (
-                            <div className="flex flex-col gap-0.5">
-                              <span className="text-xs font-medium text-[#1a1a1a]">
-                                {MailTypeLabel[c.last_event.mail_type] ?? c.last_event.mail_type}
-                              </span>
-                              <span className="text-xs text-[#9ca3af]">
-                                {format(new Date(c.last_event.received_at), 'dd/MM/yyyy')}
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-[#9ca3af] text-xs">Sin eventos</span>
-                          )}
                         </td>
 
                         {/* Estudio defensor */}

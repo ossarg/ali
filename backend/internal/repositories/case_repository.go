@@ -41,8 +41,6 @@ type CaseRepository interface {
 
 	// ListEventsByCaseID returns all case events linked to a case, ordered by received_at DESC.
 	ListEventsByCaseID(caseID string) ([]models.CaseEvent, error)
-	// LatestEventByCaseIDs returns the most recent approved event for each of the given case IDs.
-	LatestEventByCaseIDs(caseIDs []uuid.UUID) (map[uuid.UUID]*models.CaseEvent, error)
 	// FindByClaim returns the case linked to a given claim UUID, or nil if none exists.
 	FindByClaim(claimID string) (*models.Case, error)
 }

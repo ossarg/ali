@@ -91,25 +91,9 @@ func (s *caseService) ListPaginated(req dto.ListCasesRequest, page, limit int) (
 		return nil, apierrors.ErrInternalServer
 	}
 
-	// Batch fetch latest event per case (one extra query, avoids N+1)
-	caseIDs := make([]uuid.UUID, 0, len(cases))
-	for _, c := range cases {
-		caseIDs = append(caseIDs, c.ID)
-	}
-	latestEvents, _ := s.caseRepo.LatestEventByCaseIDs(caseIDs) // ignore error; last_event is best-effort
-
 	data := make([]dto.CaseResponse, len(cases))
 	for i, c := range cases {
-		resp := dto.ToCaseResponse(c)
-		if latestEvents != nil {
-			if ev, ok := latestEvents[c.ID]; ok {
-				resp.LastEvent = &dto.LastEventSummary{
-					MailType:   ev.MailType.String(),
-					ReceivedAt: ev.ReceivedAt,
-				}
-			}
-		}
-		data[i] = resp
+		data[i] = dto.ToCaseResponse(c)
 	}
 	return &dto.PaginatedCases{Data: data, Total: total, Page: page, Limit: limit}, nil
 }
@@ -128,18 +112,6 @@ func (s *caseService) GetByID(id string) (*dto.CaseResponse, error) {
 	}
 
 	resp := dto.ToCaseResponse(*c)
-
-	// Attach last event
-	evMap, _ := s.caseRepo.LatestEventByCaseIDs([]uuid.UUID{c.ID})
-	if evMap != nil {
-		if ev, ok := evMap[c.ID]; ok {
-			resp.LastEvent = &dto.LastEventSummary{
-				MailType:   ev.MailType.String(),
-				ReceivedAt: ev.ReceivedAt,
-			}
-		}
-	}
-
 	return &resp, nil
 }
 
