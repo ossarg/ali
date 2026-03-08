@@ -1354,6 +1354,10 @@ const docTemplate = `{
         "dto.ReviewCaseEventRequest": {
             "type": "object",
             "properties": {
+                "claim_number": {
+                    "description": "ClaimNumber is required to approve — without it the SISE resolution will always fail.",
+                    "type": "string"
+                },
                 "mail_type": {
                     "description": "if nil, approves Rachel's classification as-is",
                     "type": "integer"
@@ -1366,12 +1370,8 @@ const docTemplate = `{
                     "description": "nro. expediente",
                     "type": "string"
                 },
-                "raw_claim_number": {
-                    "description": "Corrected identifiers (optional — reviewer can fix what Rachel missed)",
-                    "type": "string"
-                },
                 "raw_policy": {
-                    "description": "nro. póliza",
+                    "description": "Corrected identifiers (optional)",
                     "type": "string"
                 },
                 "review_comment": {
