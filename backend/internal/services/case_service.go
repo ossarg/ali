@@ -128,6 +128,18 @@ func (s *caseService) GetByID(id string) (*dto.CaseResponse, error) {
 	}
 
 	resp := dto.ToCaseResponse(*c)
+
+	// Attach last event
+	evMap, _ := s.caseRepo.LatestEventByCaseIDs([]uuid.UUID{c.ID})
+	if evMap != nil {
+		if ev, ok := evMap[c.ID]; ok {
+			resp.LastEvent = &dto.LastEventSummary{
+				MailType:   ev.MailType.String(),
+				ReceivedAt: ev.ReceivedAt,
+			}
+		}
+	}
+
 	return &resp, nil
 }
 
