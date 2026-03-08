@@ -115,7 +115,11 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
         {/* Mail info */}
         <div className="text-sm text-gray-600 space-y-1 bg-gray-50 rounded-lg p-3">
           {event.subject && <p className="font-medium text-gray-800 text-xs leading-snug">{event.subject}</p>}
-          <p className="text-xs text-gray-400">{event.mail_id}</p>
+          <div className="flex items-center gap-3 text-xs text-gray-400">
+            <span>{event.mail_id}</span>
+            <span>·</span>
+            <span>Recibido: <span className="font-medium text-gray-500">{formatTableTime(event.received_at)}</span></span>
+          </div>
           <p className="mt-1">
             <span className="font-medium">Rachel clasificó:</span>{' '}
             <span className="font-semibold text-indigo-600">
