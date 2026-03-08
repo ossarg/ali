@@ -52,10 +52,11 @@ function ConfidenceBar({ value }: { value: number }) {
 
 // ─── Event table ──────────────────────────────────────────────────────────────
 
-function EventTable({ events, showConfidence, showReviewed }: {
+function EventTable({ events, showConfidence, showReviewed, showCase }: {
   events: CaseEvent[];
   showConfidence?: boolean;
   showReviewed?: boolean;
+  showCase?: boolean;
 }) {
   const navigate = useNavigate();
 
@@ -68,16 +69,13 @@ function EventTable({ events, showConfidence, showReviewed }: {
   }
 
   return (
-    <table className="w-full text-sm table-fixed">
-      <colgroup>
-        <col style={{ width: '45%' }} />
-        <col /><col /><col />
-      </colgroup>
+    <table className="w-full text-sm">
       <thead>
         <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
+          {showCase && <th className="pb-3 pt-4 pl-4 pr-4 w-48">Caso</th>}
           <th className="pb-3 pt-4 pl-4 pr-4">Asunto</th>
-          <th className="pb-3 pt-4 pr-4">Tipo</th>
-          {showConfidence && <th className="pb-3 pt-4 pr-4">Confianza</th>}
+          <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Tipo</th>
+          {showConfidence && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Confianza</th>}
           <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Recibido</th>
           {showReviewed && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Revisado</th>}
         </tr>
@@ -89,6 +87,21 @@ function EventTable({ events, showConfidence, showReviewed }: {
             onClick={() => navigate(`/actividad/${event.id}`)}
             className="hover:bg-gray-50 transition-colors cursor-pointer"
           >
+            {showCase && (
+              <td className="pl-4 pr-4 py-3.5 w-48">
+                {event.case_id ? (
+                  <span
+                    className="text-xs text-indigo-600 font-medium truncate block max-w-[11rem]"
+                    title={event.case_caratula || event.case_title}
+                    onClick={e => { e.stopPropagation(); navigate(`/casos/${event.case_id}`); }}
+                  >
+                    {event.case_caratula || event.case_title || '—'}
+                  </span>
+                ) : (
+                  <span className="text-xs text-gray-300">Sin caso</span>
+                )}
+              </td>
+            )}
             <td className="pl-4 pr-4 py-3.5 min-w-0 max-w-xs">
               <div className="font-medium text-gray-800 truncate">
                 {event.title || event.subject || event.mail_id}
@@ -97,7 +110,7 @@ function EventTable({ events, showConfidence, showReviewed }: {
                 <div className="text-xs text-gray-400 truncate mt-0.5">{event.description}</div>
               )}
             </td>
-            <td className="pr-4 py-3.5">
+            <td className="pr-4 py-3.5 whitespace-nowrap">
               <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
                 {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
               </span>
@@ -195,7 +208,7 @@ export default function Activity() {
         {tab === 'pendientes' && (
           pendingLoading
             ? <p className="text-sm text-gray-400 animate-pulse px-4 py-8">Cargando...</p>
-            : <EventTable events={pending} showConfidence />
+            : <EventTable events={pending} showConfidence showCase />
         )}
 
         {tab === 'aprobados' && (

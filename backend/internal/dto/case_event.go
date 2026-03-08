@@ -74,6 +74,8 @@ type CaseEventResponse struct {
 	BodyClean       string     `json:"body_clean,omitempty"`
 	Attachments     []AttachmentMetaDTO `json:"attachments"`
 	ReviewedByName  string     `json:"reviewed_by_name,omitempty"`
+	CaseTitle       string     `json:"case_title,omitempty"`
+	CaseCaratula    string     `json:"case_caratula,omitempty"`
 
 	RawClaimNumber string `json:"raw_claim_number,omitempty"`
 	RawPolicy      string `json:"raw_policy,omitempty"`

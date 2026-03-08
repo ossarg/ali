@@ -172,9 +172,29 @@ func (s *caseService) ListPendingEvents() ([]dto.CaseEventResponse, error) {
 	if err != nil {
 		return nil, apierrors.ErrInternalServer
 	}
+
+	// Batch-load case title+caratula for all unique case_ids — no N+1
+	caseMap := map[string][2]string{} // case_id → [title, caratula]
+	for _, e := range events {
+		if e.CaseID != nil {
+			caseMap[e.CaseID.String()] = [2]string{}
+		}
+	}
+	for cid := range caseMap {
+		if c, err := s.caseRepo.FindByID(cid); err == nil && c != nil {
+			caseMap[cid] = [2]string{c.Title, c.Caratula}
+		}
+	}
+
 	result := make([]dto.CaseEventResponse, len(events))
 	for i, e := range events {
-		result[i] = dto.ToCaseEventResponse(e)
+		r := dto.ToCaseEventResponse(e)
+		if e.CaseID != nil {
+			info := caseMap[e.CaseID.String()]
+			r.CaseTitle    = info[0]
+			r.CaseCaratula = info[1]
+		}
+		result[i] = r
 	}
 	return result, nil
 }
