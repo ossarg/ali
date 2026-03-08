@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { caseService, caseKeys } from '../services/case.service';
+export { caseKeys };
 
 export const useCases = (params?: Record<string, string>) => {
   return useQuery({

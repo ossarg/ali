@@ -32,6 +32,7 @@ export const CaseSchema = z.object({
   case_number:      z.string().optional(),
   title:            z.string(),
   policy:           z.string().optional(),
+  caratula:         z.string().optional(),
   case_type:        CaseTypeSchema,
   action_type:      z.string().nullable().optional(),
   court:            z.string().optional(),

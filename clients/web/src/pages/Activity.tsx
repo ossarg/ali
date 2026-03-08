@@ -621,31 +621,6 @@ export default function Activity() {
         </div>
       )}
 
-      {/* Approved history */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div className="px-4 py-4 border-b border-gray-100">
-          <h2 className="font-semibold text-gray-800">Historial de clasificaciones aprobadas</h2>
-        </div>
-        {approvedLoading ? (
-          <p className="text-sm text-gray-400 animate-pulse px-4 py-6">Cargando...</p>
-        ) : approved.length === 0 ? (
-          <p className="text-sm text-gray-400 py-12 text-center">
-            Rachel está al día — no hay clasificaciones aprobadas todavía.
-          </p>
-        ) : (
-          <>
-            <EventTable
-              events={approved}
-              onEdit={e => setEditTarget(e)}
-              onDelete={e => { if (window.confirm('Este evento está aprobado. ¿Eliminarlo de todas formas? (se marcará como eliminado)')) deleteCaseEvent.mutate(e.id); }}
-            />
-            <div className="px-4 pb-4">
-              <Pagination page={approvedPage} limit={10} total={approvedData?.total ?? 0} onChange={setApprovedPage} />
-            </div>
-          </>
-        )}
-      </div>
-
       {/* Review modal */}
       {reviewTarget && (
         <ReviewModal

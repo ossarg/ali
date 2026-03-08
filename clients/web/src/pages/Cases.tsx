@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { Search, Loader2, AlertCircle, Building2 } from 'lucide-react';
+import { Search, Loader2, AlertCircle, Building2, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { cn } from '../lib/utils';
 import { useCasesPaginated } from '../api/hooks/useCases';
+import { useQueryClient } from '@tanstack/react-query';
+import { caseKeys } from '../api/hooks/useCases';
 import Pagination from '../components/Pagination';
 
 const CaseTypeLabel: Record<string, string> = {
@@ -29,9 +33,11 @@ function MetricCard({ label, value }: { label: string; value: number | string })
 export default function Cases() {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [lastSync, setLastSync] = useState(new Date());
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const { data, isLoading, isError } = useCasesPaginated(
+  const { data, isLoading, isFetching, isError } = useCasesPaginated(
     page,
     20,
     searchQuery ? { search: searchQuery } : undefined
@@ -39,11 +45,15 @@ export default function Cases() {
   const casos = data?.data ?? [];
   const total = data?.total ?? 0;
 
-  // Compute type breakdown from loaded data (best-effort)
   const byType = casos.reduce<Record<string, number>>((acc, c) => {
     acc[c.case_type] = (acc[c.case_type] ?? 0) + 1;
     return acc;
   }, {});
+
+  const handleReload = () => {
+    queryClient.invalidateQueries({ queryKey: caseKeys.all });
+    setLastSync(new Date());
+  };
 
   return (
     <div className="space-y-6">
@@ -64,12 +74,27 @@ export default function Cases() {
 
       {/* Metrics */}
       {!isLoading && !isError && (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <MetricCard label="Total de casos" value={total} />
-          <MetricCard label="Juicios"         value={byType['lawsuit']     ?? 0} />
-          <MetricCard label="Mediaciones"     value={byType['mediation']   ?? 0} />
-          <MetricCard label="Administrativos" value={byType['third_party'] ?? 0} />
-        </div>
+        <>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <MetricCard label="Total de casos" value={total} />
+            <MetricCard label="Juicios"         value={byType['lawsuit']     ?? 0} />
+            <MetricCard label="Mediaciones"     value={byType['mediation']   ?? 0} />
+            <MetricCard label="Administrativos" value={byType['third_party'] ?? 0} />
+          </div>
+          <div className="flex items-center justify-end gap-3">
+            <span className="text-xs text-gray-400">
+              Última sincronización: {format(lastSync, 'HH:mm', { locale: es })}
+            </span>
+            <button
+              onClick={handleReload}
+              disabled={isFetching}
+              className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-40"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isFetching ? 'animate-spin' : ''}`} />
+              Actualizar
+            </button>
+          </div>
+        </>
       )}
 
       {/* Table */}
@@ -93,14 +118,16 @@ export default function Cases() {
                 <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
                   <th className="pb-3 pt-4 pl-4 pr-4">Carátula</th>
                   <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Nro. siniestro</th>
-                  <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Estado</th>
+                  <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Nro. expediente</th>
+                  <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Nro. póliza</th>
                   <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Estudio defensor</th>
+                  <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Estado</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {casos.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-4 py-12 text-center text-gray-400 text-sm">
+                    <td colSpan={6} className="px-4 py-12 text-center text-gray-400 text-sm">
                       No hay casos registrados.
                     </td>
                   </tr>
@@ -111,25 +138,33 @@ export default function Cases() {
                       onClick={() => navigate(`/casos/${c.id}`)}
                       className="hover:bg-gray-50 transition-colors cursor-pointer"
                     >
+                      {/* Carátula */}
                       <td className="pl-4 pr-4 py-3.5 max-w-xs">
-                        <span className="font-medium text-gray-900 line-clamp-2" title={c.title}>
-                          {c.title}
-                        </span>
+                        {c.caratula ? (
+                          <span className="font-medium text-gray-900 line-clamp-2" title={c.caratula}>
+                            {c.caratula}
+                          </span>
+                        ) : (
+                          <span className="text-gray-500 font-medium">{c.title}</span>
+                        )}
                       </td>
 
+                      {/* Nro. siniestro */}
                       <td className="pr-4 py-3.5 text-gray-600 whitespace-nowrap">
                         {c.claim_number || <span className="text-gray-300">—</span>}
                       </td>
 
-                      <td className="pr-4 py-3.5 whitespace-nowrap">
-                        <span className={cn(
-                          'text-xs font-medium px-2.5 py-1 rounded-full',
-                          CaseTypeColor[c.case_type] ?? 'bg-gray-100 text-gray-600'
-                        )}>
-                          {CaseTypeLabel[c.case_type] ?? c.case_type}
-                        </span>
+                      {/* Nro. expediente */}
+                      <td className="pr-4 py-3.5 text-gray-600 whitespace-nowrap">
+                        {c.case_number || <span className="text-gray-300">—</span>}
                       </td>
 
+                      {/* Nro. póliza */}
+                      <td className="pr-4 py-3.5 text-gray-600 whitespace-nowrap">
+                        {c.policy || <span className="text-gray-300">—</span>}
+                      </td>
+
+                      {/* Estudio defensor */}
                       <td className="pr-4 py-3.5 whitespace-nowrap">
                         {c.defense_firm ? (
                           <div className="flex items-center gap-1.5 text-sm text-gray-600">
@@ -141,6 +176,16 @@ export default function Cases() {
                         ) : (
                           <span className="text-gray-300 text-xs">Sin asignar</span>
                         )}
+                      </td>
+
+                      {/* Estado — última columna */}
+                      <td className="pr-4 py-3.5 whitespace-nowrap">
+                        <span className={cn(
+                          'text-xs font-medium px-2.5 py-1 rounded-full',
+                          CaseTypeColor[c.case_type] ?? 'bg-gray-100 text-gray-600'
+                        )}>
+                          {CaseTypeLabel[c.case_type] ?? c.case_type}
+                        </span>
                       </td>
                     </tr>
                   ))

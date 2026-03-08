@@ -301,6 +301,14 @@ func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCa
 		return nil, apierrors.ErrInternalServer
 	}
 
+	// Denormalize caratula into the case if this event has one and the case doesn't yet
+	if event.RawCaratula != "" && event.CaseID != nil {
+		if c, err := s.caseRepo.FindByID(event.CaseID.String()); err == nil && c != nil && c.Caratula == "" {
+			c.Caratula = event.RawCaratula
+			_ = s.caseRepo.Update(c)
+		}
+	}
+
 	// Trigger async SISE resolution if raw_claim_number is available
 	if claimSvc != nil && event.RawClaimNumber != "" {
 		claimSvc.ResolveEventAsync(event.ID.String())

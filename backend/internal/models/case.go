@@ -121,6 +121,7 @@ type Case struct {
 	CaseNumber       string         `                                                      json:"case_number,omitempty"`
 	Title            string         `gorm:"not null"                                       json:"title"`
 	Policy           string         `                                                      json:"policy,omitempty"`
+	Caratula         string         `gorm:"column:caratula"                                json:"caratula,omitempty"`
 	CaseType         CaseType       `gorm:"not null"                                       json:"case_type"`
 	ActionType       *ActionType    `gorm:"default:null"                                   json:"action_type,omitempty"`
 	Court            string         `                                                      json:"court,omitempty"`

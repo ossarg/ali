@@ -81,22 +81,26 @@ export default function CaseDetail() {
 
   return (
     <div className="space-y-6 pb-12">
-      {/* Header */}
-      <div className="flex items-start gap-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="p-2 hover:bg-[#e5e7eb] rounded-full transition-colors mt-1 text-[#455362]"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </button>
+      {/* Back */}
+      <button
+        onClick={() => navigate('/casos')}
+        className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Casos
+      </button>
 
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
-          <div className="flex items-center gap-3 mb-2 flex-wrap">
-            <span className="font-mono text-sm text-[#6b7280] bg-[#f7f8fa] px-2 py-1 rounded border border-[#e5e7eb]">
-              {displayId}
-            </span>
+          <div className="flex items-center gap-3 mb-1">
+            <h1 className="text-2xl font-bold text-gray-900">
+              {caso.caratula || caso.title}
+            </h1>
+          </div>
+          <div className="flex items-center gap-2 mt-1 flex-wrap">
             {caso.case_type && (
-              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#455362]/10 text-[#455362]">
+              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">
                 {CASE_TYPE_LABELS[caso.case_type] ?? caso.case_type}
               </span>
             )}
@@ -106,8 +110,6 @@ export default function CaseDetail() {
               </span>
             )}
           </div>
-
-          <h1 className="text-2xl font-semibold text-[#1a1a1a] mb-4">{caso.title}</h1>
 
           <div className="flex items-center flex-wrap gap-x-6 gap-y-2 text-sm text-[#455362] bg-white p-4 rounded-lg border border-[#e5e7eb] shadow-sm">
             {caso.incident_date && (

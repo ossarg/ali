@@ -21,6 +21,7 @@ type CaseResponse struct {
 	CaseNumber      string                 `json:"case_number,omitempty"`
 	Title           string                 `json:"title"`
 	Policy          string                 `json:"policy,omitempty"`
+	Caratula        string                 `json:"caratula,omitempty"`
 	CaseType        string                 `json:"case_type"`
 	ActionType      *string                `json:"action_type,omitempty"`
 	Court           string                 `json:"court,omitempty"`
@@ -58,6 +59,7 @@ func ToCaseResponse(c models.Case) CaseResponse {
 		CaseNumber:      c.CaseNumber,
 		Title:           c.Title,
 		Policy:          c.Policy,
+		Caratula:        c.Caratula,
 		CaseType:        c.CaseType.String(),
 		Court:           c.Court,
 		Tribunal:        c.Tribunal,
