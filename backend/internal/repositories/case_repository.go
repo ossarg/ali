@@ -29,6 +29,7 @@ type CaseRepository interface {
 	EventExistsByMailID(mailID string) (bool, error)
 	FindEventByID(id string) (*models.CaseEvent, error)
 	UpdateEvent(e *models.CaseEvent) error
+	DeleteEvent(id string) error
 	ListPendingEvents() ([]models.CaseEvent, error)
 	ListApprovedEvents() ([]models.CaseEvent, error)
 	ListApprovedEventsPaginated(offset, limit int) ([]models.CaseEvent, int64, error)
@@ -157,9 +158,24 @@ func (r *caseRepository) UpdateEvent(e *models.CaseEvent) error {
 	return r.db.Save(e).Error
 }
 
+// DeleteEvent: hard delete si no está aprobado, soft delete (deleted_at) si está aprobado.
+func (r *caseRepository) DeleteEvent(id string) error {
+	var e models.CaseEvent
+	if err := r.db.Where("id = ? AND deleted_at IS NULL", id).First(&e).Error; err != nil {
+		return err
+	}
+	approved := e.Approved != nil && *e.Approved
+	if approved {
+		now := time.Now()
+		e.DeletedAt = &now
+		return r.db.Save(&e).Error
+	}
+	return r.db.Delete(&e).Error
+}
+
 func (r *caseRepository) ListPendingEvents() ([]models.CaseEvent, error) {
 	var events []models.CaseEvent
-	err := r.db.Where("approved = false OR approved IS NULL").
+	err := r.db.Where("(approved = false OR approved IS NULL) AND deleted_at IS NULL").
 		Order("received_at DESC").
 		Find(&events).Error
 	return events, err
@@ -167,7 +183,7 @@ func (r *caseRepository) ListPendingEvents() ([]models.CaseEvent, error) {
 
 func (r *caseRepository) ListApprovedEvents() ([]models.CaseEvent, error) {
 	var events []models.CaseEvent
-	err := r.db.Where("approved = true").
+	err := r.db.Where("approved = true AND deleted_at IS NULL").
 		Order("reviewed_at DESC").
 		Find(&events).Error
 	return events, err
@@ -176,7 +192,7 @@ func (r *caseRepository) ListApprovedEvents() ([]models.CaseEvent, error) {
 func (r *caseRepository) ListApprovedEventsPaginated(offset, limit int) ([]models.CaseEvent, int64, error) {
 	var events []models.CaseEvent
 	var total int64
-	q := r.db.Model(&models.CaseEvent{}).Where("approved = true")
+	q := r.db.Model(&models.CaseEvent{}).Where("approved = true AND deleted_at IS NULL")
 	if err := q.Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
@@ -236,7 +252,7 @@ func (r *caseRepository) GetEventMetrics() (total, approved, pending, processed 
 
 func (r *caseRepository) ListEventsByCaseID(caseID string) ([]models.CaseEvent, error) {
 	var events []models.CaseEvent
-	err := r.db.Where("case_id = ?", caseID).
+	err := r.db.Where("case_id = ? AND deleted_at IS NULL", caseID).
 		Order("received_at DESC").
 		Find(&events).Error
 	return events, err

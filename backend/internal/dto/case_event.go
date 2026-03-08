@@ -161,3 +161,12 @@ func ToCaseEventResponse(e models.CaseEvent) CaseEventResponse {
 	}
 	return resp
 }
+
+// UpdateCaseEventRequest — campos editables de un case event existente.
+type UpdateCaseEventRequest struct {
+	MailType    *int16     `json:"mail_type"    validate:"omitempty,min=1,max=11"`
+	Title       string     `json:"title"`
+	Description string     `json:"description"`
+	BodyClean   string     `json:"body_clean"`
+	ReceivedAt  *time.Time `json:"received_at"`
+}

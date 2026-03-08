@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { caseEventKeys, caseEventsByCaseKey, caseEventService } from '../services/case.service';
-import type { RetryResolutionRequest, ReviewCaseEventRequest } from '../schemas/case.schemas';
+import type { RetryResolutionRequest, ReviewCaseEventRequest, UpdateCaseEventRequest } from '../schemas/case.schemas';
 
 export function useCaseEventMetrics() {
   return useQuery({
@@ -76,5 +76,26 @@ export function useCaseEvents(caseId: string) {
     queryKey: caseEventsByCaseKey.all(caseId),
     queryFn:  () => caseEventService.byCaseID(caseId),
     enabled:  !!caseId,
+  });
+}
+
+export function useUpdateCaseEvent() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, req }: { id: string; req: UpdateCaseEventRequest }) =>
+      caseEventService.update(id, req),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: caseEventKeys.all });
+    },
+  });
+}
+
+export function useDeleteCaseEvent() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => caseEventService.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: caseEventKeys.all });
+    },
   });
 }

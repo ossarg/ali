@@ -156,6 +156,9 @@ type CaseEvent struct {
 	ReceivedAt time.Time `gorm:"not null"               json:"received_at"`
 	CreatedAt  time.Time `                              json:"created_at"`
 
+	// Soft delete
+	DeletedAt *time.Time `gorm:"index"           json:"deleted_at,omitempty"`
+
 	// Review fields
 	Approved           *bool      `gorm:"default:false"   json:"approved,omitempty"`
 	OriginalMailType   *MailType  `gorm:"default:null"    json:"original_mail_type,omitempty"`

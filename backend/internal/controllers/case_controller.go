@@ -284,3 +284,41 @@ func (cc *CaseController) CreateEvent(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, resp)
 }
+
+// UpdateEvent godoc
+// @Summary      Edit a case event
+// @Tags         activity
+// @Accept       json
+// @Produce      json
+// @Param        id   path  string  true  "Event UUID"
+// @Success      200  {object}  dto.CaseEventResponse
+// @Router       /api/v1/activity/events/{id} [put]
+func (cc *CaseController) UpdateEvent(c echo.Context) error {
+	id := c.Param("id")
+	var req dto.UpdateCaseEventRequest
+	if err := c.Bind(&req); err != nil {
+		return apierrors.New(http.StatusBadRequest, "invalid request body")
+	}
+	if err := c.Validate(&req); err != nil {
+		return apierrors.New(http.StatusBadRequest, err.Error())
+	}
+	resp, err := cc.caseService.UpdateCaseEvent(id, req)
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, resp)
+}
+
+// DeleteEvent godoc
+// @Summary      Delete a case event (hard if pending, soft if approved)
+// @Tags         activity
+// @Param        id   path  string  true  "Event UUID"
+// @Success      204
+// @Router       /api/v1/activity/events/{id} [delete]
+func (cc *CaseController) DeleteEvent(c echo.Context) error {
+	id := c.Param("id")
+	if err := cc.caseService.DeleteCaseEvent(id); err != nil {
+		return err
+	}
+	return c.NoContent(http.StatusNoContent)
+}

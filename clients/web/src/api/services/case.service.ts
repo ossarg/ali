@@ -9,6 +9,7 @@ import type {
   PaginatedCaseEvents,
   RetryResolutionRequest,
   ReviewCaseEventRequest,
+  UpdateCaseEventRequest,
 } from '../schemas/case.schemas';
 import { API_ENDPOINTS } from '../utils';
 
@@ -75,6 +76,15 @@ export const caseEventService = {
   review: async (id: string, req: ReviewCaseEventRequest): Promise<CaseEvent> => {
     const response = await api.patch(API_ENDPOINTS.CASE_EVENTS.REVIEW(id), req);
     return CaseEventSchema.parse(response);
+  },
+
+  update: async (id: string, req: UpdateCaseEventRequest): Promise<CaseEvent> => {
+    const response = await api.put(API_ENDPOINTS.CASE_EVENTS.UPDATE(id), req);
+    return CaseEventSchema.parse(response);
+  },
+
+  delete: async (id: string): Promise<void> => {
+    await api.delete(API_ENDPOINTS.CASE_EVENTS.DELETE(id));
   },
 
   unresolved: async (): Promise<CaseEvent[]> => {

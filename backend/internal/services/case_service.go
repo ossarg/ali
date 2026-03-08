@@ -21,6 +21,8 @@ type CaseService interface {
 	GetEventMetrics() (*dto.CaseEventMetrics, error)
 	ListEventsByCaseID(caseID string) ([]dto.CaseEventResponse, error)
 	ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService) (*dto.CaseEventResponse, error)
+	UpdateCaseEvent(id string, req dto.UpdateCaseEventRequest) (*dto.CaseEventResponse, error)
+	DeleteCaseEvent(id string) error
 }
 
 type caseService struct {
@@ -298,4 +300,40 @@ func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCa
 
 	resp := dto.ToCaseEventResponse(*event)
 	return &resp, nil
+}
+
+func (s *caseService) UpdateCaseEvent(id string, req dto.UpdateCaseEventRequest) (*dto.CaseEventResponse, error) {
+	event, err := s.caseRepo.FindEventByID(id)
+	if err != nil || event == nil {
+		return nil, apierrors.ErrNotFound
+	}
+	if event.DeletedAt != nil {
+		return nil, apierrors.ErrNotFound
+	}
+
+	if req.MailType != nil {
+		event.MailType = models.MailType(*req.MailType)
+	}
+	if req.Title != "" {
+		event.Title = req.Title
+	}
+	if req.Description != "" {
+		event.Description = req.Description
+	}
+	if req.BodyClean != "" {
+		event.BodyClean = req.BodyClean
+	}
+	if req.ReceivedAt != nil {
+		event.ReceivedAt = *req.ReceivedAt
+	}
+
+	if err := s.caseRepo.UpdateEvent(event); err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	resp := dto.ToCaseEventResponse(*event)
+	return &resp, nil
+}
+
+func (s *caseService) DeleteCaseEvent(id string) error {
+	return s.caseRepo.DeleteEvent(id)
 }

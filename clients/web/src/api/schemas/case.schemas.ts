@@ -143,3 +143,12 @@ export type MailType = z.infer<typeof MailTypeSchema>;
 export type CaseEvent = z.infer<typeof CaseEventSchema>;
 export type CaseEventMetrics = z.infer<typeof CaseEventMetricsSchema>;
 export type ReviewCaseEventRequest = z.infer<typeof ReviewCaseEventRequestSchema>;
+
+export const UpdateCaseEventRequestSchema = z.object({
+  mail_type:   z.number().int().min(1).max(11).optional(),
+  title:       z.string().optional(),
+  description: z.string().optional(),
+  body_clean:  z.string().optional(),
+  received_at: z.string().optional(),
+});
+export type UpdateCaseEventRequest = z.infer<typeof UpdateCaseEventRequestSchema>;

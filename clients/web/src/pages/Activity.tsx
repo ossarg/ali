@@ -6,9 +6,11 @@ import {
   useCaseEventMetrics,
   usePendingEvents,
   useReviewEvent,
+  useUpdateCaseEvent,
+  useDeleteCaseEvent,
 } from '../api/hooks/useCaseEvents';
 import Pagination from '../components/Pagination';
-import type { CaseEvent, ReviewCaseEventRequest } from '../api/schemas/case.schemas';
+import type { CaseEvent, ReviewCaseEventRequest, UpdateCaseEventRequest } from '../api/schemas/case.schemas';
 
 // ─── Mail type labels ────────────────────────────────────────────────────────
 
@@ -219,15 +221,117 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
   );
 }
 
+// ─── Edit modal ───────────────────────────────────────────────────────────────
+
+interface EditModalProps {
+  event: CaseEvent;
+  onClose: () => void;
+}
+
+function EditModal({ event, onClose }: EditModalProps) {
+  const [mailType, setMailType]     = useState<string>(event.mail_type);
+  const [title, setTitle]           = useState(event.title ?? '');
+  const [description, setDescription] = useState(event.description ?? '');
+  const [receivedAt, setReceivedAt] = useState(
+    event.received_at ? format(new Date(event.received_at), "yyyy-MM-dd'T'HH:mm") : ''
+  );
+  const updateEvent = useUpdateCaseEvent();
+
+  const handleSave = () => {
+    const req: UpdateCaseEventRequest = {};
+    const typeNum = MAIL_TYPE_VALUES[mailType];
+    if (typeNum && typeNum !== MAIL_TYPE_VALUES[event.mail_type]) req.mail_type = typeNum;
+    if (title !== (event.title ?? ''))             req.title       = title;
+    if (description !== (event.description ?? '')) req.description = description;
+    if (receivedAt) req.received_at = new Date(receivedAt).toISOString();
+
+    updateEvent.mutate({ id: event.id, req }, { onSuccess: onClose });
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-5">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-800">Editar evento</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">✕</button>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Tipo</label>
+            <select
+              value={mailType}
+              onChange={e => setMailType(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              {Object.entries(MAIL_TYPE_LABELS).map(([key, label]) => (
+                <option key={key} value={key}>{label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Título</label>
+            <input
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Descripción</label>
+            <textarea
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              rows={3}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Fecha de recepción</label>
+            <input
+              type="datetime-local"
+              value={receivedAt}
+              onChange={e => setReceivedAt(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+        </div>
+
+        {updateEvent.error && (
+          <p className="text-sm text-red-500">Error al guardar</p>
+        )}
+
+        <div className="flex gap-3 justify-end">
+          <button onClick={onClose} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
+            Cancelar
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={updateEvent.isPending}
+            className="px-4 py-2 text-sm rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50"
+          >
+            {updateEvent.isPending ? 'Guardando...' : 'Guardar cambios'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Event table ──────────────────────────────────────────────────────────────
 
 interface EventTableProps {
   events: CaseEvent[];
   showActions?: boolean;
   onReview?: (event: CaseEvent) => void;
+  onEdit?: (event: CaseEvent) => void;
+  onDelete?: (event: CaseEvent) => void;
 }
 
-function EventTable({ events, showActions, onReview }: EventTableProps) {
+function EventTable({ events, showActions, onReview, onEdit, onDelete }: EventTableProps) {
   if (events.length === 0) {
     return (
       <p className="text-sm text-gray-400 py-6 text-center">
@@ -290,12 +394,48 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
               )}
               {showActions && (
                 <td className="py-3 text-right">
-                  <button
-                    onClick={() => onReview?.(event)}
-                    className="px-3 py-1.5 text-xs rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
-                  >
-                    Revisar
-                  </button>
+                  <div className="flex gap-1.5 justify-end">
+                    <button
+                      onClick={() => onReview?.(event)}
+                      className="px-3 py-1.5 text-xs rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                    >
+                      Revisar
+                    </button>
+                    <button
+                      onClick={() => onEdit?.(event)}
+                      className="px-3 py-1.5 text-xs rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => onDelete?.(event)}
+                      className="px-3 py-1.5 text-xs rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </td>
+              )}
+              {!showActions && (onEdit || onDelete) && (
+                <td className="py-3 text-right">
+                  <div className="flex gap-1.5 justify-end">
+                    {onEdit && (
+                      <button
+                        onClick={() => onEdit(event)}
+                        className="px-3 py-1.5 text-xs rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        Editar
+                      </button>
+                    )}
+                    {onDelete && (
+                      <button
+                        onClick={() => onDelete(event)}
+                        className="px-3 py-1.5 text-xs rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        Eliminar
+                      </button>
+                    )}
+                  </div>
                 </td>
               )}
             </tr>
@@ -309,9 +449,11 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Activity() {
-  const [pendingOpen, setPendingOpen] = useState(false);
+  const [pendingOpen, setPendingOpen]   = useState(false);
   const [reviewTarget, setReviewTarget] = useState<CaseEvent | null>(null);
+  const [editTarget, setEditTarget]     = useState<CaseEvent | null>(null);
   const [approvedPage, setApprovedPage] = useState(1);
+  const deleteCaseEvent = useDeleteCaseEvent();
 
   const { data: metrics, isLoading: metricsLoading } = useCaseEventMetrics();
   const { data: approvedData, isLoading: approvedLoading } = useApprovedEventsPaginated(approvedPage, 10);
@@ -378,6 +520,8 @@ export default function Activity() {
               events={pending}
               showActions
               onReview={e => setReviewTarget(e)}
+              onEdit={e => setEditTarget(e)}
+              onDelete={e => { if (window.confirm('¿Eliminar este evento?')) deleteCaseEvent.mutate(e.id); }}
             />
           )}
         </div>
@@ -394,7 +538,11 @@ export default function Activity() {
           </p>
         ) : (
           <>
-            <EventTable events={approved} />
+            <EventTable
+              events={approved}
+              onEdit={e => setEditTarget(e)}
+              onDelete={e => { if (window.confirm('Este evento está aprobado. ¿Eliminarlo de todas formas? (se marcará como eliminado)')) deleteCaseEvent.mutate(e.id); }}
+            />
             <Pagination page={approvedPage} limit={10} total={approvedData?.total ?? 0} onChange={setApprovedPage} />
           </>
         )}
@@ -405,6 +553,14 @@ export default function Activity() {
         <ReviewModal
           event={reviewTarget}
           onClose={() => setReviewTarget(null)}
+        />
+      )}
+
+      {/* Edit modal */}
+      {editTarget && (
+        <EditModal
+          event={editTarget}
+          onClose={() => setEditTarget(null)}
         />
       )}
     </div>
