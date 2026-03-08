@@ -173,6 +173,8 @@ func (s *caseService) CreateEvent(req dto.CreateCaseEventRequest) (*dto.CaseEven
 		MailType:       mailType,
 		Confidence:     req.Confidence,
 		Reasoning:      req.Reasoning,
+		Title:          req.Title,
+		Description:    req.Description,
 		RawClaimNumber: req.RawClaimNumber,
 		RawPolicy:      req.RawPolicy,
 		RawCaseNumber:  req.RawCaseNumber,

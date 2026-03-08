@@ -282,13 +282,18 @@ export default function CaseDetail() {
                         <span className="text-xs text-green-600 font-medium">✓ Aprobado</span>
                       )}
                     </div>
-                    {event.subject && (
+                    {event.title && (
+                      <p className="text-sm font-medium text-[#1a1a1a] mb-1">{event.title}</p>
+                    )}
+                    {event.description && (
+                      <p className="text-sm text-[#455362] bg-[#f7f8fa] p-3 rounded border border-[#e5e7eb]">
+                        {event.description}
+                      </p>
+                    )}
+                    {!event.description && event.subject && (
                       <p className="text-sm text-[#455362] bg-[#f7f8fa] p-3 rounded border border-[#e5e7eb] truncate">
                         {event.subject}
                       </p>
-                    )}
-                    {event.reasoning && (
-                      <p className="text-xs text-gray-400 italic mt-1">{event.reasoning}</p>
                     )}
                   </div>
                 ))}

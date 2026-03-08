@@ -93,6 +93,8 @@ export const CaseEventSchema = z.object({
   mail_type: z.string(),
   confidence: z.number(),
   reasoning: z.string().optional(),
+  title: z.string().optional(),
+  description: z.string().optional(),
   raw_claim_number: z.string().optional(),
   raw_policy: z.string().optional(),
   raw_case_number: z.string().optional(),

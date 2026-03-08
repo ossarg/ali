@@ -79,6 +79,9 @@ type CaseEvent struct {
 	RawCaseNumber  string `gorm:"type:varchar(100)" json:"raw_case_number,omitempty"`
 	RawCaratula    string `gorm:"type:varchar(500)" json:"raw_caratula,omitempty"`
 
+	Title       string `gorm:"type:varchar(200)"      json:"title,omitempty"`
+	Description string `gorm:"type:text"              json:"description,omitempty"`
+
 	Processed  bool      `gorm:"not null;default:false" json:"processed"`
 	ReceivedAt time.Time `gorm:"not null"               json:"received_at"`
 	CreatedAt  time.Time `                              json:"created_at"`

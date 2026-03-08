@@ -253,11 +253,14 @@ function EventTable({ events, showActions, onReview }: EventTableProps) {
         <tbody className="divide-y divide-gray-50">
           {events.map(event => (
             <tr key={event.id} className="hover:bg-gray-50 transition-colors">
-              <td className="py-3 pr-8 min-w-0">
+              <td className="py-3 pr-8 min-w-0 max-w-xs">
                 <div className="font-medium text-gray-800 truncate">
-                  {event.subject || event.mail_id}
+                  {event.title || event.subject || event.mail_id}
                 </div>
-                {event.subject && (
+                {event.description && (
+                  <div className="text-xs text-gray-400 truncate mt-0.5">{event.description}</div>
+                )}
+                {!event.description && event.subject && (
                   <div className="text-xs text-gray-400 truncate">{event.mail_id}</div>
                 )}
               </td>
