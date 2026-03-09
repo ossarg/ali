@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Search, ChevronRight, Loader2, AlertCircle, Building2 } from 'lucide-react';
+import PageHeader from '../components/PageHeader';
 import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
@@ -31,24 +32,23 @@ export default function Cases() {
   const casos = data?.data ?? [];
 
   return (
-    <div className="space-y-6 h-full flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between shrink-0">
-        <h1 className="text-2xl font-semibold text-[#1a1a1a]">Casos</h1>
-
-        <div className="flex items-center gap-3">
+    <div className="max-w-7xl mx-auto space-y-8 h-full flex flex-col">
+      <PageHeader
+        title="Casos Activos"
+        subtitle="Gestiona y supervisa el estado de todos los litigios."
+        actions={
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280]" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-tertiary)]" />
             <input
               type="text"
               placeholder="Buscar por carátula, siniestro..."
               value={searchQuery}
               onChange={e => { setSearchQuery(e.target.value); setPage(1); }}
-              className="pl-9 pr-4 py-2 bg-white border border-[#e5e7eb] rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#eb5d2a]/20 focus:border-[#eb5d2a] w-72"
+              className="pl-9 pr-4 py-2 bg-[var(--color-surface-bg)] border border-[var(--color-border-dim)] rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-border-focus)] w-72 transition-colors"
             />
           </div>
-        </div>
-      </div>
+        }
+      />
 
       {/* Content */}
       <div className="flex-1 overflow-hidden flex flex-col">

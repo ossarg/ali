@@ -1,11 +1,39 @@
 import { useState } from 'react';
 import { type Stage } from '../data/mockData';
-import { LayoutGrid, List, Search, Filter, Clock, Download, AlertCircle, Loader2 } from 'lucide-react';
+import { LayoutGrid, List, Search, Filter, Clock, AlertCircle, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { useCasesPaginated } from '../api/hooks/useCases';
 import Pagination from '../components/Pagination';
+import PageHeader from '../components/PageHeader';
+
+const STAGE_CONFIG: Record<Stage, { bar: string; headerBg: string; badge: string; agent: string }> = {
+  'Ingesta':         { bar: 'bg-violet-400', headerBg: 'bg-violet-50 dark:bg-violet-500/10',   badge: 'bg-violet-500 text-white',  agent: 'Rachel' },
+  'Extracción':      { bar: 'bg-pink-400',   headerBg: 'bg-pink-50 dark:bg-pink-500/10',       badge: 'bg-pink-500 text-white',    agent: 'Donna'  },
+  'Triage':          { bar: 'bg-blue-400',   headerBg: 'bg-blue-50 dark:bg-blue-500/10',       badge: 'bg-blue-500 text-white',    agent: 'Mike'   },
+  'Fichero':         { bar: 'bg-amber-400',  headerBg: 'bg-amber-50 dark:bg-amber-500/10',     badge: 'bg-amber-500 text-white',   agent: 'Edu'    },
+  'Borrador':        { bar: 'bg-emerald-400',headerBg: 'bg-emerald-50 dark:bg-emerald-500/10', badge: 'bg-emerald-500 text-white', agent: 'Jess'   },
+  'Revisión Humana': { bar: 'bg-red-400',    headerBg: 'bg-red-50 dark:bg-red-500/10',         badge: 'bg-red-500 text-white',     agent: ''       },
+  'Completado':      { bar: 'bg-green-400',  headerBg: 'bg-green-50 dark:bg-green-500/10',     badge: 'bg-green-500 text-white',   agent: ''       },
+};
+
+const PRIORITY_BADGE: Record<string, string> = {
+  'Alta':  'bg-red-100 dark:bg-red-500/20 text-red-600',
+  'Media': 'bg-amber-100 dark:bg-amber-500/20 text-amber-600',
+  'Baja':  'bg-green-100 dark:bg-green-500/20 text-green-700',
+};
+
+function formatAmount(amount: number): string {
+  if (!amount) return '—';
+  if (amount >= 1_000_000) return `ARS ${(amount / 1_000_000).toFixed(1)}M`;
+  if (amount >= 1_000) return `ARS ${(amount / 1_000).toFixed(0)}K`;
+  return `ARS ${amount}`;
+}
+
+function isDeadlineUrgent(dateStr: string): boolean {
+  return (new Date(dateStr).getTime() - Date.now()) / (1000 * 60 * 60 * 24) < 3;
+}
 
 export default function Contestaciones() {
   const [view, setView] = useState<'pipeline' | 'table'>('pipeline');
@@ -18,7 +46,6 @@ export default function Contestaciones() {
   const { data, isLoading, isError } = useCasesPaginated(page, 10, searchQuery ? { search: searchQuery } : undefined);
   const casos = data?.data ?? [];
 
-  // Map backend pipeline_stage → display stage (Spanish)
   const stageMap: Record<string, Stage> = {
     ingesta:    'Ingesta',
     extraccion: 'Extracción',
@@ -33,176 +60,197 @@ export default function Contestaciones() {
     title:    c.title,
     amount:   c.estimated_amount || 0,
     priority: 'Baja' as string,
-    stage:    (c.pipeline_stage ? stageMap[c.pipeline_stage] : null) ?? 'Ingesta',
+    stage:    (c.pipeline_stage ? stageMap[c.pipeline_stage] : null) ?? 'Ingesta' as Stage,
     deadline: c.updated_at,
     lawyerId: c.assigned_user?.id || null,
-    dataExtraction: { fields: { 'Tipo de Siniestro': { value: c.action_type || c.case_type || 'N/A' } } }
+    tipo:     c.action_type || c.case_type || '',
   }));
 
   return (
-    <div className="space-y-6 h-full flex flex-col">
-      {/* Header & Controls */}
-      <div className="flex items-center justify-between shrink-0">
-        <h1 className="text-2xl font-semibold text-[#1a1a1a]">Contestaciones</h1>
-        
-        <div className="flex items-center gap-4">
-          <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280]" />
-            <input 
-              type="text" 
-              placeholder="Buscar casos..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 pr-4 py-2 bg-white border border-[#e5e7eb] rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#eb5d2a]/20 focus:border-[#eb5d2a] w-64"
-            />
+    <div className="flex flex-col h-full space-y-6">
+      <PageHeader
+        title="Contestaciones"
+        subtitle="Pipeline de litigación · todas las etapas del proceso"
+        actions={
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-tertiary)]" />
+              <input
+                type="text"
+                placeholder="Buscar casos..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 pr-4 py-2 bg-[var(--color-surface-card)] border border-[var(--color-border-dim)] rounded-lg text-sm focus:outline-none focus:border-[var(--color-border-focus)] w-56 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] transition-colors"
+              />
+            </div>
+
+            <button className="flex items-center gap-2 px-3 py-2 bg-[var(--color-surface-card)] border border-[var(--color-border-dim)] rounded-lg text-sm font-medium text-[var(--color-text-secondary)] hover:border-[var(--color-border-focus)] transition-colors">
+              <Filter className="w-4 h-4" />
+              Filtros
+            </button>
+
+            <div className="flex items-center bg-[var(--color-surface-bg)] border border-[var(--color-border-dim)] rounded-lg p-1">
+              <button
+                onClick={() => setView('pipeline')}
+                className={cn('p-1.5 rounded transition-colors', view === 'pipeline' ? 'bg-[var(--color-surface-card)] shadow-sm text-[var(--color-text-primary)]' : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)]')}
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setView('table')}
+                className={cn('p-1.5 rounded transition-colors', view === 'table' ? 'bg-[var(--color-surface-card)] shadow-sm text-[var(--color-text-primary)]' : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)]')}
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-          
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-[#e5e7eb] rounded-md text-sm font-medium text-[#455362] hover:bg-[#f7f8fa] transition-colors">
-            <Filter className="w-4 h-4" />
-            Filtros
-          </button>
+        }
+      />
 
-          {view === 'table' && (
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-[#e5e7eb] rounded-md text-sm font-medium text-[#455362] hover:bg-[#f7f8fa] transition-colors">
-              <Download className="w-4 h-4" />
-              Exportar
-            </button>
-          )}
-
-          <div className="flex items-center bg-[#f7f8fa] border border-[#e5e7eb] rounded-md p-1">
-            <button 
-              onClick={() => setView('pipeline')}
-              className={cn(
-                "p-1.5 rounded text-sm font-medium transition-colors",
-                view === 'pipeline' ? "bg-white shadow-sm text-[#1a1a1a]" : "text-[#6b7280] hover:text-[#1a1a1a]"
-              )}
-            >
-              <LayoutGrid className="w-4 h-4" />
-            </button>
-            <button 
-              onClick={() => setView('table')}
-              className={cn(
-                "p-1.5 rounded text-sm font-medium transition-colors",
-                view === 'table' ? "bg-white shadow-sm text-[#1a1a1a]" : "text-[#6b7280] hover:text-[#1a1a1a]"
-              )}
-            >
-              <List className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Content Area */}
-      <div className="flex-1 overflow-hidden">
+      {/* Content */}
+      <div className="flex-1 min-h-0 overflow-hidden">
         {isLoading && (
-          <div className="flex items-center justify-center h-full text-[#6b7280]">
-            <Loader2 className="w-6 h-6 animate-spin mr-2" /> Cargando casos...
+          <div className="flex items-center justify-center h-full text-[var(--color-text-tertiary)]">
+            <Loader2 className="w-5 h-5 animate-spin mr-2" /> Cargando casos...
           </div>
         )}
         {isError && (
-          <div className="flex items-center justify-center h-full text-[#ef4444] gap-2">
+          <div className="flex items-center justify-center h-full gap-2 text-red-500">
             <AlertCircle className="w-5 h-5" /> No se pudieron cargar los casos. Intentá de nuevo.
           </div>
         )}
-        {!isLoading && !isError && (view === 'pipeline' ? (
-          <div className="flex gap-6 h-full overflow-x-auto pb-4">
-            {stages.map(stage => {
-              const stageCases = filteredCases.filter(c => c.stage === stage);
-              return (
-                <div key={stage} className="w-80 flex flex-col bg-[#f7f8fa] rounded-lg border border-[#e5e7eb] shrink-0">
-                  <div className="p-4 border-b border-[#e5e7eb] flex items-center justify-between bg-white rounded-t-lg">
-                    <h3 className="font-semibold text-[#455362]">{stage}</h3>
-                    <span className="text-xs font-semibold text-[#6b7280] bg-[#e5e7eb] px-2.5 py-1 rounded-full">{stageCases.length}</span>
-                  </div>
-                  <div className="p-3 flex-1 overflow-y-auto space-y-3">
-                    {stageCases.map(c => (
-                      <Link 
-                        key={c.id} 
-                        to={`/casos/${c.id}`}
-                        className="block bg-white p-4 rounded-md border border-[#e5e7eb] shadow-sm hover:border-[#eb5d2a]/50 transition-colors group"
-                      >
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="text-xs font-mono text-[#6b7280]">{c.id}</span>
-                          <span className={cn(
-                            "text-xs font-medium px-2 py-0.5 rounded-full",
-                            c.priority === 'Alta' ? 'bg-[#ef4444]/10 text-[#ef4444]' : 
-                            c.priority === 'Media' ? 'bg-[#eab308]/10 text-[#eab308]' : 
-                            'bg-[#22c55e]/10 text-[#22c55e]'
-                          )}>
-                            {c.priority}
-                          </span>
-                        </div>
-                        <h4 className="text-sm font-semibold text-[#1a1a1a] line-clamp-2 mb-3 group-hover:text-[#eb5d2a] transition-colors" title={c.title}>
-                          {c.title}
-                        </h4>
-                        
-                        <div className="space-y-2 mb-4">
-                          <div className="flex justify-between text-xs">
-                            <span className="text-[#6b7280]">Monto:</span>
-                            <span className="font-medium text-[#1a1a1a]">
-                              {new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(c.amount)}
-                            </span>
-                          </div>
-                          <div className="flex justify-between text-xs">
-                            <span className="text-[#6b7280]">Siniestro:</span>
-                            <span className="font-medium text-[#1a1a1a] truncate ml-2 text-right">
-                              {c.dataExtraction.fields['Tipo de Siniestro']?.value || 'N/A'}
-                            </span>
-                          </div>
-                        </div>
 
-                        <div className="pt-3 border-t border-[#e5e7eb] flex items-center justify-between text-xs text-[#6b7280]">
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5" /> 
-                            Vence: {format(new Date(c.deadline), 'dd/MM/yyyy')}
-                          </span>
-                          {c.lawyerId && (
-                            <div className="w-6 h-6 rounded-full bg-[#455362] text-white flex items-center justify-center text-[10px] font-bold" title="Asignado">
-                              L
-                            </div>
-                          )}
+        {!isLoading && !isError && (view === 'pipeline' ? (
+          /* ── PIPELINE VIEW ── */
+          <div className="h-full bg-[var(--color-surface-card)] border border-[var(--color-border-dim)] rounded-xl overflow-hidden">
+            <div className="flex divide-x divide-[var(--color-border-dim)] h-full overflow-x-auto">
+              {stages.map(stage => {
+                const stageCases = filteredCases.filter(c => c.stage === stage);
+                const cfg = STAGE_CONFIG[stage];
+                return (
+                  <div key={stage} className="flex flex-col min-w-[182px] flex-1">
+                    {/* Column header */}
+                    <div className={cn('relative px-3 py-2.5 border-b border-[var(--color-border-dim)] shrink-0', cfg.headerBg)}>
+                      <div className={cn('absolute inset-x-0 top-0 h-[3px]', cfg.bar)} />
+                      <div className="flex items-center justify-between mt-0.5">
+                        <span className="text-xs font-semibold text-[var(--color-text-primary)] truncate pr-1">
+                          {stage}
+                        </span>
+                        <span className={cn(
+                          'text-[10px] font-bold min-w-[20px] h-5 rounded-full flex items-center justify-center px-1.5 shrink-0',
+                          stageCases.length > 0 ? cfg.badge : 'bg-[var(--color-surface-card)] text-[var(--color-text-tertiary)] border border-[var(--color-border-dim)]'
+                        )}>
+                          {stageCases.length}
+                        </span>
+                      </div>
+                      {cfg.agent && (
+                        <p className="text-[10px] text-[var(--color-text-tertiary)] mt-0.5">{cfg.agent}</p>
+                      )}
+                    </div>
+
+                    {/* Cards */}
+                    <div className="flex-1 overflow-y-auto p-2 space-y-1.5 bg-[var(--color-surface-bg)]/60">
+                      {stageCases.length === 0 ? (
+                        <div className="flex items-center justify-center py-8 opacity-30">
+                          <span className="text-sm text-[var(--color-text-tertiary)]">—</span>
                         </div>
-                      </Link>
-                    ))}
+                      ) : (
+                        stageCases.map(caso => {
+                          const urgent = isDeadlineUrgent(caso.deadline);
+                          return (
+                            <Link
+                              key={caso.id}
+                              to={`/casos/${caso.id}`}
+                              className="block p-2.5 rounded-lg bg-[var(--color-surface-card)] border border-[var(--color-border-dim)] hover:border-[var(--color-border-focus)] transition-all group shadow-sm"
+                            >
+                              {/* Priority + short ID */}
+                              <div className="flex items-center justify-between mb-1.5">
+                                <span className={cn('text-[9px] font-semibold px-1.5 py-0.5 rounded-full uppercase tracking-wide', PRIORITY_BADGE[caso.priority])}>
+                                  {caso.priority}
+                                </span>
+                                <span className="text-[9px] text-[var(--color-text-tertiary)] font-mono">
+                                  #{caso.id.slice(-6)}
+                                </span>
+                              </div>
+
+                              {/* Title */}
+                              <p className="text-[11px] font-semibold text-[var(--color-text-primary)] line-clamp-2 leading-snug mb-2 group-hover:text-[var(--color-brand-primary)] transition-colors">
+                                {caso.title}
+                              </p>
+
+                              {/* Amount */}
+                              <p className="text-xs font-bold text-[var(--color-text-primary)]">
+                                {formatAmount(caso.amount)}
+                              </p>
+
+                              {/* Tipo */}
+                              {caso.tipo && (
+                                <p className="text-[10px] text-[var(--color-text-tertiary)] mt-0.5 capitalize truncate">
+                                  {caso.tipo}
+                                </p>
+                              )}
+
+                              {/* Deadline */}
+                              <div className="flex items-center gap-1 mt-1.5">
+                                <Clock className={cn('w-2.5 h-2.5 shrink-0', urgent ? 'text-red-500' : 'text-[var(--color-text-tertiary)]')} />
+                                <span className={cn('text-[9px]', urgent ? 'text-red-500 font-semibold' : 'text-[var(--color-text-tertiary)]')}>
+                                  {format(new Date(caso.deadline), 'dd/MM/yyyy')}
+                                </span>
+                              </div>
+                            </Link>
+                          );
+                        })
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         ) : (
-          <div className="bg-white rounded-lg border border-[#e5e7eb] shadow-sm overflow-hidden h-full flex flex-col">
+          /* ── TABLE VIEW ── */
+          <div className="h-full bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-dim)] overflow-hidden flex flex-col">
             <div className="overflow-x-auto flex-1">
               <table className="w-full text-left text-sm">
-                <thead className="bg-[#f7f8fa] text-[#455362] font-semibold border-b border-[#e5e7eb] sticky top-0">
+                <thead className="bg-[var(--color-surface-bg)] border-b border-[var(--color-border-dim)] sticky top-0">
                   <tr>
-                    <th className="px-6 py-4">ID</th>
-                    <th className="px-6 py-4">Carátula</th>
-                    <th className="px-6 py-4">Monto</th>
-                    <th className="px-6 py-4">Prioridad</th>
-                    <th className="px-6 py-4">Etapa</th>
-                    <th className="px-6 py-4">Vencimiento</th>
+                    {['ID', 'Carátula', 'Monto', 'Prioridad', 'Etapa', 'Vencimiento'].map(h => (
+                      <th key={h} className="px-6 py-3.5 text-xs font-semibold text-[var(--color-text-tertiary)] uppercase tracking-wider">
+                        {h}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#e5e7eb]">
+                <tbody className="divide-y divide-[var(--color-border-dim)]">
                   {filteredCases.map(c => (
-                    <tr key={c.id} className="hover:bg-[#f7f8fa] transition-colors cursor-pointer" onClick={() => navigate(`/casos/${c.id}`)}>
-                      <td className="px-6 py-4 font-mono text-xs text-[#6b7280]">{c.id}</td>
-                      <td className="px-6 py-4 font-medium text-[#1a1a1a] max-w-md truncate">{c.title}</td>
-                      <td className="px-6 py-4 text-[#455362]">
-                        {new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(c.amount)}
+                    <tr
+                      key={c.id}
+                      className="hover:bg-[var(--color-surface-bg)] transition-colors cursor-pointer"
+                      onClick={() => navigate(`/casos/${c.id}`)}
+                    >
+                      <td className="px-6 py-3.5 font-mono text-xs text-[var(--color-text-tertiary)]">
+                        #{c.id.slice(-8)}
                       </td>
-                      <td className="px-6 py-4">
-                         <span className={cn(
-                            "text-xs font-medium px-2.5 py-1 rounded-full",
-                            c.priority === 'Alta' ? 'bg-[#ef4444]/10 text-[#ef4444]' : 
-                            c.priority === 'Media' ? 'bg-[#eab308]/10 text-[#eab308]' : 
-                            'bg-[#22c55e]/10 text-[#22c55e]'
-                          )}>
-                            {c.priority}
-                          </span>
+                      <td className="px-6 py-3.5 font-medium text-[var(--color-text-primary)] max-w-xs truncate">
+                        {c.title}
                       </td>
-                      <td className="px-6 py-4 text-[#455362]">{c.stage}</td>
-                      <td className="px-6 py-4 text-[#455362]">{format(new Date(c.deadline), 'dd/MM/yyyy')}</td>
+                      <td className="px-6 py-3.5 text-[var(--color-text-secondary)]">
+                        {formatAmount(c.amount)}
+                      </td>
+                      <td className="px-6 py-3.5">
+                        <span className={cn('text-xs font-medium px-2 py-0.5 rounded-full', PRIORITY_BADGE[c.priority])}>
+                          {c.priority}
+                        </span>
+                      </td>
+                      <td className="px-6 py-3.5">
+                        <div className="flex items-center gap-1.5">
+                          <div className={cn('w-1.5 h-1.5 rounded-full shrink-0', STAGE_CONFIG[c.stage]?.bar ?? 'bg-gray-400')} />
+                          <span className="text-[var(--color-text-secondary)]">{c.stage}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-3.5 text-[var(--color-text-secondary)]">
+                        {format(new Date(c.deadline), 'dd/MM/yyyy')}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -211,9 +259,8 @@ export default function Contestaciones() {
           </div>
         ))}
       </div>
-      <div className="px-2">
-        <Pagination page={page} limit={10} total={data?.total ?? 0} onChange={setPage} />
-      </div>
+
+      <Pagination page={page} limit={10} total={data?.total ?? 0} onChange={setPage} />
     </div>
   );
 }

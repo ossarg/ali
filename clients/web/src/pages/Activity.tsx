@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { format } from 'date-fns';
+import PageHeader from '../components/PageHeader';
 import { formatMetricTime, formatTableTime } from '../lib/formatTime';
 import {
   useApprovedEventsPaginated,
@@ -38,10 +39,10 @@ const MAIL_TYPE_VALUES: Record<string, number> = {
 
 function MetricCard({ label, value, sub }: { label: string; value: number | string; sub?: string }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-1">
-      <span className="text-sm text-gray-500">{label}</span>
-      <span className="text-3xl font-bold text-gray-900">{value}</span>
-      {sub && <span className="text-xs text-gray-400">{sub}</span>}
+    <div className="bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-dim)] p-5 flex flex-col gap-1">
+      <span className="text-sm text-[var(--color-text-secondary)]">{label}</span>
+      <span className="text-3xl font-semibold text-[var(--color-text-primary)]">{value}</span>
+      {sub && <span className="text-xs text-[var(--color-text-tertiary)]">{sub}</span>}
     </div>
   );
 }
@@ -51,10 +52,10 @@ function ConfidenceBar({ value }: { value: number }) {
   const color = pct >= 80 ? 'bg-green-500' : pct >= 60 ? 'bg-yellow-400' : 'bg-red-400';
   return (
     <div className="flex items-center gap-2">
-      <div className="h-1.5 w-20 rounded-full bg-gray-200 overflow-hidden">
+      <div className="h-1.5 w-20 rounded-full bg-[var(--color-border-dim)] overflow-hidden">
         <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
       </div>
-      <span className="text-xs text-gray-500">{pct}%</span>
+      <span className="text-xs text-[var(--color-text-tertiary)]">{pct}%</span>
     </div>
   );
 }
@@ -69,11 +70,11 @@ interface ReviewModalProps {
 function IdentifierField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs text-gray-500 w-28 shrink-0">{label}</span>
+      <span className="text-xs text-[var(--color-text-tertiary)] w-28 shrink-0">{label}</span>
       <input
         value={value}
         onChange={e => onChange(e.target.value)}
-        className="flex-1 border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400"
+        className="flex-1 border border-[var(--color-border-dim)] bg-[var(--color-surface-bg)] rounded px-2 py-1 text-sm text-[var(--color-text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--color-border-focus)]"
         placeholder="—"
       />
     </div>
@@ -109,37 +110,37 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 p-6 flex flex-col gap-4">
+      <div className="bg-[var(--color-surface-card)] rounded-2xl shadow-xl w-full max-w-lg mx-4 p-6 flex flex-col gap-4">
         <div className="flex justify-between items-start">
-          <h3 className="text-lg font-semibold text-gray-900">Revisar clasificación</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">×</button>
+          <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">Revisar clasificación</h3>
+          <button onClick={onClose} className="text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] text-xl leading-none">×</button>
         </div>
 
         {/* Mail info */}
-        <div className="text-sm text-gray-600 space-y-1 bg-gray-50 rounded-lg p-3">
-          {event.subject && <p className="font-medium text-gray-800 text-xs leading-snug">{event.subject}</p>}
-          <div className="flex items-center gap-3 text-xs text-gray-400">
+        <div className="text-sm text-[var(--color-text-secondary)] space-y-1 bg-[var(--color-surface-bg)] rounded-lg p-3">
+          {event.subject && <p className="font-medium text-[var(--color-text-primary)] text-xs leading-snug">{event.subject}</p>}
+          <div className="flex items-center gap-3 text-xs text-[var(--color-text-tertiary)]">
             <span>{event.mail_id}</span>
             <span>·</span>
-            <span>Recibido: <span className="font-medium text-gray-500">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}</span></span>
+            <span>Recibido: <span className="font-medium text-[var(--color-text-secondary)]">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm')}</span></span>
           </div>
           <p className="mt-1">
             <span className="font-medium">Rachel clasificó:</span>{' '}
-            <span className="font-semibold text-indigo-600">
+            <span className="font-semibold text-[var(--color-brand-primary)]">
               {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
             </span>
             {' '}({Math.round(event.confidence * 100)}% confianza)
           </p>
-          {event.reasoning && <p className="text-xs text-gray-400 italic">{event.reasoning}</p>}
+          {event.reasoning && <p className="text-xs text-[var(--color-text-tertiary)] italic">{event.reasoning}</p>}
         </div>
 
         {/* Tipo */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Tipo correcto</label>
+          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-1">Tipo correcto</label>
           <select
             value={selectedType}
             onChange={e => setSelectedType(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full border border-[var(--color-border-dim)] bg-[var(--color-surface-bg)] text-[var(--color-text-primary)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-border-focus)]"
           >
             {Object.entries(MAIL_TYPE_LABELS).map(([key, label]) => (
               <option key={key} value={key}>{label}</option>
@@ -149,23 +150,23 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
 
         {/* Identificadores */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
             Identificadores
-            <span className="text-xs text-gray-400 font-normal ml-1">— corregí lo que Rachel haya extraído mal o dejado vacío</span>
+            <span className="text-xs text-[var(--color-text-tertiary)] font-normal ml-1">— corregí lo que Rachel haya extraído mal o dejado vacío</span>
           </label>
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-gray-700 w-28 shrink-0">
+              <span className="text-xs font-medium text-[var(--color-text-primary)] w-28 shrink-0">
                 Nro. siniestro <span className="text-red-500">*</span>
               </span>
               <input
                 value={claimNumber}
                 onChange={e => setClaimNumber(e.target.value)}
                 placeholder="Ej: 123456"
-                className={`flex-1 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 ${
+                className={`flex-1 border rounded px-2 py-1 text-sm text-[var(--color-text-primary)] bg-[var(--color-surface-bg)] focus:outline-none focus:ring-1 ${
                   claimNumber.trim() === ''
                     ? 'border-red-300 bg-red-50 focus:ring-red-400'
-                    : 'border-gray-200 focus:ring-indigo-400'
+                    : 'border-[var(--color-border-dim)] focus:ring-[var(--color-border-focus)]'
                 }`}
               />
             </div>
@@ -180,7 +181,7 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
 
         {/* Comentario */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-1">
             Comentario {isChanging && <span className="text-red-500">*</span>}
           </label>
           <textarea
@@ -188,7 +189,7 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
             onChange={e => setComment(e.target.value)}
             rows={2}
             placeholder={isChanging ? 'Explicá por qué cambiás la clasificación...' : 'Opcional — dejá una nota para Rachel'}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            className="w-full border border-[var(--color-border-dim)] bg-[var(--color-surface-bg)] text-[var(--color-text-primary)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-border-focus)] resize-none"
           />
         </div>
 
@@ -197,13 +198,13 @@ function ReviewModal({ event, onClose }: ReviewModalProps) {
         )}
 
         <div className="flex gap-3 justify-end">
-          <button onClick={onClose} className="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
+          <button onClick={onClose} className="px-4 py-2 text-sm rounded-lg border border-[var(--color-border-dim)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-bg)]">
             Cancelar
           </button>
           <button
             onClick={handleSubmit}
             disabled={!canSubmit}
-            className="px-4 py-2 text-sm rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-sm rounded-lg bg-[var(--color-brand-primary)] text-white hover:bg-[var(--color-brand-primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {reviewEvent.isPending ? 'Guardando...' : isChanging ? 'Corregir' : 'Aprobar'}
           </button>
@@ -317,14 +318,17 @@ export default function Activity() {
     : null;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Actividad</h1>
+    <div className="max-w-7xl mx-auto space-y-8">
+      <PageHeader
+        title="Inbox — Rachel"
+        subtitle="Emails clasificados por Rachel para revisión humana."
+      />
 
       {/* Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {metricsLoading ? (
           Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-xl border border-gray-200 p-5 h-24 animate-pulse" />
+            <div key={i} className="bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-dim)] p-5 h-24 animate-pulse" />
           ))
         ) : (
           <>
@@ -363,10 +367,10 @@ export default function Activity() {
 
       {/* Pending table (collapsible) */}
       {pendingOpen && (
-        <div className="bg-white rounded-xl border border-amber-200 p-5 space-y-3">
-          <h2 className="font-semibold text-gray-800">Pendientes de revisión</h2>
+        <div className="bg-[var(--color-surface-card)] rounded-xl border border-amber-200 p-5 space-y-3">
+          <h2 className="font-semibold text-[var(--color-text-primary)]">Pendientes de revisión</h2>
           {pendingLoading ? (
-            <p className="text-sm text-gray-400 animate-pulse">Cargando...</p>
+            <p className="text-sm text-[var(--color-text-tertiary)] animate-pulse">Cargando...</p>
           ) : (
             <EventTable
               events={pending}
@@ -378,12 +382,12 @@ export default function Activity() {
       )}
 
       {/* Approved history */}
-      <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-3">
-        <h2 className="font-semibold text-gray-800">Historial de clasificaciones aprobadas</h2>
+      <div className="bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-dim)] p-5 space-y-3">
+        <h2 className="font-semibold text-[var(--color-text-primary)]">Historial de clasificaciones aprobadas</h2>
         {approvedLoading ? (
-          <p className="text-sm text-gray-400 animate-pulse">Cargando...</p>
+          <p className="text-sm text-[var(--color-text-tertiary)] animate-pulse">Cargando...</p>
         ) : approved.length === 0 ? (
-          <p className="text-sm text-gray-400 py-6 text-center">
+          <p className="text-sm text-[var(--color-text-tertiary)] py-6 text-center">
             Rachel está al día — no hay clasificaciones aprobadas todavía.
           </p>
         ) : (
