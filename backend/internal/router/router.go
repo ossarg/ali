@@ -37,6 +37,9 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	auth.POST("/login", authController.Login)
 	auth.POST("/logout", authController.Logout, appMiddleware.JWTMiddleware())
 
+	// Public file serving — no auth required (direct browser access for PDFs/docs)
+	e.GET("/api/v1/attachments/*", attachmentController.Serve)
+
 	// Agent endpoints (API key auth) — must be registered BEFORE /api/v1 JWT group
 	agents := e.Group("/api/v1/agents", appMiddleware.AgentKeyMiddleware())
 	agents.POST("/case-events", caseController.CreateEvent)
@@ -48,8 +51,6 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	api.GET("/cases/:id", caseController.GetByID)
 	api.GET("/cases/:id/events", caseController.ListCaseEvents)
 	api.GET("/case-events/:id/attachments", attachmentController.ListByEvent)
-	// Attachments served publicly (direct browser access for PDFs/docs)
-	e.GET("/api/v1/attachments/*", attachmentController.Serve)
 	api.GET("/activity/metrics", caseController.GetEventMetrics)
 	api.GET("/activity/events/approved", caseController.ListApprovedEvents)
 	api.GET("/activity/events/pending", caseController.ListPendingEvents)
