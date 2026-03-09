@@ -427,15 +427,20 @@ export default function ClaimsPage() {
       <UnresolvedSection />
 
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Siniestros</h1>
+        <div>
+          <h1 className="text-2xl font-semibold text-[var(--color-text-primary)] tracking-tight">Siniestros</h1>
+          <p className="text-[var(--color-text-secondary)] mt-1 text-sm">Explora el registro maestro de siniestros sincronizados con SISE.</p>
+        </div>
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#eb5d2a] text-white text-sm rounded-lg hover:bg-[#d45225] transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-[var(--color-brand-primary)] text-white text-sm font-medium rounded-lg hover:bg-[var(--color-brand-primary-hover)] transition-colors shadow-sm"
         >
           <Plus className="w-4 h-4" />
           Agregar siniestro
         </button>
       </div>
+
+      <UnresolvedSection />
 
       {/* Metrics */}
       <div className="space-y-2">

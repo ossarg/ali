@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Search, Loader2, AlertCircle, Building2, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import PageHeader from '../components/PageHeader';
+import { Link } from 'react-router-dom';
+import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { cn } from '../lib/utils';
@@ -56,21 +59,23 @@ export default function Cases() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Casos</h1>
-        <div className="relative">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Buscar por carátula, siniestro..."
-            value={searchQuery}
-            onChange={e => { setSearchQuery(e.target.value); setPage(1); }}
-            className="pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#eb5d2a]/20 focus:border-[#eb5d2a] w-72"
-          />
-        </div>
-      </div>
+    <div className="max-w-7xl mx-auto space-y-8 h-full flex flex-col">
+      <PageHeader
+        title="Casos Activos"
+        subtitle="Gestiona y supervisa el estado de todos los litigios."
+        actions={
+          <div className="relative">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-tertiary)]" />
+            <input
+              type="text"
+              placeholder="Buscar por carátula, siniestro..."
+              value={searchQuery}
+              onChange={e => { setSearchQuery(e.target.value); setPage(1); }}
+              className="pl-9 pr-4 py-2 bg-[var(--color-surface-bg)] border border-[var(--color-border-dim)] rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-border-focus)] w-72 transition-colors"
+            />
+          </div>
+        }
+      />
 
       {/* Metrics */}
       {!isLoading && !isError && (
