@@ -6,10 +6,10 @@
 ## Tareas pendientes inmediatas
 
 ### Alta prioridad
-- [ ] **Reescribir prompt de Donna** — rol correcto: Ingestion (ingestion-document-summary-ar + ingestion-formal-review-ar). El prompt anterior era incorrecto (era para DPS/Mike).
+- [ ] **Reescribir prompt de Donna** — rol correcto: Ingestion (ingestion-document-summary-ar + ingestion-formal-review-ar). El prompt anterior era incorrecto (era para DPS/Mike). DONE.
 - [ ] **Reescribir prompt de Mike** — rol correcto: Extraction estructurada (extraction-claim-summary-ar + extraction-policy-summary-ar).
 - [ ] **Actualizar data-processing-specialist.md** — deprecar o refactorizar para reflejar el split Donna/Mike según ORCHESTRATION.md.
-- [ ] **Reescribir prompt de Review** — agente Red Team Verifier, necesita su propio prompt.
+- [ ] **Crear skills de Lou: review-consistency-ar + review-normative-risk-ar (Juan pasó el diseño — pendiente SKILL.md)
 - [ ] **Actualizar regressions.md** — guardrail: correr `git log --oneline -10` al inicio de sesión antes de opinar sobre arquitectura.
 - [ ] **Actualizar friction-log.md** — contradicción: qué cambios de infra/config puede hacer Ali vs. Woz.
 - [ ] **Capturar conocimiento legal en long-term-memory.md** — patrones de contestaciones argentinas de seguros extraídos de los 9 PDFs.

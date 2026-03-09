@@ -32,7 +32,7 @@ El sistema tiene un agente coordinador que orquesta 5 sub-agentes especializados
 2. **Agente de Extracción de Datos** — Del texto extraído, produce un objeto estructurado: demandante, demandado, jurisdicción, tribunal, monto reclamado, moneda, fecha notificación, motivo, número de póliza, tipo de siniestro, plazo de contestación. Cada campo tiene un confidence score.
 3. **Agente de Triage** — Clasifica prioridad (alta/media/baja) según monto, plazo, tipo de siniestro, jurisdicción. Genera resumen ejecutivo de 3-5 líneas.
 4. **Agente de Fichero** — Crea carpeta digital organizada con demanda original, ficha de datos, resultado de triage, póliza vinculada, antecedentes del asegurado.
-5. **Agente de Borrador de Contestación** — Genera borrador de contestación a partir de templates con partes estáticas (reserva federal, petitorio, encabezamiento) y partes dinámicas (negativas específicas, descripción del siniestro, cláusulas de póliza). Marca claramente las secciones que requieren completamiento humano.
+5. **Jess — Drafting** — Genera borrador de contestación a partir de templates con partes estáticas (reserva federal, petitorio, encabezamiento) y partes dinámicas (negativas específicas, descripción del siniestro, cláusulas de póliza). Marca claramente las secciones que requieren completamiento humano.
 
 El agente coordinador además sugiere asignación a abogados internos según expertise, seniority y carga de trabajo.
 
@@ -72,7 +72,7 @@ Vista de resumen ejecutivo. Lo primero que ve el usuario al abrir la app.
 
 **Cuerpo principal:**
 - **Bandeja de entrada / Inbox** — Lista de items que requieren atención humana, ordenados por urgencia. Cada item muestra: nombre del caso, qué agente generó la tarea, qué acción se necesita (ej. "Validar extracción — 2 campos con baja confianza", "Aprobar asignación a Dr. Fernández", "Revisar borrador de contestación"). Click en cualquier item abre el detalle del caso.
-- **Pipeline de casos activos** — Visualización horizontal tipo Kanban con columnas: Ingesta → Extracción → Triage → Fichero → Borrador → Revisión Humana → Completado. Cada caso es una card que se ve en la columna correspondiente a su etapa actual. Las cards muestran: carátula corta, prioridad (badge de color), plazo de contestación, abogado asignado (si hay). Click en una card abre el detalle del caso.
+- **Pipeline de casos activos** — Visualización horizontal tipo Kanban con columnas: Ingesta → Extracción → Triage → Borrador → Revisión → Revisión Humana → Completado. Cada caso es una card que se ve en la columna correspondiente a su etapa actual. Las cards muestran: carátula corta, prioridad (badge de color), plazo de contestación, abogado asignado (si hay). Click en una card abre el detalle del caso.
 
 #### 2. Casos
 
@@ -121,7 +121,7 @@ Vista de monitoreo del sistema de agentes. Esta es la parte "mission control".
 - **Sección "Cola de trabajo"**: casos en espera de ser procesados por este agente, ordenados por prioridad.
 
 **Vista de flujo del coordinador:**
-- Cuando se clickea el Agente Coordinador, además de lo anterior, mostrar un diagrama visual del flujo: Ingesta → Extracción → Triage → Fichero → Borrador, con flechas conectando cada etapa, y dentro de cada nodo el estado actual (cuántos casos en esa etapa, si hay alguno procesándose). Esto es el "mapa del sistema" que da la sensación de ver todo el pipeline en acción.
+- Cuando se clickea el Agente Coordinador, además de lo anterior, mostrar un diagrama visual del flujo: Ingesta → Extracción → Triage → Borrador → Revisión, con flechas conectando cada etapa, y dentro de cada nodo el estado actual (cuántos casos en esa etapa, si hay alguno procesándose). Esto es el "mapa del sistema" que da la sensación de ver todo el pipeline en acción.
 
 #### 4. Equipo
 

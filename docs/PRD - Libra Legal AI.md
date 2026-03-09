@@ -27,70 +27,63 @@ Un sistema de agentes de IA que actúa como co-worker legal del equipo de litigi
 ### Arquitectura conceptual
 
 ```
-                    PDF / mail entrante
+                    Email / PDF entrante
                            │
               ┌────────────▼────────────┐
-              │    Agente Coordinador    │
+              │    Ali — Coordinador     │
               │  [modo síncrono]         │
               └──┬───────────────────────┘
                  │  handoff estructurado (JSON)
     ┌────────────▼──────────────────────────────────┐
     │                  Pipeline                      │
     │                                                │
-    │  [1] Rachel — Ingesta                          │
-    │      → procesa email, extrae metadatos         │
-    │      → identifica tipo, adjuntos, partes base  │
+    │  [0] Rachel — Intake                           │
+    │      → procesa email, clasifica tipo evento    │
+    │      → registra case_event en DB               │
     │      → NO procesa documentos adjuntos          │
+    │                  │ (aprobación humana)         │
+    │  [1] Donna — Ingestion                         │
+    │      → lee PDF de demanda                      │
+    │      → resumen narrativo + revisión formal     │
+    │      → flag bloqueante si hay impedimento      │
     │                  │                             │
-    │  [2] Data Processing Specialist — Extracción   │
-    │      → lee PDFs adjuntos (demanda, cédula)     │
-    │      → extrae 8 secciones estructuradas        │
+    │  [2] Mike — Extraction                         │
+    │      → extrae datos estructurados del caso     │
     │      → confidence scores por campo             │
     │                  │                             │
-    │         ┌────────┴────────┐                    │
-    │         │  (si automático) │                   │
-    │  [3] Triage Analyst    [3b] Agente de Borrador │
-    │      → relevancia           → draft completo   │
-    │      → score + flags        (en paralelo)      │
-    │         └────────┬────────┘                    │
+    │  [3] Edu — Triage [3 skills en paralelo]       │
+    │      → riesgo + cobertura + defensas           │
     │                  │                             │
-    │  [4] Asignación a abogado                      │
-    │      → gerente puede revocar                   │
-    │      → si borrador manual: abogado lo dispara  │
+    │  [4] Jess — Drafting                           │
+    │      → borrador de contestación                │
+    │                  │                             │
+    │  [5] Lou — Review                              │
+    │      → verifica borrador contra upstream       │
+    │      → aprobar / corregir / rechazar / escalar │
     └───────────────────────────────────────────────┘
                  │
               ┌──▼──────────────────────────┐
-              │    Agente Coordinador        │
-              │  [modo asíncrono / auditor]  │
-              │  - calidad y métricas        │
-              │  - detección de errores      │
-              │  - escalamiento humano       │
+              │    Revisión Humana           │
+              │    Abogado asignado          │
               └─────────────────────────────┘
 ```
 
-#### Agente Coordinador — dos modos de operación
+#### Ali — Coordinador
 
-**Modo síncrono (runtime):**
-- Orquesta el flujo end-to-end caso por caso
-- Pasa handoffs estructurados (JSON mínimo) entre sub-agentes
-- Detecta fallas y decide si reintentar o escalar a revisión humana
-- Define qué pasa si un sub-agente no completa su tarea
-
-**Modo asíncrono (auditor):**
-- Audita outputs de los sub-agentes en batch
-- Valida consistencia de datos entre etapas
-- Detecta errores sistemáticos y patrones de fallo
-- Calcula SLAs: tiempo de carga, precisión de extracción, tiempos de resolución
-- Genera alertas de calidad para el equipo legal
+Ali orquesta el pipeline end-to-end caso por caso. Pasa handoffs estructurados (JSON) entre sub-agentes, detecta fallas en cada etapa, aplica reglas de corte (confidence thresholds) y decide si continuar, reintentar o escalar a revisión humana.
 
 #### Sub-agentes especializados
 
-| Agente | Rol | Input | Output |
-|--------|-----|-------|--------|
-| Rachel (Intake) | Procesa email: remitente, asunto, cuerpo, metadatos, adjuntos identificados. No lee el contenido de los adjuntos. | Email | Metadatos + lista de adjuntos |
-| Data Processing Specialist | Lee PDFs adjuntos. Extrae 8 secciones: identificación, partes, hechos, monto, cobertura, defensas, prueba, integridad documental. | PDFs de demanda | JSON estructurado + confidence scores |
-| Triage Analyst | Clasifica relevancia (Baja/Media/Alta) según parámetros configurables. | JSON del DPS | Score + justificación + flags |
-| Agente de Borrador | Genera draft completo según template de Libra. Corre en paralelo con triage si está habilitado automático; manual si no. | JSON del DPS | Draft editable con secciones estándar completas y placeholders |
+Pipeline canónico: `Rachel → Donna → Mike → Edu → Jess → Lou → Revisión Humana`
+
+| Agente | Rol canónico | Input | Output |
+|--------|-------------|-------|--------|
+| Rachel — Intake | Procesa email: remitente, asunto, cuerpo, metadatos, adjuntos identificados. Clasifica tipo de evento y registra `case_event` en DB. No procesa el contenido de los adjuntos. | Email | `case_event` + envelope JSON |
+| Donna — Ingestion | Lee el PDF de la demanda. Clasifica el documento, produce resumen narrativo, verifica formalidades procesales. | PDF de demanda | Resumen + revisión formal + flag `bloqueante` |
+| Mike — Extraction | Extrae todos los datos estructurados del caso. Lee demanda y póliza si hay. | PDF + donna_output | JSON estructurado + confidence scores |
+| Edu — Triage | Analiza el caso en 3 dimensiones en paralelo: riesgo, cobertura, defensas. | mike_output + donna_output | risk_assessment + coverage_opinion + viability_check |
+| Jess — Drafting | Redacta el borrador de contestación, rechazo de cobertura o memo interno. | Todos los outputs upstream | Borrador + secciones_requieren_revision |
+| Lou — Review | Verifica el borrador de Jess antes de que llegue al abogado. Detecta inconsistencias, alucinaciones y riesgos. | jess_output + outputs upstream + PDF | Hallazgos + score_calidad + resultado |
 
 **Principio clave**: cada sub-agente recibe **solo el contexto mínimo necesario** para su tarea. No accede al documento completo si no lo necesita. Esto mantiene las ventanas de contexto pequeñas y los costos controlados.
 

@@ -3,7 +3,9 @@ name: review-red-team-verifier
 description: Verifica documentos legales generados por IA buscando errores, alucinaciones e inconsistencias con los outputs upstream
 ---
 
-# Verificador Adversarial (Red Team Verifier)
+# Lou — Review Agent: Verificador Adversarial
+
+> Este skill será reemplazado por `review-consistency-ar` + `review-normative-risk-ar`. Ver `docs/pipeline-canon.md`.
 
 Verificador adversarial (red team) para documentos legales generados por IA. Encuentra errores, inconsistencias, alucinaciones y desalineamientos con los outputs upstream ANTES de que lleguen a un abogado o tribunal.
 

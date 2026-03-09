@@ -34,7 +34,7 @@ FLAGS, escalaciones, o si el abogado reportó problemas en el borrador.
 **Qué hacer:**
 
 1. Recuperá los outputs de cada etapa del pipeline para el caso auditado:
-   `donna_output`, `mike_output`, `edu_output`, `jess_output`, `review_output`.
+   `donna_output`, `mike_output`, `edu_output`, `jess_output`, `lou_output`.
 
 2. Para cada sub-agente, evaluá las dimensiones de `references/audit-dimensions.md`
    sección "Auditoría por sub-agente". En síntesis:

@@ -16,7 +16,7 @@ Coordinator Agent
 │                           coverage_opinion_ar (P1)
 │                           viability_check_ar (P1)
 │
-├── File Generation Agent ─ (usa outputs de Extraction + Triage)
+├── Lou — Review ─ (usa outputs de todos los agentes upstream)
 │
 ├── Drafting Agent (v2) ─── answer_ar (P2, CORE)
 │                           canned_responses_ar (P2)

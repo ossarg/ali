@@ -237,5 +237,5 @@ Si no aplica (mayoría de los casos), omitir la sección silenciosamente. Si hay
 - El tono debe ser profesional y apropiado para un escrito judicial.
 - Usá los templates (contestacion_base.md, negativas_standard.md, excepciones_catalog.md) como base para las partes estáticas y semi-estáticas.
 - No re-analicés lo que ya analizó triage. Si `viability-check-ar` dice ROJO en prescripción, no incluyas excepción de prescripción. Si dice VERDE, incluila.
-- Para cada defensa incluida, trazá la fuente de triage en `fuente_triage`. Esto permite al Red Team Verifier cruzar consistencia.
+- Para cada defensa incluida, trazá la fuente de triage en `fuente_triage`. Esto permite al Lou cruzar consistencia.
 - Si hay hechos de la demanda que no pudiste responder (negar/reconocer/desconocer) con los datos disponibles, listalos en `hechos_no_cubiertos` — esto es un riesgo procesal (art. 356 inc. 1: el silencio puede ser tomado como reconocimiento).
