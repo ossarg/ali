@@ -21,6 +21,12 @@ export default defineConfig(({mode}) => {
       hmr: process.env.DISABLE_HMR !== 'true',
       host: '0.0.0.0',
       allowedHosts: ['legales.tail642769.ts.net', 'localhost'],
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8080',
+          changeOrigin: true,
+        },
+      },
     },
   };
 });
