@@ -191,7 +191,7 @@ func (r *caseRepository) ListPendingEventsPaginated(offset, limit int) ([]models
 	if err := q.Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
-	err := q.Order("raw_claim_number NULLS LAST, received_at DESC").Offset(offset).Limit(limit).Find(&events).Error
+	err := q.Order("COALESCE(raw_claim_number, 'zzz') ASC, received_at DESC").Offset(offset).Limit(limit).Find(&events).Error
 	return events, total, err
 }
 
