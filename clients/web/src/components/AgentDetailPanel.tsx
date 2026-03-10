@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { createPortal } from 'react-dom';
 import { X, Bot, CheckCircle2, Clock, Activity, Link as LinkIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
@@ -26,7 +27,7 @@ export default function AgentDetailPanel({ agentName, onClose }: AgentDetailPane
   const persona = agentName ? AGENT_BY_PERSONA[agentName] : null;
   const mockAgent = persona ? MOCK_AGENTS.find(a => a.id === persona.id) : null;
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {agentName && persona && (
         <>
@@ -183,6 +184,7 @@ export default function AgentDetailPanel({ agentName, onClose }: AgentDetailPane
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

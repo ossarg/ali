@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { MOCK_INBOX } from '../data/mockData';
 import {
   AlertCircle,
@@ -302,16 +303,16 @@ export default function Home() {
       <AgentDetailPanel agentName={selectedAgent} onClose={() => setSelectedAgent(null)} />
 
       {/* ── Insights Modal ── */}
-      {insightsOpen && (
+      {insightsOpen && createPortal(
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-40 bg-black/30"
+            className="fixed inset-0 z-[9998] bg-black/30"
             onClick={() => setInsightsOpen(false)}
           />
 
           {/* Modal */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
             <div className="animate-in w-full max-w-[480px] bg-[var(--color-surface-card)] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.08)] overflow-y-auto max-h-[90vh] p-5 sm:p-8">
               {/* Header */}
               <div className="flex items-start justify-between mb-6">
@@ -383,7 +384,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </>
+        </>,
+        document.body
       )}
     </div>
   );

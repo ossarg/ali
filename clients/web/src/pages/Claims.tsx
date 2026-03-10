@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -61,8 +62,8 @@ function AddClaimModal({ onClose }: { onClose: () => void }) {
     });
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-4 flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
@@ -131,7 +132,8 @@ function AddClaimModal({ onClose }: { onClose: () => void }) {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -267,8 +269,8 @@ function RetryModal({ event, onClose }: { event: CaseEvent; onClose: () => void 
     retry.mutate({ id: event.id, req }, { onSuccess: onClose });
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 p-6 flex flex-col gap-4">
         <div className="flex justify-between items-start">
           <h3 className="text-lg font-semibold text-gray-900">Corregir nro. siniestro</h3>
@@ -319,7 +321,8 @@ function RetryModal({ event, onClose }: { event: CaseEvent; onClose: () => void 
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
