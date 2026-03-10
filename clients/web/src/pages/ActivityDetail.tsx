@@ -112,7 +112,7 @@ function ReviewModal({ event, onClose }: { event: CaseEvent; onClose: () => void
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-5xl flex flex-col">
         <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
           <h3 className="text-lg font-semibold text-gray-900">Revisar clasificación</h3>
@@ -277,7 +277,7 @@ function EditModal({ event, onClose }: { event: CaseEvent; onClose: () => void }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-5">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-800">Editar evento</h2>
@@ -404,6 +404,8 @@ export default function ActivityDetail() {
     }
   };
 
+  const pct = Math.round((event.confidence ?? 0) * 100);
+
   return (
     <div className="space-y-6 pb-12">
       {/* Back */}
@@ -422,18 +424,12 @@ export default function ActivityDetail() {
             <h1 className="text-2xl font-bold text-gray-900 truncate">
               {event.title || event.subject || 'Sin título'}
             </h1>
-            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 shrink-0">
-              {typeLabel}
-            </span>
             {event.approved && (
               <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-green-50 text-green-700 shrink-0">
                 Aprobado
               </span>
             )}
           </div>
-          {event.description && (
-            <p className="text-sm text-gray-500 leading-relaxed">{event.description}</p>
-          )}
         </div>
 
         {/* Actions */}
@@ -453,11 +449,29 @@ export default function ActivityDetail() {
         </div>
       </div>
 
+      {/* Fila resumen */}
+      <div className="bg-white rounded-xl border border-gray-200 px-6 py-4">
+        <div className="flex flex-wrap gap-x-8 gap-y-3">
+          {[
+            { label: 'Nro. siniestro', value: event.raw_claim_number },
+            { label: 'Nro. póliza',    value: event.raw_policy },
+            { label: 'Nro. expediente', value: event.raw_case_number },
+            { label: 'Confianza',      value: `${pct}%` },
+            { label: 'Recibido',       value: format(new Date(event.received_at), 'dd/MM/yyyy HH:mm', { locale: es }) },
+          ].map(({ label, value }) => (
+            <div key={label} className="flex flex-col gap-0.5">
+              <span className="text-xs text-gray-400">{label}</span>
+              <span className="text-sm font-medium text-gray-800">{value || '—'}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Body */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         {/* Left */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="lg:col-span-2 flex flex-col gap-4 min-h-0">
+          <div className="bg-white rounded-xl border border-gray-200 flex flex-col flex-1 min-h-0">
             <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="text-sm font-semibold text-gray-700">Contenido del mail</h2>
             </div>
@@ -503,14 +517,20 @@ export default function ActivityDetail() {
 
         {/* Right */}
         <div className="space-y-4">
-          {/* Clasificación */}
+          {/* Clasificación (unifica tipo + asunto) */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
             <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="text-sm font-semibold text-gray-700">Clasificación</h2>
             </div>
             <dl className="px-5">
-              <InfoRow label="Tipo"><span className="font-medium">{typeLabel}</span></InfoRow>
-              <InfoRow label="Confianza"><ConfidenceBar value={event.confidence} /></InfoRow>
+              <InfoRow label="Tipo">
+                <span className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">
+                  {typeLabel}
+                </span>
+              </InfoRow>
+              {event.subject && (
+                <InfoRow label="Asunto"><span className="break-words text-sm">{event.subject}</span></InfoRow>
+              )}
               {event.reasoning && (
                 <InfoRow label="Razonamiento">
                   <span className="text-gray-500 italic leading-snug text-xs">{event.reasoning}</span>
@@ -518,47 +538,6 @@ export default function ActivityDetail() {
               )}
             </dl>
           </div>
-
-          {/* Mail metadata */}
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            <div className="px-5 py-4 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-700">Datos del mail</h2>
-            </div>
-            <dl className="px-5">
-              {event.subject && (
-                <InfoRow label="Asunto"><span className="break-words">{event.subject}</span></InfoRow>
-              )}
-              <InfoRow label="Recibido">
-                {format(new Date(event.received_at), 'dd/MM/yyyy HH:mm', { locale: es })}
-              </InfoRow>
-              <InfoRow label="Mail ID">
-                <span className="font-mono text-xs text-gray-500 break-all">{event.mail_id}</span>
-              </InfoRow>
-            </dl>
-          </div>
-
-          {/* Identificadores */}
-          {(event.raw_claim_number || event.raw_policy || event.raw_case_number || event.raw_caratula) && (
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-              <div className="px-5 py-4 border-b border-gray-100">
-                <h2 className="text-sm font-semibold text-gray-700">Identificadores</h2>
-              </div>
-              <dl className="px-5">
-                {event.raw_claim_number && (
-                  <InfoRow label="Nro. siniestro"><span className="font-mono">{event.raw_claim_number}</span></InfoRow>
-                )}
-                {event.raw_policy && (
-                  <InfoRow label="Nro. póliza"><span className="font-mono">{event.raw_policy}</span></InfoRow>
-                )}
-                {event.raw_case_number && (
-                  <InfoRow label="Nro. expediente"><span className="font-mono">{event.raw_case_number}</span></InfoRow>
-                )}
-                {event.raw_caratula && (
-                  <InfoRow label="Carátula">{event.raw_caratula}</InfoRow>
-                )}
-              </dl>
-            </div>
-          )}
 
           {/* Revisión */}
           {event.approved && (

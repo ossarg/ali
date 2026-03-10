@@ -54,10 +54,11 @@ function ConfidenceBar({ value }: { value: number }) {
 
 // ─── Event table ──────────────────────────────────────────────────────────────
 
-function EventTable({ events, showConfidence, showReviewed }: {
+function EventTable({ events, showConfidence, showReviewed, showCase }: {
   events: CaseEvent[];
   showConfidence?: boolean;
   showReviewed?: boolean;
+  showCase?: boolean;
 }) {
   const navigate = useNavigate();
 
@@ -71,17 +72,14 @@ function EventTable({ events, showConfidence, showReviewed }: {
 
   return (
     <table className="w-full text-sm table-fixed">
-      <colgroup>
-        <col style={{ width: '45%' }} />
-        <col /><col /><col />
-      </colgroup>
       <thead>
         <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
+          {showCase && <th className="pb-3 pt-4 pl-4 pr-4 w-28">Nro. siniestro</th>}
           <th className="pb-3 pt-4 pl-4 pr-4">Asunto</th>
-          <th className="pb-3 pt-4 pr-4">Tipo</th>
-          {showConfidence && <th className="pb-3 pt-4 pr-4">Confianza</th>}
-          <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Recibido</th>
-          {showReviewed && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Revisado</th>}
+          <th className="pb-3 pt-4 pr-4 w-32">Tipo</th>
+          {showConfidence && <th className="pb-3 pt-4 pr-4 w-28">Confianza</th>}
+          <th className="pb-3 pt-4 pr-4 whitespace-nowrap w-32">Recibido</th>
+          {showReviewed && <th className="pb-3 pt-4 pr-4 whitespace-nowrap w-32">Revisado</th>}
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-50">
@@ -91,16 +89,18 @@ function EventTable({ events, showConfidence, showReviewed }: {
             onClick={() => navigate(`/actividad/${event.id}`)}
             className="hover:bg-gray-50 transition-colors cursor-pointer"
           >
-            <td className="pl-4 pr-4 py-3.5 min-w-0 max-w-xs">
+            {showCase && (
+              <td className="pl-4 pr-4 py-3.5 text-xs text-gray-500 whitespace-nowrap">
+                {event.raw_claim_number ?? '—'}
+              </td>
+            )}
+            <td className="pl-4 pr-4 py-3.5 min-w-0">
               <div className="font-medium text-gray-800 truncate">
                 {event.title || event.subject || event.mail_id}
               </div>
-              {event.description && (
-                <div className="text-xs text-gray-400 truncate mt-0.5">{event.description}</div>
-              )}
             </td>
             <td className="pr-4 py-3.5">
-              <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
+              <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 whitespace-nowrap">
                 {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
               </span>
             </td>
