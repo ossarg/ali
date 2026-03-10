@@ -549,9 +549,9 @@ export default function ActivityDetail() {
               {event.subject && (
                 <InfoRow label="Asunto"><span className="break-words text-sm">{event.subject}</span></InfoRow>
               )}
-              {event.reasoning && (
-                <InfoRow label="Razonamiento">
-                  <span className="text-gray-500 italic leading-snug text-xs">{event.reasoning}</span>
+              {event.description && (
+                <InfoRow label="Descripción">
+                  <span className="text-gray-600 leading-snug">{event.description}</span>
                 </InfoRow>
               )}
             </dl>
