@@ -494,7 +494,7 @@ export default function ActivityDetail() {
               <h2 className="text-sm font-semibold text-gray-700">Contenido del mail</h2>
             </div>
             {event.body_clean ? (
-              <pre className="px-5 py-4 text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed flex-1 overflow-y-auto min-h-0">
+              <pre className="px-5 py-4 text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed overflow-y-auto max-h-96">
                 {event.body_clean}
               </pre>
             ) : (
