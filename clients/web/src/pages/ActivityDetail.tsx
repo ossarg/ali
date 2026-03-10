@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Loader2, AlertCircle, Paperclip, Download, MoreVertical, FileText, CreditCard, Briefcase, CheckCircle, Clock } from 'lucide-react';
 import { format } from 'date-fns';
@@ -111,7 +112,7 @@ function ReviewModal({ event, onClose }: { event: CaseEvent; onClose: () => void
     reviewEvent.mutate({ id: event.id, req }, { onSuccess: onClose });
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-5xl flex flex-col">
         <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
@@ -251,7 +252,8 @@ function ReviewModal({ event, onClose }: { event: CaseEvent; onClose: () => void
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -276,7 +278,7 @@ function EditModal({ event, onClose }: { event: CaseEvent; onClose: () => void }
     updateEvent.mutate({ id: event.id, req }, { onSuccess: onClose });
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-5">
         <div className="flex items-center justify-between">
@@ -318,7 +320,8 @@ function EditModal({ event, onClose }: { event: CaseEvent; onClose: () => void }
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
