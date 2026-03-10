@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Loader2, AlertCircle, Paperclip, Download, MoreVertical } from 'lucide-react';
+import { ArrowLeft, Loader2, AlertCircle, Paperclip, Download, MoreVertical, FileText, CreditCard, Briefcase, CheckCircle, Clock } from 'lucide-react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import {
@@ -450,20 +450,35 @@ export default function ActivityDetail() {
       </div>
 
       {/* Fila resumen */}
-      <div className="bg-white rounded-xl border border-gray-200 px-6 py-4">
-        <div className="flex flex-wrap gap-x-8 gap-y-3">
-          {[
-            { label: 'Nro. siniestro', value: event.raw_claim_number },
-            { label: 'Nro. póliza',    value: event.raw_policy },
-            { label: 'Nro. expediente', value: event.raw_case_number },
-            { label: 'Confianza',      value: `${pct}%` },
-            { label: 'Recibido',       value: format(new Date(event.received_at), 'dd/MM/yyyy HH:mm', { locale: es }) },
-          ].map(({ label, value }) => (
-            <div key={label} className="flex flex-col gap-0.5">
-              <span className="text-xs text-gray-400">{label}</span>
-              <span className="text-sm font-medium text-gray-800">{value || '—'}</span>
-            </div>
-          ))}
+      <div className="flex items-center flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600 bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+        <div className="flex items-center gap-2">
+          <FileText className="w-4 h-4 text-gray-400" />
+          <span className="font-medium">Siniestro:</span>
+          <span className="text-gray-900">{event.raw_claim_number || '—'}</span>
+        </div>
+        <div className="w-px h-4 bg-gray-200" />
+        <div className="flex items-center gap-2">
+          <CreditCard className="w-4 h-4 text-gray-400" />
+          <span className="font-medium">Póliza:</span>
+          <span className="text-gray-900">{event.raw_policy || '—'}</span>
+        </div>
+        <div className="w-px h-4 bg-gray-200" />
+        <div className="flex items-center gap-2">
+          <Briefcase className="w-4 h-4 text-gray-400" />
+          <span className="font-medium">Expediente:</span>
+          <span className="text-gray-900">{event.raw_case_number || '—'}</span>
+        </div>
+        <div className="w-px h-4 bg-gray-200" />
+        <div className="flex items-center gap-2">
+          <CheckCircle className="w-4 h-4 text-gray-400" />
+          <span className="font-medium">Confianza:</span>
+          <span className="text-gray-900">{pct}%</span>
+        </div>
+        <div className="w-px h-4 bg-gray-200" />
+        <div className="flex items-center gap-2">
+          <Clock className="w-4 h-4 text-gray-400" />
+          <span className="font-medium">Recibido:</span>
+          <span className="text-gray-900">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm', { locale: es })}</span>
         </div>
       </div>
 
