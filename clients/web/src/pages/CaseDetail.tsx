@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCase } from '../api/hooks/useCases';
 import { useCaseEvents } from '../api/hooks/useCaseEvents';
-import { ArrowLeft, Clock, FileText, User, Activity, Download, Eye, Loader2, AlertCircle, Building2, Gavel, Paperclip } from 'lucide-react';
+import { ArrowLeft, Clock, FileText, User, Activity, Download, Eye, Loader2, AlertCircle, Building2, Gavel, Paperclip, CreditCard } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
@@ -128,6 +128,15 @@ export default function CaseDetail() {
             <span className="font-medium">Expediente:</span>
             {caso.case_number
               ? <span className="text-[#1a1a1a] font-mono">{caso.case_number}</span>
+              : <span className="text-gray-400">—</span>}
+          </div>
+          <div className="w-px h-4 bg-[#e5e7eb]" />
+
+          <div className="flex items-center gap-2">
+            <CreditCard className="w-4 h-4 text-[#6b7280]" />
+            <span className="font-medium">Póliza:</span>
+            {caso.policy
+              ? <span className="text-[#1a1a1a] font-mono">{caso.policy}</span>
               : <span className="text-gray-400">—</span>}
           </div>
           <div className="w-px h-4 bg-[#e5e7eb]" />
