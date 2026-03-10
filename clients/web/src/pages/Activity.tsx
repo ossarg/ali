@@ -74,7 +74,7 @@ function EventTable({ events, showConfidence, showReviewed, showCase }: {
     <table className="w-full text-sm table-fixed">
       <thead>
         <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
-          {showCase && <th className="pb-3 pt-4 pl-4 pr-4 w-28">Nro. siniestro</th>}
+          {showCase && <th className="pb-3 pt-4 pl-4 pr-4 w-28">Siniestro</th>}
           <th className="pb-3 pt-4 pl-4 pr-4">Asunto</th>
           <th className="pb-3 pt-4 pr-4 w-32">Tipo</th>
           {showConfidence && <th className="pb-3 pt-4 pr-4 w-28">Confianza</th>}
@@ -213,7 +213,7 @@ export default function Activity() {
           approvedLoading
             ? <p className="text-sm text-gray-400 animate-pulse px-4 py-8">Cargando...</p>
             : <>
-                <EventTable events={approved} showReviewed />
+                <EventTable events={approved} showReviewed showCase />
                 {(approvedData?.total ?? 0) > 10 && (
                   <div className="px-4 pb-4">
                     <Pagination page={approvedPage} limit={10} total={approvedData?.total ?? 0} onChange={setApprovedPage} />
