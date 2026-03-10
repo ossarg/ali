@@ -4,8 +4,9 @@ import { formatMetricTime, formatTableTime } from '../lib/formatTime';
 import {
   useApprovedEventsPaginated,
   usePendingEventsPaginated,
+
   useCaseEventMetrics,
-  usePendingEvents,
+
 } from '../api/hooks/useCaseEvents';
 import Pagination from '../components/Pagination';
 import type { CaseEvent } from '../api/schemas/case.schemas';
@@ -129,12 +130,14 @@ type Tab = 'pendientes' | 'aprobados';
 
 export default function Activity() {
   const [tab, setTab]             = useState<Tab>('pendientes');
+  const [pendingPage, setPendingPage]   = useState(1);
   const [approvedPage, setApprovedPage] = useState(1);
 
   const { data: metrics, isLoading: metricsLoading } = useCaseEventMetrics();
   const { data: approvedData, isLoading: approvedLoading } = useApprovedEventsPaginated(approvedPage, 10);
   const approved = approvedData?.data ?? [];
-  const { data: pending = [], isLoading: pendingLoading } = usePendingEvents();
+  const { data: pendingData, isLoading: pendingLoading } = usePendingEventsPaginated(pendingPage, 10);
+  const pending = pendingData?.data ?? [];
 
   const lastSeen = metrics?.last_event_at ? formatMetricTime(metrics.last_event_at) : null;
   const pendingCount = metrics?.pending ?? 0;
@@ -196,7 +199,14 @@ export default function Activity() {
         {tab === 'pendientes' && (
           pendingLoading
             ? <p className="text-sm text-gray-400 animate-pulse px-4 py-8">Cargando...</p>
-            : <EventTable events={pending} showConfidence />
+            : <>
+                <EventTable events={pending} showConfidence showCase />
+                {(pendingData?.total ?? 0) > 10 && (
+                  <div className="px-4 pb-4">
+                    <Pagination page={pendingPage} limit={10} total={pendingData?.total ?? 0} onChange={setPendingPage} />
+                  </div>
+                )}
+              </>
         )}
 
         {tab === 'aprobados' && (
