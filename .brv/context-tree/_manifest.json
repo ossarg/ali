@@ -1,0 +1,103 @@
+{
+  "active_context": [
+    {
+      "order": 3,
+      "path": "_index.md",
+      "tokens": 826,
+      "type": "summary"
+    },
+    {
+      "order": 2,
+      "path": "architecture/_index.md",
+      "tokens": 842,
+      "type": "summary"
+    },
+    {
+      "order": 2,
+      "path": "infrastructure/_index.md",
+      "tokens": 156,
+      "type": "summary"
+    },
+    {
+      "order": 1,
+      "path": "infrastructure/environment/_index.md",
+      "tokens": 167,
+      "type": "summary"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/context.md",
+      "tokens": 70,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/decisions/context.md",
+      "tokens": 61,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/decisions/project_constraints_and_rules.md",
+      "tokens": 462,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/pipeline/agent_interfaces.md",
+      "tokens": 192,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/pipeline/ali_orchestration.md",
+      "tokens": 553,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/pipeline/canonical_pipeline.md",
+      "tokens": 235,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/pipeline/confidence_thresholds.md",
+      "tokens": 389,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "architecture/pipeline/context.md",
+      "tokens": 51,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "infrastructure/context.md",
+      "tokens": 49,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "infrastructure/environment/context.md",
+      "tokens": 27,
+      "type": "context"
+    },
+    {
+      "importance": 50,
+      "path": "infrastructure/environment/development_setup.md",
+      "tokens": 141,
+      "type": "context"
+    }
+  ],
+  "generated_at": "2026-03-12T15:01:04.123Z",
+  "lane_tokens": {
+    "contexts": 2230,
+    "stubs": 0,
+    "summaries": 1991
+  },
+  "source_fingerprint": "eb9f596665e71973fd1ae8ffbd0ef87663a062136ab2d58f90782dde00a3c360",
+  "total_tokens": 4221,
+  "version": 1
+}

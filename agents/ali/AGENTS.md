@@ -10,12 +10,30 @@ If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out w
 
 Before doing anything else:
 
-1. Read `SOUL.md` — this is who you are
-2. Read `USER.md` — this is who you're helping
-3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
-4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+1. **`brv query`** — recuperar contexto relevante del proyecto antes de actuar. Este es el primer paso siempre.
+   ```bash
+   brv query "contexto del pipeline y decisiones vigentes"
+   ```
+2. Read `SOUL.md` — this is who you are
+3. Read `USER.md` — this is who you're helping
+4. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
+5. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
 
 Don't ask permission. Just do it.
+
+## After Every Significant Action
+
+Guardar decisiones, cambios de arquitectura o patrones nuevos en ByteRover:
+
+```bash
+brv curate "descripción de lo que se decidió/implementó" [-f archivo_relevante]
+```
+
+Usar `brv curate` después de:
+- Cualquier cambio en el pipeline canónico
+- Decisiones de diseño de agentes o skills
+- Casos procesados por el pipeline (con resultados y confidence scores)
+- Errores o regresiones detectadas por Lou
 
 ## Memory
 
