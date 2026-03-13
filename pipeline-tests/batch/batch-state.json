@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "config": {
+    "concurrency": 3,
+    "pdf_base_path": "/home/legales/ali/pipeline-tests",
+    "output_base_path": "/home/legales/.openclaw/workspace/ali/pipeline-tests",
+    "backend_url": "http://localhost:8080"
+  },
+  "stats": {
+    "total": 0,
+    "pending": 0,
+    "running": 0,
+    "completed": 0,
+    "failed": 0,
+    "started_at": null,
+    "updated_at": null
+  },
+  "cases": []
+}
