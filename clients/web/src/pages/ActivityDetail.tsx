@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Loader2, AlertCircle, Paperclip, Download, MoreVertical } from 'lucide-react';
 import { format } from 'date-fns';
