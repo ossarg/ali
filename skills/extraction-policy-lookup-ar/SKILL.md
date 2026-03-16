@@ -1,6 +1,18 @@
 ---
 name: extraction-policy-lookup-ar
-description: Consulta sistemas internos de Libra para obtener el documento de póliza a partir de datos del asegurado o del vehículo
+description: >
+  Skill de Mike (Extraction Agent). STUB — integración técnica pendiente con Juan Mazzochi.
+  Recupera el documento de póliza desde los sistemas internos de Libra Seguros usando datos
+  identificatorios disponibles: número de póliza (prioridad 1), dominio del vehículo
+  (prioridad 2), DNI/CUIT del asegurado (prioridad 3), o nombre + marca/modelo como
+  fallback. Se activa automáticamente cuando poliza_path = null en el output de
+  extraction-claim-summary-ar y hay datos identificatorios disponibles. No analiza la
+  póliza — solo la localiza y devuelve el path para que extraction-policy-summary-ar la
+  procese. Si póliza no vigente a la fecha del siniestro, escala a Ali antes de continuar.
+  Frases que lo activan: "buscar la póliza en el sistema", "obtener la póliza de Libra",
+  "no tenemos el documento de póliza", "recuperar la póliza por dominio/DNI/número". Estado
+  actual: stub sin integración — los campos de sistema de origen, endpoint, formato y
+  credenciales están pendientes de definición.
 status: stub — integración técnica pendiente de definición con Juan Mazzochi
 ---
 

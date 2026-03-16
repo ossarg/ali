@@ -1,6 +1,15 @@
 ---
 name: byterover
-description: "You MUST use this for gathering contexts before any work. This is a Knowledge management for AI agents. Use `brv` to store and retrieve project patterns, decisions, and architectural rules in .brv/context-tree. Uses a configured LLM provider (default: ByteRover, no API key needed) for query and curate operations."
+description: >
+  Gestión de memoria persistente del proyecto con ByteRover CLI (`brv`). Usá este skill
+  en dos momentos clave: (1) ANTES de empezar cualquier tarea que requiera contexto del
+  proyecto — reglas vigentes, decisiones de diseño, arquitectura del pipeline, preferencias
+  de Juan — ejecutando `brv query`; y (2) DESPUÉS de tomar una decisión importante o
+  implementar algo nuevo, ejecutando `brv curate` para que no se pierda. Se activa cuando
+  alguien dice "recordá esto", "quiero que sepas", "guardá esta regla", "¿cuál era la
+  decisión sobre...?", "revisá el contexto antes de", o cuando Ali detecta que está a punto
+  de trabajar sin saber si hay reglas previas sobre ese tema. No usar para información
+  general o transitoria — solo para conocimiento persistente del proyecto Libra.
 ---
 
 # ByteRover Knowledge Management

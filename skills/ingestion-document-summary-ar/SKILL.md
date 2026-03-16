@@ -1,6 +1,20 @@
 ---
 name: ingestion-document-summary-ar
-description: Clasifica el documento, produce resumen narrativo, extrae fundamentos jurídicos y señala elementos atípicos
+description: >
+  Skill de Donna (Ingestion Agent). Primera lectura del documento judicial recibido.
+  Clasifica el tipo de documento (demanda, reconvención, amparo, medida cautelar,
+  incidente, ejecución, oficio), produce un resumen narrativo de 5-8 líneas que cuenta
+  la historia del caso en lenguaje llano (quién demanda, por qué, qué pide, por qué le
+  importa a la aseguradora), extrae los fundamentos jurídicos invocados por el actor
+  (tipo de responsabilidad objetiva/subjetiva, normas, doctrina, jurisprudencia citadas),
+  y señala señales de atención: medidas cautelares, daño punitivo, fallecimiento,
+  múltiples actores, montos excepcionales. Se activa cuando llega un documento judicial
+  nuevo al pipeline y es la primera etapa del procesamiento, antes de extraction.
+  Frases que lo activan: "qué es este documento", "leer la demanda", "de qué trata",
+  "primer análisis del escrito", "clasificar el documento", "hay algo raro en esta
+  demanda", "procesar el documento que llegó". En casos con fallecimiento, también extrae
+  datos económicos de la víctima para auditar el valor vida. No extrae datos estructurados
+  (partes, montos, plazos) — eso lo hace extraction-claim-summary-ar.
 ---
 
 # Clasificación y Resumen de Demanda (Document Summary AR)

@@ -1,6 +1,18 @@
 ---
 name: drafting-legal-memo-ar
-description: Compila un memorándum jurídico interno a partir de los outputs de triage y extraction, adaptado al destinatario
+description: >
+  Skill de Jess (Drafting Agent). Compila todos los outputs del pipeline (ingestion,
+  extraction, triage) en un memorándum jurídico interno consolidado, adaptado al
+  destinatario: abogado de litigios (detalle completo), gerente de litigios (resumen
+  ejecutivo + exposición económica + recomendación), o área de siniestros (foco en
+  cobertura y obligaciones del asegurador). No re-analiza el caso — organiza y presenta
+  los outputs de los agentes upstream en un documento único de toma de decisiones.
+  Se activa cuando el pipeline completó triage y extraction y se necesita un documento
+  consolidado para que el abogado o gerente entienda el caso completo. Frases que lo
+  activan: "hacer el memo del caso", "preparar el informe interno", "armar el memorándum",
+  "consolidar el análisis en un documento", "memo para el gerente", "informe para el
+  área de siniestros", "resumen del caso para el abogado". También se activa cuando
+  se pide una visión integrada del caso antes de tomar decisiones estratégicas.
 ---
 
 # Memorándum Jurídico (Legal Memorandum AR)

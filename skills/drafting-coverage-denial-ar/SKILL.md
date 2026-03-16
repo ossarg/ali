@@ -1,6 +1,17 @@
 ---
 name: drafting-coverage-denial-ar
-description: Genera carta de rechazo de cobertura fundada en Ley 17.418 y póliza, con control de plazo art. 56 y evaluación de riesgo de daño punitivo
+description: >
+  Skill de Jess (Drafting Agent). Redacta la comunicación formal de rechazo de cobertura
+  para la aseguradora cuando coverage-opinion-ar emitió dictamen NO_COBERTURA o
+  COBERTURA_PARCIAL y la decisión interna es rechazar. Incluye: verificación obligatoria
+  del plazo art. 56 Ley 17.418 (30 días para pronunciarse — vencido implica alerta
+  crítica), cita textual de cláusulas de póliza, fundamentos legales, evaluación de riesgo
+  de daño punitivo (art. 52 bis Ley 24.240) y método de notificación recomendado (carta
+  documento preferida). Se activa cuando el pipeline ya determinó no cobertura y hay que
+  comunicárselo al asegurado de forma fehaciente. Frases que lo activan: "redactar el
+  rechazo", "carta de rechazo de cobertura", "negar la cobertura", "rechazar el siniestro",
+  "comunicar el no pago", "preparar la carta documento de rechazo". No usar si
+  coverage-opinion-ar dijo COBERTURA o INDETERMINADO — señalar incongruencia y escalar.
 ---
 
 # Rechazo de Cobertura (Coverage Denial / Tender Letter Denial AR)

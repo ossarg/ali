@@ -1,6 +1,20 @@
 ---
 name: triage-coverage-opinion-ar
-description: Emite dictamen de cobertura/no cobertura con análisis de exposición económica bajo Ley 17.418
+description: >
+  Skill de Edu (Triage Agent). Emite el dictamen de cobertura fundamentado: COBERTURA /
+  NO_COBERTURA / COBERTURA_PARCIAL / INDETERMINADO. Analiza en orden: (1) vigencia de
+  la póliza al momento del siniestro, (2) cobertura del riesgo reclamado según ramo y
+  condiciones particulares, (3) exclusiones contractuales con probabilidad de éxito
+  judicial (no solo si existe la exclusión — también si resistirá la interpretación
+  pro-consumidor), (4) caducidad y cumplimiento de cargas del asegurado arts. 46-47 Ley
+  17.418, (5) franquicia y sublímites, y (6) riesgo de daño punitivo art. 52 bis Ley
+  24.240. Calcula exposición económica en tres escenarios (mejor/probable/peor) con
+  capital + intereses + costas, y sugiere reserva. Se activa en la etapa de triage,
+  consumiendo los outputs de Mike (claim-summary-ar y policy-summary-ar). Frases que lo
+  activan: "hay cobertura", "está cubierto el siniestro", "qué dice la póliza sobre esto",
+  "cuánto debería reservar", "dictamen de cobertura", "el seguro cubre", "cuál es la
+  exposición del caso". No evalúa defensas procesales (viability-check-ar) ni urgencia
+  (risk-assessment-ar).
 ---
 
 # Dictamen de Cobertura (Insurance Coverage Opinion AR)

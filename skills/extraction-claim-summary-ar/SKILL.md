@@ -1,6 +1,18 @@
 ---
 name: extraction-claim-summary-ar
-description: Extrae datos estructurados de demanda judicial contra aseguradora argentina
+description: >
+  Skill de Mike (Extraction Agent). Extrae todos los datos estructurados de una demanda
+  judicial recibida por la aseguradora argentina: expediente, partes procesales (actores,
+  demandados, citados en garantía), tipo de intervención de la aseguradora (art. 118 Ley
+  17.418), datos del siniestro, datos de póliza según la demanda, desglose rubro a rubro
+  del reclamo con base de cálculo, prueba ofrecida por el actor, y plazos de contestación
+  (computados desde fecha correcta según tipo de intervención). En casos con fallecimiento,
+  extrae además los datos económicos de la víctima para auditar el cálculo de valor vida.
+  Se activa en la etapa de extracción del pipeline, después de ingestion-document-summary-ar
+  y antes de los skills de triage. Frases que lo activan: "extraer datos de la demanda",
+  "procesar la demanda", "qué dice la demanda", "cuánto reclaman", "qué prueba ofrece el
+  actor", "cuánto tiempo queda para contestar", "datos del expediente". Produce el JSON
+  que consumen triage y drafting downstream — la precisión es crítica.
 ---
 
 # Resumen de Siniestro (Insurance Claim Summary AR)

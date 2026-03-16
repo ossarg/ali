@@ -1,6 +1,17 @@
 ---
 name: drafting-answer-ar
-description: Genera borrador de contestación de demanda según CPCyCN para aseguradora, consumiendo outputs de triage y extraction
+description: >
+  Skill de Jess (Drafting Agent). Genera el borrador de contestación de demanda judicial
+  para la aseguradora, siguiendo el art. 356 CPCyCN: negativa general, negativas específicas
+  punto a punto, versión de los hechos de la aseguradora, cláusulas de póliza aplicables,
+  excepciones previas, defensas de fondo, limitación al monto de póliza, ofrecimiento de
+  prueba y petitorio. Se activa cuando ya están disponibles los outputs de triage
+  (coverage-opinion-ar, viability-check-ar, risk-assessment-ar) y extraction
+  (claim-summary-ar, policy-summary-ar), y el paso siguiente es redactar la contestación.
+  Frases que lo activan: "contestar la demanda", "redactar la contestación", "armar el
+  escrito de contestación", "borrador de la contestación", "redactá la respuesta judicial".
+  Es el skill más crítico del sistema — umbral de confianza 0.8. No opera en vacío:
+  necesita los análisis upstream para redactar.
 ---
 
 # Contestación de Demanda (Answer & Affirmative Defenses AR) — CORE

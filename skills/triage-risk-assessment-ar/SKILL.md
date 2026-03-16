@@ -1,6 +1,18 @@
 ---
 name: triage-risk-assessment-ar
-description: Evalúa riesgo procesal de demanda contra aseguradora con factores argentinos
+description: >
+  Skill de Edu (Triage Agent). Evalúa nivel de riesgo y prioridad de una demanda nueva
+  contra la aseguradora, produciendo un score 0-100 y prioridad alta/media/baja. Considera:
+  monto reclamado (umbrales en ARS), urgencia por plazo de contestación (crítica <3 días
+  hábiles, computada desde la fecha correcta según tipo de intervención — en citación en
+  garantía desde la notificación al asegurador), complejidad procesal (indicadores de
+  alta: fallecimiento, múltiples partes, rubros subjetivos acumulados), tipo de
+  intervención (acción directa suma riesgo), y jurisdicción (PBA pro-actor vs. CABA).
+  Define si el caso requiere escalación al gerente. Se activa en la etapa de triage,
+  consumiendo el output de extraction-claim-summary-ar. Frases que lo activan: "qué
+  prioridad tiene este caso", "cuánto riesgo tiene la demanda", "es urgente", "cuándo
+  vence el plazo", "hay que escalar al gerente", "clasificar la demanda", "evaluar la
+  urgencia". El resumen ejecutivo razona causalmente — no lista datos sueltos.
 ---
 
 # Evaluación de Riesgo Procesal (Risk Assessment AR)

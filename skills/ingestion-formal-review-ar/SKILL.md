@@ -1,6 +1,21 @@
 ---
 name: ingestion-formal-review-ar
-description: Verifica formalidades procesales de la demanda según CPCyCN
+description: >
+  Skill de Donna (Ingestion Agent). Verifica 8 requisitos formales de la demanda judicial
+  según CPCyCN, con evaluación del valor estratégico de cada defecto: (1) firma de letrado
+  matriculado art. 56 CPCyCN, (2) domicilio procesal art. 40 CPCyCN, (3) competencia del
+  tribunal (materia, territorio, grado, cláusula de póliza), (4) tasa de justicia, (5)
+  acreditación de personería, (6) requisitos del art. 330 CPCyCN, (7) cumplimiento de
+  mediación previa obligatoria Ley 26.589/13.951, (8) acompañamiento de documentación
+  art. 333 CPCyCN. En demandas con citación en garantía, verifica también los requisitos
+  del art. 118 Ley 17.418. Cada defecto tiene un campo de valor estratégico: ¿es
+  explotable como excepción de defecto legal (art. 347 inc. 5 CPCyCN)? Se activa como
+  segunda etapa de ingestion, en paralelo o inmediatamente después de
+  ingestion-document-summary-ar. Frases que lo activan: "revisar las formalidades",
+  "hay defectos formales", "está bien presentada la demanda", "falta algo en el escrito",
+  "verificar la demanda", "check formal de la presentación". También se activa cuando
+  extraction-claim-summary-ar detecta posibles irregularidades en el acompañamiento de
+  documentación.
 ---
 
 # Revisión Formal AR (Formal Review AR)

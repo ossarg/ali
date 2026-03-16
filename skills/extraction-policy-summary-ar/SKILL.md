@@ -1,6 +1,19 @@
 ---
 name: extraction-policy-summary-ar
-description: Extrae datos estructurados de póliza de seguros argentina — condiciones, exclusiones, franquicias, obligaciones
+description: >
+  Skill de Mike (Extraction Agent). Extrae y estructura la información completa de una
+  póliza de seguros argentina: condiciones generales (ramo, coberturas incluidas,
+  obligaciones del asegurado), condiciones particulares (suma asegurada, franquicia,
+  sublímites, bienes asegurados, vigencia), condiciones especiales (endosos), y TODAS
+  las exclusiones con texto completo y flag de si están destacadas visualmente (relevante
+  para análisis de abusividad art. 37 Ley 24.240). También extrae las condiciones de
+  denuncia de siniestro (plazo, forma, documentación requerida) y datos factuales cruzados
+  (póliza vigente al siniestro, franquicia vs. monto reclamado). Se activa cuando se
+  dispone del documento de póliza y hay que procesarlo para alimentar a triage. Frases
+  que lo activan: "procesar la póliza", "extraer datos de la póliza", "qué cubre la
+  póliza", "cuál es la suma asegurada", "qué exclusiones tiene", "cuál es la franquicia",
+  "analizar las condiciones de la póliza". No analiza cobertura ni opina sobre
+  aplicabilidad — eso lo hacen coverage-opinion-ar y viability-check-ar.
 ---
 
 # Resumen de Póliza (Insurance Policy Summary AR)

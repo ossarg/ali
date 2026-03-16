@@ -1,6 +1,21 @@
 ---
 name: triage-viability-check-ar
-description: Detecta defensas procesales y sustanciales que pueden resolver el caso antes de sentencia
+description: >
+  Skill de Edu (Triage Agent). Pasa la demanda por un checklist de defensas que pueden
+  resolver el caso antes de llegar a sentencia de fondo. Evalúa con semáforo
+  VERDE/AMARILLO/ROJO: (1) falta de legitimación pasiva, (2) prescripción art. 58 Ley
+  17.418 (1 año) o art. 2561 CCC (3 años), con cómputo de suspensión por mediación, (3)
+  caducidad por falta de denuncia arts. 46-47 LS, (4) culpa grave o dolo del asegurado
+  art. 70 LS, (5) exclusión contractual clara y destacada resistente a impugnación, (6)
+  culpa o hecho de la víctima art. 1729 CCC y concurrencia causal art. 1773 CCC, (7)
+  cosa juzgada o litispendencia, (8) defecto legal art. 347 inc. 5 CPCyCN. VERDE = hay
+  defensa sólida que cambia la estrategia. Las defensas identificadas como VERDE o
+  AMARILLO son directamente consumidas por drafting-answer-ar para incluirlas en la
+  contestación. Se activa en la etapa de triage, consumiendo outputs de Mike. Frases que
+  lo activan: "hay alguna defensa previa", "está prescripto", "el asegurado denunció en
+  término", "hay una excepción que resolver antes", "qué defensas tenemos", "vale la
+  pena plantear prescripción", "el actor tiene legitimación". Si hay un VERDE fuerte,
+  señal_general = VERDE y cambia toda la estrategia del caso.
 ---
 
 # Evaluación de Viabilidad de Defensa (Case Viability Check AR)

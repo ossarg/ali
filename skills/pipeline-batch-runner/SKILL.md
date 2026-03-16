@@ -1,6 +1,18 @@
 ---
 name: pipeline-batch-runner
-description: "Protocolo para ejecutar el pipeline de Ali sobre un batch de demandas (15-20 PDFs) con checkpointing, concurrencia controlada y reporte de progreso. Usar cuando se inicia un batch de procesamiento masivo."
+description: >
+  Skill de Ali (Coordinadora). Protocolo de ejecución del pipeline sobre un batch de
+  demandas (típicamente 15-20 PDFs), con pool de 3 workers concurrentes (límite Pi 5 +
+  rate limits Anthropic), checkpointing por step en batch-state.json, y reporte de
+  progreso en #litigios cada 5 casos. Gestiona la cola desde Ali como coordinador sin
+  procesar demandas directamente — cada demanda corre en un sub-agente aislado vía
+  sessions_spawn. Incluye manejo de errores: timeout, STOP por bloqueante en Donna,
+  confidence bajo umbral, resultado de Lou rechazar-y-rehacer. Se activa cuando hay un
+  directorio de PDFs nuevos a procesar en lote. Frases que lo activan: "correr el batch",
+  "procesar el lote de demandas", "correr el pipeline sobre los PDFs", "tenemos 15
+  demandas nuevas", "iniciar el procesamiento masivo", "correr todas las demandas de
+  la carpeta". No usar para procesar una sola demanda — para un caso individual usar
+  directamente los skills del pipeline secuencial.
 ---
 
 # Pipeline Batch Runner

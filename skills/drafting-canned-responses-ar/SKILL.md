@@ -1,6 +1,19 @@
 ---
 name: drafting-canned-responses-ar
-description: Genera respuestas estandarizadas para comunicaciones pre-litigio y extra-judiciales de la aseguradora
+description: >
+  Skill de Jess (Drafting Agent). Selecciona y personaliza comunicaciones operativas
+  estandarizadas para la aseguradora que NO son contestaciones de demanda ni rechazos
+  de cobertura formales. Cubre: acuse de recibo de denuncia de siniestro (ASEG-001),
+  solicitudes de información al asegurado por art. 46 Ley 17.418 (ASEG-002), comunicación
+  de asunción de defensa art. 110 LS (ASEG-003), instrucciones al letrado externo
+  (LET-001), respuestas a mediación prejudicial (MED-001/002), respuestas a oficios
+  judiciales (TRIB-001). Se activa cuando el caso requiere una comunicación operativa
+  del área de litigios distinta de una contestación o rechazo formal. Frases que lo
+  activan: "mandar nota al asegurado", "acusar recibo del siniestro", "pedir documentación
+  al asegurado", "comunicar que asumimos la defensa", "responder el oficio", "preparar
+  instrucciones para el letrado", "qué le mandamos al mediador". No usar para redactar
+  contestaciones de demanda (drafting-answer-ar) ni rechazos de cobertura
+  (drafting-coverage-denial-ar).
 ---
 
 # Respuestas Estandarizadas (Canned Responses AR)
