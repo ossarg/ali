@@ -17,6 +17,57 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/activity/events/{id}": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "activity"
+                ],
+                "summary": "Edit a case event",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Event UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CaseEventResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "activity"
+                ],
+                "summary": "Delete a case event (hard if pending, soft if approved)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Event UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
         "/api/v1/activity/events/{id}/resolve": {
             "post": {
                 "security": [
@@ -58,6 +109,64 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.CaseEventResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/agents/attachments": {
+            "post": {
+                "description": "Accepts a single file (PDF or Office doc). Stores it and appends metadata to the event's attachments JSONB.",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "attachments"
+                ],
+                "summary": "Upload attachment for a case event",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case event UUID",
+                        "name": "event_id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "File to upload",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
@@ -148,6 +257,277 @@ const docTemplate = `{
                     },
                     "409": {
                         "description": "Conflict",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/agreements": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns paginated agreements ordered by due_date ASC. Status (vigente/proximo/vencido) is computed on-the-fly.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "agreements"
+                ],
+                "summary": "List all agreements",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number (default 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page size (default 20, max 100)",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create an agreement manually (used when extraction fails or for manual entry).",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "agreements"
+                ],
+                "summary": "Create agreement manually",
+                "parameters": [
+                    {
+                        "description": "Agreement data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateAgreementRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AgreementResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/agreements/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "agreements"
+                ],
+                "summary": "Get agreement by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Agreement UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AgreementResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "agreements"
+                ],
+                "summary": "Delete agreement",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Agreement UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Patch agreement fields. Sets extraction_status to completed (human reviewed).",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "agreements"
+                ],
+                "summary": "Update agreement",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Agreement UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Fields to update",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateAgreementRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AgreementResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/attachments/{key}": {
+            "get": {
+                "description": "Streams the stored file by its key.",
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "attachments"
+                ],
+                "summary": "Download an attachment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Storage key (URL encoded)",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -531,6 +911,51 @@ const docTemplate = `{
                             "type": "object",
                             "additionalProperties": {
                                 "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cases/{id}/agreements": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "agreements"
+                ],
+                "summary": "List agreements for a case",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.AgreementResponse"
                             }
                         }
                     },
@@ -958,6 +1383,94 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.AgreementResponse": {
+            "type": "object",
+            "properties": {
+                "agreement_type": {
+                    "$ref": "#/definitions/models.AgreementType"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "beneficiary": {
+                    "type": "string"
+                },
+                "case_event_id": {
+                    "type": "string"
+                },
+                "case_id": {
+                    "type": "string"
+                },
+                "claim_number": {
+                    "type": "string"
+                },
+                "concept": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "string"
+                },
+                "extraction_status": {
+                    "$ref": "#/definitions/models.AgreementExtractionStatus"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "invoice_number": {
+                    "type": "string"
+                },
+                "producer": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/dto.AgreementStatus"
+                }
+            }
+        },
+        "dto.AgreementStatus": {
+            "type": "string",
+            "enum": [
+                "vigente",
+                "proximo",
+                "vencido",
+                "sin_fecha"
+            ],
+            "x-enum-comments": {
+                "AgreementStatusProximo": "due within 7 days"
+            },
+            "x-enum-descriptions": [
+                "",
+                "due within 7 days",
+                "",
+                ""
+            ],
+            "x-enum-varnames": [
+                "AgreementStatusVigente",
+                "AgreementStatusProximo",
+                "AgreementStatusVencido",
+                "AgreementStatusSinFecha"
+            ]
+        },
+        "dto.AttachmentMetaDTO": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "mime": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.BatchResolveResponse": {
             "type": "object",
             "properties": {
@@ -998,7 +1511,22 @@ const docTemplate = `{
                 "approved": {
                     "type": "boolean"
                 },
+                "attachments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.AttachmentMetaDTO"
+                    }
+                },
+                "body_clean": {
+                    "type": "string"
+                },
+                "case_caratula": {
+                    "type": "string"
+                },
                 "case_id": {
+                    "type": "string"
+                },
+                "case_title": {
                     "type": "string"
                 },
                 "confidence": {
@@ -1011,6 +1539,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "created_at": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 },
                 "id": {
@@ -1067,7 +1598,13 @@ const docTemplate = `{
                 "reviewed_by": {
                     "type": "string"
                 },
+                "reviewed_by_name": {
+                    "type": "string"
+                },
                 "subject": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }
@@ -1080,6 +1617,9 @@ const docTemplate = `{
                 },
                 "assigned_user": {
                     "$ref": "#/definitions/dto.UserSummary"
+                },
+                "caratula": {
+                    "type": "string"
                 },
                 "case_number": {
                     "type": "string"
@@ -1303,6 +1843,41 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.CreateAgreementRequest": {
+            "type": "object",
+            "required": [
+                "case_event_id"
+            ],
+            "properties": {
+                "agreement_type": {
+                    "$ref": "#/definitions/models.AgreementType"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "beneficiary": {
+                    "type": "string"
+                },
+                "case_event_id": {
+                    "type": "string"
+                },
+                "claim_number": {
+                    "type": "string"
+                },
+                "concept": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "string"
+                },
+                "invoice_number": {
+                    "type": "string"
+                },
+                "producer": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.CreateCaseEventRequest": {
             "type": "object",
             "required": [
@@ -1312,10 +1887,16 @@ const docTemplate = `{
                 "received_at"
             ],
             "properties": {
+                "body_clean": {
+                    "type": "string"
+                },
                 "confidence": {
                     "type": "number",
                     "maximum": 1,
                     "minimum": 0
+                },
+                "description": {
+                    "type": "string"
                 },
                 "mail_id": {
                     "type": "string"
@@ -1325,7 +1906,7 @@ const docTemplate = `{
                 },
                 "mail_type": {
                     "type": "integer",
-                    "maximum": 7,
+                    "maximum": 11,
                     "minimum": 1
                 },
                 "raw_caratula": {
@@ -1348,6 +1929,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "subject": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }
@@ -1435,6 +2019,35 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.UpdateAgreementRequest": {
+            "type": "object",
+            "properties": {
+                "agreement_type": {
+                    "$ref": "#/definitions/models.AgreementType"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "beneficiary": {
+                    "type": "string"
+                },
+                "claim_number": {
+                    "type": "string"
+                },
+                "concept": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "type": "string"
+                },
+                "invoice_number": {
+                    "type": "string"
+                },
+                "producer": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.UserInfo": {
             "type": "object",
             "properties": {
@@ -1477,6 +2090,30 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "models.AgreementExtractionStatus": {
+            "type": "string",
+            "enum": [
+                "pending",
+                "completed",
+                "failed"
+            ],
+            "x-enum-varnames": [
+                "ExtractionPending",
+                "ExtractionCompleted",
+                "ExtractionFailed"
+            ]
+        },
+        "models.AgreementType": {
+            "type": "string",
+            "enum": [
+                "mediacion",
+                "juicio"
+            ],
+            "x-enum-varnames": [
+                "AgreementTypeMediacion",
+                "AgreementTypeJuicio"
+            ]
         },
         "sise.Claim": {
             "type": "object",

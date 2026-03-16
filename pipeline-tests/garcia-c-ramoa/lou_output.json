@@ -1,0 +1,236 @@
+{
+  "documento_verificado": "Contestación de demanda / Citación en garantía — García, Marcos Horacio c/ Ramoa Cáceres, Lucio Daniel y Libra Compañía Argentina de Seguros S.A. s/ Daños y Perjuicios — borrador generado por Jess (drafting-answer-ar, 2026-03-11)",
+  "resultado": "corregir_y_reenviar",
+  "score_calidad": 79,
+  "_score_breakdown": {
+    "exactitud_factual": "95/100 — cero alucinaciones detectadas; todos los datos verificados contra PDF y mike_output",
+    "consistencia_cross_agent": "74/100 — omisión del riesgo de pericia contable (Edu → Jess); discrepancia tasa de interés Edu vs. Mike",
+    "exactitud_juridica": "78/100 — cita art. 347 inc. 6 para prescripción técnicamente incorrecta; argumento prescripción bien desarrollado aunque con imprecisión menor en el vencimiento",
+    "completitud": "84/100 — todas las secciones obligatorias presentes; placeholders bien marcados; falta fecha presupuesto y nota pericia contable",
+    "riesgo_operativo": "72/100 — riesgo pericia contable no flaggeado en notas_para_abogado; resto de alertas correctamente manejadas"
+  },
+
+  "hallazgos": [
+    {
+      "id": "LOU-001",
+      "severidad": "alta",
+      "categoria": "cross_agent",
+      "titulo": "Riesgo de pericia contable (acceso a registros internos de Libra) identificado por Edu no transmitido a notas_para_abogado",
+      "detalle": "Edu señala explícitamente como 'punto débil': 'El perito contador ofrecido en subsidio (para el caso de que la aseguradora niegue su calidad de tal) puede forzar a Libra a revelar sus registros internos.' El actor ofrece pericia contable con puntos específicos: verificar si figura póliza para el vehículo del demandado, si estaba vigente al momento del siniestro, el monto de la cobertura, si existe denuncia del asegurado en los registros de Libra, y el importe reservado. Al presentar la contestación negando el vínculo aseguraticio (que es la estrategia correcta), Libra activa automáticamente el derecho del actor a invocar esta pericia. El borrador omite alertar al abogado sobre esta consecuencia procesal directa de la estrategia de defensa adoptada.",
+      "fuente_verificacion": "edu_output.json → coverage_opinion.puntos_debiles[4]; mike_output.json → prueba_ofrecida.pericial[1] (Perito contador único de oficio, puntos 2, 3, 4, 5, 6); jess_output.json → notas_para_abogado (ausencia del punto)",
+      "impacto": "El abogado que revise el borrador sin leer el edu_output podría presentar el escrito sin advertir que la negación del vínculo aseguraticio triggerea la pericia contable. Esto no implica cambiar la estrategia (la negación es la defensa correcta) pero el abogado debe prepararse internamente para exhibir o explicar la ausencia de registros de póliza para KWV802 a nombre de Ramoa Cáceres.",
+      "accion_recomendada": "Agregar en notas_para_abogado: 'ALERTA — PERICIA CONTABLE: el actor ofrece perito contador en subsidio para el caso de que Libra niegue su calidad de aseguradora (mike_output, prueba_ofrecida.pericial[1]). Al presentar este escrito negando el vínculo aseguraticio, el actor podrá invocar esta pericia para acceder a los registros internos de Libra. Antes de presentar, verificar que el sistema interno no registre póliza para VW Fox KWV802 / Ramoa Cáceres, Lucio Daniel, a fin de estar preparados para la eventual exhibición de registros.'"
+    },
+    {
+      "id": "LOU-002",
+      "severidad": "media",
+      "categoria": "juridica",
+      "titulo": "Art. 347 inc. 6 CPCyCN citado para excepción de prescripción — inciso técnicamente incorrecto en el texto vigente",
+      "detalle": "El borrador cita 'Art. 347 inc. 6 CPCyCN' como fundamento procesal de la excepción de prescripción (Sección VI.B). En el texto actual del CPCyCN (Ley 17.454 con sus modificaciones, incluyendo Ley 25.488/2001), el art. 347 inc. 6 corresponde a 'Cosa juzgada', no a prescripción. La prescripción como excepción previa se rige por los arts. 346 y 348 CPCyCN: el art. 346 establece que puede oponerse en cualquier estado de la causa hasta la sentencia definitiva, y el art. 348 remite a los arts. 346 y 347 para la tramitación. Si bien en la práctica forense de CABA muchos escritos aún citan 'art. 347 inc. 6' por inercia respecto del texto pre-reforma, la contraparte podría señalar el error para desgastar el planteo.",
+      "fuente_verificacion": "CPCyCN (Ley 17.454, texto actualizado): art. 347 inc. 6 = 'Cosa juzgada'; art. 346 = prescripción en cualquier estado; art. 348 = remisión a arts. 346 y 347. Jess_output.json → sección VI.B ('Art. 347 inc. 6 CPCyCN — Art. 58 Ley 17.418')",
+      "impacto": "Riesgo procesal moderado: la contraparte podría señalar que 'art. 347 inc. 6' refiere a cosa juzgada y no a prescripción, generando un argumento formal adverso de bajo peso pero molesto. En un tribunal que aplique estrictamente el texto post-reforma, podría haber confusión sobre el fundamento procesal de la excepción.",
+      "accion_recomendada": "Reemplazar la cita 'Art. 347 inc. 6 CPCyCN' por 'Arts. 346 y 348 CPCyCN' en la Sección VI.B. Texto sugerido: 'opone excepción de prescripción en los términos de los arts. 346 y 348 del CPCyCN'. Verificar con el abogado la práctica habitual del tribunal asignado, ya que algunos juzgados de CNCiv aún admiten sin observaciones la cita 'art. 347 inc. 6'."
+    },
+    {
+      "id": "LOU-003",
+      "severidad": "media",
+      "categoria": "cross_agent",
+      "titulo": "Discrepancia en tasa de interés entre Edu (tasa activa BNA) y el reclamo real del actor (tasa activa Banco de la Provincia de Buenos Aires)",
+      "detalle": "Mike extrae correctamente del PDF: el actor reclama 'tasa activa anual que cobra el Banco de la Provincia de Buenos Aires para giros no cubiertos sin autorización en cuentas corrientes', citando JCC Nº 7, de Lomas de Zamora, 'Rubio c/ Milazzotto' (14/11/2003). Sin embargo, Edu calcula la exposición económica usando 'Tasa activa BNA (giros no cubiertos sin autorización en cuentas corrientes) — referencia: CNCiv en pleno, 20/04/2009, Samudio'. El plenario Samudio (CNCiv en pleno, 20/04/2009) estableció la tasa activa del Banco de la Nación Argentina para descuento de documentos comerciales, no del Banco de la Provincia. La tasa BAPBA 'giros no cubiertos' suele ser más alta que la tasa BNA de descuento. Esta discrepancia afecta la reserva calculada ($1.800.000 provisional). Además, el actor fundamenta su tasa en un fallo de primera instancia de Lomas de Zamora (JCC 7) que no es vinculante para CNCiv — lo que podría ser una defensa futura sobre el quantum de intereses.",
+      "fuente_verificacion": "mike_output.json → reclamo.solicitud_tasa_interes (Banco de la Provincia de Buenos Aires); edu_output.json → coverage_opinion.exposicion_economica.exposicion_probable.tasa_usada (Tasa activa BNA); PDF pág. 'Intereses' → 'tasa activa anual que cobra el Banco de la Provincia de Buenos Aires para giros no cubiertos..., sentencia del 14/11/2003 JCC N°7 Lomas de Zamora'",
+      "impacto": "La reserva de $1.800.000 calculada por Edu puede estar subestimada si la tasa BAPBA 'giros no cubiertos' es efectivamente más alta que la BNA de descuento. Adicionalmente, el jefe de defensa podría perder de vista que el actor fundamenta su tasa en jurisprudencia no vinculante para CNCiv, lo que abre una defensa futura sobre quantum de intereses que el draft no menciona.",
+      "accion_recomendada": "Agregar en notas_para_abogado: 'TASA DE INTERÉS: El actor reclama tasa activa Banco de la Provincia de Buenos Aires para giros no cubiertos (JCC Lomas de Zamora, 2003). El plenario Samudio (CNCiv en pleno, 20/04/2009) aplica tasa activa BNA descuento de documentos. Verificar qué tasa aplica la sala interviniente. Si aplica BNA (Samudio), la tasa del actor podría ser impugnable al momento de la liquidación. La reserva provisional de Edu fue calculada sobre tasa BNA — recalcular si la sala aplica tasa BAPBA para ajustar la reserva.' Edu debe ser alertado sobre esta inconsistencia para corrección de la reserva."
+    },
+    {
+      "id": "LOU-004",
+      "severidad": "baja",
+      "categoria": "calculo",
+      "titulo": "Vencimiento estimado de prescripción consignado como 'noviembre de 2023' — cálculo da aproximadamente 26/10/2023",
+      "detalle": "El borrador (Sección VI.B) dice: 'el plazo de un (1) año del art. 58 de la Ley 17.418, que habría vencido aproximadamente en noviembre de 2023.' Sin embargo, el cálculo propio del draft es internamente inconsistente con esa conclusión: siniestro 11/09/2022 + 1 año = 11/09/2023; suspensión Tramo 1 (~39 días) extiende a ~20/10/2023; suspensión Tramo 2 (~6 días, iniciado ~12/09/2023, antes del vencimiento extendido) extiende a ~26/10/2023. El draft dice 'noviembre' pero el cálculo da fines de octubre. Dado que el borrador correctamente califica todos los cómputos como 'estimados' y recomienda verificar fechas exactas, la imprecisión es menor pero existe.",
+      "fuente_verificacion": "jess_output.json → sección VI.B (cómputo de prescripción); edu_output.json → viability_check.checks[1] (mismas fechas estimadas usadas por Jess)",
+      "impacto": "Mínimo: la diferencia es de ~5 días. El draft usa 'aproximadamente' y recomienda verificar fechas. Pero si la prescripción corrió antes de la presentación de la demanda (29/02/2024), la exactitud del cómputo puede ser relevante para la excepción.",
+      "accion_recomendada": "Corregir 'noviembre de 2023' por 'fines de octubre de 2023 (aproximadamente el 26 de octubre de 2023)' en la Sección VI.B, para mantener consistencia interna con el cómputo precedente y dar mayor precisión al argumento."
+    },
+    {
+      "id": "LOU-005",
+      "severidad": "baja",
+      "categoria": "completitud",
+      "titulo": "Fecha del presupuesto del Taller Tati (09/08/2023) omitida — dato que refuerza la inconsistencia probatoria",
+      "detalle": "El presupuesto del Taller Tati tiene fecha 09/08/2023, es decir casi un año después del siniestro (11/09/2022). El borrador desarrolla extensamente la triple inconsistencia del presupuesto (vehículo diferente, dominio diferente, daños diferentes) pero no menciona este dato temporal. La fecha tardía del presupuesto es un elemento adicional que: (a) podría indicar que el presupuesto fue generado para la demanda y no corresponde a una cotización contemporánea con el siniestro; (b) es relevante para la pericial mecánica ya que los valores de reparación de agosto 2023 difieren significativamente de septiembre 2022 (inflación).",
+      "fuente_verificacion": "PDF pág. presupuesto → 'Fecha: 09/08/23'; jess_output.json → secciones 3.6, VII.B (ninguna mención de la fecha del presupuesto); mike_output.json → prueba_ofrecida.documental[6] (no registra fecha del presupuesto)",
+      "impacto": "Moderado como argumento adicional en la impugnación del presupuesto: si los valores son de agosto 2023 pero el siniestro fue septiembre 2022, el presupuesto no refleja costos contemporáneos con el hecho. Además, el lapso entre el siniestro y el presupuesto es inusualmente largo para una reparación que, según el actor, fue urgente.",
+      "accion_recomendada": "Agregar en secciones 3.6 y VII.B: 'Adicionalmente, el presupuesto está fechado el 09/08/2023, es decir, casi un año después del siniestro del 11/09/2022. Esta circunstancia agrega una cuarta inconsistencia: el presupuesto no es contemporáneo con el hecho, lo que genera interrogantes adicionales sobre su autenticidad y relevancia probatoria respecto de los valores vigentes al momento del siniestro.'"
+    },
+    {
+      "id": "LOU-006",
+      "severidad": "baja",
+      "categoria": "completitud",
+      "titulo": "Descripción simplificada de los trabajos del presupuesto Tati omite los ítems de pintura",
+      "detalle": "El borrador describe los daños presupuestados como 'puerta y guardabarro izquierdo.' El presupuesto original detalla: 'Reemplazar puerta delantera izquierda, reparar guardabarro delantero izquierdo. Pintar guardabarro, pintar puerta afuera y adentro.' El costo de mano de obra de pintura ($87.500) es el ítem más alto del desglose (40% del subtotal de mano de obra). Incluir el ítem de pintura refuerza el argumento de que los trabajos presupuestados son incompatibles con los daños denunciados (paragolpe delantero, capó, óptica) porque nadie pintaría puerta y guardabarro izquierdo en un vehículo que según el actor sufrió daños frontales.",
+      "fuente_verificacion": "PDF pág. presupuesto → desglose de trabajos; jess_output.json → sección VII.B ('puerta y guardabarro izquierdo'); donna_output.json → señales_atencion[1] (misma simplificación)",
+      "impacto": "Menor pero real: la descripción completa de los trabajos es más persuasiva para el juez y para el perito mecánico al momento de verificar la inconsistencia.",
+      "accion_recomendada": "Reemplazar en secciones 3.6 y VII.B 'puerta y guardabarro izquierdo' por 'reemplazo de puerta delantera izquierda, reparación y pintura de guardabarro delantero izquierdo' — descripción que refleja fielmente el texto del presupuesto original."
+    },
+    {
+      "id": "LOU-007",
+      "severidad": "baja",
+      "categoria": "juridica",
+      "titulo": "Tasa de interés del actor fundamentada en jurisprudencia no vinculante para CNCiv — oportunidad defensiva no señalada",
+      "detalle": "El actor solicita 'tasa activa anual que cobra el Banco de la Provincia de Buenos Aires para giros no cubiertos' citando únicamente 'JCC Nº 7, de Lomas de Zamora, Rubio c/ Milazzotto, sentencia del 14/11/2003, Registro nº 115'. Este fallo de un juzgado de primera instancia del Departamento Judicial de Lomas de Zamora no es vinculante para un juez de CNCiv. El plenario Samudio (CNCiv en pleno, 20/04/2009), que el mismo actor también cita como antecedente de tasa activa, aplica la tasa del Banco de la Nación Argentina para descuento de documentos comerciales, no BAPBA para giros en cuenta corriente. La diferencia de tasa puede ser significativa en un litigio proyectado hasta 2028-2029. El borrador no aprovecha este punto como defensa futura sobre el quantum.",
+      "fuente_verificacion": "PDF → sección intereses (JCC 7 Lomas de Zamora + Samudio ambos citados por el actor); mike_output.json → reclamo.solicitud_tasa_interes; CNCiv en pleno 20/04/2009 'Samudio de Martínez c/ Transportes Doscientos Setenta SA'",
+      "impacto": "Potencialmente relevante en la liquidación final: si la diferencia entre la tasa BNA y la tasa BAPBA giros en cta cte es de 3-5 puntos porcentuales anuales proyectados a 6 años, el impacto en los intereses puede ser material respecto a un capital de condena posible de $350.000-$850.000.",
+      "accion_recomendada": "No requiere modificación del cuerpo del escrito pero sí agregar en notas_para_abogado: 'DEFENSA FUTURA SOBRE INTERESES: el actor fundamenta la tasa de interés en un fallo de primera instancia de Lomas de Zamora no vinculante para CNCiv. El plenario Samudio aplica tasa BNA descuento de documentos, no BAPBA giros en cta cte. Al momento de la liquidación, impugnar la tasa reclamada por el actor y solicitar aplicación de la tasa BNA conforme Samudio.'"
+    }
+  ],
+
+  "inconsistencias_cross_agent": [
+    {
+      "id": "ICA-001",
+      "agentes_involucrados": ["Edu", "Jess"],
+      "descripcion": "Edu identifica explícitamente como 'punto débil' el riesgo de pericia contable (acceso a registros internos de Libra). Jess no traslada esta alerta a ninguna sección del borrador ni a las notas_para_abogado. El riesgo es accionable: al presentar este escrito negando el vínculo aseguraticio, el actor puede invocar la pericia contable ofrecida 'en subsidio para el caso de que la aseguradora niegue su calidad de tal'.",
+      "severidad": "alta",
+      "resolucion": "Jess debe agregar nota en notas_para_abogado conforme instrucción LOU-001."
+    },
+    {
+      "id": "ICA-002",
+      "agentes_involucrados": ["Mike", "Edu"],
+      "descripcion": "Mike extrae correctamente que el actor reclama 'tasa activa Banco de la Provincia de Buenos Aires para giros no cubiertos' (con cita de fallo de Lomas de Zamora). Edu calcula la exposición económica usando 'Tasa activa BNA' citando el plenario Samudio. Son dos tasas diferentes (institución y modalidad distinta). La reserva de $1.800.000 calculada por Edu podría estar subestimada o sobreestimada según qué tasa aplique el tribunal. Esta inconsistencia no fue resuelta en el pipeline.",
+      "severidad": "media",
+      "resolucion": "Edu debería haber tomado la tasa del actor tal como la extrajo Mike, y utilizar esa tasa para la proyección de intereses, aclarando que la tasa del actor podría ser impugnable. El borrador debe alertar al abogado sobre esto."
+    },
+    {
+      "id": "ICA-003",
+      "agentes_involucrados": ["Mike", "Jess"],
+      "descripcion": "Mike extrae la fecha del presupuesto (09/08/2023) como dato objetivo del documento. Jess no utiliza este dato en la impugnación del presupuesto, siendo que la fecha (casi un año después del siniestro) refuerza la inconsistencia probatoria.",
+      "severidad": "baja",
+      "resolucion": "Jess debe incorporar la fecha del presupuesto conforme instrucción LOU-005."
+    }
+  ],
+
+  "errores_criticos": [],
+  "_nota_errores_criticos": "No se detectaron errores de severidad crítica. No se encontraron alucinaciones (datos inventados sin fuente). Todos los datos facturales del borrador son consistentes y verificables contra el PDF, mike_output y donna_output. No hay reconocimientos implícitos perjudiciales para la aseguradora. No hay defensas que se contradigan internamente (el escalonamiento subsidiario es correcto). No hay confusión de identidad entre las partes.",
+
+  "datos_no_verificables": [
+    {
+      "id": "DNV-001",
+      "descripcion": "Existencia de póliza de Libra para VW Fox dominio KWV802 a nombre de Ramoa Cáceres, Lucio Daniel, vigente al 11/09/2022. Este es EL dato más crítico del caso: define toda la estrategia. No figura en el expediente ni en ningún output del pipeline.",
+      "fuente_posible": "Sistema interno de Libra (SISE o equivalente). Acceso exclusivo del abogado/operador.",
+      "impacto_si_existe_poliza": "La excepción de falta de legitimación pasiva cae; deben eliminarse las secciones V.A y VII.A antes de presentar y completarse secciones V y VIII con datos de póliza.",
+      "impacto_si_no_existe_poliza": "La excepción sube a VERDE; agregar constancia interna como prueba documental en sección XI.A."
+    },
+    {
+      "id": "DNV-002",
+      "descripcion": "Fecha exacta de notificación a Libra de la citación en garantía. El plazo de 15 días hábiles del art. 118 Ley 17.418 corre desde ese momento. Es posible que el plazo esté vencido o próximo a vencer.",
+      "fuente_posible": "Tribunal (consulta de expediente electrónico) o área de gestión judicial de Libra.",
+      "impacto": "Si el plazo está vencido, la contestación no puede ser presentada. Si quedan menos de 3 días hábiles, debe escalarse al gerente según protocolo del pipeline (ORCHESTRATION.md)."
+    },
+    {
+      "id": "DNV-003",
+      "descripcion": "Fechas exactas de inicio (presentación) del MEPRE 847030 Tramo 1 y Tramo 2. El borrador usa fechas estimadas. Las fechas exactas son necesarias para el cómputo preciso de la prescripción.",
+      "fuente_posible": "Sistema de mediaciones MJYDH (Ministerio de Justicia y Derechos Humanos de la Nación).",
+      "impacto": "Puede hacer la diferencia entre que la prescripción esté o no vencida al 29/02/2024. Con las fechas estimadas del borrador la prescripción habría vencido ~26/10/2023."
+    },
+    {
+      "id": "DNV-004",
+      "descripcion": "Citas jurisprudenciales incluidas en el borrador: 'CNCiv en pleno, 20/04/2009, Samudio de Martínez c/ Transportes Doscientos Setenta SA'. Esta cita fue verificada como correcta en cuanto a las partes y la fecha. La doctrina del plenario (tasa activa) es bien conocida. No fue verificada la publicación oficial del fallo.",
+      "fuente_posible": "Sistema de jurisprudencia de la CNCiv / La Ley.",
+      "impacto": "Bajo: la existencia y doctrina de este plenario es notoriamente conocida en el foro civil de CABA y no es cuestionable."
+    },
+    {
+      "id": "DNV-005",
+      "descripcion": "Plenario 'Gauna' de CNCiv invocado para la caducidad. El borrador cita 'CNCiv en pleno, Gauna' sin más datos identificatorios (fecha, publicación). No fue posible verificar la existencia y doctrina exacta de este plenario.",
+      "fuente_posible": "Base de jurisprudencia de CNCiv. Se desconoce si es 'Gauna, Clementina c/ Ciudad de Buenos Aires' u otro caso Gauna.",
+      "impacto": "Medio: si el plenario no existe o su doctrina no es la que el borrador le atribuye, la defensa de caducidad queda debilitada. El abogado debe verificar antes de presentar."
+    }
+  ],
+
+  "instrucciones_para_jess": [
+    {
+      "id": "JESS-001",
+      "prioridad": "alta",
+      "tipo": "agregar_contenido",
+      "seccion_destino": "notas_para_abogado",
+      "instruccion": "Agregar el siguiente punto al final de las notas_para_abogado: 'ALERTA — PERICIA CONTABLE: al presentar este escrito negando el vínculo aseguraticio de Libra con el demandado, el actor podrá invocar la pericia contable ofrecida en subsidio (mike_output, prueba_ofrecida.pericial[1]). Los puntos periciales incluyen verificar si figura póliza para el vehículo KWV802, si estaba vigente al siniestro, el monto de la cobertura, si existe denuncia del asegurado, y el monto reservado. Libra deberá estar preparada para exhibir (o explicar la ausencia de) esos registros. Verificar internamente ANTES de presentar el escrito que el sistema de Libra no registra póliza para VW Fox KWV802 / Ramoa Cáceres, Lucio Daniel (DNI 93.756.969), a fin de que la respuesta al perito contador sea consistente con la posición adoptada en este escrito.'"
+    },
+    {
+      "id": "JESS-002",
+      "prioridad": "media",
+      "tipo": "correccion_cita",
+      "seccion_destino": "VI.B — Excepción de Prescripción",
+      "instruccion": "Revisar la cita 'Art. 347 inc. 6 CPCyCN' en la excepción de prescripción. En el texto vigente del CPCyCN, art. 347 inc. 6 corresponde a 'Cosa juzgada'; la prescripción se rige por los arts. 346 y 348. Sustituir por 'Arts. 346 y 348 CPCyCN' o, en su defecto, añadir aclaración: '(art. 347 en concordancia con arts. 346 y 348 CPCyCN)'. Verificar la práctica del tribunal asignado."
+    },
+    {
+      "id": "JESS-003",
+      "prioridad": "media",
+      "tipo": "agregar_contenido",
+      "seccion_destino": "notas_para_abogado",
+      "instruccion": "Agregar nota sobre tasa de interés: 'TASA DE INTERÉS: El actor reclama tasa activa Banco de la Provincia de Buenos Aires para giros en cuenta corriente no cubiertos, citando un fallo de primera instancia de Lomas de Zamora no vinculante para CNCiv (JCC N° 7, Rubio c/ Milazzotto, 14/11/2003). El plenario Samudio (CNCiv en pleno, 20/04/2009), vinculante para CNCiv, aplica tasa activa BNA para descuento de documentos comerciales. Verificar qué tasa aplica la sala interviniente. Si aplica BNA (Samudio), la tasa reclamada por el actor puede ser impugnada al momento de la liquidación. La reserva calculada por Edu ($1.800.000 provisional) fue calculada sobre tasa BNA — ajustar si la sala aplica tasa BAPBA.'"
+    },
+    {
+      "id": "JESS-004",
+      "prioridad": "baja",
+      "tipo": "agregar_dato_factual",
+      "seccion_destino": "Sección 3.6 y VII.B — Impugnación presupuesto Taller Tati",
+      "instruccion": "Agregar que el presupuesto del Taller Tati está fechado el 09/08/2023, es decir, casi un año después del siniestro del 11/09/2022. Esto constituye una cuarta inconsistencia adicional a la triple ya documentada: el presupuesto no es contemporáneo con el siniestro. Texto sugerido: 'A la triple inconsistencia ya señalada se suma una cuarta: el presupuesto está fechado el 09/08/2023, esto es, casi un año después del siniestro (11/09/2022), lo que genera interrogantes adicionales sobre su autenticidad y pertinencia respecto de los valores de reparación vigentes a la fecha del hecho.'"
+    },
+    {
+      "id": "JESS-005",
+      "prioridad": "baja",
+      "tipo": "correccion_dato",
+      "seccion_destino": "VI.B — Cómputo de prescripción",
+      "instruccion": "Corregir 'habría vencido aproximadamente en noviembre de 2023' por 'habría vencido aproximadamente a fines de octubre de 2023 (en torno al 26 de octubre de 2023)' para mantener consistencia con el cómputo presentado en el mismo párrafo (siniestro 11/09/2022 + 12 meses + ~45 días de suspensión ≈ 26/10/2023)."
+    },
+    {
+      "id": "JESS-006",
+      "prioridad": "baja",
+      "tipo": "precision_descripcion",
+      "seccion_destino": "Sección 3.6 y VII.B",
+      "instruccion": "Ampliar la descripción de los trabajos del presupuesto Tati de 'puerta y guardabarro izquierdo' a 'reemplazo de puerta delantera izquierda, reparación y pintura de guardabarro delantero izquierdo (con un ítem específico de mano de obra de pintura de $87.500)' para reflejar fielmente el contenido del presupuesto original."
+    },
+    {
+      "id": "JESS-007",
+      "prioridad": "baja",
+      "tipo": "agregar_contenido",
+      "seccion_destino": "notas_para_abogado",
+      "instruccion": "Agregar nota: 'TASA DE INTERÉS — DEFENSA FUTURA EN LIQUIDACIÓN: El actor fundamenta la tasa de interés en JCC N°7, Lomas de Zamora (2003), fallo no vinculante para CNCiv. Al momento de la liquidación, impugnar la tasa reclamada e invocar la tasa BNA del plenario Samudio (CNCiv en pleno, 20/04/2009) como tasa vinculante para este fuero.'"
+    }
+  ],
+
+  "notas_para_abogado": [
+    "VERIFICACIÓN DE CALIDAD DEL BORRADOR — LOU: Este borrador superó la verificación adversarial con score 79/100 (umbral 'corregir_y_reenviar'). Se identificaron 7 hallazgos: 1 de severidad alta, 3 media y 3 baja. No se detectaron alucinaciones ni errores críticos. El borrador es recuperable con correcciones menores. Se recomienda esperar la segunda iteración de Jess antes de presentar.",
+    "URGENCIA — PLAZO: Verificar HOY la fecha de notificación de la citación en garantía a Libra. El plazo de 15 días hábiles (art. 118 Ley 17.418) corre desde ese momento. Si el plazo está próximo a vencer, priorizar este escrito por sobre cualquier otra corrección. Si quedan menos de 3 días hábiles, escalar al gerente conforme protocolo.",
+    "URGENCIA — PÓLIZA: Verificar en el sistema interno de Libra si existe póliza de RC Auto vigente al 11/09/2022 para VW Fox, dominio KWV802, a nombre de Lucio Daniel Ramoa Cáceres (DNI 93.756.969). Este dato define TODA la estrategia. (a) Si NO existe póliza: reforzar excepciones de legitimación pasiva y eliminar las advertencias '⚠️ REQUIERE REVISION'; esta es la defensa más fuerte. (b) Si SÍ existe póliza: eliminar sección VI.A y VII.A antes de presentar; completar secciones V y VIII con datos contractuales; recalcular reserva.",
+    "ALERTA — PERICIA CONTABLE: Al presentar este escrito negando el vínculo aseguraticio, el actor puede invocar la pericia contable ofrecida en subsidio (puntos periciales: si figura póliza para KWV802, si estaba vigente, monto de la cobertura, si hay denuncia del asegurado, monto reservado). Preparar respuesta interna coherente con la posición adoptada en este escrito antes de presentarlo. Ver hallazgo LOU-001.",
+    "DEFENSA PRINCIPAL — PRESUPUESTO INCONSISTENTE: La impugnación del presupuesto Taller Tati (Sección VII.B) es la defensa sustancial más sólida. El presupuesto tiene cuatro inconsistencias: (1) vehículo diferente (VW Gol Power KGT 054 vs. VW Voyage AB162LT); (2) daños diferentes (puerta/guardabarro izquierdo vs. paragolpe delantero/capó); (3) dominio diferente; (4) fechado 09/08/2023, casi un año después del siniestro. Esta defensa elimina o reduce drásticamente el 51.2% del reclamo ($435.500 de daños materiales). Priorizar en juicio.",
+    "EXCEPCIÓN DE PRESCRIPCIÓN: Verificar fechas exactas de inicio (presentación) de cada tramo del MEPRE 847030 en MJYDH. Con las fechas estimadas actuales, la prescripción habría vencido aproximadamente el 26/10/2023. Investigar posición de la sala interviniente sobre art. 58 Ley 17.418 vs. art. 2561 CCCN: si aplica el plazo de 3 años, considerar no oponer esta excepción para evitar desgaste. Ver hallazgo LOU-002 sobre la cita del artículo.",
+    "PLENARIO 'GAUNA': El borrador cita 'CNCiv en pleno, Gauna' para la caducidad sin datos identificatorios completos (fecha, partes, publicación). Verificar la existencia y doctrina exacta de este plenario antes de presentar la defensa de caducidad. Si no se puede localizar el plenario, reformular la cita.",
+    "TASA DE INTERÉS: Ver hallazgo LOU-003. El actor reclama tasa Banco de la Provincia de Buenos Aires (fallo de Lomas de Zamora, no vinculante para CNCiv). El plenario Samudio aplica tasa BNA. Verificar qué tasa usa la sala. La reserva de Edu fue calculada sobre tasa BNA — ajustar si difiere.",
+    "DATOS A COMPLETAR ANTES DE PRESENTAR: (a) CUIT de Libra; (b) nombre, matrícula CPACF, CUIT y domicilio procesal del letrado apoderado; (c) número de expediente; (d) fecha de presentación; (e) póliza y datos contractuales o constancia de inexistencia; (f) expediente de siniestro interno (si existe). El borrador tiene todos estos campos correctamente marcados como '[COMPLETAR]'."
+  ],
+
+  "confianza_revision": "high",
+  "_confianza_nota": "Confianza HIGH: todos los documentos del pipeline estuvieron disponibles para verificación (jess_output, edu_output, mike_output, donna_output, PDF original). La verificación factual fue completa: todos los datos del borrador fueron cruzados contra el PDF. No hubo factores que impidieran realizar la revisión. Los hallazgos son concretos y trazables. La confianza se aplica a la revisión en sí, no a las secciones del borrador que dependen de datos faltantes (póliza, fecha de notificación).",
+
+  "_metadata": {
+    "agente": "Lou — Review Agent Libra Legal AI",
+    "caso": "García, Marcos Horacio c/ Ramoa Cáceres, Lucio Daniel y Libra Compañía Argentina de Seguros S.A. s/ Daños y Perjuicios",
+    "fecha_revision": "2026-03-11",
+    "skill_aplicado": "review-consistency-ar + review-normative-risk-ar",
+    "iteracion": 1,
+    "documentos_verificados": [
+      "jess_output.json (borrador contestación demanda)",
+      "edu_output.json (triage: risk-assessment-ar, coverage-opinion-ar, viability-check-ar)",
+      "mike_output.json (extraction-claim-summary-ar)",
+      "donna_output.json (ingesta: formal_review + señales_atencion)",
+      "fc3a5579-787d-4407-8c83-51c280ee74c1.pdf (demanda original + adjuntos)",
+      "ORCHESTRATION.md (pipeline canónico)"
+    ],
+    "alucinaciones_detectadas": 0,
+    "errores_criticos_detectados": 0,
+    "hallazgos_alta_severidad": 1,
+    "hallazgos_media_severidad": 3,
+    "hallazgos_baja_severidad": 3,
+    "inconsistencias_cross_agent_detectadas": 3,
+    "proxima_accion": "Re-activar Jess con instrucciones JESS-001 a JESS-007 (1 iteración adicional permitida por ORCHESTRATION.md). Prioridad absoluta: verificar fecha de notificación y existencia de póliza."
+  }
+}

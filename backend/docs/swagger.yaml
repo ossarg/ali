@@ -1,5 +1,66 @@
 basePath: /
 definitions:
+  dto.AgreementResponse:
+    properties:
+      agreement_type:
+        $ref: '#/definitions/models.AgreementType'
+      amount:
+        type: number
+      beneficiary:
+        type: string
+      case_event_id:
+        type: string
+      case_id:
+        type: string
+      claim_number:
+        type: string
+      concept:
+        type: string
+      created_at:
+        type: string
+      due_date:
+        type: string
+      extraction_status:
+        $ref: '#/definitions/models.AgreementExtractionStatus'
+      id:
+        type: string
+      invoice_number:
+        type: string
+      producer:
+        type: string
+      status:
+        $ref: '#/definitions/dto.AgreementStatus'
+    type: object
+  dto.AgreementStatus:
+    enum:
+    - vigente
+    - proximo
+    - vencido
+    - sin_fecha
+    type: string
+    x-enum-comments:
+      AgreementStatusProximo: due within 7 days
+    x-enum-descriptions:
+    - ""
+    - due within 7 days
+    - ""
+    - ""
+    x-enum-varnames:
+    - AgreementStatusVigente
+    - AgreementStatusProximo
+    - AgreementStatusVencido
+    - AgreementStatusSinFecha
+  dto.AttachmentMetaDTO:
+    properties:
+      key:
+        type: string
+      mime:
+        type: string
+      name:
+        type: string
+      size:
+        type: integer
+    type: object
   dto.BatchResolveResponse:
     properties:
       errors:
@@ -26,7 +87,17 @@ definitions:
     properties:
       approved:
         type: boolean
+      attachments:
+        items:
+          $ref: '#/definitions/dto.AttachmentMetaDTO'
+        type: array
+      body_clean:
+        type: string
+      case_caratula:
+        type: string
       case_id:
+        type: string
+      case_title:
         type: string
       confidence:
         type: number
@@ -35,6 +106,8 @@ definitions:
       correction_comment:
         type: string
       created_at:
+        type: string
+      description:
         type: string
       id:
         type: string
@@ -72,7 +145,11 @@ definitions:
         type: string
       reviewed_by:
         type: string
+      reviewed_by_name:
+        type: string
       subject:
+        type: string
+      title:
         type: string
     type: object
   dto.CaseResponse:
@@ -81,6 +158,8 @@ definitions:
         type: string
       assigned_user:
         $ref: '#/definitions/dto.UserSummary'
+      caratula:
+        type: string
       case_number:
         type: string
       case_type:
@@ -228,18 +307,45 @@ definitions:
       status:
         type: string
     type: object
+  dto.CreateAgreementRequest:
+    properties:
+      agreement_type:
+        $ref: '#/definitions/models.AgreementType'
+      amount:
+        type: number
+      beneficiary:
+        type: string
+      case_event_id:
+        type: string
+      claim_number:
+        type: string
+      concept:
+        type: string
+      due_date:
+        type: string
+      invoice_number:
+        type: string
+      producer:
+        type: string
+    required:
+    - case_event_id
+    type: object
   dto.CreateCaseEventRequest:
     properties:
+      body_clean:
+        type: string
       confidence:
         maximum: 1
         minimum: 0
         type: number
+      description:
+        type: string
       mail_id:
         type: string
       mail_provider:
         type: string
       mail_type:
-        maximum: 7
+        maximum: 11
         minimum: 1
         type: integer
       raw_caratula:
@@ -256,6 +362,8 @@ definitions:
       received_at:
         type: string
       subject:
+        type: string
+      title:
         type: string
     required:
     - confidence
@@ -320,6 +428,25 @@ definitions:
         description: required when changing mail_type
         type: string
     type: object
+  dto.UpdateAgreementRequest:
+    properties:
+      agreement_type:
+        $ref: '#/definitions/models.AgreementType'
+      amount:
+        type: number
+      beneficiary:
+        type: string
+      claim_number:
+        type: string
+      concept:
+        type: string
+      due_date:
+        type: string
+      invoice_number:
+        type: string
+      producer:
+        type: string
+    type: object
   dto.UserInfo:
     properties:
       capabilities:
@@ -348,6 +475,24 @@ definitions:
       last_name:
         type: string
     type: object
+  models.AgreementExtractionStatus:
+    enum:
+    - pending
+    - completed
+    - failed
+    type: string
+    x-enum-varnames:
+    - ExtractionPending
+    - ExtractionCompleted
+    - ExtractionFailed
+  models.AgreementType:
+    enum:
+    - mediacion
+    - juicio
+    type: string
+    x-enum-varnames:
+    - AgreementTypeMediacion
+    - AgreementTypeJuicio
   sise.Claim:
     properties:
       causa:
@@ -526,6 +671,39 @@ info:
   title: Libra Legal API
   version: "1.0"
 paths:
+  /api/v1/activity/events/{id}:
+    delete:
+      parameters:
+      - description: Event UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a case event (hard if pending, soft if approved)
+      tags:
+      - activity
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Event UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CaseEventResponse'
+      summary: Edit a case event
+      tags:
+      - activity
   /api/v1/activity/events/{id}/resolve:
     post:
       consumes:
@@ -568,6 +746,46 @@ paths:
       summary: Retry claim resolution with corrected nro_stro
       tags:
       - claims
+  /api/v1/agents/attachments:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Accepts a single file (PDF or Office doc). Stores it and appends
+        metadata to the event's attachments JSONB.
+      parameters:
+      - description: Case event UUID
+        in: formData
+        name: event_id
+        required: true
+        type: string
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Upload attachment for a case event
+      tags:
+      - attachments
   /api/v1/agents/case-events:
     post:
       consumes:
@@ -620,6 +838,181 @@ paths:
       tags:
       - cases
       - claims
+  /api/v1/agreements:
+    get:
+      description: Returns paginated agreements ordered by due_date ASC. Status (vigente/proximo/vencido)
+        is computed on-the-fly.
+      parameters:
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Page size (default 20, max 100)
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List all agreements
+      tags:
+      - agreements
+    post:
+      consumes:
+      - application/json
+      description: Create an agreement manually (used when extraction fails or for
+        manual entry).
+      parameters:
+      - description: Agreement data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateAgreementRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.AgreementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create agreement manually
+      tags:
+      - agreements
+  /api/v1/agreements/{id}:
+    delete:
+      parameters:
+      - description: Agreement UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete agreement
+      tags:
+      - agreements
+    get:
+      parameters:
+      - description: Agreement UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AgreementResponse'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get agreement by ID
+      tags:
+      - agreements
+    patch:
+      consumes:
+      - application/json
+      description: Patch agreement fields. Sets extraction_status to completed (human
+        reviewed).
+      parameters:
+      - description: Agreement UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Fields to update
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateAgreementRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AgreementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update agreement
+      tags:
+      - agreements
+  /api/v1/attachments/{key}:
+    get:
+      description: Streams the stored file by its key.
+      parameters:
+      - description: Storage key (URL encoded)
+        in: path
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Download an attachment
+      tags:
+      - attachments
   /api/v1/auth/login:
     post:
       consumes:
@@ -871,6 +1264,34 @@ paths:
       summary: Get case by ID
       tags:
       - cases
+  /api/v1/cases/{id}/agreements:
+    get:
+      parameters:
+      - description: Case UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.AgreementResponse'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List agreements for a case
+      tags:
+      - agreements
   /api/v1/cases/{id}/events:
     get:
       description: Returns all case events linked to a case (approved emails from

@@ -14,7 +14,7 @@ import (
 	_ "github.com/swaggo/files"
 )
 
-func InitRouter(cfg *config.Config, authController *controllers.AuthController, caseController *controllers.CaseController, claimController *controllers.ClaimController, attachmentController *controllers.AttachmentController) *echo.Echo {
+func InitRouter(cfg *config.Config, authController *controllers.AuthController, caseController *controllers.CaseController, claimController *controllers.ClaimController, attachmentController *controllers.AttachmentController, agreementController *controllers.AgreementController) *echo.Echo {
 	e := echo.New()
 	e.HTTPErrorHandler = apierrors.Handler
 
@@ -51,6 +51,14 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	api.GET("/cases/:id", caseController.GetByID)
 	api.GET("/cases/:id/events", caseController.ListCaseEvents)
 	api.GET("/case-events/:id/attachments", attachmentController.ListByEvent)
+
+	// Agreements
+	api.GET("/agreements", agreementController.List)
+	api.POST("/agreements", agreementController.Create)
+	api.GET("/agreements/:id", agreementController.GetByID)
+	api.PATCH("/agreements/:id", agreementController.Update)
+	api.DELETE("/agreements/:id", agreementController.Delete)
+	api.GET("/cases/:id/agreements", agreementController.ListByCaseID)
 	api.GET("/activity/metrics", caseController.GetEventMetrics)
 	api.GET("/activity/events/approved", caseController.ListApprovedEvents)
 	api.GET("/activity/events/pending", caseController.ListPendingEvents)

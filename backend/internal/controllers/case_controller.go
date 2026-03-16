@@ -12,12 +12,13 @@ import (
 )
 
 type CaseController struct {
-	caseService  services.CaseService
-	claimService services.ClaimService
+	caseService     services.CaseService
+	claimService    services.ClaimService
+	agreementService services.AgreementService
 }
 
-func NewCaseController(caseService services.CaseService, claimService services.ClaimService) *CaseController {
-	return &CaseController{caseService: caseService, claimService: claimService}
+func NewCaseController(caseService services.CaseService, claimService services.ClaimService, agreementService services.AgreementService) *CaseController {
+	return &CaseController{caseService: caseService, claimService: claimService, agreementService: agreementService}
 }
 
 // ListCases godoc
@@ -170,7 +171,7 @@ func (cc *CaseController) ReviewEvent(c echo.Context) error {
 	}
 	reviewerID := claims.UserID
 
-	resp, err := cc.caseService.ReviewEvent(id, reviewerID, req, cc.claimService)
+	resp, err := cc.caseService.ReviewEvent(id, reviewerID, req, cc.claimService, cc.agreementService)
 	if err != nil {
 		return err
 	}

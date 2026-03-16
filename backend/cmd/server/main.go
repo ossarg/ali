@@ -80,11 +80,16 @@ func main() {
 
 	// Controllers
 	authController       := controllers.NewAuthController(authService)
-	caseController       := controllers.NewCaseController(caseService, claimService)
+	agreementRepo       := repositories.NewAgreementRepository(db)
+	agreementService    := services.NewAgreementService(agreementRepo)
+	agreementController := controllers.NewAgreementController(agreementService)
+
+	caseController       := controllers.NewCaseController(caseService, claimService, agreementService)
 	claimController      := controllers.NewClaimController(claimService)
 	attachmentController := controllers.NewAttachmentController(fileStore, caseRepo)
 
-	e := router.InitRouter(cfg, authController, caseController, claimController, attachmentController)
+
+	e := router.InitRouter(cfg, authController, caseController, claimController, attachmentController, agreementController)
 
 	addr := fmt.Sprintf(":%s", cfg.Server.Port)
 

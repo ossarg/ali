@@ -1,0 +1,475 @@
+{
+  "claim_summary": {
+    "expediente": {
+      "caratula": {
+        "value": "García, Marcos Horacio c/ Ramoa Cáceres, Lucio Daniel y Libra Compañía Argentina de Seguros S.A. s/ Daños y Perjuicios",
+        "confidence": "high",
+        "source_text": "vengo a iniciar en legal tiempo, demanda de daños y perjuicios contra LUCIO DANIEL RAMOA CÁCERES, DNI 93.756.969... y contra LIBRA COMPAÑIA ARGENTINA DE SEGUROS S.A."
+      },
+      "numero_expediente": {
+        "value": null,
+        "confidence": "low",
+        "source_text": null
+      },
+      "tribunal": {
+        "value": null,
+        "confidence": "low",
+        "source_text": null
+      },
+      "fuero": {
+        "value": "Civil",
+        "confidence": "high",
+        "source_text": "FUERO: Civil (consta en las tres actas de mediación MEPRE N° 847030 y en el encabezado del escrito de demanda)"
+      },
+      "jurisdiccion": {
+        "value": "CABA",
+        "confidence": "high",
+        "source_text": "Ciudad Autónoma de Buenos Aires (zona de notificación 0088); domicilio constituido: Lavalle N° 1290, Piso 3°, Oficina 302, de la Ciudad Autónoma de Buenos Aires (zona 0172)"
+      },
+      "instancia": {
+        "value": "Primera instancia",
+        "confidence": "medium",
+        "source_text": null
+      },
+      "secretaria": {
+        "value": null,
+        "confidence": "low",
+        "source_text": null
+      },
+      "tipo_proceso": {
+        "value": "ordinario",
+        "confidence": "medium",
+        "source_text": null
+      },
+      "mepre": {
+        "value": "847030",
+        "confidence": "high",
+        "source_text": "MEPRE N° 847030"
+      }
+    },
+    "partes": {
+      "actores": [
+        {
+          "nombre": "García, Marcos Horacio",
+          "tipo": "persona_fisica",
+          "identificacion": "DNI 29.414.992 / CUIL 23-29414992-9",
+          "domicilio_real": "Medrano 1670 5° \"B\", CABA (según demanda); Metán 120 Fondo, Lomas de Zamora (según mediación y denuncia San Cristóbal); Iguazú 1600, Mza 53, Casa 15, Barracas, CABA (según dorso de DNI)",
+          "domicilio_procesal": "Lavalle N° 1290, Piso 3°, Oficina 302, CABA (zona 0172)",
+          "domicilio_electronico": "27341461044 (Dra. Moralejo) / 27338266516 (Dra. Farias)",
+          "observacion": "El actor registra tres domicilios distintos en diferentes piezas del expediente"
+        }
+      ],
+      "demandados": [
+        {
+          "nombre": "Ramoa Cáceres, Lucio Daniel",
+          "tipo": "persona_fisica",
+          "identificacion": "DNI 93.756.969",
+          "domicilio": "Av. Osvaldo Cruz 1993, CABA",
+          "observacion": "Figura con distintas identidades en el expediente: 'Cáceres, Lucio Ramón' (actas 1 y 2 de mediación), 'Ramoa Cáceres, Lucio Daniel' (acta 3 de mediación y demanda), 'lucio Ramoa, Cáceres' (denuncia de siniestro)"
+        }
+      ],
+      "citados_en_garantia": [
+        {
+          "nombre": "Libra Compañía Argentina de Seguros S.A.",
+          "poliza_vinculada": null,
+          "domicilio": "Olazabal 1515, Piso 11°, Oficina 1111, CABA (zona de notificación 0088)",
+          "observacion": "No se menciona número de póliza en la demanda. La denuncia ante San Cristóbal (aseguradora del actor) indicó que el vehículo del demandado figuraba 'No posee seguro/No informada'. Vínculo aseguraticio no acreditado en la documentación adjunta."
+        }
+      ],
+      "terceros": null,
+      "tipo_intervencion_aseguradora": {
+        "value": "citacion_garantia",
+        "confidence": "high",
+        "source_text": "conforme lo establecido por el art. 118 de la Ley 17.418 venimos a citar en garantía a LIBRA COMPAÑIA ARGENTINA DE SEGUROS S.A., con domicilio en Olazabal 1515, Piso 11º, Oficina 1111, Ciudad Autónoma de Buenos Aires (zona de notificación 0088)"
+      },
+      "cantidad_partes": 3,
+      "letrados_actora": [
+        {
+          "nombre": "Moralejo, Daiana Solange",
+          "matricula": "CPACF T° 122 F° 882",
+          "cuit": "27-34146104-4",
+          "domicilio_electronico": "27341461044",
+          "email": "daianamoralejo@gmail.com",
+          "telefono": "156-160-5514"
+        },
+        {
+          "nombre": "Farias, Sabrina Giselle",
+          "matricula": "CPACF T° 121 F° 602",
+          "cuit": "27-33826651-6",
+          "domicilio_electronico": "27338266516",
+          "email": "farias.sabrinag@outlook.com",
+          "telefono": "156-721-7200"
+        }
+      ],
+      "autorizados": [
+        "Martínez, Pablo Emilio",
+        "Kuperman, Christian Hernán"
+      ]
+    },
+    "siniestro": {
+      "numero_siniestro": {
+        "value": null,
+        "confidence": "low",
+        "source_text": "No se menciona número de siniestro de Libra. Número de siniestro del actor ante San Cristóbal (su propia aseguradora): 05-01-02398019"
+      },
+      "fecha_siniestro": {
+        "value": "2022-09-11",
+        "confidence": "high",
+        "source_text": "El día 11 de Septiembre de 2022, siendo aproximadamente las 11:00 horas"
+      },
+      "hora_siniestro": "11:00 horas (aproximadamente)",
+      "fecha_denuncia": {
+        "value": null,
+        "confidence": "low",
+        "source_text": "No consta fecha de denuncia ante Libra. Denuncia del actor ante San Cristóbal: 16/09/2022"
+      },
+      "lugar": {
+        "value": "Osvaldo Cruz a la altura 3600 (y la bajada de la loma), Ciudad Autónoma de Buenos Aires",
+        "confidence": "high",
+        "source_text": "mi vehículo particular VOLKSWAGEN VOYAGE, DOMINIO AB162LT, se encontraba estacionado en Osvaldo Cruz a la altura 3600 (y la bajada de la loma), de la Ciudad de Buenos Aires"
+      },
+      "descripcion": "El 11/09/2022 aproximadamente a las 11:00 hs., el vehículo VW Voyage (dominio AB162LT, año 2017) del actor García se encontraba estacionado en Osvaldo Cruz al 3600, CABA. El actor no se encontraba en el vehículo. El demandado Ramoa Cáceres, con su VW Fox (dominio KWV802), al intentar dar marcha atrás colocado en paralelo para girar y tomar la calle en sentido contrario (hacia la calle Zabaleta), embistió la parte delantera del VW Voyage con el estribo lateral de su rodado. El impacto provocó el desplazamiento brusco del vehículo estacionado hacia atrás sin colisionar con otro vehículo. El actor no sufrió lesiones físicas (no estaba en el rodado). Se reclaman exclusivamente daños materiales al vehículo y daño moral por secuelas psicológicas.",
+      "tipo_siniestro": {
+        "value": "Accidente vehicular - daños materiales (vehículo en movimiento contra vehículo estacionado)",
+        "confidence": "high",
+        "source_text": "Colisión con vehículos / Colisión con automotor (denuncia de siniestro ante San Cristóbal)"
+      },
+      "lesiones_descriptas": [],
+      "daños_descriptos": [
+        "Paragolpe delantero",
+        "Capó",
+        "Óptica delantera",
+        "Guardabarros"
+      ],
+      "vehiculos_involucrados": [
+        {
+          "rol": "vehículo del actor (estacionado — agente pasivo)",
+          "marca": "Volkswagen",
+          "modelo": "Voyage",
+          "patente": "AB162LT",
+          "anio": "2017",
+          "version": "1.6 HIGHLINE L/17",
+          "motor": "CFZR75415",
+          "chasis": "9BWDB45U8HT055097",
+          "conductor_al_momento": "nadie (el actor no se encontraba en el vehículo)",
+          "propietario": "García, Marcos Horacio"
+        },
+        {
+          "rol": "vehículo del demandado (embistente)",
+          "marca": "Volkswagen",
+          "modelo": "Fox",
+          "patente": "KWV802",
+          "anio": null,
+          "conductor": "Ramoa Cáceres, Lucio Daniel",
+          "propietario": null
+        }
+      ],
+      "fallecimiento": false
+    },
+    "poliza_segun_demanda": {
+      "numero_poliza": {
+        "value": null,
+        "confidence": "low",
+        "source_text": "No se menciona número de póliza de Libra en la demanda. Se intima a la aseguradora a acompañar la póliza correspondiente al asegurado."
+      },
+      "aseguradora": {
+        "value": "Libra Compañía Argentina de Seguros S.A.",
+        "confidence": "high",
+        "source_text": "venimos a citar en garantía a LIBRA COMPAÑIA ARGENTINA DE SEGUROS S.A."
+      },
+      "tomador": {
+        "value": null,
+        "confidence": "low",
+        "source_text": null
+      },
+      "asegurado": {
+        "value": "Ramoa Cáceres, Lucio Daniel (inferido: es el demandado cuyo vehículo estaría asegurado)",
+        "confidence": "medium",
+        "source_text": null
+      },
+      "suma_asegurada": {
+        "value": null,
+        "confidence": "low",
+        "source_text": null
+      },
+      "franquicia": {
+        "value": null,
+        "confidence": "low",
+        "source_text": null
+      },
+      "vigencia_desde": {
+        "value": null,
+        "confidence": "low",
+        "source_text": null
+      },
+      "vigencia_hasta": {
+        "value": null,
+        "confidence": "low",
+        "source_text": null
+      },
+      "productor": {
+        "value": null,
+        "confidence": "low",
+        "source_text": null
+      },
+      "ramo": {
+        "value": "RC Auto (presumible por ser accidente vehicular)",
+        "confidence": "medium",
+        "source_text": null
+      }
+    },
+    "reclamo": {
+      "monto_reclamado": {
+        "value": "850000",
+        "confidence": "high",
+        "source_text": "por la suma de PESOS OCHOCIENTOS CINCUENTA MIL ($850.000), según la liquidación que infra se practicará, o aquello que más o menos resulte de las pruebas a producirse en autos, siempre, con más su actualización, intereses y costas"
+      },
+      "moneda": {
+        "value": "ARS",
+        "confidence": "high",
+        "source_text": null
+      },
+      "monto_estimativo": true,
+      "rubros": [
+        {
+          "actor": "García, Marcos Horacio",
+          "rubro": "Daño moral",
+          "monto": {
+            "value": "100000",
+            "confidence": "high",
+            "source_text": "reclama por este rubro la suma de PESOS CIEN MIL ($ 100.000), o lo que más o menos resulte de la prueba a producirse en autos y/o el elevado criterio de V.S."
+          },
+          "moneda": "ARS",
+          "base_calculo": "No se explicita fórmula. El actor describe afectaciones psicológicas: angustia, miedo a conducir (dejó de manejar), alteraciones del sueño, pesadillas, pérdida de apetito, depresión, bajo rendimiento laboral, aislamiento de actividades placenteras y modificación de hábitos cotidianos como consecuencia del siniestro.",
+          "distribucion_porcentual": null
+        },
+        {
+          "actor": "García, Marcos Horacio",
+          "rubro": "Daños materiales",
+          "monto": {
+            "value": "435500",
+            "confidence": "medium",
+            "source_text": "reclamo por este rubro la suma de PESOS CUATROCIENTOS TREINTA Y CINCO MIL QUINIENTOS ($435.500) en razón de la suma del presupuesto de reparación extendido. NOTA: en la liquidación (punto VI) figura $435.000 — diferencia de $500 respecto al cuerpo del escrito."
+          },
+          "moneda": "ARS",
+          "base_calculo": "Presupuesto de reparación del Taller Integral de Chapa y Pintura 'Tati' (Dr. Pedro Baliña 3952, CABA). ALERTA CRÍTICA: el presupuesto refiere al vehículo VW Gol Power, dominio KGT 054, que NO es el del actor (VW Voyage, dominio AB162LT). Los daños presupuestados (puerta y guardabarro izquierdo) tampoco coinciden con los daños denunciados (paragolpe delantero) ni con las fotografías.",
+          "distribucion_porcentual": null
+        },
+        {
+          "actor": "García, Marcos Horacio",
+          "rubro": "Desvalorización del rodado",
+          "monto": {
+            "value": "300000",
+            "confidence": "high",
+            "source_text": "reclama por este rubro la suma de PESOS TRESCIENTOS MIL ($300.000), o lo que más o menos resulte de la prueba de autos y/o el elevado criterio de V.S."
+          },
+          "moneda": "ARS",
+          "base_calculo": "5% del valor de mercado del vehículo, estimado por el actor en $6.000.000 para un vehículo de iguales características sin siniestro previo.",
+          "distribucion_porcentual": null
+        },
+        {
+          "actor": "García, Marcos Horacio",
+          "rubro": "Privación de uso del rodado",
+          "monto": {
+            "value": "15000",
+            "confidence": "high",
+            "source_text": "reclama por este rubro la suma de PESOS QUINCE MIL ($15.000), a razón de $ 1.500 por día de gastos"
+          },
+          "moneda": "ARS",
+          "base_calculo": "$1.500 por día × 10 días de imposibilidad de uso estimados (lapso de reparación).",
+          "distribucion_porcentual": null
+        }
+      ],
+      "verificacion_suma": {
+        "suma_rubros_cuerpo": 850500,
+        "suma_rubros_liquidacion": 850000,
+        "monto_peticionado": 850000,
+        "discrepancia": "El total de los rubros según el cuerpo del escrito ($100.000 + $435.500 + $300.000 + $15.000) asciende a $850.500, no a $850.000. La liquidación usa $435.000 (en lugar de $435.500) para llegar a $850.000. Diferencia de $500."
+      },
+      "solicitud_astreintes": {
+        "tiene": false,
+        "detalle": null
+      },
+      "solicitud_tasa_interes": {
+        "tipo_tasa": "tasa activa",
+        "entidad_referencia": "Banco de la Provincia de Buenos Aires (giros no cubiertos sin autorización en cuentas corrientes)",
+        "desde": "fecha del hecho (11/09/2022)",
+        "fuente_jurisprudencial": "CNCiv en pleno, 20/04/2009, 'Samudio de Martínez, Ladislaa c/ Transportes Doscientos Setenta SA s/ daños y perjuicios'"
+      },
+      "error_liquidacion": {
+        "descripcion": "En el apartado VI de Liquidación figura el nombre 'FERNANDO RICARDO ALVAREZ' en lugar del actor 'MARCOS HORACIO GARCÍA'. Error de plantilla evidente por uso de modelo de otra demanda.",
+        "confidence": "high",
+        "source_text": "Quien suscribe FERNANDO RICARDO ALVAREZ, reclama: (punto VI del escrito de demanda)"
+      }
+    },
+    "victima": null,
+    "prueba_ofrecida": {
+      "documental": [
+        "Actas de Inicio y Cierre de Mediación (MEPRE N° 847030): 3 actas correspondientes a 2 tramos de mediación ante mediadora Beatriz Susana Arias (HAB. REGMED MJYDH N° 3986)",
+        "DNI del actor (García, Marcos Horacio, DNI 29.414.992 — frente y dorso)",
+        "Cédula de Identificación del vehículo (VW Voyage, dominio AB162LT, año 2017)",
+        "Licencia de Conducir del actor",
+        "Certificado de Cobertura del vehículo (San Cristóbal Seguros, póliza N° 01-05-01-30857506, vigente al 11/09/2022)",
+        "Denuncia de Siniestro ante San Cristóbal Seguros (siniestro N° 05-01-02398019, del 16/09/2022)",
+        "Presupuesto de reparación del vehículo (Taller Integral de Chapa y Pintura 'Tati', Dr. Pedro Baliña 3952, CABA)",
+        "Fotografías del vehículo del actor (VW Voyage AB162LT — 3 fotografías)"
+      ],
+      "pericial": [
+        {
+          "tipo": "Perito mecánico único de oficio",
+          "estado": "solicitado",
+          "puntos": [
+            "Determinar la posible trayectoria antes y después del impacto de los vehículos intervinientes, mecánica del siniestro, velocidades, posición final de los rodados",
+            "Definir la velocidad precautoria y sus implicancias para el conductor",
+            "Determinar aproximadamente la velocidad del vehículo demandado al impactar y compararla con la del vehículo del actor, teniendo en cuenta la deformación de la carrocería, localización de daños y posición final",
+            "Determinar si es verosímil la mecánica del accidente relatada en la demanda",
+            "Determinar si los deterioros del vehículo del actor son consecuencia del accidente",
+            "Determinar si el vehículo del demandado fue el embestidor mecánico",
+            "Realizar croquis en escala del lugar del siniestro con sentidos de circulación, señalización vial, localización de daños en rodados y posición al momento del impacto y posición final",
+            "Verificar si los deterioros evidenciados en las fotografías son consecuencia del accidente",
+            "Estimar el tiempo que hubiese demandado la reparación del vehículo del actor",
+            "Informar si los importes del presupuesto adjunto se ajustan a valores vigentes en plaza a la fecha de confección y a la fecha de realización de la pericia",
+            "Cualquier otro dato de interés a criterio del perito"
+          ]
+        },
+        {
+          "tipo": "Perito contador único de oficio",
+          "estado": "en suspenso (para el caso que la aseguradora niegue su calidad de tal)",
+          "puntos": [
+            "Si los libros son llevados en correcta y legal forma",
+            "Si figura póliza que ampare el vehículo de propiedad del demandado",
+            "Si estaba vigente la póliza al momento del evento",
+            "Monto de la cobertura",
+            "Remisión de copia certificada de la denuncia del siniestro efectuada por el demandado",
+            "Si el presente pleito figura en las reservas de siniestros pendientes e importe reservado",
+            "Todo otro dato de interés"
+          ]
+        }
+      ],
+      "testimonial": {
+        "cantidad": 1,
+        "identificados": [
+          {
+            "nombre": "Resquin Benitez, Zulma Concepción",
+            "dni": "94.081.097",
+            "domicilio": "Osvaldo Cruz 3550 (calle Manzana 26, Casa 5), Villa 21/24, CABA",
+            "calidad": "testigo presencial del hecho"
+          }
+        ]
+      },
+      "informativa": [
+        "Registro Nacional de la Propiedad Automotor (RNPA): en subsidio, para acreditar titularidad del vehículo del demandado (KWV802) y del actor (AB162LT) al momento del siniestro en caso de desconocimiento",
+        "Aseguradoras citadas en garantía: para que remitan 'ad effectum videndi et probandi' las denuncias administrativas y/o fotocopias certificadas",
+        "Taller Integral de Chapa y Pintura 'Tati' (Dr. Pedro Baliña 3952, CABA): para informar si el presupuesto adjunto es auténtico y fue abonado por el Sr. Marcos Horacio García"
+      ],
+      "confesional": true,
+      "otras": [
+        "Consultor técnico de parte: Ingeniero Mecánico David Cohen, M.P. 5.465, Av. Corrientes 951, Piso 2, Dpto. A, CABA (para contralor de la pericia mecánica; los peritos deberán notificar fecha, hora y lugar de realización bajo apercibimiento de nulidad)"
+      ]
+    },
+    "plazos": {
+      "fecha_presentacion_estimada": {
+        "value": "2024-02-29",
+        "confidence": "medium",
+        "source_text": "Firma digital de la Dra. Moralejo: Date: 2024.02.29 10:40:36 ART"
+      },
+      "fecha_notificacion_demanda": {
+        "value": null,
+        "confidence": "low",
+        "source_text": "No consta en el documento"
+      },
+      "fecha_notificacion_asegurador": {
+        "value": null,
+        "confidence": "low",
+        "source_text": "No consta. En citación en garantía, el plazo para contestar corre desde la notificación al asegurador (art. 118 Ley 17.418), no desde la notificación de la demanda al demandado principal."
+      },
+      "tipo_proceso": {
+        "value": "ordinario",
+        "confidence": "medium",
+        "source_text": null
+      },
+      "plazo_total_dias": 15,
+      "fecha_vencimiento": {
+        "value": null,
+        "confidence": "low",
+        "source_text": "No calculable: no consta fecha de notificación a Libra Cía. Argentina de Seguros S.A."
+      },
+      "dias_restantes": null
+    },
+    "senales_atencion_heredadas_de_donna": [
+      {
+        "tipo": "presupuesto_inconsistente",
+        "gravedad": "muy_alta",
+        "descripcion": "El presupuesto del Taller 'Tati' (único sustento de $435.500 en daños materiales) refiere al VW Gol Power dominio KGT 054, no al VW Voyage AB162LT del actor. Los daños presupuestados (puerta y guardabarro izquierdo) tampoco coinciden con los daños denunciados (paragolpe delantero) ni con las fotografías. Triple inconsistencia."
+      },
+      {
+        "tipo": "error_de_plantilla_critico",
+        "gravedad": "alta",
+        "descripcion": "En la liquidación (punto VI) figura 'FERNANDO RICARDO ALVAREZ' en lugar del actor 'MARCOS HORACIO GARCÍA'. Uso de plantilla de otra demanda sin corrección."
+      },
+      {
+        "tipo": "seguro_demandado_sin_acreditar",
+        "gravedad": "media",
+        "descripcion": "La denuncia ante San Cristóbal consignó que el vehículo del demandado figuraba 'No posee seguro/No informada'. La citación en garantía a Libra no está respaldada por documentación en el expediente."
+      },
+      {
+        "tipo": "discrepancia_domicilio_actor",
+        "gravedad": "media",
+        "descripcion": "Tres domicilios distintos del actor: Medrano 1670 5° B, CABA (demanda); Metán 120 Fondo, Lomas de Zamora (mediación y San Cristóbal); Iguazú 1600, Mza 53, Casa 15, Barracas, CABA (dorso DNI)."
+      },
+      {
+        "tipo": "discrepancia_nombre_demandado",
+        "gravedad": "media",
+        "descripcion": "El demandado figura como 'Cáceres, Lucio Ramón' (actas 1 y 2), 'Ramoa Cáceres, Lucio Daniel' (acta 3 y demanda) y 'lucio Ramoa, Cáceres' (denuncia San Cristóbal)."
+      },
+      {
+        "tipo": "notificacion_mediacion_fallida",
+        "gravedad": "media",
+        "descripcion": "El demandado nunca fue notificado fehacientemente en ninguno de los dos tramos de mediación. Anticipa dificultades en la notificación de la demanda."
+      }
+    ],
+    "resumen_ejecutivo": "Demanda por daños materiales y daño moral derivados de accidente vehicular del 11/09/2022 en Osvaldo Cruz 3600, CABA: el VW Fox (KWV802) del demandado Ramoa Cáceres embistió al VW Voyage (AB162LT, año 2017) del actor García, que se hallaba estacionado. Monto total: $850.000 ARS, estimativo, distribuido en cuatro rubros: daños materiales $435.500, desvalorización del rodado $300.000, daño moral $100.000 y privación de uso $15.000. Libra Cía. Argentina de Seguros S.A. es citada en garantía (art. 118 Ley 17.418) sin número de póliza acreditado ni confirmación de vigencia. No hay lesiones físicas ni fallecimiento. Señales críticas para la defensa: (1) el presupuesto de daños materiales corresponde a un vehículo diferente al del actor; (2) error de nombre en la liquidación ('Fernando Ricardo Alvarez'); (3) vínculo aseguraticio con Libra no acreditado. Plazos de contestación: no determinables, pues no consta fecha de notificación al asegurador.",
+    "overall_confidence": "medium",
+    "campos_baja_confianza": [
+      "expediente.numero_expediente",
+      "expediente.tribunal",
+      "expediente.instancia",
+      "expediente.secretaria",
+      "expediente.tipo_proceso",
+      "siniestro.numero_siniestro",
+      "siniestro.fecha_denuncia",
+      "poliza_segun_demanda.numero_poliza",
+      "poliza_segun_demanda.tomador",
+      "poliza_segun_demanda.suma_asegurada",
+      "poliza_segun_demanda.franquicia",
+      "poliza_segun_demanda.vigencia_desde",
+      "poliza_segun_demanda.vigencia_hasta",
+      "reclamo.rubros[1].monto (discrepancia $500 entre cuerpo y liquidación; presupuesto base refiere a vehículo distinto)",
+      "plazos.fecha_notificacion_demanda",
+      "plazos.fecha_notificacion_asegurador",
+      "plazos.fecha_vencimiento"
+    ]
+  },
+  "policy_summary": null,
+  "overall_confidence": "medium",
+  "campos_criticos_baja_confianza": [
+    "expediente.numero_expediente: no figura en el escrito de demanda",
+    "expediente.tribunal: no especificado en el documento",
+    "siniestro.numero_siniestro: no consta número de siniestro del vehículo del demandado ante Libra",
+    "siniestro.fecha_denuncia: no consta fecha de denuncia ante la citada en garantía",
+    "poliza_segun_demanda.numero_poliza: la demanda no identifica número de póliza de Libra; la intimación a acompañarla está dirigida al tribunal",
+    "reclamo.rubros.daños_materiales.monto: discrepancia de $500 entre cuerpo del escrito ($435.500) y liquidación ($435.000); el presupuesto que sustenta el rubro refiere a un vehículo distinto al del actor (VW Gol Power KGT 054 vs. VW Voyage AB162LT)",
+    "plazos.fecha_notificacion_demanda: no consta en el documento; fecha estimada de presentación: 29/02/2024 (firma digital Dra. Moralejo)",
+    "plazos.fecha_notificacion_asegurador: no consta; crítico porque el plazo de contestación corre desde este momento (art. 118 Ley 17.418)",
+    "plazos.fecha_vencimiento: no calculable por ausencia de fecha de notificación a la aseguradora"
+  ],
+  "_metadata": {
+    "caso": "García, Marcos Horacio c/ Ramoa Cáceres, Lucio Daniel y Libra Cía. Argentina de Seguros S.A. s/ Daños y Perjuicios",
+    "agente": "Mike - Extraction Agent Libra Legal AI",
+    "fuente_primaria": "texto extraído del PDF (pdftotext) + donna_output.json",
+    "pdf_analizado": "fc3a5579-787d-4407-8c83-51c280ee74c1.pdf",
+    "donna_output": "/home/legales/ali/pipeline-tests/garcia-c-ramoa/donna_output.json",
+    "fecha_extraccion": "2026-03-11",
+    "skill_aplicado": "extraction-claim-summary-ar"
+  }
+}

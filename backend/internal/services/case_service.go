@@ -21,7 +21,7 @@ type CaseService interface {
 	ListApprovedEventsPaginated(page, limit int) (*dto.PaginatedCaseEvents, error)
 	GetEventMetrics() (*dto.CaseEventMetrics, error)
 	ListEventsByCaseID(caseID string) ([]dto.CaseEventResponse, error)
-	ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService) (*dto.CaseEventResponse, error)
+	ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService, agreementSvc AgreementService) (*dto.CaseEventResponse, error)
 	UpdateCaseEvent(id string, req dto.UpdateCaseEventRequest) (*dto.CaseEventResponse, error)
 	GetEvent(id string) (*dto.CaseEventResponse, error)
 	DeleteCaseEvent(id string) error
@@ -275,7 +275,7 @@ func (s *caseService) ListEventsByCaseID(caseID string) ([]dto.CaseEventResponse
 	return result, nil
 }
 
-func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService) (*dto.CaseEventResponse, error) {
+func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCaseEventRequest, claimSvc ClaimService, agreementSvc AgreementService) (*dto.CaseEventResponse, error) {
 	if _, err := uuid.Parse(id); err != nil {
 		return nil, apierrors.ErrNotFound
 	}
@@ -347,6 +347,11 @@ func (s *caseService) ReviewEvent(id string, reviewerID string, req dto.ReviewCa
 	// Trigger async SISE resolution if raw_claim_number is available
 	if claimSvc != nil && event.RawClaimNumber != "" {
 		claimSvc.ResolveEventAsync(event.ID.String())
+	}
+
+	// Create pending agreement when event type is acuerdo
+	if agreementSvc != nil && event.MailType == models.MailTypeAcuerdo {
+		_, _ = agreementSvc.CreatePending(event.ID, event.CaseID, event.RawClaimNumber)
 	}
 
 	resp := dto.ToCaseEventResponse(*event)

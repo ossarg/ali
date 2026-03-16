@@ -1,0 +1,464 @@
+{
+  "_metadata": {
+    "caso": "García, Marcos Horacio c/ Ramoa Cáceres, Lucio Daniel y Libra Compañía Argentina de Seguros S.A. s/ Daños y Perjuicios",
+    "agente": "Edu - Triage Agent Libra Legal AI",
+    "fuente_primaria": "mike_output.json",
+    "fuente_adicional": "donna_output.json (señales_atencion + formal_review)",
+    "poliza_disponible": false,
+    "fecha_analisis": "2026-03-11",
+    "timestamp": "2026-03-11T11:42:00-03:00",
+    "skills_aplicados": [
+      "triage-risk-assessment-ar",
+      "triage-coverage-opinion-ar",
+      "triage-viability-check-ar"
+    ]
+  },
+
+  "risk_assessment": {
+    "prioridad": "media",
+    "score_numerico": 38,
+    "factores": [
+      {
+        "factor": "Monto reclamado",
+        "valor": "$850.000 ARS (estimativo)",
+        "peso": "bajo",
+        "justificacion": "El monto de $850.000 se ubica muy por debajo del umbral bajo (<$5.000.000 ARS). El rubro más cuantioso —daños materiales por $435.500— carece de sustento probatorio idóneo: el único presupuesto adjunto corresponde a un vehículo diferente (VW Gol Power KGT 054 vs. VW Voyage AB162LT del actor) con daños distintos a los denunciados (puerta y guardabarro vs. paragolpe delantero) y distintos a las fotografías. Esta triple inconsistencia anticipa la eliminación o reducción drástica del rubro en juicio, limitando la exposición real de condena a aproximadamente $400.000-$415.000. Aunque el actor usa la fórmula estimativa, la debilidad probatoria limita el margen real de expansión de la condena."
+      },
+      {
+        "factor": "Plazo de contestación",
+        "valor": "Indeterminado — fecha de notificación al asegurador no consta",
+        "peso": "alto",
+        "justificacion": "La fecha de notificación a Libra no figura en el expediente. La demanda fue presentada aproximadamente el 29/02/2024 (firma digital Dra. Moralejo). En citación en garantía (art. 118 Ley 17.418), el plazo de 15 días hábiles corre desde la notificación al asegurador, no desde la presentación de la demanda ni desde la notificación al demandado principal. La ausencia de esa fecha impide calcular los días restantes y genera riesgo de vencimiento inadvertido. Este factor sube la urgencia del caso a revisión inmediata, independientemente del nivel de riesgo de fondo."
+      },
+      {
+        "factor": "Complejidad procesal",
+        "valor": "Media",
+        "peso": "medio",
+        "justificacion": "Dos demandados con citación en garantía estándar (indicador medio). El actor ofrece pericia mecánica con 10 puntos periciales específicos y pericia contable condicionada para el caso de que la aseguradora niegue su calidad de tal (indicadores medios). La demanda cita jurisprudencia específica de múltiples salas de CNCiv y doctrina elaborada (indicador medio). No hay indicadores de complejidad alta: no hay fallecimiento, no hay citaciones cruzadas, no hay acumulación de procesos."
+      },
+      {
+        "factor": "Tipo de siniestro",
+        "valor": "RC Auto — colisión sin lesiones (vehículo en movimiento vs. vehículo estacionado)",
+        "peso": "bajo",
+        "justificacion": "Siniestro vehicular estándar, rama RC Auto. Sin lesiones físicas ni fallecimiento. El actor no estaba en el vehículo al momento del impacto, lo que debilita estructuralmente el reclamo de daño moral por secuelas psicológicas ($100.000): es difícil sostener el nexo causal entre una colisión no presenciada y los alegados miedos, pesadillas y cambios de conducta. Criterios jurisprudenciales relativamente estandarizados en CABA para este tipo de siniestro."
+      },
+      {
+        "factor": "Tipo de intervención y jurisdicción",
+        "valor": "Citación en garantía (art. 118 Ley 17.418) — fuero Civil CABA",
+        "peso": "bajo",
+        "justificacion": "Citación en garantía estándar, el escenario más común en litigios de RC Auto. CABA fuero civil: jurisdicción relativamente predecible, criterios razonablemente uniformes. No suma riesgo adicional significativo en este factor."
+      }
+    ],
+    "urgencia": {
+      "plazo_total_dias": 15,
+      "dias_transcurridos": null,
+      "dias_restantes": null,
+      "tipo_proceso": "Ordinario (art. 338 CPCyCN)",
+      "tipo_intervencion": "citacion_garantia",
+      "fecha_referencia": "No determinable — fecha_notificacion_asegurador no consta. Fecha estimada presentación demanda: 29/02/2024.",
+      "nivel_urgencia": "indeterminada — revisar con carácter inmediato",
+      "nota": "Si la notificación a Libra fue cursada en fecha próxima a la presentación de la demanda (29/02/2024), el plazo de 15 días hábiles pudo haber vencido. Verificar urgentemente con el tribunal o el área de gestión judicial el estado de la notificación."
+    },
+    "escalacion": {
+      "requiere_escalacion": false,
+      "nivel": "normal",
+      "motivo": "No se cumple ninguna regla de escalación automática: monto $850.000 < umbral $50.000.000 ARS; sin fallecimiento; plazo desconocido pero sin urgencia confirmada < 3 días; complejidad media (no alta).",
+      "regla_aplicada": "N/A",
+      "nota_adicional": "ALERTA CONDICIONAL: si la verificación de la fecha de notificación confirma plazo restante < 3 días hábiles, escalar de inmediato al gerente por urgencia crítica."
+    },
+    "resumen_ejecutivo": "Demanda por daños materiales y daño moral derivados de colisión vehicular del 11/09/2022 en CABA (RC Auto estándar, sin lesiones, sin fallecimiento), con monto reclamado de $850.000 ARS, cifra muy baja incluso frente al umbral de riesgo bajo ($5M). El rubro más cuantioso —daños materiales por $435.500— carece de prueba idónea: el único presupuesto adjunto corresponde a un VW Gol Power dominio KGT 054, no al VW Voyage AB162LT del actor, y los daños presupuestados no coinciden con los denunciados ni con las fotografías del expediente; esta triple inconsistencia permite impugnar íntegramente ese rubro y limita la exposición real de condena a aproximadamente $300.000-$415.000. El reclamo de daño moral ($100.000) es vulnerable porque el actor no estaba en el vehículo al momento del impacto, lo que hace difícil sostener el nexo causal con las alegadas secuelas psicológicas. El principal factor de riesgo procesal no es el fondo del caso sino el plazo: la fecha de notificación a Libra no consta, y en citación en garantía el plazo de 15 días hábiles corre desde ese momento; si la notificación ya fue cursada, el caso requiere atención inmediata para evitar rebeldía. Adicionalmente, el vínculo aseguraticio entre Libra y el demandado no está acreditado (la denuncia ante San Cristóbal indicó 'No posee seguro/No informada'), lo que podría constituir una defensa de legitimación pasiva si se confirma la ausencia de póliza.",
+    "recomendacion": "Acción inmediata (hoy): verificar estado de la notificación a Libra — fecha de recepción y días hábiles restantes. En paralelo: verificar internamente si existe póliza vigente al 11/09/2022 para VW Fox dominio KWV802 a nombre de Ramoa Cáceres, Lucio Daniel. Si no existe póliza: plantear falta de legitimación pasiva. Si existe: preparar contestación con foco en (1) impugnación íntegra del presupuesto de daños materiales por corresponder a vehículo diferente; (2) cuestionamiento del nexo causal del daño moral (actor no estaba en el vehículo).",
+    "overall_confidence": "medium",
+    "nota_confidence": "Confidence medium por ausencia de dos campos críticos: (a) fecha de notificación al asegurador — impide calcular plazo; (b) póliza — impide confirmar legitimación y cobertura."
+  },
+
+  "coverage_opinion": {
+    "dictamen": "INDETERMINADO",
+    "sintesis": "Sin póliza disponible ni confirmación del vínculo aseguraticio, no es posible emitir dictamen de cobertura definitivo. La denuncia del actor ante su propia aseguradora (San Cristóbal) registró que el vehículo del demandado figuraba 'No posee seguro/No informada', lo que genera dudas fundadas sobre la existencia de cobertura con Libra. Si existe póliza de RC Auto vigente al 11/09/2022 para el VW Fox KWV802 de Ramoa Cáceres, el siniestro encuadra en la cobertura típica del ramo y no se vislumbran exclusiones graves; la exposición económica sería moderada, acotada por el monto bajo y los defectos probatorios del reclamo. Si no existe póliza, la aseguradora carece de legitimación pasiva. Toda evaluación contractual tiene confidence LOW condicionada a la obtención de la póliza.",
+    "analisis_cobertura": [
+      {
+        "aspecto": "Vigencia de la póliza",
+        "conclusion": "indeterminado",
+        "fundamento_contractual": "Póliza no disponible. No consta número de póliza, período de vigencia ni estado de pago de primas.",
+        "fundamento_legal": "Art. 1 y art. 31 Ley 17.418",
+        "detalle": "No es posible verificar si la póliza estaba vigente al 11/09/2022. La denuncia ante San Cristóbal consignó 'No posee seguro/No informada' para el vehículo del demandado. La demanda intima al tribunal a ordenar a Libra que acompañe la póliza, la denuncia y el legajo del caso.",
+        "riesgo_judicial": "Si la póliza estaba suspendida por falta de pago al momento del hecho (art. 31 Ley 17.418), la aseguradora puede invocar ausencia de cobertura temporal. Si no existe póliza, el argumento es de falta de legitimación pasiva, no de exclusión.",
+        "confidence": "low"
+      },
+      {
+        "aspecto": "Cobertura del riesgo (RC Auto)",
+        "conclusion": "indeterminado",
+        "fundamento_contractual": "Ramo presumible: RC Auto. Condiciones particulares no disponibles.",
+        "fundamento_legal": "Arts. 109 y 118 Ley 17.418; art. 68 Ley 24.449",
+        "detalle": "Si existe póliza de RC Auto para el VW Fox KWV802, el siniestro (colisión vehicular con daño a vehículo estacionado) encuadra en la cobertura típica del ramo. El actor no sufrió lesiones físicas: reclama solo daños materiales al vehículo y daño moral. Sin lesiones no se activa cobertura de accidentes personales. La cobertura de daños materiales a tercero (daños al vehículo del actor) corresponde al RC voluntario si está contratado; el RC obligatorio típicamente cubre daños corporales a terceros, no daños materiales a vehículos.",
+        "riesgo_judicial": "Interpretación pro-consumidor (art. 37 Ley 24.240, art. 1094 CCC): en caso de ambigüedad sobre el alcance de la cobertura de daños materiales a terceros, los tribunales tienden a interpretarla a favor del asegurado/víctima.",
+        "confidence": "low"
+      },
+      {
+        "aspecto": "Exclusiones contractuales",
+        "conclusion": "indeterminado",
+        "fundamento_contractual": "Condiciones generales y particulares no disponibles.",
+        "fundamento_legal": "Art. 70 Ley 17.418; art. 37 Ley 24.240",
+        "detalle": "Sin póliza, no es posible analizar exclusiones específicas. De los hechos del siniestro no surgen indicadores de exclusiones típicas: no hay indicios de conducción bajo efectos de alcohol, no hay uso comercial no declarado, no hay conducción sin licencia. El siniestro (marcha atrás con colisión a vehículo estacionado) encuadra en negligencia ordinaria, no en culpa grave calificada (art. 70 Ley 17.418).",
+        "riesgo_judicial": "Las exclusiones que no estén redactadas de forma clara y destacada serán resistidas judicialmente bajo doctrina de cláusulas abusivas (art. 37 Ley 24.240).",
+        "confidence": "low"
+      },
+      {
+        "aspecto": "Franquicia y suma asegurada",
+        "conclusion": "indeterminado",
+        "fundamento_contractual": "No disponible.",
+        "fundamento_legal": "Art. 109 Ley 17.418",
+        "detalle": "Franquicia, suma asegurada y sublímites desconocidos. Son parámetros críticos para determinar la exposición neta. Si la suma asegurada del RC voluntario es baja, podría ser inferior al monto reclamado de $850.000, limitando la exposición al tope de cobertura. Si el demandado solo tiene RC obligatorio, la cobertura de daños materiales a tercero podría estar excluida.",
+        "riesgo_judicial": null,
+        "confidence": "low"
+      },
+      {
+        "aspecto": "Caducidad por falta de denuncia del asegurado (arts. 46-47 Ley 17.418)",
+        "conclusion": "indeterminado",
+        "fundamento_contractual": "No disponible.",
+        "fundamento_legal": "Arts. 46-47 Ley 17.418",
+        "detalle": "No consta denuncia del demandado Ramoa Cáceres ante Libra. No hay número de siniestro de Libra en el expediente. La única denuncia conocida es la del actor ante San Cristóbal (16/09/2022). Si el asegurado nunca denunció el siniestro a Libra dentro de los 3 días (art. 46), hay argumento de caducidad, aunque la aseguradora debe acreditar el perjuicio concreto.",
+        "riesgo_judicial": "La jurisprudencia mayoritaria (plenario 'Gauna' CNCiv) exige prueba del perjuicio concreto. La caducidad tiene baja probabilidad de éxito sin acreditar que la demora impidió verificar el siniestro.",
+        "confidence": "low"
+      },
+      {
+        "aspecto": "Riesgo judicial — probabilidad de condena por responsabilidad",
+        "conclusion": "indeterminado",
+        "fundamento_contractual": null,
+        "fundamento_legal": "Arts. 1757 y 1769 CCCN; arts. 1721 y 1724 CCCN",
+        "detalle": "La mecánica del siniestro —vehículo del demandado en movimiento (marcha atrás) embistiendo a vehículo estacionado— genera una presunción fuerte de responsabilidad del demandado bajo art. 1769 CCCN y la jurisprudencia consolidada sobre 'vehículo embistente' (CNCiv Salas B, E, G, H, K citadas en la demanda). Esta presunción es difícil de revertir. Sin embargo, la responsabilidad del demandado no implica automáticamente la obligación de Libra si no existe póliza o si no hay cobertura del riesgo específico.",
+        "riesgo_judicial": "Alta probabilidad de condena parcial al demandado. El debate se centrará en los montos. El presupuesto defectuoso permite eliminar o reducir drásticamente el rubro daños materiales ($435.500). El daño moral es cuestionable por ausencia del actor durante el accidente.",
+        "confidence": "medium"
+      },
+      {
+        "aspecto": "Pronunciamiento del asegurador (art. 56 Ley 17.418)",
+        "conclusion": "indeterminado",
+        "fundamento_contractual": null,
+        "fundamento_legal": "Art. 56 Ley 17.418",
+        "detalle": "No consta si Libra fue notificada oportunamente del siniestro por el asegurado ni si se pronunció dentro de los 30 días. Si transcurrieron más de 30 días desde la denuncia sin pronunciamiento, la ley interpreta el silencio como aceptación del siniestro (art. 56), eliminando la posibilidad de invocar exclusiones o caducidad.",
+        "riesgo_judicial": "Si la aseguradora no se pronunció en término, su posición defensiva se debilita significativamente ante cualquier argumento de no cobertura.",
+        "confidence": "low"
+      }
+    ],
+    "exclusiones_analizadas": [
+      {
+        "clausula": "No disponible — póliza no adjuntada al expediente",
+        "tipo": "exclusion_contractual",
+        "aplica_al_caso": "indeterminado",
+        "redaccion_clara": null,
+        "probabilidad_exito_judicial": "indeterminada",
+        "fundamento": "Sin póliza, no es posible analizar exclusiones específicas.",
+        "riesgo_si_falla": "N/A por falta de datos",
+        "confidence": "low"
+      },
+      {
+        "clausula": "Culpa grave del asegurado — art. 70 Ley 17.418 (evaluación sin póliza, desde hechos del expediente)",
+        "tipo": "culpa_grave",
+        "aplica_al_caso": "no",
+        "redaccion_clara": null,
+        "probabilidad_exito_judicial": "baja",
+        "fundamento": "Art. 70 Ley 17.418. De los hechos no surgen indicadores de culpa grave calificada: el demandado realizó una maniobra de marcha atrás para girar en una calle pública, colisionando con vehículo estacionado. Esta conducta constituye imprudencia/negligencia ordinaria. No hay indicios de conducción bajo efectos de alcohol, exceso de velocidad extremo ni fuga.",
+        "riesgo_si_falla": "Si se invoca sin fundamento concreto, puede interpretarse como conducta procesal abusiva y fortalecer la posición del actor.",
+        "confidence": "medium"
+      }
+    ],
+    "exposicion_economica": {
+      "monto_reclamado": "$850.000 ARS",
+      "franquicia": "Desconocida — póliza no disponible (confidence: low)",
+      "suma_asegurada": "Desconocida — póliza no disponible (confidence: low)",
+      "exposicion_mejor_caso": {
+        "capital": "$0",
+        "intereses": "$0",
+        "costas": "~$100.000 (costas de defensa propia estimadas)",
+        "total": "$0 exposición sustancial",
+        "tasa_usada": "N/A",
+        "horizonte_temporal": "N/A",
+        "supuesto": "El vínculo aseguraticio no está acreditado. Libra opone falta de legitimación pasiva exitosamente y es desvinculada del proceso. Exposición sustancial nula. CONFIDENCE LOW: requiere confirmación de ausencia de póliza en el sistema interno."
+      },
+      "exposicion_probable": {
+        "capital": "$350.000",
+        "intereses": "$1.050.000",
+        "costas": "$122.500",
+        "total": "$1.522.500",
+        "tasa_usada": "Tasa activa BNA (giros no cubiertos sin autorización en cuentas corrientes) — referencia: CNCiv en pleno, 20/04/2009, 'Samudio de Martínez c/ Transportes Doscientos Setenta SA'",
+        "horizonte_temporal": "Sentencia estimada ~2028 (~6 años desde siniestro 11/09/2022). Factor intereses acumulados: x3 sobre capital base (conforme parámetro del skill: en juicios de más de 3 años, los intereses a tasa activa pueden duplicar o triplicar el capital). PROVISORIO — sujeto a parametros-provisorios-triage.md.",
+        "supuesto": "Cobertura de RC Auto existente. Condena parcial: daños materiales eliminados o reducidos por presupuesto defectuoso ($50.000 simbólico o pericial mínimo); desvalorización del rodado reconocida parcialmente $150.000; daño moral reconocido con reducción por ausencia del actor en el vehículo $100.000; privación de uso $50.000. Capital condena total: $350.000. Intereses x3 = $1.050.000. Total capital + intereses: $1.400.000. Costas 35% x capital $350.000 = $122.500. CONFIDENCE LOW (sin póliza)."
+      },
+      "exposicion_peor_caso": {
+        "capital": "$850.000",
+        "intereses": "$2.550.000",
+        "costas": "$297.500",
+        "total": "$3.697.500",
+        "tasa_usada": "Tasa activa BNA desde fecha del hecho (11/09/2022) hasta sentencia estimada ~2028",
+        "horizonte_temporal": "6 años desde siniestro a sentencia. Factor intereses x3 sobre capital. PROVISORIO.",
+        "supuesto": "Condena por monto total reclamado $850.000: juez acepta presupuesto sustituto (pericia mecánica confirma daños por monto similar) o aplica facultad estimativa; daño moral por monto completo; desvalorización completa. Intereses x3 sobre $850.000 = $2.550.000. Total capital + intereses = $3.400.000. Costas 35% x $850.000 = $297.500. Total: $3.697.500. CONFIDENCE LOW."
+      },
+      "supuestos": [
+        "Tasa activa BNA: factor acumulado x3 en ~6 años (2022-2028) conforme parámetro del skill. PROVISORIO — sujeto a parametros-provisorios-triage.md (archivo no disponible en esta evaluación).",
+        "Horizonte temporal: proceso ordinario CABA fuero civil → estimación 4-5 años desde notificación (~2024). Sentencia estimada 2028-2029.",
+        "Costas: 35% del capital de condena (valor medio del rango 25-40%).",
+        "Sin póliza disponible: todos los supuestos tienen confidence LOW. Recalcular urgentemente una vez obtenida la póliza.",
+        "Suma asegurada desconocida: podría limitar la exposición de Libra a un monto menor al calculado.",
+        "Escenario mejor caso asume ausencia total de póliza. Si existe póliza, el piso de exposición sube al escenario probable."
+      ],
+      "reserva_sugerida": {
+        "monto": "$1.800.000 ARS (provisional)",
+        "metodologia": "Escenario probable ($1.522.500) con margen de seguridad del 18% (~$277.500) para cubrir incertidumbre sobre suma asegurada, franquicia y tasa de interés efectiva. La reserva se constituye condicionada a la confirmación de la existencia de póliza. Si se confirma ausencia de póliza, reducir a reserva mínima de costas de defensa (~$100.000). Recalcular con parámetros exactos de la póliza una vez obtenida.",
+        "confidence": "low",
+        "nota": "La constitución de reserva provisional no implica reconocimiento de cobertura ni de responsabilidad."
+      }
+    },
+    "obligaciones_asegurador": [
+      {
+        "obligacion": "Pronunciamiento sobre el siniestro dentro de los 30 días",
+        "fundamento_legal": "Art. 56 Ley 17.418",
+        "estado": "desconocido",
+        "riesgo_si_incumple": "El silencio del asegurador por más de 30 días desde la recepción de la denuncia y comprobantes se interpreta como aceptación del siniestro, eliminando la posibilidad de invocar exclusiones o caducidad.",
+        "detalle": "No consta si el siniestro fue denunciado a Libra por el asegurado ni cuándo. Verificar en el expediente interno de siniestros."
+      },
+      {
+        "obligacion": "Dirección del proceso — contestar la citación en garantía",
+        "fundamento_legal": "Art. 110 Ley 17.418",
+        "estado": "pendiente",
+        "riesgo_si_incumple": "Si la aseguradora no contesta en plazo, se dicta rebeldía y pierde el derecho a oponer defensas derivadas del contrato de seguro.",
+        "detalle": "Plazo de contestación no determinado por ausencia de fecha de notificación al asegurador. Acción urgente."
+      },
+      {
+        "obligacion": "Acompañar la póliza al proceso (intimación del tribunal)",
+        "fundamento_legal": "Art. 118 Ley 17.418",
+        "estado": "pendiente",
+        "riesgo_si_incumple": "El tribunal puede presumir la existencia y vigencia de la cobertura si la aseguradora citada no acompaña la póliza intimada. Si Libra no tiene póliza, debe informarlo expresamente y plantear falta de legitimación.",
+        "detalle": "La demanda solicita al tribunal que intime a Libra a acompañar póliza, denuncia del asegurado y legajo del caso."
+      }
+    ],
+    "riesgo_condena": "medio",
+    "puntos_debiles": [
+      "Vínculo aseguraticio con Libra no confirmado — si existe póliza, la aseguradora no puede desvincularse del proceso",
+      "Ausencia de pronunciamiento registrado sobre el siniestro — riesgo de aceptación tácita (art. 56 Ley 17.418)",
+      "La mecánica del siniestro (vehículo embistente vs. vehículo estacionado) genera presunción fuerte de responsabilidad del demandado difícil de revertir",
+      "El plazo de contestación podría estar próximo o vencido",
+      "El perito contador ofrecido en subsidio (para el caso de que la aseguradora niegue su calidad de tal) puede forzar a Libra a revelar sus registros internos"
+    ],
+    "puntos_fuertes": [
+      "El presupuesto de daños materiales ($435.500) no corresponde al vehículo del actor — triple inconsistencia (vehículo diferente, daños diferentes, dominio diferente) permite impugnar íntegramente el rubro más cuantioso",
+      "El actor no estaba en el vehículo al momento del impacto — debilita el nexo causal del daño moral por secuelas psicológicas",
+      "El vínculo aseguraticio con Libra no está acreditado — potencial defensa de legitimación pasiva si se confirma ausencia de póliza",
+      "Monto total reclamado bajo ($850.000 ARS) incluso en escenario de condena total",
+      "La demanda tiene múltiples defectos formales que evidencian trabajo descuidado y pueden ser utilizados para impugnar otros rubros",
+      "La desvalorización ($300.000) se basa en estimación del actor sin soporte técnico — impugnable pericialmente"
+    ],
+    "recomendacion_estrategica": "Paso 1 (hoy): verificar en sistema interno si existe póliza para VW Fox KWV802 a nombre de Ramoa Cáceres, Lucio Daniel, vigente al 11/09/2022. Paso 2: si NO existe póliza, presentar escritos solicitando desvinculación por falta de legitimación pasiva e informar al tribunal. Si SÍ existe póliza, contestar citación en garantía con estrategia de impugnación de rubros: (a) impugnar íntegramente el presupuesto de daños materiales por corresponder a vehículo diferente; (b) cuestionar nexo causal del daño moral (actor no presente); (c) impugnar el cálculo de desvalorización ($300.000 = 5% de $6M estimado por el actor sin respaldo). No invocar culpa grave ni exclusiones sin prueba concreta.",
+    "overall_confidence": "low",
+    "nota_confidence": "overall_confidence LOW: póliza no disponible, vínculo aseguraticio no confirmado, parámetros contractuales (franquicia, suma asegurada, condiciones) desconocidos. Todo el análisis contractual es provisional. Si overall_confidence < 0.5 → señal explícita: ESTE DICTAMEN REQUIERE REVISIÓN HUMANA ANTES DE SER ACTUADO."
+  },
+
+  "viability_check": {
+    "señal_general": "amarillo",
+    "resumen": "El caso presenta múltiples defensas posibles pero ninguna en VERDE confirmado. La más prometedora es la falta de legitimación pasiva: si Libra no tiene póliza para el demandado (dato que la propia denuncia ante San Cristóbal sugiere al registrar 'No posee seguro/No informada'), la aseguradora puede desvincularse del proceso. En segundo lugar, hay un argumento de prescripción bajo art. 58 Ley 17.418 (1 año) que requiere análisis detallado: desde el siniestro (11/09/2022) hasta la demanda (29/02/2024) transcurrieron ~17,5 meses, y aunque las mediaciones suspendieron parcialmente el plazo, el cómputo es ajustado y depende de las fechas exactas de inicio de cada tramo del MEPRE. Adicionalmente, el defecto probatorio del presupuesto de daños materiales (51% del reclamo) no es una excepción previa pero constituye la defensa sustancial más sólida del caso. Donna también detectó: error de plantilla en la liquidación ('Fernando Ricardo Alvarez' en lugar del actor) y discrepancias de domicilio del actor, ambos explotables tácticamente aunque con bajo valor como excepciones autónomas.",
+    "checks": [
+      {
+        "criterio": "Falta de legitimación pasiva",
+        "resultado": "amarillo",
+        "detalle": "El vínculo aseguraticio entre Libra y el demandado Ramoa Cáceres no está acreditado en el expediente. La denuncia del actor ante San Cristóbal consignó que el vehículo del demandado (VW Fox KWV802) figuraba 'No posee seguro/No informada'. La demanda cita a Libra en garantía sin número de póliza ni documentación de respaldo. La demanda misma intima al tribunal a requerir a Libra que acompañe la póliza. Si tras la verificación interna se confirma que no existe póliza para ese vehículo o asegurado vigente al 11/09/2022, el argumento de falta de legitimación pasiva sube a VERDE.",
+        "fundamento_legal": "Art. 118 Ley 17.418 (requisito de vínculo aseguraticio para la citación en garantía); art. 347 inc. 3 CPCyCN (excepción de falta de legitimación pasiva)",
+        "fundamento_contractual": "Inexistencia de póliza — a verificar",
+        "riesgo_judicial": "Si existe póliza, la excepción cae. La verificación interna es urgente y determinante para toda la estrategia del caso.",
+        "datos_faltantes": [
+          "Confirmación interna de si existe póliza para VW Fox KWV802 a nombre de Ramoa Cáceres, Lucio Daniel, vigente al 11/09/2022",
+          "Número de póliza (si existe)",
+          "Estado de vigencia y primas al momento del siniestro"
+        ]
+      },
+      {
+        "criterio": "Prescripción",
+        "resultado": "amarillo",
+        "detalle": "Hay un argumento de prescripción bajo art. 58 Ley 17.418 (1 año) que requiere análisis. Siniestro: 11/09/2022. Demanda: ~29/02/2024 = ~17,5 meses. Suspensión por mediación Tramo 1 (estimado inicio ~25/09/2022 hasta cierre 03/11/2022 = ~39 días). Suspensión por mediación Tramo 2 (estimado inicio ~12/09/2023 hasta cierre 18/09/2023 = ~6 días). Total suspensión estimada: ~45 días (~1,5 meses). Tiempo efectivo: ~17,5 meses - 1,5 meses = ~16 meses. El plazo de 1 año del art. 58 habría vencido aproximadamente en octubre-noviembre de 2023, antes de la presentación de la demanda (febrero 2024). PERO existe fuerte debate doctrinal: la jurisprudencia mayoritaria de CABA aplica art. 2561 CCC (3 años) a la acción del tercero damnificado en citación en garantía, por considerarla extracontractual. Bajo ese criterio, la demanda está dentro del plazo (vencía 11/09/2025). Defensa técnicamente viable pero con riesgo judicial moderado-alto.",
+        "fundamento_legal": "Art. 58 Ley 17.418 (1 año — acciones fundadas en el contrato de seguros); art. 2561 CCC (3 años — responsabilidad civil extracontractual); art. 18 Ley 26.589 (suspensión del plazo de prescripción por mediación obligatoria)",
+        "fundamento_contractual": null,
+        "riesgo_judicial": "Riesgo moderado-alto de rechazo. La jurisprudencia predominante en CABA tiende a aplicar el plazo de 3 años del art. 2561 CCC a la acción del tercero damnificado en citación en garantía. Sin embargo, el argumento del art. 58 Ley 17.418 es técnicamente fundado y vale la pena plantearlo, especialmente si se confirman las fechas exactas de inicio de cada tramo de mediación.",
+        "datos_faltantes": [
+          "Fecha exacta de inicio del MEPRE 847030 Tramo 1 (fecha de presentación, no de la primera audiencia)",
+          "Fecha exacta de inicio del MEPRE 847030 Tramo 2 (fecha de presentación, no de la audiencia de cierre)",
+          "Jurisprudencia actualizada de las salas de CNCiv sobre art. 58 Ley 17.418 vs. art. 2561 CCC en citación en garantía del tercero damnificado"
+        ]
+      },
+      {
+        "criterio": "Caducidad por falta de denuncia del asegurado",
+        "resultado": "amarillo",
+        "detalle": "No consta denuncia del demandado Ramoa Cáceres ante Libra. No hay número de siniestro de Libra en el expediente. La única denuncia conocida es la del actor ante San Cristóbal (16/09/2022), no una denuncia del asegurado a su propia aseguradora. Si el asegurado nunca denunció el siniestro a Libra dentro de los 3 días de conocerlo (art. 46 Ley 17.418), hay argumento de caducidad. Sin embargo, la aseguradora debe acreditar el perjuicio concreto causado por la omisión.",
+        "fundamento_legal": "Arts. 46-47 Ley 17.418 (denuncia del siniestro, caducidad, cargas del asegurado)",
+        "fundamento_contractual": null,
+        "riesgo_judicial": "Alto riesgo de rechazo. La jurisprudencia mayoritaria (plenario 'Gauna' CNCiv) exige prueba del perjuicio concreto causado a la aseguradora por la falta o demora en la denuncia. Sin poder demostrar que la ausencia de denuncia impidió verificar el siniestro o ejercer el derecho de defensa, el tribunal rechazará la caducidad. Señalar como defensa disponible pero con baja probabilidad de éxito aislado.",
+        "datos_faltantes": [
+          "Expediente de siniestro interno de Libra — si existe, verificar fecha de primer contacto/denuncia del asegurado",
+          "Actuaciones de verificación del siniestro por parte de Libra (si las hubo)",
+          "Documentación de perjuicio concreto por la demora en la denuncia"
+        ]
+      },
+      {
+        "criterio": "Culpa grave o dolo del asegurado",
+        "resultado": "rojo",
+        "detalle": "De los hechos descriptos en la demanda no surgen indicadores de culpa grave calificada ni dolo. El demandado Ramoa Cáceres realizó una maniobra de marcha atrás para girar en una calle, colisionando con el vehículo estacionado del actor. Esta conducta encuadra en imprudencia/negligencia ordinaria (arts. 1721 y 1724 CCCN), no en culpa grave del art. 70 Ley 17.418. No hay indicios de conducción bajo efectos de alcohol o estupefacientes, ni de exceso de velocidad manifiesto, ni de conducta temeraria calificada.",
+        "fundamento_legal": "Art. 70 Ley 17.418",
+        "fundamento_contractual": null,
+        "riesgo_judicial": null,
+        "datos_faltantes": []
+      },
+      {
+        "criterio": "Exclusión contractual clara",
+        "resultado": "amarillo",
+        "detalle": "Sin póliza disponible, no es posible analizar exclusiones específicas. De los hechos del siniestro no surge ningún indicador de las exclusiones típicas en RC Auto (alcohol, uso comercial no declarado, conductor sin licencia, competencia deportiva). AMARILLO por default: requiere revisión de las condiciones generales y particulares una vez obtenida la póliza.",
+        "fundamento_legal": "Art. 37 Ley 24.240; art. 70 Ley 17.418",
+        "fundamento_contractual": "No disponible",
+        "riesgo_judicial": "Las exclusiones no redactadas de forma clara y destacada serán resistidas bajo doctrina de cláusulas abusivas (art. 37 Ley 24.240, art. 987 CCC).",
+        "datos_faltantes": [
+          "Condiciones generales y particulares de la póliza",
+          "Condiciones de contratación y evidencia de que las exclusiones fueron destacadas al asegurado"
+        ]
+      },
+      {
+        "criterio": "Culpa o hecho de la víctima / concurrencia de responsabilidad",
+        "resultado": "rojo",
+        "detalle": "El actor no estaba en el vehículo al momento del impacto. Su vehículo (VW Voyage AB162LT) estaba correctamente estacionado en la vía pública. No hay ninguna conducta del actor ni de su vehículo que pudiera contribuir causalmente al siniestro. El vehículo del demandado (embistente en marcha atrás) es el único factor activo. La defensa de culpa o hecho de la víctima (art. 1729 CCCN) no tiene sustento fáctico en este caso.",
+        "fundamento_legal": "Art. 1729 CCCN; art. 1773 CCCN",
+        "fundamento_contractual": null,
+        "riesgo_judicial": null,
+        "datos_faltantes": []
+      },
+      {
+        "criterio": "Cosa juzgada o litispendencia",
+        "resultado": "rojo",
+        "detalle": "No hay antecedentes de procesos previos sobre este siniestro. El número de siniestro de San Cristóbal (aseguradora del actor) es 05-01-02398019, correspondiente a la propia aseguradora del actor. No hay identidad de sujeto y objeto con ningún proceso previo identificado.",
+        "fundamento_legal": "Art. 347 incs. 6-7 CPCyCN",
+        "fundamento_contractual": null,
+        "riesgo_judicial": null,
+        "datos_faltantes": []
+      },
+      {
+        "criterio": "Defecto legal en el modo de proponer la demanda — formal defects detectados por Donna",
+        "resultado": "amarillo",
+        "detalle": "Donna detectó tres defectos formales explotables: (1) ERROR DE PLANTILLA CRÍTICO: en la sección de Liquidación (punto VI del escrito) figura el nombre 'FERNANDO RICARDO ALVAREZ' en lugar del actor 'MARCOS HORACIO GARCÍA', lo que crea ambigüedad sobre quién formula concretamente la liquidación de los rubros reclamados; (2) DISCREPANCIA EN EL MONTO: el cuerpo del escrito reclama $435.500 por daños materiales pero la liquidación consigna $435.000, diferencia de $500 que genera imprecisión en el petitorio; (3) FALTA DE TASA DE JUSTICIA: la demanda solicita apertura de beneficio de litigar sin gastos (punto XIII) pero no acompaña el comprobante de pago de la tasa ni el incidente formal de beneficio; el tribunal puede intimar al pago. En conjunto, estos defectos configuran un AMARILLO: no alcanzan para una excepción de defecto legal que obstruya la contestación, pero son aprovechables para solicitar aclaratoria, dilatar el proceso tácticamente y señalar la imprecisión del petitorio.",
+        "fundamento_legal": "Art. 347 inc. 5 CPCyCN (defecto legal en el modo de proponer la demanda); art. 330 CPCyCN (requisitos de la demanda); Ley 23.898 (tasa de justicia)",
+        "fundamento_contractual": null,
+        "riesgo_judicial": "El error de nombre en la liquidación es un defecto formal claro pero difícilmente constitutivo de nulidad procesal: el tribunal aplicará el principio de instrumentalidad de las formas. Valor táctico moderado para solicitar aclaratoria. La falta de tasa de justicia tiene mayor potencial procesal si el tribunal intima el pago y el actor no lo integra ni acredita el beneficio.",
+        "datos_faltantes": [
+          "Estado del incidente de beneficio de litigar sin gastos (si fue presentado posteriormente)",
+          "Verificación de si el tribunal ya intimó al pago de la tasa de justicia"
+        ]
+      }
+    ],
+    "defensas_disponibles": [
+      {
+        "defensa": "Falta de legitimación pasiva — ausencia de póliza/vínculo aseguraticio (art. 118 Ley 17.418)",
+        "tipo": "procesal_previa",
+        "fortaleza": "moderada (potencialmente fuerte)",
+        "fundamento": "El vínculo aseguraticio entre Libra y Ramoa Cáceres no está acreditado. La denuncia del actor ante San Cristóbal indicó 'No posee seguro/No informada' para el vehículo del demandado. Si la verificación interna confirma ausencia de póliza, esta defensa sube a VERDE/fuerte. El art. 118 Ley 17.418 requiere la existencia de un contrato de seguro vigente como presupuesto de la citación en garantía.",
+        "accion_requerida": "Verificar en el sistema interno de Libra si existe póliza vigente al 11/09/2022 para VW Fox dominio KWV802 a nombre de Lucio Daniel Ramoa Cáceres (DNI 93.756.969). Si no existe: plantear excepción de falta de legitimación pasiva (art. 347 inc. 3 CPCyCN) e informar al tribunal. Si existe: esta defensa cae.",
+        "riesgo_rechazo": "Moderado si se confirma ausencia de póliza (el actor puede intentar demostrar que sí existe vínculo). Bajo si la ausencia de póliza es total y verificable."
+      },
+      {
+        "defensa": "Defecto probatorio del rubro daños materiales — presupuesto de vehículo diferente (triple inconsistencia)",
+        "tipo": "sustancial",
+        "fortaleza": "fuerte",
+        "fundamento": "El presupuesto del Taller 'Tati' —único instrumento que sustenta los $435.500 de daños materiales (51% del monto total reclamado)— refiere al VW Gol Power dominio KGT 054, no al VW Voyage AB162LT del actor. Los daños presupuestados (puerta y guardabarro izquierdo) no coinciden con los daños denunciados (paragolpe delantero) ni con las fotografías del expediente. Esta triple inconsistencia (vehículo diferente, dominio diferente, daños diferentes) permite impugnar la documental en la contestación de demanda y solicitar que no sea tenida en cuenta como prueba de los daños.",
+        "accion_requerida": "Al contestar demanda: (1) impugnar expresamente el presupuesto del Taller 'Tati' señalando que corresponde a un vehículo y daños distintos a los del actor; (2) negar categóricamente los daños materiales por falta de prueba idónea; (3) solicitar en el ofrecimiento de prueba que el perito mecánico determine si los daños fotografiados en el expediente corresponden al siniestro denunciado y cuál sería su valor de reparación según precios de plaza. Esto puede eliminar o reducir drásticamente el rubro más cuantioso.",
+        "riesgo_rechazo": "Bajo. La inconsistencia es objetiva y verificable con la simple lectura del presupuesto vs. los datos del actor. La defensa no requiere prueba adicional de la parte demandada — el propio documento del actor lo evidencia."
+      },
+      {
+        "defensa": "Prescripción bajo art. 58 Ley 17.418 (1 año)",
+        "tipo": "procesal_previa",
+        "fortaleza": "débil (vale plantear)",
+        "fundamento": "Desde el siniestro (11/09/2022) hasta la demanda (29/02/2024) transcurrieron ~17,5 meses. Descontando las suspensiones por mediación (~45 días totales estimados), el tiempo efectivo es de ~16 meses, superior al plazo de 1 año del art. 58 Ley 17.418. Si un tribunal aplica este plazo a la acción del tercero damnificado en citación en garantía, el reclamo estaría prescripto.",
+        "accion_requerida": "(1) Obtener las fechas exactas de inicio (presentación) de cada tramo del MEPRE 847030 para precisar el cómputo de suspensión; (2) Investigar jurisprudencia actualizada de CNCiv sobre qué plazo aplica a la acción del tercero en citación en garantía; (3) Si el análisis confirma prescripción, plantear como excepción previa (art. 346 CPCyCN) al contestar la citación en garantía.",
+        "riesgo_rechazo": "Alto. La jurisprudencia mayoritaria de CABA aplica art. 2561 CCC (3 años) a la acción del tercero. El argumento tiene fundamento técnico pero alta probabilidad de ser rechazado por el tribunal."
+      },
+      {
+        "defensa": "Caducidad por falta de denuncia del asegurado (arts. 46-47 Ley 17.418)",
+        "tipo": "sustancial",
+        "fortaleza": "débil (requiere prueba de perjuicio)",
+        "fundamento": "No consta denuncia del asegurado Ramoa Cáceres ante Libra. Si el asegurado no denunció el siniestro en término (3 días, art. 46 Ley 17.418) y la aseguradora puede acreditar el perjuicio concreto causado por esa omisión, la caducidad es viable.",
+        "accion_requerida": "Obtener el expediente interno de siniestros de Libra para verificar: (1) fecha de primer contacto del asegurado; (2) si hubo actuaciones de verificación del siniestro que se vieron perjudicadas por la demora. Sin prueba de perjuicio concreto, esta defensa tiene muy baja probabilidad de éxito.",
+        "riesgo_rechazo": "Muy alto sin prueba de perjuicio. La caducidad es en teoría fuerte pero en la práctica judicial es una defensa de baja efectividad."
+      },
+      {
+        "defensa": "Cuestionamiento del nexo causal del daño moral — actor no estaba en el vehículo",
+        "tipo": "sustancial",
+        "fortaleza": "moderada",
+        "fundamento": "El actor García no estaba en el vehículo al momento del impacto. Sin embargo, reclama $100.000 por daño moral alegando secuelas psicológicas (miedo a conducir, pesadillas, alteraciones del sueño, angustia). Es difícil sostener el nexo causal entre la colisión de un vehículo estacionado —que el actor no presenció— y las alegadas secuelas psicológicas. La pericial psicológica eventualmente ofrecida será clave, pero en la contestación se puede negar desde ya el nexo causal.",
+        "accion_requerida": "Al contestar demanda: negar el nexo causal entre el siniestro y las secuelas psicológicas alegadas, señalando que el actor no estaba en el vehículo ni en el lugar del hecho. Ofrecer prueba pericial psicológica de parte (o impugnar la pericial del actor si se ofrece). Solicitar que en caso de reconocerse el rubro, se ordene pericia psicológica para verificar la existencia y magnitud real del daño.",
+        "riesgo_rechazo": "Moderado. Los tribunales a veces reconocen daño moral en propietarios de vehículos dañados aun sin haber presenciado el accidente (por el disgusto, la molestia, el trámite). Pero el monto se reduce significativamente cuando no hay presencia en el lugar."
+      },
+      {
+        "defensa": "Defecto formal — error de plantilla en liquidación y falta de tasa de justicia",
+        "tipo": "procesal_previa",
+        "fortaleza": "débil (valor táctico)",
+        "fundamento": "El error de nombre en la liquidación ('Fernando Ricardo Alvarez' en lugar del actor) puede ser utilizado para solicitar aclaratoria y señalar la imprecisión del petitorio. La falta de tasa de justicia (Ley 23.898) puede motivar una intimación del tribunal que, si no es integrada, genera un obstáculo procesal para la parte actora.",
+        "accion_requerida": "Señalar en la contestación el error de nombre en la liquidación y la discrepancia en el monto ($500 entre cuerpo y liquidación), solicitando aclaratoria. Verificar si el tribunal ya intimó el pago de la tasa de justicia o si el beneficio de litigar sin gastos fue concedido.",
+        "riesgo_rechazo": "Alto como defensa autónoma. El tribunal aplicará el principio de instrumentalidad de las formas y rechazará la nulidad. Valor principalmente táctico y como argumento accesorio en la contestación."
+      }
+    ],
+    "riesgos_judiciales": [
+      "La falta de legitimación pasiva (la más fuerte defensa potencial) depende enteramente de la verificación interna de si existe o no póliza — un resultado adverso elimina esta defensa por completo",
+      "La prescripción del art. 58 Ley 17.418 tiene alta probabilidad de rechazo en CABA fuero civil por aplicación del art. 2561 CCC (3 años) a la acción del tercero damnificado",
+      "La caducidad por falta de denuncia requiere prueba de perjuicio concreto que normalmente es difícil de acreditar — la jurisprudencia es restrictiva al respecto",
+      "La mecánica del siniestro (vehículo embistente en marcha atrás vs. vehículo estacionado) hace prácticamente imposible discutir la responsabilidad del demandado en el fondo — el debate será exclusivamente sobre los montos",
+      "El defecto probatorio del presupuesto, aunque fuerte, no impide que el juez ordene de oficio o a pedido del actor una pericia de valuación de daños que reemplace al presupuesto defectuoso"
+    ],
+    "datos_faltantes_criticos": [
+      "Póliza de Libra para VW Fox KWV802 / Ramoa Cáceres, Lucio Daniel — campo más crítico: determina legitimación y cobertura",
+      "Fecha exacta de notificación a Libra de la citación en garantía — determina plazo de contestación",
+      "Fechas exactas de inicio (presentación) del MEPRE 847030 Tramos 1 y 2 — para precisar cómputo de prescripción",
+      "Expediente de siniestro interno de Libra (si existe) — para verificar caducidad y estado del art. 56 Ley 17.418",
+      "Estado del incidente de beneficio de litigar sin gastos y de la tasa de justicia",
+      "Condiciones generales y particulares de la póliza (si existe) — para analizar exclusiones específicas"
+    ],
+    "recomendacion": "Prioridad 1 (hoy): verificar en el sistema interno si existe póliza para VW Fox KWV802 a nombre de Ramoa Cáceres — este dato define toda la estrategia. Prioridad 2: confirmar fecha de notificación a Libra y calcular días hábiles restantes. Prioridad 3 (para la contestación de demanda): articular la impugnación del presupuesto de daños materiales como defensa sustancial central (es la más sólida y directamente aprovechable sin investigación adicional). Prioridad 4: investigar el cómputo exacto de la prescripción con las fechas de presentación de los MEPRE.",
+    "overall_confidence": "medium"
+  },
+
+  "cross_check": {
+    "contradicciones_detectadas": [],
+    "tensiones_notadas": [
+      {
+        "tension": "Dictamen INDETERMINADO (coverage_opinion) vs. score de riesgo 38/media (risk_assessment)",
+        "analisis": "No hay contradicción real. El score de riesgo 38 (media-baja) es consistente con el monto bajo ($850K) y el tipo de siniestro estándar. El INDETERMINADO de coverage refleja la ausencia de póliza, no un riesgo alto de condena. Ambos análisis son coherentes: caso de bajo monto con incertidumbre contractual.",
+        "resolucion": "Sin contradicción. Mantener ambas valoraciones."
+      },
+      {
+        "tension": "Viability check señal AMARILLO vs. múltiples defensas disponibles detectadas",
+        "analisis": "El AMARILLO refleja que ninguna defensa está confirmada en VERDE. La más prometedora (legitimación pasiva) está a un paso de VERDE, pero requiere verificación interna. Si se confirma ausencia de póliza, la señal sube a VERDE automáticamente. El AMARILLO es correcto en este momento con los datos disponibles.",
+        "resolucion": "Sin contradicción. El AMARILLO es la evaluación correcta dado el estado de la información."
+      },
+      {
+        "tension": "Risk assessment no escala el caso vs. urgencia de verificar notificación",
+        "analisis": "La no escalación al gerente es correcta según las reglas del skill (monto < $50M, sin fallecimiento, complejidad media, plazo desconocido pero no confirmado < 3 días). Sin embargo, la urgencia de verificar la fecha de notificación es real y está señalada en todos los análisis. No hay contradicción: la escalación formal no aplica, pero la urgencia operativa sí existe.",
+        "resolucion": "Sin contradicción. La alerta de urgencia está correctamente señalada dentro del flujo normal."
+      }
+    ],
+    "observacion": "Los tres análisis son consistentes y se refuerzan mutuamente. El caso presenta un perfil de bajo riesgo en monto y tipo de siniestro, pero con dos incógnitas críticas (existencia de póliza y fecha de notificación) que deben resolverse de inmediato. Las defensas más valiosas son: (1) la potencial falta de legitimación pasiva si no existe póliza; (2) la impugnación del presupuesto defectuoso que elimina el 51% del reclamo. El caso no escala automáticamente pero requiere atención urgente para verificar el plazo de contestación.",
+    "overall_confidence_cross_check": "medium"
+  },
+
+  "escalacion_requerida": false,
+  "motivo_escalacion": null,
+  "alertas_operativas": [
+    {
+      "tipo": "URGENCIA_PLAZO",
+      "descripcion": "La fecha de notificación a Libra de la citación en garantía no consta en el expediente. El plazo de 15 días hábiles para contestar corre desde ese momento. Verificar con carácter inmediato el estado de la notificación. Si se confirma plazo < 3 días hábiles, escalar al gerente.",
+      "prioridad": "crítica",
+      "accion": "Verificar hoy la fecha de notificación a Libra con el tribunal o el área de gestión judicial."
+    },
+    {
+      "tipo": "VERIFICACION_POLIZA",
+      "descripcion": "El vínculo aseguraticio entre Libra y el demandado Ramoa Cáceres no está acreditado. Si no existe póliza, la aseguradora debe informarlo al tribunal y plantear falta de legitimación pasiva. Si existe, toda la estrategia cambia.",
+      "prioridad": "crítica",
+      "accion": "Verificar hoy en el sistema interno si existe póliza para VW Fox dominio KWV802 a nombre de Lucio Daniel Ramoa Cáceres (DNI 93.756.969), vigente al 11/09/2022."
+    },
+    {
+      "tipo": "DEFECTO_PROBATORIO_PRIORITARIO",
+      "descripcion": "El presupuesto de daños materiales ($435.500) corresponde a un vehículo diferente al del actor — triple inconsistencia detectada por Donna. Es la defensa sustancial más sólida disponible sin investigación adicional.",
+      "prioridad": "alta",
+      "accion": "Incorporar en la contestación de demanda como impugnación documental expresa con señalamiento de la triple inconsistencia (vehículo diferente, dominio diferente, daños diferentes a los denunciados y a las fotografías)."
+    }
+  ]
+}
