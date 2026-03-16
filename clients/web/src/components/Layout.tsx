@@ -1,7 +1,7 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText, Activity, ShieldAlert, MessageSquareText } from 'lucide-react';
+import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText, Activity, ShieldAlert, MessageSquareText, Handshake } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { formatTableTime } from '../lib/formatTime';
@@ -44,6 +44,7 @@ export default function Layout() {
     { name: 'Métricas', path: '/metricas', icon: BarChart3 },
     { name: 'Documentos', path: '/documentos', icon: FileText },
     { name: 'Actividad', path: '/actividad', icon: Activity, badge: pendingCount > 0 ? pendingCount : undefined },
+    { name: 'Acuerdos',  path: '/acuerdos',  icon: Handshake },
   ];
 
   return (
