@@ -123,6 +123,48 @@ func (c *AgreementController) Update(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, a)
 }
 
+
+// ListPending godoc
+// @Summary      List agreements pending extraction (agent)
+// @Description  Returns agreements with extraction_status=pending. Ali polls this to know what Donna needs to process. Requires X-Agent-Key header.
+// @Tags         agents
+// @Produce      json
+// @Security     AgentKey
+// @Success      200  {array}  dto.AgreementResponse
+// @Router       /api/v1/agents/agreements/pending [get]
+func (c *AgreementController) ListPending(ctx echo.Context) error {
+	agreements, err := c.svc.ListPending()
+	if err != nil {
+		return err
+	}
+	return ctx.JSON(http.StatusOK, agreements)
+}
+
+// AgentUpdate godoc
+// @Summary      Update agreement (agent)
+// @Description  Called by Donna after extracting fields from the agreement documents. Requires X-Agent-Key header.
+// @Tags         agents
+// @Accept       json
+// @Produce      json
+// @Security     AgentKey
+// @Param        id    path  string                     true  "Agreement UUID"
+// @Param        body  body  dto.UpdateAgreementRequest true  "Extracted fields"
+// @Success      200  {object}  dto.AgreementResponse
+// @Failure      400  {object}  map[string]string
+// @Failure      404  {object}  map[string]string
+// @Router       /api/v1/agents/agreements/{id} [patch]
+func (c *AgreementController) AgentUpdate(ctx echo.Context) error {
+	var req dto.UpdateAgreementRequest
+	if err := ctx.Bind(&req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "invalid request body")
+	}
+	a, err := c.svc.Update(ctx.Param("id"), req)
+	if err != nil {
+		return err
+	}
+	return ctx.JSON(http.StatusOK, a)
+}
+
 // Delete godoc
 // @Summary      Delete agreement
 // @Tags         agreements
