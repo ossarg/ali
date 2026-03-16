@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import { useAgreements, useUpdateAgreement } from '../api/hooks/useAgreements';
 import type { Agreement, UpdateAgreementRequest } from '../api/schemas/agreement.schemas';
@@ -146,6 +147,7 @@ function EditModal({ agreement, onClose }: EditModalProps) {
 type StatusFilter = 'all' | DueStatus;
 
 export default function Agreements() {
+  const navigate = useNavigate();
   const [page, setPage]               = useState(1);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [editing, setEditing]           = useState<Agreement | null>(null);
@@ -233,7 +235,7 @@ export default function Agreements() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                {['Siniestro', 'Tipo', 'Beneficiario', 'Concepto', 'Nro. Factura', 'Importe', 'Vence', 'Estado', 'Extracción', ''].map(h => (
+                {['Siniestro', 'Tipo', 'Concepto', 'Nro. Factura', 'Importe', 'Vence', 'Estado'].map(h => (
                   <th key={h} className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wide">
                     {h}
                   </th>
@@ -242,13 +244,15 @@ export default function Agreements() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filtered.map(a => {
-                const statusInfo      = STATUS_BADGE[a.status];
-                const extractionInfo  = EXTRACTION_BADGE[a.extraction_status];
+                const statusInfo = STATUS_BADGE[a.status];
                 return (
-                  <tr key={a.id} className="hover:bg-gray-50 transition-colors">
+                  <tr
+                    key={a.id}
+                    onClick={() => navigate(`/acuerdos/${a.id}`)}
+                    className="hover:bg-gray-50 transition-colors cursor-pointer"
+                  >
                     <td className="px-4 py-3 font-mono text-xs text-gray-700">{a.claim_number || '—'}</td>
                     <td className="px-4 py-3 text-gray-700">{AGREEMENT_TYPE_LABELS[a.agreement_type] ?? '—'}</td>
-                    <td className="px-4 py-3 text-gray-700 max-w-[160px] truncate">{a.beneficiary || '—'}</td>
                     <td className="px-4 py-3 text-gray-700 max-w-[160px] truncate">{a.concept || '—'}</td>
                     <td className="px-4 py-3 text-gray-500 text-xs font-mono">{a.invoice_number || '—'}</td>
                     <td className="px-4 py-3 font-medium text-gray-900">{formatAmount(a.amount)}</td>
@@ -257,19 +261,6 @@ export default function Agreements() {
                       <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusInfo.cls}`}>
                         {statusInfo.label}
                       </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${extractionInfo.cls}`}>
-                        {extractionInfo.label}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <button
-                        onClick={() => setEditing(a)}
-                        className="text-xs text-indigo-600 hover:text-indigo-800 font-medium"
-                      >
-                        Editar
-                      </button>
                     </td>
                   </tr>
                 );
