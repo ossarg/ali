@@ -24,14 +24,10 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/ossarg/ali/backend/internal/config"
-	"github.com/ossarg/ali/backend/internal/controllers"
 	"github.com/ossarg/ali/backend/internal/database"
-	"github.com/ossarg/ali/backend/internal/repositories"
+	"github.com/ossarg/ali/backend/internal/di"
 	"github.com/ossarg/ali/backend/internal/router"
-	"github.com/ossarg/ali/backend/internal/services"
 	"github.com/ossarg/ali/backend/internal/services/cache"
-	"github.com/ossarg/ali/backend/internal/services/sise"
-	"github.com/ossarg/ali/backend/internal/storage"
 )
 
 func main() {
@@ -47,49 +43,14 @@ func main() {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	// Redis
 	if _, err := cache.Connect(cfg.Redis.URL); err != nil {
 		log.Fatalf("Failed to connect to Redis: %v", err)
 	}
 	defer cache.Close()
 
-	// SISE Consultas
-	siseClient := sise.NewConsultasClient(cfg.SISE.BaseURL, cfg.SISE.Username, cfg.SISE.Password)
-	siseOrchestrator := sise.NewConsultasOrchestrator(siseClient)
+	c := di.Build(cfg, db)
 
-
-	// Repositories
-	userRepo  := repositories.NewUserRepository(db)
-	caseRepo  := repositories.NewCaseRepository(db)
-	claimRepo := repositories.NewClaimRepository(db)
-
-	// Services
-	authService  := services.NewAuthService(userRepo, cfg.JWT.Secret)
-	caseService  := services.NewCaseService(caseRepo, userRepo)
-	claimService := services.NewClaimService(claimRepo, caseRepo, siseOrchestrator)
-
-	// Storage
-	attachmentsDir := os.Getenv("ATTACHMENTS_DIR")
-	if attachmentsDir == "" {
-		attachmentsDir = "./data/attachments"
-	}
-	fileStore, err := storage.NewLocalStore(attachmentsDir)
-	if err != nil {
-		log.Fatalf("Failed to init file storage: %v", err)
-	}
-
-	// Controllers
-	authController       := controllers.NewAuthController(authService)
-	agreementRepo       := repositories.NewAgreementRepository(db)
-	agreementService    := services.NewAgreementService(agreementRepo)
-	agreementController := controllers.NewAgreementController(agreementService)
-
-	caseController       := controllers.NewCaseController(caseService, claimService, agreementService)
-	claimController      := controllers.NewClaimController(claimService)
-	attachmentController := controllers.NewAttachmentController(fileStore, caseRepo)
-
-
-	e := router.InitRouter(cfg, authController, caseController, claimController, attachmentController, agreementController)
+	e := router.InitRouter(cfg, c.Auth, c.Case, c.Claim, c.Attachment, c.Agreement)
 
 	addr := fmt.Sprintf(":%s", cfg.Server.Port)
 
