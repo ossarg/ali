@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "config": {
     "concurrency": 3,
     "pdf_base_path": "/home/legales/ali/pipeline-tests",

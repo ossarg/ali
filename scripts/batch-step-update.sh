@@ -32,13 +32,24 @@ if not case:
     print(f"ERROR: case '$CASE_ID' not found", file=sys.stderr)
     sys.exit(1)
 
-# Update step
-case["steps"]["$STEP"] = "$STATUS"
+# Update step — support both old (string) and new (dict with blocked_by) format
+steps = case["steps"]
+step = steps.get("$STEP")
+if isinstance(step, dict):
+    step["status"] = "$STATUS"
+else:
+    steps["$STEP"] = {"status": "$STATUS", "blocked_by": []}
 
 # Update case status
 all_steps = ["donna", "mike", "edu", "jess", "lou"]
-done = all(case["steps"].get(s) == "ok" for s in all_steps)
-any_failed = any(case["steps"].get(s) == "failed" for s in all_steps)
+def get_step_status(s):
+    v = steps.get(s)
+    if isinstance(v, dict):
+        return v.get("status")
+    return v
+
+done = all(get_step_status(s) == "ok" for s in all_steps)
+any_failed = any(get_step_status(s) == "failed" for s in all_steps)
 
 if "$STATUS" == "running" and case["status"] == "pending":
     case["status"] = "running"

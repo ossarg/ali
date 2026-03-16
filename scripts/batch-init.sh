@@ -34,7 +34,7 @@ for pdf in "$PDF_DIR"/*.pdf; do
   CASE_OUTPUT_DIR="$OUTPUT_BASE/$CASE_ID"
   mkdir -p "$CASE_OUTPUT_DIR"
   [[ $FIRST -eq 0 ]] && CASES+=","
-  CASES+="{\"id\":\"$CASE_ID\",\"pdf_path\":\"$pdf\",\"output_dir\":\"$CASE_OUTPUT_DIR\",\"status\":\"pending\",\"current_step\":null,\"steps\":{\"donna\":null,\"mike\":null,\"edu\":null,\"jess\":null,\"lou\":null},\"started_at\":null,\"completed_at\":null,\"error\":null}"
+  CASES+="{\"id\":\"$CASE_ID\",\"pdf_path\":\"$pdf\",\"output_dir\":\"$CASE_OUTPUT_DIR\",\"status\":\"pending\",\"current_step\":null,\"steps\":{\"donna\":{\"status\":null,\"blocked_by\":[]},\"mike\":{\"status\":null,\"blocked_by\":[\"donna\"]},\"edu\":{\"status\":null,\"blocked_by\":[\"mike\"]},\"jess\":{\"status\":null,\"blocked_by\":[\"edu\"]},\"lou\":{\"status\":null,\"blocked_by\":[\"jess\"]}},\"started_at\":null,\"completed_at\":null,\"error\":null}"
   FIRST=0
   COUNT=$((COUNT + 1))
 done
