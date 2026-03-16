@@ -35,6 +35,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://libra:libra@postgres:5432/libra_legal
       - REDIS_URL=redis://redis:6379
+      - ATTACHMENTS_DIR=/data/attachments   # always overrides .env — never use container-local path
     volumes:
       - /home/legales/ali/data/attachments:/data/attachments
     depends_on:

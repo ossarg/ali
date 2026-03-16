@@ -132,6 +132,98 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/agents/agreements/pending": {
+            "get": {
+                "security": [
+                    {
+                        "AgentKey": []
+                    }
+                ],
+                "description": "Returns agreements with extraction_status=pending. Ali polls this to know what Donna needs to process. Requires X-Agent-Key header.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "agents"
+                ],
+                "summary": "List agreements pending extraction (agent)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.AgreementResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/agents/agreements/{id}": {
+            "patch": {
+                "security": [
+                    {
+                        "AgentKey": []
+                    }
+                ],
+                "description": "Called by Donna after extracting fields from the agreement documents. Requires X-Agent-Key header.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "agents"
+                ],
+                "summary": "Update agreement (agent)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Agreement UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Extracted fields",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateAgreementRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AgreementResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/agents/attachments": {
             "post": {
                 "description": "Accepts a single file (PDF or Office doc). Stores it and appends metadata to the event's attachments JSONB.",
@@ -1389,6 +1481,9 @@ const docTemplate = `{
                 "agreement_type": {
                     "$ref": "#/definitions/models.AgreementType"
                 },
+                "agreement_type_label": {
+                    "type": "string"
+                },
                 "amount": {
                     "type": "number"
                 },
@@ -1415,6 +1510,9 @@ const docTemplate = `{
                 },
                 "extraction_status": {
                     "$ref": "#/definitions/models.AgreementExtractionStatus"
+                },
+                "extraction_status_label": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "string"
@@ -2092,11 +2190,12 @@ const docTemplate = `{
             }
         },
         "models.AgreementExtractionStatus": {
-            "type": "string",
+            "type": "integer",
+            "format": "int32",
             "enum": [
-                "pending",
-                "completed",
-                "failed"
+                1,
+                2,
+                3
             ],
             "x-enum-varnames": [
                 "ExtractionPending",
@@ -2105,10 +2204,11 @@ const docTemplate = `{
             ]
         },
         "models.AgreementType": {
-            "type": "string",
+            "type": "integer",
+            "format": "int32",
             "enum": [
-                "mediacion",
-                "juicio"
+                1,
+                2
             ],
             "x-enum-varnames": [
                 "AgreementTypeMediacion",

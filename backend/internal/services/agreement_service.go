@@ -16,6 +16,8 @@ type AgreementService interface {
 	Update(id string, req dto.UpdateAgreementRequest) (*dto.AgreementResponse, error)
 	Delete(id string) error
 
+	ListPending() ([]dto.AgreementResponse, error)
+
 	// CreatePending creates an agreement in pending state immediately when an acuerdo event is approved.
 	// Extraction will be populated later by the agent pipeline.
 	CreatePending(caseEventID uuid.UUID, caseID *uuid.UUID, claimNumber string) (*models.Agreement, error)
@@ -143,6 +145,23 @@ func (s *agreementService) Delete(id string) error {
 		return apierrors.ErrNotFound
 	}
 	return s.repo.Delete(id)
+}
+
+func (s *agreementService) ListPending() ([]dto.AgreementResponse, error) {
+	agreements, _, err := s.repo.ListAll(1, 100)
+	if err != nil {
+		return nil, apierrors.ErrInternalServer
+	}
+	var result []dto.AgreementResponse
+	for _, a := range agreements {
+		if a.ExtractionStatus == models.ExtractionPending {
+			result = append(result, dto.ToAgreementResponse(a))
+		}
+	}
+	if result == nil {
+		result = []dto.AgreementResponse{}
+	}
+	return result, nil
 }
 
 func (s *agreementService) CreatePending(caseEventID uuid.UUID, caseID *uuid.UUID, claimNumber string) (*models.Agreement, error) {

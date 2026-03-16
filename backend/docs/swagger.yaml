@@ -4,6 +4,8 @@ definitions:
     properties:
       agreement_type:
         $ref: '#/definitions/models.AgreementType'
+      agreement_type_label:
+        type: string
       amount:
         type: number
       beneficiary:
@@ -22,6 +24,8 @@ definitions:
         type: string
       extraction_status:
         $ref: '#/definitions/models.AgreementExtractionStatus'
+      extraction_status_label:
+        type: string
       id:
         type: string
       invoice_number:
@@ -477,19 +481,21 @@ definitions:
     type: object
   models.AgreementExtractionStatus:
     enum:
-    - pending
-    - completed
-    - failed
-    type: string
+    - 1
+    - 2
+    - 3
+    format: int32
+    type: integer
     x-enum-varnames:
     - ExtractionPending
     - ExtractionCompleted
     - ExtractionFailed
   models.AgreementType:
     enum:
-    - mediacion
-    - juicio
-    type: string
+    - 1
+    - 2
+    format: int32
+    type: integer
     x-enum-varnames:
     - AgreementTypeMediacion
     - AgreementTypeJuicio
@@ -746,6 +752,66 @@ paths:
       summary: Retry claim resolution with corrected nro_stro
       tags:
       - claims
+  /api/v1/agents/agreements/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Called by Donna after extracting fields from the agreement documents.
+        Requires X-Agent-Key header.
+      parameters:
+      - description: Agreement UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Extracted fields
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateAgreementRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AgreementResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - AgentKey: []
+      summary: Update agreement (agent)
+      tags:
+      - agents
+  /api/v1/agents/agreements/pending:
+    get:
+      description: Returns agreements with extraction_status=pending. Ali polls this
+        to know what Donna needs to process. Requires X-Agent-Key header.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.AgreementResponse'
+            type: array
+      security:
+      - AgentKey: []
+      summary: List agreements pending extraction (agent)
+      tags:
+      - agents
   /api/v1/agents/attachments:
     post:
       consumes:

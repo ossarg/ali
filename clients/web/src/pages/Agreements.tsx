@@ -167,15 +167,12 @@ export default function Agreements() {
     d ? format(parseISO(d), 'dd/MM/yyyy') : '—';
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="space-y-6">
       {editing && <EditModal agreement={editing} onClose={() => setEditing(null)} />}
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Acuerdos</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{total} acuerdos registrados</p>
-        </div>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-900">Acuerdos</h1>
 
         {/* Status filter pills */}
         <div className="flex gap-2">
@@ -195,28 +192,31 @@ export default function Agreements() {
         </div>
       </div>
 
-      {/* Summary cards */}
-      {!isLoading && (
-        <div className="grid grid-cols-4 gap-4 mb-6">
-          {(['vencido', 'proximo', 'vigente', 'sin_fecha'] as DueStatus[]).map(s => {
-            const count = agreements.filter(a => a.status === s).length;
-            const { label, cls } = STATUS_BADGE[s];
-            return (
-              <button
-                key={s}
-                onClick={() => { setStatusFilter(s); setPage(1); }}
-                className="bg-white rounded-xl border border-gray-200 p-4 text-left hover:border-indigo-200 transition-colors"
-              >
-                <div className="flex items-center justify-between mb-1">
+      {/* Metric cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {isLoading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-xl border border-gray-200 p-5 h-24 animate-pulse" />
+          ))
+        ) : (
+          <>
+            {(['vencido', 'proximo', 'vigente', 'sin_fecha'] as DueStatus[]).map(s => {
+              const count = agreements.filter(a => a.status === s).length;
+              const { label } = STATUS_BADGE[s];
+              return (
+                <button
+                  key={s}
+                  onClick={() => { setStatusFilter(s); setPage(1); }}
+                  className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-1 text-left hover:border-indigo-200 transition-colors"
+                >
                   <span className="text-sm text-gray-500">{label}</span>
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${cls}`}>{count}</span>
-                </div>
-                <span className="text-2xl font-bold text-gray-900">{count}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
+                  <span className="text-3xl font-bold text-gray-900">{count}</span>
+                </button>
+              );
+            })}
+          </>
+        )}
+      </div>
 
       {/* Table */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">

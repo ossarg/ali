@@ -44,6 +44,8 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	agents := e.Group("/api/v1/agents", appMiddleware.AgentKeyMiddleware())
 	agents.POST("/case-events", caseController.CreateEvent)
 	agents.POST("/attachments", attachmentController.Upload)
+	agents.PATCH("/agreements/:id", agreementController.AgentUpdate)
+	agents.GET("/agreements/pending", agreementController.ListPending)
 
 	// Protected routes (JWT) — registered last so /api/v1/agents is not captured here
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
