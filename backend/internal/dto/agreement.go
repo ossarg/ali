@@ -19,40 +19,44 @@ const (
 
 // AgreementResponse is the public representation of an agreement.
 type AgreementResponse struct {
-	ID            uuid.UUID                         `json:"id"`
-	CaseEventID   uuid.UUID                         `json:"case_event_id"`
-	CaseID        *uuid.UUID                        `json:"case_id"`
-	AgreementType models.AgreementType              `json:"agreement_type"`
-	ClaimNumber   string                            `json:"claim_number"`
-	Producer      string                            `json:"producer"`
-	Beneficiary   string                            `json:"beneficiary"`
-	Concept       string                            `json:"concept"`
-	InvoiceNumber string                            `json:"invoice_number"`
-	Amount        *float64                          `json:"amount"`
-	DueDate       *time.Time                        `json:"due_date"`
-	Status        AgreementStatus                   `json:"status"`
-	ExtractionStatus models.AgreementExtractionStatus `json:"extraction_status"`
-	CreatedAt     time.Time                         `json:"created_at"`
+	ID                  uuid.UUID                         `json:"id"`
+	CaseEventID         uuid.UUID                         `json:"case_event_id"`
+	CaseID              *uuid.UUID                        `json:"case_id"`
+	AgreementType       models.AgreementType              `json:"agreement_type"`
+	AgreementTypeLabel  string                            `json:"agreement_type_label"`
+	ClaimNumber         string                            `json:"claim_number"`
+	Producer            string                            `json:"producer"`
+	Beneficiary         string                            `json:"beneficiary"`
+	Concept             string                            `json:"concept"`
+	InvoiceNumber       string                            `json:"invoice_number"`
+	Amount              *float64                          `json:"amount"`
+	DueDate             *time.Time                        `json:"due_date"`
+	Status              AgreementStatus                   `json:"status"`
+	ExtractionStatus    models.AgreementExtractionStatus  `json:"extraction_status"`
+	ExtractionStatusLabel string                          `json:"extraction_status_label"`
+	CreatedAt           time.Time                         `json:"created_at"`
 }
 
 // ToAgreementResponse converts a model to its DTO, computing status on-the-fly.
 func ToAgreementResponse(a models.Agreement) AgreementResponse {
 	status := computeAgreementStatus(a.DueDate)
 	return AgreementResponse{
-		ID:               a.ID,
-		CaseEventID:      a.CaseEventID,
-		CaseID:           a.CaseID,
-		AgreementType:    a.AgreementType,
-		ClaimNumber:      a.ClaimNumber,
-		Producer:         a.Producer,
-		Beneficiary:      a.Beneficiary,
-		Concept:          a.Concept,
-		InvoiceNumber:    a.InvoiceNumber,
-		Amount:           a.Amount,
-		DueDate:          a.DueDate,
-		Status:           status,
-		ExtractionStatus: a.ExtractionStatus,
-		CreatedAt:        a.CreatedAt,
+		ID:                    a.ID,
+		CaseEventID:           a.CaseEventID,
+		CaseID:                a.CaseID,
+		AgreementType:         a.AgreementType,
+		AgreementTypeLabel:    a.AgreementType.String(),
+		ClaimNumber:           a.ClaimNumber,
+		Producer:              a.Producer,
+		Beneficiary:           a.Beneficiary,
+		Concept:               a.Concept,
+		InvoiceNumber:         a.InvoiceNumber,
+		Amount:                a.Amount,
+		DueDate:               a.DueDate,
+		Status:                status,
+		ExtractionStatus:      a.ExtractionStatus,
+		ExtractionStatusLabel: a.ExtractionStatus.String(),
+		CreatedAt:             a.CreatedAt,
 	}
 }
 

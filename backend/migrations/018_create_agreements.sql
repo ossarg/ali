@@ -2,9 +2,6 @@
 -- An agreement is created when a case_event of type acuerdo (mail_type=4) is approved.
 -- One case/siniestro can have multiple agreements (lawyer fees, expert fees, insured payment, etc.)
 
-CREATE TYPE agreement_type AS ENUM ('mediacion', 'juicio');
-CREATE TYPE agreement_extraction_status AS ENUM ('pending', 'completed', 'failed');
-
 CREATE TABLE agreements (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
@@ -13,7 +10,8 @@ CREATE TABLE agreements (
     case_id         UUID REFERENCES cases(id) ON DELETE SET NULL,
 
     -- Core fields
-    agreement_type          agreement_type,
+    -- agreement_type: 1=mediacion, 2=juicio
+    agreement_type          SMALLINT,
     claim_number            TEXT,
     producer                TEXT,
     beneficiary             TEXT,
@@ -23,7 +21,8 @@ CREATE TABLE agreements (
     due_date                DATE,
 
     -- Extraction metadata
-    extraction_status       agreement_extraction_status NOT NULL DEFAULT 'pending',
+    -- extraction_status: 1=pending, 2=completed, 3=failed
+    extraction_status       SMALLINT NOT NULL DEFAULT 1,
     extraction_error        TEXT,
     extraction_raw          JSONB DEFAULT '{}',
 
