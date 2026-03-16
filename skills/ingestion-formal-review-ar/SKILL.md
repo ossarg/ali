@@ -122,6 +122,18 @@ Valor estratégico del fail: un defecto en la citación en garantía puede cuest
 | overall_confidence | ConfidenceLevel | high / medium / low |
 | requiere_revision_humana | boolean | True si hay indeterminados o irregularidades graves |
 
+### Metadata de ejecución (opcional, recomendado para trazabilidad)
+
+El campo `_metadata` es **opcional** pero se recomienda incluirlo siempre para permitir auditoría, reproducibilidad y correlación entre runs del pipeline. Cuando esté disponible, el agente debe poblarlo.
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| skill_version | string | Versión del skill ejecutado (ej: `"1.2.0"`) |
+| pdf_path | string o null | Ruta o identificador del PDF procesado |
+| case_id | string o null | Identificador del caso/expediente en el sistema interno |
+| timestamp | string | Fecha y hora de ejecución en formato ISO 8601 (ej: `"2025-03-15T23:10:00-03:00"`) |
+| execution_ms | int o null | Tiempo de ejecución del skill en milisegundos |
+
 ### Ejemplo de output (JSON)
 
 ```json
@@ -199,7 +211,14 @@ Valor estratégico del fail: un defecto en la citación en garantía puede cuest
   "defectos_con_valor_estrategico": 1,
   "resumen": "La demanda cumple con la mayoría de los requisitos formales. Hay un check fallido (acompañamiento de documentación) con valor estratégico moderado: si la documental mencionada no fue adjuntada, hay argumento de preclusión probatoria. Un check indeterminado (tasa de justicia) sin valor estratégico.",
   "overall_confidence": "high",
-  "requiere_revision_humana": false
+  "requiere_revision_humana": false,
+  "_metadata": {
+    "skill_version": "1.0.0",
+    "pdf_path": "casos/2025/expediente-45678-2024.pdf",
+    "case_id": "45678/2024",
+    "timestamp": "2025-03-15T23:10:00-03:00",
+    "execution_ms": 1840
+  }
 }
 ```
 

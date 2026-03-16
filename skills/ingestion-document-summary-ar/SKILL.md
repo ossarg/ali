@@ -169,8 +169,9 @@ Si el documento está incompleto o es ilegible, señalalo como bloqueante para e
 | Campo | Tipo | Descripción |
 |-------|------|-------------|
 | tipo | string | Tipo de señal (medida_cautelar / daño_punitivo / fallecimiento / multiples_actores / demanda_colectiva / repercusion_publica / inconstitucionalidad / monto_excepcional / jurisdiccion_inusual / acumulacion / multiples_aseguradoras / abusividad_clausulas / otro) |
-| detalle | string | Descripción concreta de la señal |
-| impacto | string | Por qué importa para la aseguradora |
+| descripcion | string | Descripción concreta de la señal y por qué importa para la aseguradora. Unifica el detalle de lo detectado con el impacto operativo en un solo campo narrativo. |
+| gravedad | string | `baja` / `media` / `alta` — impacto estimado sobre la estrategia defensiva o la exposición económica |
+| confianza | string | `high` / `medium` / `low` — certeza con que se detectó la señal en el documento |
 
 ### Datos económicos de la víctima (solo si `señales_atencion` incluye `fallecimiento`)
 
@@ -238,8 +239,9 @@ Si no hay fallecimiento o los datos no figuran en la demanda: `victima = null`.
     "señales": [
       {
         "tipo": "medida_cautelar",
-        "detalle": "El actor pide embargo preventivo sobre bienes del demandado y de la aseguradora por el monto total de la demanda ($25.000.000)",
-        "impacto": "Requiere respuesta urgente independiente de la contestación. Si se traba el embargo, puede afectar operatoria de la aseguradora."
+        "descripcion": "El actor pide embargo preventivo sobre bienes del demandado y de la aseguradora por el monto total de la demanda ($25.000.000). Requiere respuesta urgente independiente de la contestación; si se traba el embargo puede afectar la operatoria de la aseguradora.",
+        "gravedad": "alta",
+        "confianza": "high"
       }
     ]
   },

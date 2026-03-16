@@ -77,6 +77,21 @@ Esta distinción importa para plazos (en citación en garantía el plazo corre d
 
 Nota: estos datos se extraen de lo que menciona la demanda. El análisis completo de la póliza lo hace `extraction-policy-summary-ar` con el documento de póliza.
 
+#### Verificaciones de integridad documental
+
+##### Verificación de presupuesto adjunto
+Si la demanda adjunta un presupuesto de reparación vehicular u otro presupuesto, cruzá la patente y/o modelo del vehículo indicado en el presupuesto contra los datos del actor o del vehículo asegurado declarados en la demanda. Si no coinciden (ej: la patente del presupuesto corresponde a otro vehículo), generá una alerta crítica en `alertas_criticas` con tipo `presupuesto_otro_vehiculo`.
+
+##### Verificación de errores de plantilla
+Revisá si el nombre del actor en la sección de liquidación de daños coincide con el actor declarado en el encabezado de la demanda. Una discrepancia es señal de un error de copia/plantilla (el escrito fue adaptado de otra demanda sin corregir todos los nombres). Si el nombre difiere entre el encabezado y la sección de liquidación, generá una alerta crítica en `alertas_criticas` con tipo `error_plantilla_actor`.
+
+##### Caso "seguro sin acreditar"
+Si la aseguradora es citada en garantía pero la demanda no adjunta ni menciona el número de póliza, no acompaña la póliza como documental, y no hay referencia alguna al contrato de seguro:
+- Marcá `poliza.poliza_acreditada: false`
+- Asigná `poliza.numero_poliza.confidence: low`
+- Bajá `tipo_intervencion_aseguradora.confidence` a `low`
+- Generá una alerta crítica en `alertas_criticas` con tipo `seguro_sin_acreditar`
+
 #### Datos del reclamo
 
 Extraé el monto total y cada rubro individual con su monto. Esto es crítico: los skills de triage y drafting necesitan el desglose para evaluar razonabilidad rubro por rubro e impugnar montos en la contestación.
@@ -174,6 +189,7 @@ Extraé toda la prueba que ofrece el actor. Esto lo necesita `risk-assessment-ar
 | vigencia_hasta | FieldWithConfidence o null | Fin de vigencia |
 | productor | FieldWithConfidence o null | Productor de seguros |
 | ramo | FieldWithConfidence | RC auto, RC general, vida, AP, etc. |
+| poliza_acreditada | boolean | `true` si la demanda adjunta o menciona la póliza con número identificable; `false` si la aseguradora es citada en garantía pero no se acredita el contrato de seguro. |
 
 ### Datos del reclamo
 
@@ -222,6 +238,20 @@ Si no hay fallecimiento o los datos no figuran en la demanda: `victima = null`.
 | confesional | boolean | Si pide absolución de posiciones |
 | otras | lista de strings o null | Cualquier otra prueba ofrecida |
 
+### Alertas críticas
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| alertas_criticas | lista de objetos | Alertas detectadas durante la extracción que requieren revisión humana inmediata. Lista vacía si no hay alertas. |
+
+**Detalle de cada alerta crítica:**
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| tipo | string | `presupuesto_otro_vehiculo` / `error_plantilla_actor` / `seguro_sin_acreditar` / `actor_no_coincide_liquidacion` / `otro` |
+| descripcion | string | Descripción concreta de la alerta |
+| campo_afectado | string | Campo o sección del output donde se manifiesta el problema |
+
 ### Plazos y metadata
 
 | Campo | Tipo | Descripción |
@@ -236,10 +266,15 @@ Si no hay fallecimiento o los datos no figuran en la demanda: `victima = null`.
 | overall_confidence | ConfidenceLevel | high / medium / low |
 | campos_baja_confianza | lista de strings | Campos con confidence low |
 
+### Nota de schema alignment (downstream compatibility)
+
+> **⚠️ Importante para el pipeline:** El output JSON de este skill (Mike) debe ser consumible directamente por los skills de Edu (`triage-coverage-opinion-ar`) y Jess (`triage-viability-check-ar`) sin ninguna transformación intermedia. El campo **`claim_summary`** es el wrapper raíz obligatorio que envuelve todos los datos. Todos los campos definidos en este schema deben respetarse tal como están nombrados. No renombres campos ni cambies la estructura de nesting. Si agregás campos nuevos, asegurate de que sean opcionales (nullable) para no romper la compatibilidad downstream.
+
 ### Ejemplo de output (JSON)
 
 ```json
 {
+  "claim_summary": {
   "expediente": {
     "caratula": { "value": "Pérez, Juan c/ Gómez, Carlos y otro s/ daños y perjuicios", "confidence": "high", "source_text": "..." },
     "numero_expediente": { "value": "45678/2024", "confidence": "high", "source_text": null },
@@ -270,7 +305,8 @@ Si no hay fallecimiento o los datos no figuran en la demanda: `victima = null`.
   },
   "poliza": {
     "numero_poliza": { "value": "RC-AUTO-987654", "confidence": "high", "source_text": "póliza nro. RC-AUTO-987654" },
-    "ramo": { "value": "RC Auto", "confidence": "high", "source_text": null }
+    "ramo": { "value": "RC Auto", "confidence": "high", "source_text": null },
+    "poliza_acreditada": true
   },
   "reclamo": {
     "monto_reclamado": { "value": "25000000", "confidence": "medium", "source_text": "la suma de $25.000.000 o lo que en más o en menos resulte de la prueba" },
@@ -304,9 +340,11 @@ Si no hay fallecimiento o los datos no figuran en la demanda: `victima = null`.
     "fecha_vencimiento": { "value": "2025-02-10", "confidence": "high", "source_text": null },
     "dias_restantes": 8
   },
+  "alertas_criticas": [],
   "resumen_ejecutivo": "Demanda por accidente vehicular con citación en garantía a Libra Seguros. El actor reclama $25.000.000 por incapacidad sobreviniente (45% según certificado de parte), daño moral, estético y emergente. Ofrece pericia médica, psicológica y contable. Póliza RC Auto. Quedan 8 días hábiles para contestar desde la notificación al asegurador.",
   "overall_confidence": "high",
   "campos_baja_confianza": []
+  }
 }
 ```
 
