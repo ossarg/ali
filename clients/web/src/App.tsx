@@ -13,6 +13,7 @@ import LawyerDetail from './pages/LawyerDetail';
 import Metrics from './pages/Metrics';
 import Documentos from './pages/Documentos';
 import Activity from './pages/Activity';
+import Agreements from './pages/Agreements';
 import ActivityDetail from './pages/ActivityDetail';
 import ClaimsPage from './pages/Claims';
 import ClaimDetail from './pages/ClaimDetail';
@@ -35,6 +36,7 @@ function App() {
           <Route path="documentos" element={<Documentos />} />
           <Route path="actividad" element={<Activity />} />
           <Route path="actividad/:id" element={<ActivityDetail />} />
+          <Route path="acuerdos" element={<Agreements />} />
           <Route path="siniestros" element={<ClaimsPage />} />
           <Route path="siniestros/:id" element={<ClaimDetail />} />
         </Route>

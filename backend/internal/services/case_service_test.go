@@ -46,6 +46,9 @@ func (m *mockCaseRepository) ListUnresolvedEvents() ([]models.CaseEvent, error) 
 func (m *mockCaseRepository) ListPendingResolutionEvents() ([]models.CaseEvent, error)                 { return nil, m.err }
 func (m *mockCaseRepository) ListPaginated(_ repositories.CaseFilters, _, _ int) ([]models.Case, int64, error) { return nil, 0, m.err }
 func (m *mockCaseRepository) GetByID(_ string) (*models.Case, error)                                  { return nil, m.err }
+func (m *mockCaseRepository) DeleteEvent(_ string) error                                           { return m.err }
+func (m *mockCaseRepository) ListApprovedEventsByCaseID(_ string) ([]models.CaseEvent, error)  { return nil, m.err }
+func (m *mockCaseRepository) ListPendingEventsPaginated(_, _ int) ([]models.CaseEvent, int64, error) { return nil, 0, m.err }
 func (m *mockCaseRepository) ListEventsByCaseID(_ string) ([]models.CaseEvent, error)               { return nil, m.err }
 func (m *mockCaseRepository) FindByClaim(_ string) (*models.Case, error)                              { return nil, m.err }
 func (m *mockCaseRepository) GetEventMetrics() (int64, int64, int64, int64, *time.Time, error) {
@@ -65,7 +68,7 @@ func sampleCase() models.Case {
 // --- List ---
 
 func TestCaseService_List_Empty(t *testing.T) {
-	svc := NewCaseService(&mockCaseRepository{cases: []models.Case{}})
+	svc := NewCaseService(&mockCaseRepository{cases: []models.Case{}}, nil)
 	result, err := svc.List(dto.ListCasesRequest{})
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
@@ -77,7 +80,7 @@ func TestCaseService_List_Empty(t *testing.T) {
 
 func TestCaseService_List_ReturnsCases(t *testing.T) {
 	cases := []models.Case{sampleCase(), sampleCase()}
-	svc := NewCaseService(&mockCaseRepository{cases: cases})
+	svc := NewCaseService(&mockCaseRepository{cases: cases}, nil)
 
 	result, err := svc.List(dto.ListCasesRequest{})
 	if err != nil {
@@ -90,7 +93,7 @@ func TestCaseService_List_ReturnsCases(t *testing.T) {
 
 func TestCaseService_List_InvalidStatus(t *testing.T) {
 	bad := int16(99)
-	svc := NewCaseService(&mockCaseRepository{cases: []models.Case{}})
+	svc := NewCaseService(&mockCaseRepository{cases: []models.Case{}}, nil)
 	_, err := svc.List(dto.ListCasesRequest{Status: &bad})
 	if err == nil {
 		t.Fatal("expected error for invalid status, got nil")
@@ -99,7 +102,7 @@ func TestCaseService_List_InvalidStatus(t *testing.T) {
 
 func TestCaseService_List_InvalidCaseType(t *testing.T) {
 	bad := int16(99)
-	svc := NewCaseService(&mockCaseRepository{cases: []models.Case{}})
+	svc := NewCaseService(&mockCaseRepository{cases: []models.Case{}}, nil)
 	_, err := svc.List(dto.ListCasesRequest{CaseType: &bad})
 	if err == nil {
 		t.Fatal("expected error for invalid case_type, got nil")
@@ -110,7 +113,7 @@ func TestCaseService_List_InvalidCaseType(t *testing.T) {
 
 func TestCaseService_GetByID_Found(t *testing.T) {
 	c := sampleCase()
-	svc := NewCaseService(&mockCaseRepository{one: &c})
+	svc := NewCaseService(&mockCaseRepository{one: &c}, nil)
 
 	result, err := svc.GetByID(c.ID.String())
 	if err != nil {
@@ -122,7 +125,7 @@ func TestCaseService_GetByID_Found(t *testing.T) {
 }
 
 func TestCaseService_GetByID_NotFound(t *testing.T) {
-	svc := NewCaseService(&mockCaseRepository{one: nil})
+	svc := NewCaseService(&mockCaseRepository{one: nil}, nil)
 	_, err := svc.GetByID(uuid.New().String())
 	if err == nil {
 		t.Fatal("expected ErrNotFound, got nil")
@@ -130,7 +133,7 @@ func TestCaseService_GetByID_NotFound(t *testing.T) {
 }
 
 func TestCaseService_GetByID_InvalidUUID(t *testing.T) {
-	svc := NewCaseService(&mockCaseRepository{})
+	svc := NewCaseService(&mockCaseRepository{}, nil)
 	_, err := svc.GetByID("not-a-uuid")
 	if err == nil {
 		t.Fatal("expected error for invalid UUID, got nil")
@@ -138,7 +141,7 @@ func TestCaseService_GetByID_InvalidUUID(t *testing.T) {
 }
 
 func TestCaseService_CreateEvent_Success(t *testing.T) {
-	svc := NewCaseService(&mockCaseRepository{})
+	svc := NewCaseService(&mockCaseRepository{}, nil)
 
 	req := dto.CreateCaseEventRequest{
 		MailID:         "gmail-abc123",
@@ -163,7 +166,7 @@ func TestCaseService_CreateEvent_Success(t *testing.T) {
 }
 
 func TestCaseService_CreateEvent_InvalidMailType(t *testing.T) {
-	svc := NewCaseService(&mockCaseRepository{})
+	svc := NewCaseService(&mockCaseRepository{}, nil)
 
 	req := dto.CreateCaseEventRequest{
 		MailID:     "gmail-abc123",
@@ -179,7 +182,7 @@ func TestCaseService_CreateEvent_InvalidMailType(t *testing.T) {
 }
 
 func TestCaseService_CreateEvent_InvalidConfidence(t *testing.T) {
-	svc := NewCaseService(&mockCaseRepository{})
+	svc := NewCaseService(&mockCaseRepository{}, nil)
 
 	req := dto.CreateCaseEventRequest{
 		MailID:     "gmail-abc456",

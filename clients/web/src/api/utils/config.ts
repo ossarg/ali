@@ -22,4 +22,12 @@ export const API_ENDPOINTS = {
     UNRESOLVED:    '/api/v1/claims/unresolved',
     BATCH_RESOLVE: '/api/v1/claims/batch-resolve',
   },
+  AGREEMENTS: {
+    LIST:         '/api/v1/agreements',
+    CREATE:       '/api/v1/agreements',
+    DETAIL:       (id: string) => `/api/v1/agreements/${id}`,
+    UPDATE:       (id: string) => `/api/v1/agreements/${id}`,
+    DELETE:       (id: string) => `/api/v1/agreements/${id}`,
+    BY_CASE:      (caseId: string) => `/api/v1/cases/${caseId}/agreements`,
+  },
 } as const;
