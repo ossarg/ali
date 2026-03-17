@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Search, Loader2, AlertCircle, Building2, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import PageHeader from '../components/PageHeader';
+import { Link } from 'react-router-dom';
+import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { cn } from '../lib/utils';
 import { useCasesPaginated } from '../api/hooks/useCases';
 import { useQueryClient } from '@tanstack/react-query';
 import { caseKeys } from '../api/hooks/useCases';

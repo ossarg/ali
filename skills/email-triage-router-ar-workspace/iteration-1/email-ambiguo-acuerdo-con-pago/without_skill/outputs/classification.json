@@ -1,0 +1,17 @@
+{
+  "tipo_evento": "acuerdo",
+  "confianza": 0.95,
+  "justificacion": "Email announces mediation hearing outcome (01/03/2026) in which parties reached 'principio de acuerdo' (preliminary settlement agreement). Libra Seguros agreed to pay ARS 3,800,000 in full indemnity, subject to judicial homologation. While the email includes a payment instruction (within 15 business days), its primary semantic and procedural purpose is communicating the settlement terms, not demanding payment as an independent act. Argentine litigation classification norms treat mediation agreements with payment schedules as 'acuerdo' type events. Confidence is high due to explicit settlement language and attached signed mediation record.",
+  "metadata": {
+    "siniestro_number": "STRO 09854",
+    "expediente": "Martínez, Pablo c/ Sosa, Diego y Libra Seguros SA s/ daños y perjuicios",
+    "ley_firma": "Estudio López García & Asociados",
+    "fecha_evento": "2026-03-01",
+    "fecha_email": null,
+    "monto_indemnizacion": "ARS 3,800,000",
+    "monto_honorarios": "ARS 950,000 + IVA",
+    "plazo_deposito": "15 días hábiles",
+    "sujeto_a_homologacion": true,
+    "contacto_email": "secretaria@estudiolopezgarcia.com.ar"
+  }
+}

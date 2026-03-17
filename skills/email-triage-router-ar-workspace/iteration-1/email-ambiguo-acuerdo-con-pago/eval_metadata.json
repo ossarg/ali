@@ -1,0 +1,12 @@
+{
+  "eval_id": 2,
+  "eval_name": "email-ambiguo-acuerdo-con-pago",
+  "prompt": "Clasificá un email ambiguo que reporta un principio de acuerdo en mediación Y solicita depósito de la suma acordada.",
+  "assertions": [
+    {"text": "tipo_evento is 'acuerdo' (primary event is reaching the settlement)", "type": "exact_match", "field": "tipo_evento", "expected": "acuerdo"},
+    {"text": "confianza reflects ambiguity (media range 0.60-0.84 acceptable)", "type": "threshold", "field": "confianza", "min": 0.60},
+    {"text": "nro_siniestro extracted as '09854'", "type": "exact_match", "field": "metadata.nro_siniestro", "expected": "09854"},
+    {"text": "tipos_descartados includes reclamo_pago with reasoning", "type": "contains", "field": "tipos_descartados", "expected": "reclamo_pago"},
+    {"text": "señales_detectadas includes acuerdo-related signals", "type": "contains", "field": "señales_detectadas", "expected": "acuerdo"}
+  ]
+}

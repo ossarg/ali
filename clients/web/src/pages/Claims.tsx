@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -61,8 +62,8 @@ function AddClaimModal({ onClose }: { onClose: () => void }) {
     });
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-4 flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
@@ -131,7 +132,8 @@ function AddClaimModal({ onClose }: { onClose: () => void }) {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -267,8 +269,8 @@ function RetryModal({ event, onClose }: { event: CaseEvent; onClose: () => void 
     retry.mutate({ id: event.id, req }, { onSuccess: onClose });
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 p-6 flex flex-col gap-4">
         <div className="flex justify-between items-start">
           <h3 className="text-lg font-semibold text-gray-900">Corregir nro. siniestro</h3>
@@ -319,7 +321,8 @@ function RetryModal({ event, onClose }: { event: CaseEvent; onClose: () => void 
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -427,15 +430,20 @@ export default function ClaimsPage() {
       <UnresolvedSection />
 
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Siniestros</h1>
+        <div>
+          <h1 className="text-2xl font-semibold text-[var(--color-text-primary)] tracking-tight">Siniestros</h1>
+          <p className="text-[var(--color-text-secondary)] mt-1 text-sm">Explora el registro maestro de siniestros sincronizados con SISE.</p>
+        </div>
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#eb5d2a] text-white text-sm rounded-lg hover:bg-[#d45225] transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-[var(--color-brand-primary)] text-white text-sm font-medium rounded-lg hover:bg-[var(--color-brand-primary-hover)] transition-colors shadow-sm"
         >
           <Plus className="w-4 h-4" />
           Agregar siniestro
         </button>
       </div>
+
+      <UnresolvedSection />
 
       {/* Metrics */}
       <div className="space-y-2">

@@ -4,7 +4,9 @@ import { formatMetricTime, formatTableTime } from '../lib/formatTime';
 import {
   useApprovedEventsPaginated,
   usePendingEventsPaginated,
+
   useCaseEventMetrics,
+
 } from '../api/hooks/useCaseEvents';
 import Pagination from '../components/Pagination';
 import type { CaseEvent } from '../api/schemas/case.schemas';
@@ -29,10 +31,10 @@ const MAIL_TYPE_LABELS: Record<string, string> = {
 
 function MetricCard({ label, value, sub }: { label: string; value: number | string; sub?: string }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-1">
-      <span className="text-sm text-gray-500">{label}</span>
-      <span className="text-3xl font-bold text-gray-900">{value}</span>
-      {sub && <span className="text-xs text-gray-400">{sub}</span>}
+    <div className="bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-dim)] p-5 flex flex-col gap-1">
+      <span className="text-sm text-[var(--color-text-secondary)]">{label}</span>
+      <span className="text-3xl font-semibold text-[var(--color-text-primary)]">{value}</span>
+      {sub && <span className="text-xs text-[var(--color-text-tertiary)]">{sub}</span>}
     </div>
   );
 }
@@ -42,10 +44,10 @@ function ConfidenceBar({ value }: { value: number }) {
   const color = pct >= 80 ? 'bg-green-500' : pct >= 60 ? 'bg-yellow-400' : 'bg-red-400';
   return (
     <div className="flex items-center gap-2">
-      <div className="h-1.5 w-20 rounded-full bg-gray-200 overflow-hidden">
+      <div className="h-1.5 w-20 rounded-full bg-[var(--color-border-dim)] overflow-hidden">
         <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
       </div>
-      <span className="text-xs text-gray-500">{pct}%</span>
+      <span className="text-xs text-[var(--color-text-tertiary)]">{pct}%</span>
     </div>
   );
 }
@@ -69,15 +71,15 @@ function EventTable({ events, showConfidence, showReviewed, showCase }: {
   }
 
   return (
-    <table className="w-full text-sm">
+    <table className="w-full text-sm table-fixed">
       <thead>
         <tr className="border-b border-gray-100 text-left text-xs text-gray-500 uppercase tracking-wide">
-          {showCase && <th className="pb-3 pt-4 pl-4 pr-4 w-36 whitespace-nowrap">Nro. siniestro</th>}
+          {showCase && <th className="pb-3 pt-4 pl-4 pr-4 w-28">Siniestro</th>}
           <th className="pb-3 pt-4 pl-4 pr-4">Asunto</th>
-          <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Tipo</th>
-          {showConfidence && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Confianza</th>}
-          <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Recibido</th>
-          {showReviewed && <th className="pb-3 pt-4 pr-4 whitespace-nowrap">Revisado</th>}
+          <th className="pb-3 pt-4 pr-4 w-32">Tipo</th>
+          {showConfidence && <th className="pb-3 pt-4 pr-4 w-28">Confianza</th>}
+          <th className="pb-3 pt-4 pr-4 whitespace-nowrap w-32">Recibido</th>
+          {showReviewed && <th className="pb-3 pt-4 pr-4 whitespace-nowrap w-32">Revisado</th>}
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-50">
@@ -88,19 +90,17 @@ function EventTable({ events, showConfidence, showReviewed, showCase }: {
             className="hover:bg-gray-50 transition-colors cursor-pointer"
           >
             {showCase && (
-              <td className="pl-4 pr-4 py-3.5 w-36">
-                {event.raw_claim_number
-                  ? <span className="font-mono text-xs text-gray-700">{event.raw_claim_number}</span>
-                  : <span className="text-gray-300 text-xs">—</span>}
+              <td className="pl-4 pr-4 py-3.5 text-xs text-gray-500 whitespace-nowrap">
+                {event.raw_claim_number ?? '—'}
               </td>
             )}
-            <td className="pl-4 pr-4 py-3.5 min-w-0 max-w-xs">
+            <td className="pl-4 pr-4 py-3.5 min-w-0">
               <div className="font-medium text-gray-800 truncate">
                 {event.title || event.subject || event.mail_id}
               </div>
             </td>
-            <td className="pr-4 py-3.5 whitespace-nowrap">
-              <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
+            <td className="pr-4 py-3.5">
+              <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 whitespace-nowrap">
                 {MAIL_TYPE_LABELS[event.mail_type] ?? event.mail_type}
               </span>
             </td>
@@ -150,7 +150,7 @@ export default function Activity() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {metricsLoading ? (
           Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-xl border border-gray-200 p-5 h-24 animate-pulse" />
+            <div key={i} className="bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-dim)] p-5 h-24 animate-pulse" />
           ))
         ) : (
           <>

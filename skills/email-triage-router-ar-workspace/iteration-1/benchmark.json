@@ -1,0 +1,85 @@
+{
+  "skill_name": "email-triage-router-ar",
+  "iteration": 1,
+  "configurations": [
+    {
+      "name": "with_skill",
+      "results": [
+        {
+          "eval_name": "sentencia-clara-con-condena",
+          "passed": 6,
+          "total": 6,
+          "pass_rate": 1.0,
+          "tokens": 87824,
+          "duration_seconds": 24.2
+        },
+        {
+          "eval_name": "embargo-trabado-urgente",
+          "passed": 5,
+          "total": 6,
+          "pass_rate": 0.83,
+          "tokens": 87383,
+          "duration_seconds": 21.9
+        },
+        {
+          "eval_name": "email-ambiguo-acuerdo-con-pago",
+          "passed": 3,
+          "total": 5,
+          "pass_rate": 0.60,
+          "tokens": 87670,
+          "duration_seconds": 2033.3
+        }
+      ],
+      "aggregate": {
+        "mean_pass_rate": 0.81,
+        "mean_tokens": 87626,
+        "mean_duration_seconds": 693.1
+      }
+    },
+    {
+      "name": "without_skill",
+      "results": [
+        {
+          "eval_name": "sentencia-clara-con-condena",
+          "passed": 4,
+          "total": 6,
+          "pass_rate": 0.67,
+          "tokens": 82186,
+          "duration_seconds": 11.2
+        },
+        {
+          "eval_name": "embargo-trabado-urgente",
+          "passed": 4,
+          "total": 6,
+          "pass_rate": 0.67,
+          "tokens": 81460,
+          "duration_seconds": 12.7
+        },
+        {
+          "eval_name": "email-ambiguo-acuerdo-con-pago",
+          "passed": 2,
+          "total": 5,
+          "pass_rate": 0.40,
+          "tokens": 81277,
+          "duration_seconds": 11.3
+        }
+      ],
+      "aggregate": {
+        "mean_pass_rate": 0.58,
+        "mean_tokens": 81641,
+        "mean_duration_seconds": 11.7
+      }
+    }
+  ],
+  "delta": {
+    "pass_rate": "+0.23 (0.81 vs 0.58)",
+    "tokens": "+5985 more tokens with skill",
+    "duration": "variable (eval 3 with_skill had outlier timing)"
+  },
+  "analyst_observations": [
+    "The skill produces consistently structured output (all required fields present) vs baseline which uses ad-hoc schemas",
+    "Eval 3 (ambiguous acuerdo/pago) is the discriminating test — both approaches struggle but for different reasons. With-skill misclassifies as reclamo_pago (follows disambiguation table too literally); without-skill gets the right type but with overconfident scoring and no structured reasoning",
+    "The nro_siniestro extraction in eval 2 with-skill failed because the STRO reference was embedded in the case caption, not in a standalone field — skill needs to clarify extraction from embedded references",
+    "The skill's disambiguation table for acuerdo vs reclamo_pago needs refinement: 'principio de acuerdo pendiente de homologación' should classify as acuerdo even when a deposit is requested, because the agreement itself is the news"
+  ]
+}

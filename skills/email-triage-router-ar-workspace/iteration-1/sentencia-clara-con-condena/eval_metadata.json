@@ -1,0 +1,13 @@
+{
+  "eval_id": 0,
+  "eval_name": "sentencia-clara-con-condena",
+  "prompt": "Clasificá un email que reporta una sentencia de primera instancia con condena de $18.5M, desglose de rubros, y plazo de apelación inminente.",
+  "assertions": [
+    {"text": "tipo_evento is 'sentencia'", "type": "exact_match", "field": "tipo_evento", "expected": "sentencia"},
+    {"text": "confianza is >= 0.85 (alta)", "type": "threshold", "field": "confianza", "min": 0.85},
+    {"text": "nro_siniestro extracted as '14523'", "type": "exact_match", "field": "metadata.nro_siniestro", "expected": "14523"},
+    {"text": "nro_expediente extracted correctly", "type": "contains", "field": "metadata.nro_expediente", "expected": "45.892"},
+    {"text": "urgencia_detectada is true (plazo apelación 12/03)", "type": "exact_match", "field": "metadata.urgencia_detectada", "expected": true},
+    {"text": "requiere_revision_humana is false", "type": "exact_match", "field": "requiere_revision_humana", "expected": false}
+  ]
+}

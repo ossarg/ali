@@ -37,7 +37,7 @@ services:
       - REDIS_URL=redis://redis:6379
       - ATTACHMENTS_DIR=/data/attachments   # always overrides .env — never use container-local path
     volumes:
-      - /home/legales/ali/data/attachments:/data/attachments
+      - attachments_data:/data/attachments
     depends_on:
       postgres:
         condition: service_healthy
@@ -46,3 +46,4 @@ services:
 
 volumes:
   postgres_data:
+  attachments_data:

@@ -1,0 +1,24 @@
+{
+  "tipo_evento": "embargo",
+  "confianza": 0.99,
+  "justificacion": "El email contiene comunicación explícita de embargo trabado ('se trabó embargo') sobre cuentas bancarias de Libra Seguros. Incluye orden judicial de Juzgado Comercial N° 12 con fecha específica (03/03/2026), oficio adjunto, constancia de traba, y solicitud de medidas legales (recurso de levantamiento). Todos los indicadores textuales y contextuales apuntan sin ambigüedad a un evento de embargo judicial.",
+  "metadata": {
+    "siniestro_number": null,
+    "expediente": "23.441/2021",
+    "stro_reference": "11987",
+    "caso_nombre": "Domínguez, Roberto c/ Transportes del Sur SRL y otro s/ cobro de pesos",
+    "tribunal": "Juzgado Comercial N° 12",
+    "fecha_embargo": "2026-03-03",
+    "monto_embargo": "$5.200.000",
+    "banco_afectado": "Banco Nación Argentina, Sucursal Plaza de Mayo",
+    "estudio_juridico": "Estudio Ruiz Pardo & Asociados",
+    "abogado_contacto": "Dra. Carolina Ruiz",
+    "email_contacto": "cruiz@estudioruizpardo.com",
+    "telefono": "(011) 4555-2233",
+    "email_origen": "axel.legales@libraseguros.com.ar",
+    "email_destino": "rachel.libraseguros@gmail.com",
+    "fecha_email": "2026-03-06",
+    "urgencia": "alta",
+    "accion_requerida": "Medidas bancarias y decisión sobre recurso de levantamiento"
+  }
+}

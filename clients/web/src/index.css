@@ -1,10 +1,135 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Lora", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+:root {
+  /* LIGHT MODE (Unified Aesthetic) */
+  --color-brand-primary: #eb5d2a;
+  --color-brand-primary-hover: #c44d21;
+
+  --color-surface-bg: #f8fafc;
+  --color-surface-card: #ffffff;
+  --color-surface-sidebar: #ffffff; /* Unified background */
+
+  --color-border-dim: #e2e8f0;
+  --color-border-focus: rgba(235, 93, 42, 0.5);
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #94a3b8;
+
+  --color-sidebar-text: #475569;
+  --color-sidebar-text-hover: #0f172a;
+  --color-sidebar-bg-hover: #f1f5f9;
+  --color-sidebar-bg-active: rgba(235, 93, 42, 0.08);
+  --color-sidebar-text-active: #eb5d2a;
+}
+
+.dark {
+  /* DARK MODE (Unified Aesthetic) */
+  --color-surface-bg: #000000;
+  --color-surface-card: #18181b; /* cards stand out against pure black */
+  --color-surface-sidebar: #000000;
+
+  --color-border-dim: #27272a;
+  --color-border-focus: rgba(235, 93, 42, 0.5);
+
+  --color-text-primary: #ededed;
+  --color-text-secondary: #a1a1aa;
+  --color-text-tertiary: #71717a;
+
+  --color-sidebar-text: #a1a1aa;
+  --color-sidebar-text-hover: #ededed;
+  --color-sidebar-bg-hover: rgba(255, 255, 255, 0.08); /* slightly higher contrast hover */
+  --color-sidebar-bg-active: rgba(235, 93, 42, 0.15);
+  --color-sidebar-text-active: #eb5d2a;
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--color-surface-bg);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Base resets for a cleaner look */
+* {
+  border-color: var(--color-border-dim);
+}
+
+/* Minimalist scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Linear-style animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Sidebar stagger animation */
+@keyframes sidebarItemIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Header fade in */
+@keyframes headerFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.header-fade-in {
+  animation: headerFadeIn 200ms ease-out forwards;
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border-dim);
+}
+
+/* Dark mode scrollbar adjustments */
+.dark ::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
 }

@@ -1,12 +1,13 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Bell, Search, Settings, FileText, Activity, ShieldAlert, MessageSquareText, Handshake } from 'lucide-react';
+import { LayoutDashboard, Briefcase, Bot, Users, BarChart3, Handshake, Bell, Search, Settings, FileText, Activity, ShieldAlert, MessageSquareText, Sun, Moon, Kanban } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { format } from 'date-fns';
 import { formatTableTime } from '../lib/formatTime';
 import { es } from 'date-fns/locale';
 import { useCaseEventMetrics, usePendingEvents } from '../api/hooks/useCaseEvents';
+import CommandPalette from './CommandPalette';
 
 export default function Layout() {
   const location = useLocation();
@@ -23,7 +24,19 @@ export default function Layout() {
   const [notifOpen, setNotifOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
+  const [cmdKOpen, setCmdKOpen] = useState(false);
+
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
+  const toggleTheme = () => {
+    setIsDark(prev => {
+      const newDark = !prev;
+      if (newDark) document.documentElement.classList.add('dark');
+      else document.documentElement.classList.remove('dark');
+      return newDark;
+    });
+  };
+
+  // Close notif dropdown when clicking outside
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
@@ -34,46 +47,93 @@ export default function Layout() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
+  // Global Cmd+K listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setCmdKOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const navItems = [
     { name: 'Panel Principal', path: '/', icon: LayoutDashboard },
+    { name: 'Inbox', path: '/actividad', icon: Activity, badge: pendingCount > 0 ? pendingCount : undefined },
     { name: 'Siniestros', path: '/siniestros', icon: ShieldAlert },
     { name: 'Casos', path: '/casos', icon: Briefcase },
-    { name: 'Contestaciones', path: '/contestaciones', icon: MessageSquareText },
-    { name: 'Agentes', path: '/agentes', icon: Bot },
+    { name: 'Contestaciones', path: '/contestaciones', icon: Kanban },
+    { name: 'Documentos', path: '/documentos', icon: FileText },
     { name: 'Equipo', path: '/equipo', icon: Users },
     { name: 'Métricas', path: '/metricas', icon: BarChart3 },
-    { name: 'Documentos', path: '/documentos', icon: FileText },
-    { name: 'Actividad', path: '/actividad', icon: Activity, badge: pendingCount > 0 ? pendingCount : undefined },
     { name: 'Acuerdos',  path: '/acuerdos',  icon: Handshake },
   ];
 
+  const isAgentesActive = location.pathname === '/agentes';
+
   return (
-    <div className="flex h-screen bg-[#f7f8fa] text-[#1a1a1a] font-sans overflow-hidden">
+    <div className="flex h-screen bg-[var(--color-surface-bg)] text-[var(--color-text-primary)] font-sans overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-64 bg-[#455362] text-white flex flex-col shrink-0">
-        <div className="p-6 flex items-center gap-3 border-b border-white/10">
-          <div className="w-8 h-8 bg-[#eb5d2a] rounded flex items-center justify-center font-bold text-lg">L</div>
-          <span className="font-semibold text-lg tracking-wide">Libra Seguros</span>
+      <aside className="w-64 bg-[var(--color-surface-sidebar)] flex flex-col shrink-0 border-r border-[var(--color-border-dim)]">
+
+        {/* Logo / Brand */}
+        <div className="px-5 pt-5 pb-4">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 bg-[var(--color-brand-primary)] rounded-lg flex items-center justify-center font-bold text-base text-white shrink-0">
+              L
+            </div>
+            <span
+              className="font-semibold text-[var(--color-text-primary)]"
+              style={{ letterSpacing: '-0.2px' }}
+            >
+              Libra Seguros
+            </span>
+          </div>
+          <div className="h-px bg-[#E5E7EB] dark:bg-[var(--color-border-dim)]" />
         </div>
-        
-        <div className="px-4 py-6">
-          <div className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-4 px-2">Panel de Control</div>
-          <nav className="space-y-1">
-            {navItems.map((item) => {
+
+        {/* Nav section */}
+        <div className="px-3 pb-3 flex-1 flex flex-col min-h-0 overflow-hidden">
+          <div className="text-[0.65rem] font-semibold text-[#9CA3AF] uppercase tracking-widest mb-2 px-2">
+            Panel de Control
+          </div>
+          <nav className="space-y-px flex-1 overflow-y-auto">
+            {navItems.map((item, index) => {
               const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
               return (
                 <Link
                   key={item.name}
                   to={item.path}
                   className={cn(
-                    "flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors text-sm font-medium",
-                    isActive 
-                      ? "bg-white/10 text-white" 
-                      : "text-white/70 hover:bg-white/5 hover:text-white"
+                    "sidebar-item relative flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium",
+                    "transition-colors duration-200",
+                    isActive
+                      ? "bg-[var(--color-sidebar-bg-active)] text-[var(--color-sidebar-text-active)]"
+                      : "text-[var(--color-sidebar-text)] hover:bg-[var(--color-sidebar-bg-hover)]"
                   )}
+                  style={{
+                    animation: `sidebarItemIn 200ms cubic-bezier(0.16, 1, 0.3, 1) ${index * 30}ms both`,
+                  }}
                 >
-                  <item.icon className={cn("w-5 h-5", isActive ? "text-[#eb5d2a]" : "text-white/50")} />
-                  <span className="flex-1">{item.name}</span>
+                  {/* Active indicator bar */}
+                  <span
+                    className={cn(
+                      "absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-r-[2px] bg-[var(--color-brand-primary)]",
+                      "transition-all duration-200",
+                      isActive ? "h-5 opacity-100" : "h-0 opacity-0"
+                    )}
+                  />
+                  <item.icon
+                    className={cn(
+                      "w-[18px] h-[18px] shrink-0 transition-opacity duration-200",
+                      isActive
+                        ? "opacity-100 text-[var(--color-sidebar-text-active)]"
+                        : "opacity-50 text-[var(--color-text-tertiary)]"
+                    )}
+                  />
+                  <span className="flex-1 truncate">{item.name}</span>
                   {'badge' in item && item.badge !== undefined && (
                     <span className="ml-auto bg-amber-400 text-amber-900 text-xs font-bold rounded-full px-1.5 py-0.5 min-w-[1.25rem] text-center">
                       {item.badge}
@@ -85,62 +145,102 @@ export default function Layout() {
           </nav>
         </div>
 
-        <div className="mt-auto p-4 border-t border-white/10">
-          <button className="flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors text-sm font-medium text-white/70 hover:bg-white/5 hover:text-white w-full">
-            <Settings className="w-5 h-5 text-white/50" />
+        {/* Bottom section */}
+        <div className="px-3 pb-4">
+          <div className="h-px bg-[#E5E7EB] dark:bg-[var(--color-border-dim)] mb-3" />
+
+          <Link
+            to="/agentes"
+            className={cn(
+              "relative flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200 text-sm font-medium w-full",
+              isAgentesActive
+                ? "bg-[var(--color-sidebar-bg-active)] text-[var(--color-sidebar-text-active)]"
+                : "text-[var(--color-sidebar-text)] hover:bg-[var(--color-sidebar-bg-hover)]"
+            )}
+          >
+            <span
+              className={cn(
+                "absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-r-[2px] bg-[var(--color-brand-primary)]",
+                "transition-all duration-200",
+                isAgentesActive ? "h-5 opacity-100" : "h-0 opacity-0"
+              )}
+            />
+            <Settings
+              className={cn(
+                "w-[18px] h-[18px] shrink-0 transition-opacity duration-200",
+                isAgentesActive
+                  ? "opacity-100 text-[var(--color-sidebar-text-active)]"
+                  : "opacity-50 text-[var(--color-text-tertiary)]"
+              )}
+            />
             Configuración
-          </button>
-          <div className="mt-4 flex items-center gap-3 px-3">
-            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-medium">
+          </Link>
+
+          <div className="mt-1 flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[var(--color-sidebar-bg-hover)] transition-colors duration-150 cursor-pointer">
+            <div className="w-8 h-8 bg-[var(--color-surface-bg)] text-[var(--color-text-primary)] rounded-full flex items-center justify-center text-xs font-semibold border border-[var(--color-border-dim)] shrink-0">
               {initials}
             </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-medium">{displayName}</span>
-              <span className="text-xs text-white/50 capitalize">{user?.role ?? ''}</span>
+            <div className="flex flex-col min-w-0">
+              <span className="text-sm font-medium text-[var(--color-text-primary)] truncate">{displayName}</span>
+              <span className="text-xs text-[var(--color-text-tertiary)] capitalize">{user?.role ?? ''}</span>
             </div>
           </div>
         </div>
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Topbar */}
-        <header className="h-16 bg-white border-b border-[#e5e7eb] flex items-center justify-between px-8 shrink-0">
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-semibold text-[#455362]">
+        <header className="h-16 glass-panel border-b border-[var(--color-border-dim)] flex items-center justify-between px-8 shrink-0 absolute top-0 w-full z-10 header-fade-in">
+          <div className="flex items-center gap-2.5">
+            <h1 className="text-base font-semibold text-[var(--color-text-primary)] tracking-tight">
               Buenos días, {user?.first_name ?? ''}
             </h1>
-            <span className="text-sm text-[#6b7280] ml-2 capitalize">{today}</span>
+            <span className="text-[#D1D5DB] text-sm select-none">·</span>
+            <span className="text-sm text-[var(--color-text-tertiary)] capitalize font-normal">{today}</span>
           </div>
 
-          <div className="flex items-center gap-6">
-            <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280]" />
-              <input 
-                type="text" 
-                placeholder="Buscar caso, póliza, abogado..." 
-                className="pl-9 pr-4 py-1.5 bg-[#f7f8fa] border border-[#e5e7eb] rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#eb5d2a]/20 focus:border-[#eb5d2a] w-64 transition-all"
-              />
-            </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setCmdKOpen(true)}
+              className="search-trigger relative flex items-center w-60 h-9 pl-3 pr-2 bg-[var(--color-surface-bg)] border border-[var(--color-border-dim)] rounded-lg text-sm transition-all duration-150 group shadow-sm hover:border-[#D1D5DB] focus-visible:border-[var(--color-brand-primary)] focus-visible:outline-none"
+            >
+              <Search className="w-4 h-4 text-[var(--color-text-tertiary)] group-hover:text-[var(--color-brand-primary)] transition-colors shrink-0" />
+              <span className="ml-2 text-[var(--color-text-tertiary)]">Buscar...</span>
+              <div className="ml-auto flex items-center gap-1">
+                <kbd className="hidden sm:inline-flex items-center justify-center font-sans text-[10px] font-medium text-[var(--color-text-tertiary)] bg-[var(--color-surface-card)] border border-[var(--color-border-dim)] rounded px-1.5 h-5">
+                  ⌘
+                </kbd>
+                <kbd className="hidden sm:inline-flex items-center justify-center font-sans text-[10px] font-medium text-[var(--color-text-tertiary)] bg-[var(--color-surface-card)] border border-[var(--color-border-dim)] rounded px-1.5 h-5">
+                  K
+                </kbd>
+              </div>
+            </button>
+
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full text-[var(--color-text-secondary)] hover:bg-[var(--color-sidebar-bg-hover)] transition-all duration-150"
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+
             <div className="relative" ref={notifRef}>
               <button
                 onClick={() => setNotifOpen(o => !o)}
-                className="relative text-[#6b7280] hover:text-[#1a1a1a] transition-colors"
+                className="relative p-2 rounded-full text-[var(--color-text-secondary)] hover:bg-[var(--color-sidebar-bg-hover)] transition-all duration-150"
               >
                 <Bell className="w-5 h-5" />
                 {pendingCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 min-w-[1.1rem] h-[1.1rem] bg-amber-400 text-amber-900 text-[10px] font-bold rounded-full flex items-center justify-center px-0.5">
-                    {pendingCount}
-                  </span>
+                  <span className="absolute top-1.5 right-1.5 w-[6px] h-[6px] bg-red-500 rounded-full" />
                 )}
               </button>
 
               {notifOpen && (
-                <div className="absolute right-0 top-8 w-80 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden">
-                  <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
-                    <span className="font-semibold text-sm text-gray-800">Notificaciones</span>
+                <div className="absolute right-0 top-11 w-80 bg-[var(--color-surface-card)] rounded-xl shadow-lg border border-[var(--color-border-dim)] animate-in z-50 overflow-hidden">
+                  <div className="px-4 py-3 border-b border-[var(--color-border-dim)] flex items-center justify-between">
+                    <span className="font-semibold text-sm text-[var(--color-text-primary)]">Notificaciones</span>
                     {pendingCount > 0 && (
-                      <span className="text-xs bg-amber-100 text-amber-700 font-medium px-2 py-0.5 rounded-full">
+                      <span className="text-xs bg-[var(--color-sidebar-bg-active)] text-[var(--color-brand-primary)] font-medium px-2 py-0.5 rounded-full">
                         {pendingCount} pendiente{pendingCount > 1 ? 's' : ''}
                       </span>
                     )}
@@ -175,10 +275,10 @@ export default function Layout() {
                   </div>
 
                   {pendingEvents.length > 0 && (
-                    <div className="border-t border-gray-100">
+                    <div className="border-t border-[var(--color-border-dim)]">
                       <button
                         onClick={() => { navigate('/actividad'); setNotifOpen(false); }}
-                        className="w-full text-sm text-indigo-600 hover:text-indigo-700 font-medium py-3 hover:bg-indigo-50 transition-colors"
+                        className="w-full text-sm text-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary-hover)] font-medium py-3 hover:bg-[var(--color-sidebar-bg-active)] transition-colors"
                       >
                         Ver todas las clasificaciones →
                       </button>
@@ -191,10 +291,14 @@ export default function Layout() {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-auto p-8">
-          <Outlet />
+        <main className="flex-1 overflow-auto p-8 pt-24">
+          <div className="animate-in">
+            <Outlet />
+          </div>
         </main>
       </div>
+
+      <CommandPalette isOpen={cmdKOpen} onClose={() => setCmdKOpen(false)} />
     </div>
   );
 }

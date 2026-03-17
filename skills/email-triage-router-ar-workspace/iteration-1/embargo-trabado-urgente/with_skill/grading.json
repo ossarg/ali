@@ -1,0 +1,12 @@
+{
+  "eval_name": "embargo-trabado-urgente",
+  "configuration": "with_skill",
+  "expectations": [
+    {"text": "tipo_evento is 'embargo'", "passed": true, "evidence": "tipo_evento = 'embargo'"},
+    {"text": "confianza is >= 0.85 (alta)", "passed": true, "evidence": "confianza = 0.95"},
+    {"text": "nro_siniestro extracted as '11987'", "passed": false, "evidence": "metadata.nro_siniestro = null; STRO 11987 captured in referencia_caso but not in siniestro field"},
+    {"text": "urgencia_detectada is true", "passed": true, "evidence": "metadata.urgencia_detectada = true"},
+    {"text": "estudio_remitente identifies original sender", "passed": true, "evidence": "metadata.estudio_remitente = 'Estudio Ruiz Pardo & Asociados (Dra. Carolina Ruiz)'"},
+    {"text": "tiene_adjuntos is true", "passed": true, "evidence": "metadata.tiene_adjuntos = true"}
+  ]
+}

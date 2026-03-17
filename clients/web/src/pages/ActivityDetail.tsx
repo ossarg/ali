@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Loader2, AlertCircle, Paperclip, Download, MoreVertical } from 'lucide-react';
+import { ArrowLeft, Loader2, AlertCircle, Paperclip, Download, MoreVertical, FileText, CreditCard, Briefcase, CheckCircle, Clock } from 'lucide-react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import {
@@ -111,8 +112,8 @@ function ReviewModal({ event, onClose }: { event: CaseEvent; onClose: () => void
     reviewEvent.mutate({ id: event.id, req }, { onSuccess: onClose });
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-5xl flex flex-col">
         <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
           <h3 className="text-lg font-semibold text-gray-900">Revisar clasificación</h3>
@@ -251,7 +252,8 @@ function ReviewModal({ event, onClose }: { event: CaseEvent; onClose: () => void
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -276,8 +278,8 @@ function EditModal({ event, onClose }: { event: CaseEvent; onClose: () => void }
     updateEvent.mutate({ id: event.id, req }, { onSuccess: onClose });
   };
 
-  return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+  return createPortal(
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999] p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 space-y-5">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-800">Editar evento</h2>
@@ -318,7 +320,8 @@ function EditModal({ event, onClose }: { event: CaseEvent; onClose: () => void }
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -404,6 +407,8 @@ export default function ActivityDetail() {
     }
   };
 
+  const pct = Math.round((event.confidence ?? 0) * 100);
+
   return (
     <div className="space-y-6 pb-12">
       {/* Back */}
@@ -416,28 +421,22 @@ export default function ActivityDetail() {
       </button>
 
       {/* Header */}
-      <div className="flex items-start justify-between gap-6">
-        <div className="w-1/2 min-w-0">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 flex-wrap mb-2">
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-gray-900 truncate">
               {event.title || event.subject || 'Sin título'}
             </h1>
-            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 shrink-0">
-              {typeLabel}
-            </span>
             {event.approved && (
               <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-green-50 text-green-700 shrink-0">
                 Aprobado
               </span>
             )}
           </div>
-          {event.description && (
-            <p className="text-sm text-gray-500 leading-relaxed">{event.description}</p>
-          )}
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 shrink-0 mt-1">
+        <div className="flex items-center gap-2 shrink-0">
           {isPending && (
             <button
               onClick={() => setShowReview(true)}
@@ -455,60 +454,47 @@ export default function ActivityDetail() {
 
       {/* Fila resumen */}
       <div className="flex items-center flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600 bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-        {/* Nro. siniestro */}
         <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-500">Siniestro:</span>
-          {event.raw_claim_number
-            ? <span className="font-mono text-gray-900">{event.raw_claim_number}</span>
-            : <span className="text-gray-300">—</span>}
+          <FileText className="w-4 h-4 text-gray-400" />
+          <span className="font-medium">Siniestro:</span>
+          <span className="text-gray-900">{event.raw_claim_number || '—'}</span>
         </div>
         <div className="w-px h-4 bg-gray-200" />
-
-        {/* Nro. expediente */}
         <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-500">Expediente:</span>
-          {event.raw_case_number
-            ? <span className="font-mono text-gray-900">{event.raw_case_number}</span>
-            : <span className="text-gray-300">—</span>}
+          <CreditCard className="w-4 h-4 text-gray-400" />
+          <span className="font-medium">Póliza:</span>
+          <span className="text-gray-900">{event.raw_policy || '—'}</span>
         </div>
         <div className="w-px h-4 bg-gray-200" />
-
-        {/* Nro. póliza */}
         <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-500">Póliza:</span>
-          {event.raw_policy
-            ? <span className="font-mono text-gray-900">{event.raw_policy}</span>
-            : <span className="text-gray-300">—</span>}
+          <Briefcase className="w-4 h-4 text-gray-400" />
+          <span className="font-medium">Expediente:</span>
+          <span className="text-gray-900">{event.raw_case_number || '—'}</span>
         </div>
         <div className="w-px h-4 bg-gray-200" />
-
-        {/* Confianza */}
         <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-500">Confianza:</span>
-          <ConfidenceBar value={event.confidence} />
+          <CheckCircle className="w-4 h-4 text-gray-400" />
+          <span className="font-medium">Confianza:</span>
+          <span className="text-gray-900">{pct}%</span>
         </div>
         <div className="w-px h-4 bg-gray-200" />
-
-        {/* Recibido */}
         <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-500">Recibido:</span>
-          <span className="text-gray-900 text-xs">
-            {format(new Date(event.received_at), 'dd/MM/yyyy HH:mm', { locale: es })}
-          </span>
+          <Clock className="w-4 h-4 text-gray-400" />
+          <span className="font-medium">Recibido:</span>
+          <span className="text-gray-900">{format(new Date(event.received_at), 'dd/MM/yyyy HH:mm', { locale: es })}</span>
         </div>
       </div>
 
-      {/* Dos columnas: cuerpo (2/3) + sidebar (1/3) */}
+      {/* Body */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-
-        {/* Izquierda — mail + adjuntos */}
+        {/* Left */}
         <div className="lg:col-span-2 flex flex-col gap-4 min-h-0">
           <div className="bg-white rounded-xl border border-gray-200 flex flex-col flex-1 min-h-0">
-            <div className="px-5 py-4 border-b border-gray-100 shrink-0">
+            <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="text-sm font-semibold text-gray-700">Contenido del mail</h2>
             </div>
             {event.body_clean ? (
-              <pre className="px-5 py-4 text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed flex-1 overflow-y-auto min-h-0">
+              <pre className="px-5 py-4 text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed overflow-y-auto max-h-96">
                 {event.body_clean}
               </pre>
             ) : (
@@ -547,9 +533,9 @@ export default function ActivityDetail() {
           )}
         </div>
 
-        {/* Derecha — sidebar */}
+        {/* Right */}
         <div className="space-y-4">
-          {/* Clasificación + contexto IA */}
+          {/* Clasificación (unifica tipo + asunto) */}
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
             <div className="px-5 py-4 border-b border-gray-100">
               <h2 className="text-sm font-semibold text-gray-700">Clasificación</h2>
@@ -560,19 +546,12 @@ export default function ActivityDetail() {
                   {typeLabel}
                 </span>
               </InfoRow>
-              {event.title && (
-                <InfoRow label="Título generado">
-                  <span className="font-medium text-gray-800">{event.title}</span>
-                </InfoRow>
+              {event.subject && (
+                <InfoRow label="Asunto"><span className="break-words text-sm">{event.subject}</span></InfoRow>
               )}
               {event.description && (
                 <InfoRow label="Descripción">
                   <span className="text-gray-600 leading-snug">{event.description}</span>
-                </InfoRow>
-              )}
-              {event.reasoning && (
-                <InfoRow label="Razonamiento">
-                  <span className="text-gray-500 italic leading-snug text-xs">{event.reasoning}</span>
                 </InfoRow>
               )}
             </dl>

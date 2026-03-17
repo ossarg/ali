@@ -1,0 +1,40 @@
+{
+  "tipo_evento": "reclamo_pago",
+  "confianza": 0.73,
+  "nivel_confianza": "media",
+  "justificacion": "El email reporta un acuerdo alcanzado en mediación, pero la acción principal solicitada es el depósito de la suma acordada dentro de 15 días hábiles. Según la guía de desambiguación, cuando hay acuerdo + pago y se solicita el depósito del monto acordado, se clasifica como reclamo_pago.",
+  "gmail_label": "triage/reclamo_pago",
+  "señales_detectadas": [
+    "se llegó a un principio de acuerdo",
+    "Las partes convinieron en que Libra Seguros abone la suma de $3.800.000",
+    "necesitaríamos que Libra deposite la suma acordada",
+    "dentro de los próximos 15 días hábiles",
+    "acta de mediación firmada por las partes"
+  ],
+  "tipos_descartados": [
+    {
+      "tipo": "acuerdo",
+      "motivo": "Aunque el email reporta un acuerdo alcanzado, la acción principal es la solicitud de depósito del monto acordado. Per la guía de desambiguación: cuando el acuerdo ya está cerrado y se solicita el pago, se clasifica como reclamo_pago, no acuerdo."
+    },
+    {
+      "tipo": "intimacion",
+      "motivo": "No contiene lenguaje de intimación formal (carta documento, plazo perentorio con apercibimiento). Es una solicitud de depósito, no una demanda judicial."
+    },
+    {
+      "tipo": "sentencia",
+      "motivo": "No se reporta sentencia judicial. El acuerdo está sujeto a homologación pero no es una resolución del tribunal."
+    }
+  ],
+  "requiere_revision_humana": true,
+  "motivo_revision": "Ambigüedad media: el email contiene señales tanto de acuerdo (el principio de acuerdo alcanzado en mediación) como de reclamo_pago (la solicitud explícita de depósito). Aunque se clasifica como reclamo_pago per la guía, merece revisión humana porque Axel podría considerar que el evento principal es el cierre del acuerdo (acuerdo) y no la solicitud de pago. La acción next-step también varía según la clasificación: reclamo_pago → flujo de pago; acuerdo → flujo de homologación.",
+  "metadata": {
+    "nro_siniestro": "09854",
+    "nro_expediente": "STRO 09854",
+    "estudio_remitente": "Estudio López García & Asociados (secretaria@estudiolopezgarcia.com.ar)",
+    "urgencia_detectada": true,
+    "tiene_adjuntos": true,
+    "adjuntos": [
+      "Acta de mediación firmada por las partes"
+    ]
+  }
+}

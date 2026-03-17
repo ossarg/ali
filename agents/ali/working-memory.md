@@ -86,6 +86,25 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 - Docker stack activo en producción (`backend/docker-compose.yml`)
 - Auth: JWT real, sesiones persistentes
 - SISE integrado: GetClaimByNumber, GetPolicySummary, GetProducerByCode. TTL buffer −60s, retry-on-401.
+### Estado del sistema (2026-03-09)
+- **Docker stack en producción**: `backend/docker-compose.yml` es el activo. `docker-compose.yml` raíz renombrado a `.bak`.
+- **Auth JWT real**: AuthContext usa JWT real (mock eliminado 2026-03-09). Token en localStorage, sesiones persistentes.
+- **VITE_API_URL vacío**: requests relativas al origen via proxy Vite — no hardcodear URL backend.
+- **CaseEventSchema**: usa `.nullish()` — backend Go puede devolver null en campos opcionales.
+- **DB backup**: `data/backups/libra_legal_20260309_2124.sql.gz` (80KB, estado producción).
+- **Design system**: `docs/design-system.md` creado (345 líneas).
+- **Activity**: 2 tabs Pendientes/Aprobados, columna siniestro, paginación, pendientes sin siniestro al final.
+- **ActivityDetail**: layout 2 columnas, fila resumen mail, body scroll interno, modal z-[9999].
+- **CaseDetail**: adjuntos (ícono + tab Archivos), trazabilidad (solo aprobados), kebab menu editar/eliminar eventos, campo caratula.
+- **Claims**: tabla limpia (sin sise_claim_id ni coverage), causa truncada.
+- **Cases**: paginación 10/página, pantalla detalle actividad.
+- **case_events**: 11 tipos (0-8 previos + apertura=9, apelacion=10, cierre=11).
+- **Endpoint attachments**: público (antes del grupo JWT) — accesible desde browser.
+- **Rachel v2**: activa — clasificación LLM + adjuntos + body_clean en producción.
+
+### Branches
+- `main` — rama activa principal
+- `sesion/2025-12-23` — 13 skills + ORCHESTRATION.md. PR no abierto. Pendiente revisión.
 
 ### Model routing (Juan, 2026-03-06)
 - Planeamiento/complejo → Opus
@@ -98,3 +117,17 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 - case_events: 11 tipos (0-8 previos + apertura=9, apelacion=10, cierre=11).
 - Fix duplicación pagos re-sync SISE (2026-03-08).
 - Dry run García: Lou score 79/100, `corregir_y_reenviar`, jess_output_v2 con correcciones. Archivo: `pipeline-tests/garcia-c-ramoa/`.
+---
+
+## Cambios arquitecturales previos importantes
+
+### PR #11 — Woz (2026-03-07) — Integración SISE
+- **Redis** incorporado al stack. Requerido para cache de token SISE.
+- **SISE integrado**: 3 queries (GetClaimByNumber, GetPolicySummary, GetProducerByCode). TTL buffer −60s, retry-on-401.
+- **Tabla `claims`** (~30 cols) + FK `claim_id` en `cases`. Migrations 007+008 en main.
+- **Endpoints**: GET /api/v1/claims, GET /api/v1/claims/lookup, POST /api/v1/claims (solo JWT usuario).
+- **Webapp**: nuevo tab `/claims` con modal AddClaim (lookup + persist).
+- **Typos en SISE documentados**: `fecha_resgistro`, `Codido_Asegurado` — mapeados tal cual.
+- **Nuevas env vars**: REDIS_URL, SISE_BASE_URL, SISE_USERNAME, SISE_PASSWORD.
+
+Ver análisis completo en: `daily-logs/2026-03-07-woz-review.md`

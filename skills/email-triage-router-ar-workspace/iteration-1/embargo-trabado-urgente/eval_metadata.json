@@ -1,0 +1,13 @@
+{
+  "eval_id": 1,
+  "eval_name": "embargo-trabado-urgente",
+  "prompt": "Clasificá un email reenviado por Axel que reporta un embargo trabado sobre cuentas bancarias de Libra, con asunto 'URGENTE'.",
+  "assertions": [
+    {"text": "tipo_evento is 'embargo'", "type": "exact_match", "field": "tipo_evento", "expected": "embargo"},
+    {"text": "confianza is >= 0.85 (alta)", "type": "threshold", "field": "confianza", "min": 0.85},
+    {"text": "nro_siniestro extracted as '11987'", "type": "exact_match", "field": "metadata.nro_siniestro", "expected": "11987"},
+    {"text": "urgencia_detectada is true", "type": "exact_match", "field": "metadata.urgencia_detectada", "expected": true},
+    {"text": "estudio_remitente identifies original sender (not Axel)", "type": "contains", "field": "metadata.estudio_remitente", "expected": "ruiz"},
+    {"text": "tiene_adjuntos is true", "type": "exact_match", "field": "metadata.tiene_adjuntos", "expected": true}
+  ]
+}

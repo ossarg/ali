@@ -1,0 +1,12 @@
+{
+  "eval_name": "sentencia-clara-con-condena",
+  "configuration": "with_skill",
+  "expectations": [
+    {"text": "tipo_evento is 'sentencia'", "passed": true, "evidence": "tipo_evento = 'sentencia'"},
+    {"text": "confianza is >= 0.85 (alta)", "passed": true, "evidence": "confianza = 0.95"},
+    {"text": "nro_siniestro extracted as '14523'", "passed": true, "evidence": "metadata.nro_siniestro = 'STRO 14523' (contains 14523)"},
+    {"text": "nro_expediente extracted correctly", "passed": true, "evidence": "metadata.nro_expediente = '45.892/2023'"},
+    {"text": "urgencia_detectada is true", "passed": true, "evidence": "metadata.urgencia_detectada = true"},
+    {"text": "requiere_revision_humana is false", "passed": true, "evidence": "requiere_revision_humana = false"}
+  ]
+}

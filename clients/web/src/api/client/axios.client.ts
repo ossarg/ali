@@ -61,8 +61,11 @@ const createResponseInterceptor = (instance: AxiosInstance) => ({
       throw new Error('No refresh token support yet');
     } catch (refreshError) {
       processQueue(refreshError as AxiosError, null);
-      setAccessToken(null);
-      if (onUnauthenticated) onUnauthenticated();
+      // Only redirect to login if we had a real token (skip in PoC mock mode)
+      if (accessToken) {
+        setAccessToken(null);
+        if (onUnauthenticated) onUnauthenticated();
+      }
       return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;
