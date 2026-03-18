@@ -1,27 +1,27 @@
 # Working Memory — Ali
-**Actualizado:** 2026-03-15 23:00
+**Actualizado:** 2026-03-17 23:00
 
 ---
 
 ## Contexto inmediato para la próxima sesión
 
-### ⚠️ Alertas activas
-- **Backup DB roto** — `libra_legal_20260314` y `libra_legal_20260315` son de 20 bytes (vacíos). Último backup real: 2026-03-13. Comunicar a Juan/Woz al inicio de la próxima sesión.
-- **feature/agreements sin mergear** — 4 commits de Woz del 15/03 están en `feature/agreements`, no en `development` ni `main`.
+### ✅ Cambio de estado relevante
+- **PR #26 mergeado** (development → main, 20:06 hoy). `main` ya tiene: módulo agreements, skill email-triage-router-ar, AgentOrgChart/Panel, CommandPalette, KanbanBoard, nuevas páginas UI.
+- **Backup DB restaurado** — funcionando desde 16/03. Ya no es alerta activa.
+- **`development` tiene commits no mergeados a main** — c654fb4 (DeepAgents), 53387fa (Woz specs), c9e2624 (Edu/Jess), 7fe615f (orchestration-pipeline-runner skill). Abrir nuevo PR pronto.
 
 ---
 
 ## Tareas pendientes
 
 ### Alta prioridad
-- [ ] **Fix script de backup DB** — dos días sin backup real. Revisar el script cron con Woz.
 - [ ] **Woz: implementar Rachel→Ali trigger** — `POST /api/v1/pipeline/trigger` + agent_api_key middleware. Spec lista: `docs/specs/woz-spec-rachel-ali-trigger.md`.
-- [ ] **Merge `feature/agreements` → `development` → `main`** — 4 commits nuevos (Woz 2026-03-15); `development` tenía 12 commits acumulados.
-- [ ] **Definir pipeline de extracción de agreements** — módulo creado (migration 018), pero `extraction_status` queda en `pending`. ¿Qué agente extrae los datos del body del acuerdo?
+- [ ] **Skill email-triage-router-ar iteration-2** — refinamiento disambiguation table (acuerdo vs reclamo_pago cuando hay depósito solicitado) + extracción nro_siniestro desde carátula embebida.
+- [ ] **Nuevo PR: development → main** — 4+ commits pendientes (c654fb4, 53387fa, c9e2624, 7fe615f y posiblemente más).
 
 ### Media prioridad
 - [ ] **Woz: implementar pipeline observability** — `GET /api/v1/cases/:id/pipeline`. Spec: `docs/specs/woz-spec-pipeline-observability.md`.
-- [ ] **Crear `memory/bank/decisions.md`** y `memory/bank/open-questions.md`.
+- [ ] **Definir pipeline de extracción de agreements** — módulo existe (migration 018), `extraction_status` siempre `pending`. ¿Qué agente extrae los datos del body del acuerdo?
 - [ ] **Trigger Modo 1 en ORCHESTRATION.md** — definir cuándo Ali dispara el pipeline automáticamente.
 - [ ] **Resolver #litigios** — canal ID 1478558938352844891, mensajes de Juan no llegan. Pendiente debug.
 - [ ] **Actualizar friction-log.md** — qué cambios de infra/config puede hacer Ali vs. Woz.
@@ -42,7 +42,7 @@
 
 ---
 
-## Contexto arquitectural — estado real del repo (2026-03-15)
+## Contexto arquitectural — estado real del repo (2026-03-17)
 
 ### Pipeline (ORCHESTRATION.md)
 ```
@@ -58,26 +58,33 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 | Edu    | triage-risk-assessment-ar, triage-coverage-opinion-ar, triage-viability-check-ar |
 | Jess   | drafting-answer-ar, drafting-coverage-denial-ar |
 | Review | review-red-team-verifier |
-| Ali    | system-audit |
+| Ali    | system-audit, orchestration-pipeline-runner |
 
 ### Branches activas
-- `feature/agreements` — rama actual de Woz (4 commits 2026-03-15, no mergeada)
-- `development` — 12 commits sobre `main` (desde 2026-03-11, sin cambios desde entonces)
+- `main` — **actualizada hoy** (PR #26 mergeado, 2026-03-17 20:06) ← rama principal
+- `development` — tiene 4+ commits sobre main (c654fb4, 53387fa, c9e2624, 7fe615f + otros Ali) — pendiente PR
+- `feature/agreements-ux` — rama adicional de Woz (relacionada con agreements UI)
 - `sesion/2025-12-23` — 13 skills + ORCHESTRATION.md. PR no abierto.
-- `main` — última actualización 2026-03-09
 
-### Módulo Agreements (nuevo 2026-03-15)
+### Módulo Agreements (mergeado — PR #24, 2026-03-15)
 - Migration 018: tabla `agreements` (case_event_id, case_id, agreement_type SMALLINT 1=mediacion/2=juicio, claim_number, beneficiary, concept, amount, due_date, extraction_status SMALLINT 1=pending/2=completed/3=failed, extraction_raw JSONB)
 - Auto-creación: al aprobar event tipo acuerdo (mail_type=4), `case_service` crea el registro en extraction_status=pending.
-- Frontend: `/acuerdos` con tabla paginada, sidebar item.
-- DI container extraído a `internal/di/container.go`.
+- Frontend: `/acuerdos` con tabla paginada.
+- Agent endpoints: `GET /agents/agreements/pending` + `PATCH /agents/agreements/:id` (para Donna).
+- DI container en `internal/di/container.go`.
+
+### Skill email-triage-router-ar (mergeada — PR #26, 2026-03-17)
+- En `skills/email-triage-router-ar/SKILL.md` (171 líneas) + `references/event-types.md` (196 líneas).
+- Iteration-1 benchmark: 0.81 mean pass rate (vs 0.58 sin skill, +0.23 delta).
+- ⚠️ Debilidad conocida: disambiguation table `acuerdo vs reclamo_pago` + extracción nro_siniestro desde carátula embebida.
 
 ### Estado webapp (vigente)
 - **Activity**: 2 tabs Pendientes/Aprobados, columna siniestro, paginación, pendientes sin siniestro al final
 - **ActivityDetail**: layout 2 columnas, body scroll interno, ReviewModal 2 columnas
-- **CaseDetail**: adjuntos (ícono + tab Archivos), trazabilidad (solo aprobados), kebab menu editar/eliminar eventos, campo caratula
+- **CaseDetail**: adjuntos (ícono + tab Archivos), trazabilidad (solo aprobados), kebab menu editar/eliminar eventos, campo caratula, Póliza en header
 - **Claims**: tabla con lookup SISE. FK `claim_id` en `cases` (NULL para todos — linkeo automático no implementado)
-- **Acuerdos**: nuevo `/acuerdos` (2026-03-15)
+- **Acuerdos**: `/acuerdos` con tabla paginada
+- **Nuevas páginas** (desde PR #26): `/agents` (AgentOrgChart + configuración umbrales), `/contestaciones` (Kanban por etapas), `/documentos`, `/metrics`
 - **Endpoint attachments**: público (antes del grupo JWT)
 
 ### Stack técnico
@@ -86,48 +93,9 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 - Docker stack activo en producción (`backend/docker-compose.yml`)
 - Auth: JWT real, sesiones persistentes
 - SISE integrado: GetClaimByNumber, GetPolicySummary, GetProducerByCode. TTL buffer −60s, retry-on-401.
-### Estado del sistema (2026-03-09)
-- **Docker stack en producción**: `backend/docker-compose.yml` es el activo. `docker-compose.yml` raíz renombrado a `.bak`.
-- **Auth JWT real**: AuthContext usa JWT real (mock eliminado 2026-03-09). Token en localStorage, sesiones persistentes.
-- **VITE_API_URL vacío**: requests relativas al origen via proxy Vite — no hardcodear URL backend.
-- **CaseEventSchema**: usa `.nullish()` — backend Go puede devolver null en campos opcionales.
-- **DB backup**: `data/backups/libra_legal_20260309_2124.sql.gz` (80KB, estado producción).
-- **Design system**: `docs/design-system.md` creado (345 líneas).
-- **Activity**: 2 tabs Pendientes/Aprobados, columna siniestro, paginación, pendientes sin siniestro al final.
-- **ActivityDetail**: layout 2 columnas, fila resumen mail, body scroll interno, modal z-[9999].
-- **CaseDetail**: adjuntos (ícono + tab Archivos), trazabilidad (solo aprobados), kebab menu editar/eliminar eventos, campo caratula.
-- **Claims**: tabla limpia (sin sise_claim_id ni coverage), causa truncada.
-- **Cases**: paginación 10/página, pantalla detalle actividad.
-- **case_events**: 11 tipos (0-8 previos + apertura=9, apelacion=10, cierre=11).
-- **Endpoint attachments**: público (antes del grupo JWT) — accesible desde browser.
-- **Rachel v2**: activa — clasificación LLM + adjuntos + body_clean en producción.
-
-### Branches
-- `main` — rama activa principal
-- `sesion/2025-12-23` — 13 skills + ORCHESTRATION.md. PR no abierto. Pendiente revisión.
+- Backup DB: ✅ funcionando desde 16/03 (228KB/día)
 
 ### Model routing (Juan, 2026-03-06)
 - Planeamiento/complejo → Opus
 - Ejecución/diario → Sonnet
 - Heartbeats/sencillos → Haiku
-
-### Cambios arquitecturales importantes vigentes
-- PR #11 (Woz 2026-03-07): Redis, SISE, tabla `claims`, migrations 007+008.
-- Rachel v2 activa: process_mails_v2.py, body_clean, clasificación LLM Haiku, title+description generados.
-- case_events: 11 tipos (0-8 previos + apertura=9, apelacion=10, cierre=11).
-- Fix duplicación pagos re-sync SISE (2026-03-08).
-- Dry run García: Lou score 79/100, `corregir_y_reenviar`, jess_output_v2 con correcciones. Archivo: `pipeline-tests/garcia-c-ramoa/`.
----
-
-## Cambios arquitecturales previos importantes
-
-### PR #11 — Woz (2026-03-07) — Integración SISE
-- **Redis** incorporado al stack. Requerido para cache de token SISE.
-- **SISE integrado**: 3 queries (GetClaimByNumber, GetPolicySummary, GetProducerByCode). TTL buffer −60s, retry-on-401.
-- **Tabla `claims`** (~30 cols) + FK `claim_id` en `cases`. Migrations 007+008 en main.
-- **Endpoints**: GET /api/v1/claims, GET /api/v1/claims/lookup, POST /api/v1/claims (solo JWT usuario).
-- **Webapp**: nuevo tab `/claims` con modal AddClaim (lookup + persist).
-- **Typos en SISE documentados**: `fecha_resgistro`, `Codido_Asegurado` — mapeados tal cual.
-- **Nuevas env vars**: REDIS_URL, SISE_BASE_URL, SISE_USERNAME, SISE_PASSWORD.
-
-Ver análisis completo en: `daily-logs/2026-03-07-woz-review.md`
