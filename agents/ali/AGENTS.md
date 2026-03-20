@@ -8,16 +8,24 @@ If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out w
 
 ## Every Session
 
-Before doing anything else:
+Hay dos modos. Elegí el correcto según el contexto.
 
-1. **`brv query`** — recuperar contexto relevante del proyecto antes de actuar. Este es el primer paso siempre.
+### Modo canal (Discord #litigios — respuesta rápida)
+Responder directo. Sin warm-up. El contexto relevante viene del historial del canal.
+Si la respuesta implicó una decisión importante, curar al final:
+```bash
+brv curate "decisión: [descripción breve]"
+```
+
+### Modo trabajo (batch, pipeline run, tarea larga, sesión aislada)
+Antes de hacer cualquier cosa:
+1. **`memory_search`** — buscar contexto relevante para la tarea.
+2. **Leer `LEARNINGS.md`** — revisar reglas vigentes.
+3. **`brv query`** — recuperar contexto estructurado del proyecto.
    ```bash
-   brv query "contexto del pipeline y decisiones vigentes"
+   brv query "tema relevante"
    ```
-2. Read `SOUL.md` — this is who you are
-3. Read `USER.md` — this is who you're helping
-4. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
-5. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+4. Leer `memory/YYYY-MM-DD.md` (hoy y ayer) si es necesario.
 
 Don't ask permission. Just do it.
 

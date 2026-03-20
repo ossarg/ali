@@ -250,3 +250,21 @@ Si no aplica (mayoría de los casos), omitir la sección silenciosamente. Si hay
 - No re-analicés lo que ya analizó triage. Si `viability-check-ar` dice ROJO en prescripción, no incluyas excepción de prescripción. Si dice VERDE, incluila.
 - Para cada defensa incluida, trazá la fuente de triage en `fuente_triage`. Esto permite al Lou cruzar consistencia.
 - Si hay hechos de la demanda que no pudiste responder (negar/reconocer/desconocer) con los datos disponibles, listalos en `hechos_no_cubiertos` — esto es un riesgo procesal (art. 356 inc. 1: el silencio puede ser tomado como reconocimiento).
+
+## Paso siguiente obligatorio — generación del DOCX
+
+Este skill produce un JSON estructurado. Ese JSON NO es el output final del pipeline.
+Al terminar, Jess debe generar el DOCX ejecutando:
+
+```bash
+python3 /home/legales/.openclaw/workspace/ali/skills/drafting-docx-ar/scripts/build_contestacion.py \
+  <jess_output.json> \
+  <contestacion-[caratula].docx>
+```
+
+El DOCX es lo que recibe el abogado. El JSON queda en disco como registro del pipeline.
+
+**Si el dictamen de Edu es `COBERTURA_PENDIENTE_VERIFICACION`:**
+- Jess redacta la contestación asumiendo cobertura (incluye la sección PÓLIZA y ASUME COBERTURA normalmente)
+- Los datos de límite y vigencia van como placeholder `[A COMPLETAR]`
+- Se agrega comentario de Word en esa sección: "Verificar póliza N°X en SISE antes de presentar"
