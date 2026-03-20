@@ -1,14 +1,14 @@
 # Working Memory — Ali
-**Actualizado:** 2026-03-17 23:00
+**Actualizado:** 2026-03-19 23:00
 
 ---
 
 ## Contexto inmediato para la próxima sesión
 
-### ✅ Cambio de estado relevante
-- **PR #26 mergeado** (development → main, 20:06 hoy). `main` ya tiene: módulo agreements, skill email-triage-router-ar, AgentOrgChart/Panel, CommandPalette, KanbanBoard, nuevas páginas UI.
-- **Backup DB restaurado** — funcionando desde 16/03. Ya no es alerta activa.
-- **`development` tiene commits no mergeados a main** — c654fb4 (DeepAgents), 53387fa (Woz specs), c9e2624 (Edu/Jess), 7fe615f (orchestration-pipeline-runner skill). Abrir nuevo PR pronto.
+### ✅ Estado estable
+- **Backup DB**: ✅ cuatro días consecutivos OK (16→19/03, ~228KB/día). Ya no es alerta activa.
+- **`main`** — último commit: 3659276 (chore(ali): nightly extraction 2026-03-17). Sin cambios en 2 días.
+- **`development`** tiene 6 commits sobre main pendientes de PR: c654fb4 (DeepAgents), 53387fa (Woz specs), c9e2624 (Edu/Jess), 7fe615f (orchestration-pipeline-runner), 89dc08f (Lou first-class), 950f604 (canonical naming).
 
 ---
 
@@ -17,11 +17,11 @@
 ### Alta prioridad
 - [ ] **Woz: implementar Rachel→Ali trigger** — `POST /api/v1/pipeline/trigger` + agent_api_key middleware. Spec lista: `docs/specs/woz-spec-rachel-ali-trigger.md`.
 - [ ] **Skill email-triage-router-ar iteration-2** — refinamiento disambiguation table (acuerdo vs reclamo_pago cuando hay depósito solicitado) + extracción nro_siniestro desde carátula embebida.
-- [ ] **Nuevo PR: development → main** — 4+ commits pendientes (c654fb4, 53387fa, c9e2624, 7fe615f y posiblemente más).
+- [ ] **Nuevo PR: development → main** — 6 commits pendientes (c654fb4, 53387fa, c9e2624, 7fe615f, 89dc08f, 950f604).
 
 ### Media prioridad
-- [ ] **Woz: implementar pipeline observability** — `GET /api/v1/cases/:id/pipeline`. Spec: `docs/specs/woz-spec-pipeline-observability.md`.
-- [ ] **Definir pipeline de extracción de agreements** — módulo existe (migration 018), `extraction_status` siempre `pending`. ¿Qué agente extrae los datos del body del acuerdo?
+- [ ] **Woz: pipeline observability** — `GET /api/v1/cases/:id/pipeline`. Spec: `docs/specs/woz-spec-pipeline-observability.md`.
+- [ ] **Definir pipeline de extracción de agreements** — módulo existe (migration 018), `extraction_status` siempre `pending`. ¿Qué agente extrae datos del body del acuerdo?
 - [ ] **Trigger Modo 1 en ORCHESTRATION.md** — definir cuándo Ali dispara el pipeline automáticamente.
 - [ ] **Resolver #litigios** — canal ID 1478558938352844891, mensajes de Juan no llegan. Pendiente debug.
 - [ ] **Actualizar friction-log.md** — qué cambios de infra/config puede hacer Ali vs. Woz.
@@ -42,12 +42,15 @@
 
 ---
 
-## Contexto arquitectural — estado real del repo (2026-03-17)
+## Contexto arquitectural — estado real del repo (2026-03-19)
 
 ### Pipeline (ORCHESTRATION.md)
 ```
 Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess (Drafting) → Review (Red Team) → Abogado
 ```
+
+### Agentes en development (no mergeados a main aún)
+- **Lou** — primer agente first-class de pipeline-canon.md (rama development). Pendiente PR.
 
 ### Asignación de skills por agente
 | Agente | Skills |
@@ -61,9 +64,9 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 | Ali    | system-audit, orchestration-pipeline-runner |
 
 ### Branches activas
-- `main` — **actualizada hoy** (PR #26 mergeado, 2026-03-17 20:06) ← rama principal
-- `development` — tiene 4+ commits sobre main (c654fb4, 53387fa, c9e2624, 7fe615f + otros Ali) — pendiente PR
-- `feature/agreements-ux` — rama adicional de Woz (relacionada con agreements UI)
+- `main` — sin cambios desde 2026-03-17 20:06 (PR #26 mergeado)
+- `development` — 6 commits sobre main, pendiente PR
+- `feature/agreements-ux` — rama adicional de Woz (UI acuerdos)
 - `sesion/2025-12-23` — 13 skills + ORCHESTRATION.md. PR no abierto.
 
 ### Módulo Agreements (mergeado — PR #24, 2026-03-15)
@@ -71,12 +74,11 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 - Auto-creación: al aprobar event tipo acuerdo (mail_type=4), `case_service` crea el registro en extraction_status=pending.
 - Frontend: `/acuerdos` con tabla paginada.
 - Agent endpoints: `GET /agents/agreements/pending` + `PATCH /agents/agreements/:id` (para Donna).
-- DI container en `internal/di/container.go`.
 
 ### Skill email-triage-router-ar (mergeada — PR #26, 2026-03-17)
 - En `skills/email-triage-router-ar/SKILL.md` (171 líneas) + `references/event-types.md` (196 líneas).
 - Iteration-1 benchmark: 0.81 mean pass rate (vs 0.58 sin skill, +0.23 delta).
-- ⚠️ Debilidad conocida: disambiguation table `acuerdo vs reclamo_pago` + extracción nro_siniestro desde carátula embebida.
+- ⚠️ Debilidad: disambiguation table `acuerdo vs reclamo_pago` + extracción nro_siniestro desde carátula embebida.
 
 ### Estado webapp (vigente)
 - **Activity**: 2 tabs Pendientes/Aprobados, columna siniestro, paginación, pendientes sin siniestro al final
@@ -93,7 +95,7 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 - Docker stack activo en producción (`backend/docker-compose.yml`)
 - Auth: JWT real, sesiones persistentes
 - SISE integrado: GetClaimByNumber, GetPolicySummary, GetProducerByCode. TTL buffer −60s, retry-on-401.
-- Backup DB: ✅ funcionando desde 16/03 (228KB/día)
+- Backup DB: ✅ funcionando, racha de 4 días (16→19/03, ~228KB/día)
 
 ### Model routing (Juan, 2026-03-06)
 - Planeamiento/complejo → Opus
