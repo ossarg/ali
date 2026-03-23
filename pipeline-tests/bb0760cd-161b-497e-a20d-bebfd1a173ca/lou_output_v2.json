@@ -1,0 +1,130 @@
+{
+  "skill": "review-consistency-ar + review-normative-risk-ar",
+  "caso_id": "bb0760cd-161b-497e-a20d-bebfd1a173ca",
+  "caratula": "ASOCIART S.A. ART c/ ROJAS, JUAN CARLOS Y OTRO s/ COBRO DE SUMAS DE DINERO",
+  "documento_verificado": "jess_output_v2",
+  "tipo_escrito": "contestacion",
+  "resultado": "escalar_a_humano",
+  "score_calidad": 48,
+  "confianza_revision": "low",
+  "hallazgos": [
+    {
+      "id": "LOU-001",
+      "severidad": "critica",
+      "categoria": "completitud",
+      "titulo": "Número de póliza faltante — caso ART con $39.8M en juego sin póliza identificada",
+      "detalle": "El borrador tiene 'poliza.numero': '[N° PÓLIZA — A COMPLETAR]'. La demanda no adjunta ni menciona el número de póliza del vehículo MDP 995. Mike confirma que no hay número de póliza identificado. El monto reclamado es $39.792.327,30. Sin la póliza no se puede: (a) determinar si existe cobertura vigente al 08/01/2024; (b) verificar la suma asegurada (que determina el tope de exposición de Libra sobre un reclamo de casi $40M); (c) confirmar si el uso como taxi está cubierto o excluido; (d) determinar si hay franquicia. El dictamen de cobertura de Edu es 'INDETERMINADO' y 'overall_confidence: low'. Un escrito de contestación sin póliza identificada en un caso de esta magnitud es insuficiente.",
+      "fuente_verificacion": "mike_output.alertas_criticas[0]; mike_output.poliza.poliza_acreditada (false); edu_output.coverage_opinion.dictamen='INDETERMINADO'; edu_output.coverage_opinion.overall_confidence='low'",
+      "impacto": "Crítico y estratégico: si la póliza no estaba vigente o el uso como taxi está excluido, Libra podría plantear no cobertura — lo que elimina su responsabilidad. No investigar esto antes de contestar es un riesgo operativo de primer orden.",
+      "accion_recomendada": "BLOQUEANTE. Obtener urgentemente del sistema de Libra la póliza RC del vehículo Chevrolet Classic MDP 995 a nombre de Juan Carlos Rojas, vigente al 08/01/2024. Si la póliza no existe: desarrollar defensa de falta de legitimación pasiva."
+    },
+    {
+      "id": "LOU-002",
+      "severidad": "critica",
+      "categoria": "juridica",
+      "titulo": "Defensa de exclusión por uso del vehículo como TAXI no desarrollada en el borrador",
+      "detalle": "El vehículo MDP 995 era un TAXI al momento del accidente. Edu identificó como potencial exclusión el uso comercial del vehículo (uso como taxi vs. uso particular declarado en la póliza). La clasificación de Edu para esta exclusión es 'probabilidad_exito_judicial: media'. Jess no desarrolla esta defensa en el borrador. La sección de defensas_fondo solo tiene culpa concurrente, impugnación de montos, y oponibilidad del límite de cobertura. La omisión de investigar y desarrollar la exclusión por uso comercial es un hallazgo de completitud crítico dado el monto en juego.",
+      "fuente_verificacion": "edu_output.coverage_opinion.exclusiones_analizadas[1]; donna_output.document_summary.señales_atencion[0]; jess_output_v2.defensas_fondo (ausencia)",
+      "impacto": "Crítico: si la póliza cubre uso particular y el asegurado Rojas operaba el vehículo como taxi sin declarar el uso comercial, existe una exclusión contractual válida que podría eliminar la responsabilidad de Libra. No desarrollarla equivale a renunciar a una defensa potencialmente decisiva.",
+      "accion_recomendada": "Una vez obtenida la póliza, verificar el uso declarado. Si era 'particular', desarrollar la defensa de exclusión por uso no declarado (uso como taxi). Plantearla en la contestación como defensa sustancial independiente."
+    },
+    {
+      "id": "LOU-003",
+      "severidad": "critica",
+      "categoria": "juridica",
+      "titulo": "Defensa de inoponibilidad del expediente laboral (Expte. 45378/2024) requiere desarrollo normativo más preciso",
+      "detalle": "Jess desarrolla en el hecho 6 y en la defensa de fondo la inoponibilidad del acuerdo laboral homologado. Sin embargo, Jess invoca genéricamente que 'mi representada no fue parte', sin citar los fundamentos normativos específicos: (a) el principio de relatividad de la cosa juzgada (art. 163 inc. 6 CPCyCN); (b) el derecho de defensa en juicio (CN art. 18) — Libra no tuvo posibilidad de controlar la pericia ni impugnar el acuerdo; (c) la distinción entre las prestaciones tarifadas por la LRT (objeto de la repetición) y el monto acordado por las partes (que puede incluir rubros no LRT). La debilidad argumentativa en este punto es significativa dado que es el mayor rubro: $38.787.076 sobre un total de $39.792.327,30.",
+      "fuente_verificacion": "edu_output.viability_check.checks[6]; jess_output_v2.defensas_fondo[0]; jess_output_v2.negativas_especificas[5]; CPCyCN art. 163 inc. 6; LRT art. 39 inc. 5",
+      "impacto": "Crítico: el rubro ILP ($38.787.076) representa el 97% del reclamo total. Si la defensa de inoponibilidad del expediente laboral no está bien fundada normativamente, el tribunal puede simplemente aceptar los montos homologados como prueba del pago de Asociart.",
+      "accion_recomendada": "Reforzar la defensa con: (1) cita del art. 163 inc. 6 CPCyCN sobre relatividad de la cosa juzgada inter partes; (2) desarrollo del principio de que el art. 39.5 LRT limita la repetición al 'valor de las prestaciones' tarifadas por la LRT (no al importe acordado en juicio, que puede incluir conceptos adicionales); (3) distinción explícita entre capital de prestación LRT ($29M) y costas del proceso laboral (~$9.7M) como no recuperables."
+    },
+    {
+      "id": "LOU-004",
+      "severidad": "alta",
+      "categoria": "juridica",
+      "titulo": "Plazo de contestación indicado como 30 días en secciones_requieren_revision — error de cálculo",
+      "detalle": "La sección 'secciones_requieren_revision' del borrador dice: 'calcular 30 días hábiles desde la notificación (juicio ordinario CPCCN)'. El plazo de contestación en proceso ordinario CPCyCN es 15 días hábiles (art. 338 CPCyCN), no 30 días. Si el abogado usa el borrador como referencia para el cálculo del plazo, presentaría el escrito fuera de término.",
+      "fuente_verificacion": "jess_output_v2.secciones_requieren_revision[3]; CPCyCN art. 338 (15 días hábiles para proceso ordinario)",
+      "impacto": "Crítico operativo: si el abogado calcula 30 días y el plazo real es 15, el escrito sería extemporáneo y quedaría en rebeldía, con consecuencias devastadoras para la defensa de Libra en un caso de $39.8M.",
+      "accion_recomendada": "Corregir de inmediato: el plazo para contestar en proceso ordinario CPCyCN es 15 días hábiles desde la notificación (art. 338 CPCyCN). El plazo de 30 días no existe en el CPCyCN para contestación de demanda. Verificar urgentemente la fecha de notificación para calcular el vencimiento correcto."
+    },
+    {
+      "id": "LOU-005",
+      "severidad": "alta",
+      "categoria": "completitud",
+      "titulo": "Negativa general del art. 356 inc. 1 CPCyCN no figura como sección autónoma",
+      "detalle": "No existe párrafo autónomo de negativa general en el borrador. La demanda tiene 22 hechos específicamente negados pero la negativa general sobre hechos no listados es necesaria como sección independiente.",
+      "fuente_verificacion": "jess_output_v2.negativas_especificas; jess_output_v2.petitorio",
+      "impacto": "Alto: hechos de la demanda no cubiertos por las negativas específicas podrían tenerse por admitidos.",
+      "accion_recomendada": "Incluir párrafo autónomo de negativa general (art. 356 inc. 1 CPCyCN) antes de las negativas específicas."
+    },
+    {
+      "id": "LOU-006",
+      "severidad": "alta",
+      "categoria": "juridica",
+      "titulo": "Capitalización de intereses art. 770 inc. b) CCyCN — impugnación insuficiente",
+      "detalle": "La actora solicita capitalización de intereses conforme el art. 770 inc. b) CCyCN desde la fecha de cada erogación. Jess impugna este punto en el hecho 9 y en impugnacion_montos pero con fundamentos genéricos ('queda sujeta a la decisión del juez'). El art. 770 CCyCN en su inc. b) establece capitalización cuando el deudor es moroso y la obligación consiste en capital más intereses — lo que en el caso de la ART reclamante puede no cumplirse en todos los rubros. La capitalización tiene un impacto enorme dado que el monto puede duplicarse o triplicarse en 3-4 años.",
+      "fuente_verificacion": "jess_output_v2.negativas_especificas[8]; edu_output.coverage_opinion.exposicion_economica; CCyCN art. 770 inc. b)",
+      "impacto": "Alto: la capitalización puede llevar el total a $80-120M según Edu (peor caso). Una impugnación insuficiente permite que el tribunal la aplique sin cuestionamiento. Con un capital reclamado de $39.8M, incluso la tasa activa sin capitalización es significativa.",
+      "accion_recomendada": "Desarrollar la impugnación del art. 770 inc. b) CCyCN con fundamentos normativos: (1) la capitalización no aplica automáticamente a todos los rubros — requiere que la obligación de pagar capital e intereses resulte de una resolución judicial o contrato (art. 770 párr. 1 CCyCN); (2) la capitalización 'desde la notificación de la demanda' (art. 770 inc. b) aplica desde la notificación, no desde la fecha de cada erogación como pretende el actor."
+    },
+    {
+      "id": "LOU-007",
+      "severidad": "media",
+      "categoria": "juridica",
+      "titulo": "Artículo en excepción de prescripción no cita art. 347 inc. 6 CPCyCN",
+      "detalle": "La excepción de prescripción del borrador cita solo el fundamento sustantivo pero no el art. 347 inc. 6 CPCyCN que es el que habilita la excepción previa de prescripción.",
+      "fuente_verificacion": "jess_output_v2.excepciones_previas[0]; CPCyCN art. 347 inc. 6",
+      "impacto": "Medio: imprecisión formal que puede generar cuestionamiento.",
+      "accion_recomendada": "Agregar 'art. 347 inc. 6 CPCyCN' como fundamento procesal de la excepción de prescripción."
+    },
+    {
+      "id": "LOU-008",
+      "severidad": "media",
+      "categoria": "juridica",
+      "titulo": "Citas jurisprudenciales 'Martínez de Costa c/ Vallejos' y 'Aimar c/ Molina' no verificables",
+      "detalle": "Misma situación que en los otros casos del batch. Dos precedentes CSJN citados en la sección oponibilidad no pueden verificarse contra RAG.",
+      "fuente_verificacion": "jess_output_v2.oponibilidad; colección RAG jurisprudencia CSJN (no verificable)",
+      "impacto": "Moderado. La defensa de oponibilidad tiene respaldo en Flores c/ Giménez y Buffoni c/ Castro.",
+      "accion_recomendada": "Verificar y eliminar si no se confirman."
+    }
+  ],
+  "inconsistencias_cross_agent": [
+    {
+      "descripcion": "Edu escaló este caso al nivel 'gerente' por monto y complejidad (riesgo de superar $50M con intereses capitalizados). El borrador de Jess no refleja la urgencia ni la complejidad diferencial de este caso ART vs. un RC Auto estándar. El tono y estructura del borrador son los mismos que para casos de $5-15M.",
+      "agentes_involucrados": ["edu", "jess"],
+      "severidad": "alta"
+    },
+    {
+      "descripcion": "Edu detectó la potencial exclusión por uso del vehículo como taxi con probabilidad media. Donna también señaló señal de atención de 'monto excepcional'. Jess no desarrolló ninguna de estas señales como defensa.",
+      "agentes_involucrados": ["edu", "donna", "jess"],
+      "severidad": "critica"
+    }
+  ],
+  "errores_criticos": [
+    "Plazo de contestación indicado como 30 días en secciones_requieren_revision — el correcto es 15 días hábiles (art. 338 CPCyCN). ERROR QUE PUEDE LLEVAR A REBELDÍA.",
+    "Póliza del vehículo MDP 995 no identificada — sin póliza no se puede determinar cobertura, suma asegurada ni exclusión por uso como taxi, sobre un reclamo de $39.8M.",
+    "Exclusión por uso como taxi no investigada ni desarrollada."
+  ],
+  "datos_no_verificables": [
+    "Número de póliza Libra para vehículo Chevrolet Classic MDP 995 (no figura en la demanda)",
+    "Martínez de Costa c/ Vallejos CSJ 1319/2008 — cita jurisprudencial",
+    "Aimar c/ Molina Expte. 31171/2012 — cita jurisprudencial"
+  ],
+  "instrucciones_para_jess": [],
+  "notas_para_abogado": [
+    "ESCALAR A ABOGADO SENIOR — CASO ART: Este caso requiere revisión humana especializada antes de presentar. No es un RC Auto estándar.",
+    "ERROR CRÍTICO DE PLAZO: El borrador indica '30 días hábiles' para contestar — el plazo correcto es 15 días hábiles. Verificar URGENTEMENTE la fecha de notificación y calcular el vencimiento correcto.",
+    "PÓLIZA MDP 995 — INVESTIGAR PRIMERO: El primer paso es localizar en los sistemas de Libra la póliza del taxi MDP 995. Si es uso particular con el taxi operando como tal, puede haber exclusión por uso comercial no declarado.",
+    "COSTAS JUICIO LABORAL ($9.7M): Los ~$9.7M de costas del Expte. 45378/2024 incluidos en el rubro ILP no son recuperables mediante art. 39.5 LRT. Esta es la defensa más sólida para reducir el capital reclamado.",
+    "CAPITALIZACIÓN ART. 770: Desarrollar la impugnación de la capitalización de intereses con fundamentos normativos específicos. El impacto en la exposición total puede ser enorme.",
+    "SUMA ASEGURADA CRÍTICA: Sobre un reclamo de $39.8M, la suma asegurada de la póliza determina el tope de exposición de Libra. Obtener urgentemente."
+  ],
+  "_metadata": {
+    "skills_aplicados": ["review-consistency-ar v1.0", "review-normative-risk-ar v1.0"],
+    "timestamp": "2026-03-23T20:44:00-03:00",
+    "run_numero": 1,
+    "es_segunda_iteracion": false,
+    "nota_escalacion": "Edu requirió escalación a gerente por monto y complejidad. Lou confirma escalación a humano por: (1) confianza_revision baja (póliza no verificada), (2) error crítico de plazo en borrador, (3) naturaleza ART de la acción con complejidades no resolubles automáticamente, (4) decisión sobre exclusión por uso como taxi requiere criterio jurídico senior."
+  }
+}

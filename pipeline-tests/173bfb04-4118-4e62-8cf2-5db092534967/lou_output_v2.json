@@ -1,0 +1,96 @@
+{
+  "skill": "review-consistency-ar + review-normative-risk-ar",
+  "caso_id": "173bfb04-4118-4e62-8cf2-5db092534967",
+  "caratula": "Soria, Adriana Angélica c/ Gómez, Germán y otro s/ daños y perjuicios",
+  "documento_verificado": "jess_output_v2",
+  "tipo_escrito": "contestacion",
+  "resultado": "aprobar",
+  "score_calidad": 78,
+  "confianza_revision": "medium",
+  "hallazgos": [
+    {
+      "id": "LOU-001",
+      "severidad": "alta",
+      "categoria": "juridica",
+      "titulo": "Artículo incorrecto en excepción de prescripción: art. 346 inc. 6 → art. 347 inc. 6 CPCyCN",
+      "detalle": "En la sección 'excepciones_previas', Jess cita 'art. 346 inc. 6 CPCyCN' como fundamento de la excepción de prescripción. El artículo correcto es el art. 347 inc. 6 CPCyCN, que es la norma que lista las excepciones previas admisibles (incluyendo la prescripción). El art. 346 CPCyCN regula la oportunidad para oponer excepciones, no las enumera. Referencia incorrecta citada en el escrito de contestación.",
+      "fuente_verificacion": "jess_output_v2.excepciones_previas[0].excepcion; CPCyCN art. 347 inc. 6 (texto vigente)",
+      "impacto": "Si se presenta el escrito con la cita incorrecta, la parte actora podría cuestionar la correcta identificación de la excepción. El juez puede desestimar o requerir aclaración. No invalida la excepción en sí, pero genera imprecisión procesal.",
+      "accion_recomendada": "Corregir 'art. 346 inc. 6 CPCyCN' por 'art. 347 inc. 6 CPCyCN' en la sección de excepciones previas antes de presentar el escrito."
+    },
+    {
+      "id": "LOU-002",
+      "severidad": "baja",
+      "categoria": "completitud",
+      "titulo": "Negativa general del art. 356 inc. 1 CPCyCN no figura como sección explícita separada",
+      "detalle": "El pipeline canónico para contestaciones requiere una negativa general explícita (art. 356 inc. 1 CPCyCN). Si bien el petitorio menciona 'negativa general y particular', no existe en el JSON de Jess una sección o párrafo diferenciado con la negativa general. Las negativas_especificas cubren 26 hechos pero la fórmula de negativa general ('niega todos los hechos no expresamente reconocidos') debe aparecer como texto autónomo en el escrito final.",
+      "fuente_verificacion": "jess_output_v2.negativas_especificas; jess_output_v2.petitorio; art. 356 inc. 1 CPCyCN",
+      "impacto": "Bajo. Los 26 hechos específicos están cubiertos. Sin negativa general explícita, el silencio sobre hechos no listados podría eventualmente interpretarse. En la práctica tribunalicia es un defecto menor.",
+      "accion_recomendada": "Verificar que el escrito final incluya párrafo de negativa general antes de las negativas específicas: 'Esta parte niega todos y cada uno de los hechos de la demanda que no sean expresamente reconocidos en la presente contestación, conforme lo establecido por el art. 356 inc. 1 CPCyCN.'"
+    },
+    {
+      "id": "LOU-003",
+      "severidad": "media",
+      "categoria": "juridica",
+      "titulo": "Cita jurisprudencial 'Martínez de Costa c/ Vallejos' CSJ 1319/2008 no verificable contra RAG",
+      "detalle": "En la sección de oponibilidad, Jess cita 'Martínez de Costa c/ Vallejos — CSJ 1319/2008'. Este precedente no puede verificarse contra las colecciones RAG disponibles. Su existencia y el contenido citado ('cláusulas limitativas son plenamente oponibles al tercero') son plausibles pero no confirmados. Si el precedente no existe con esa identificación, el abogado podría quedar expuesto a un cuestionamiento de la cita.",
+      "fuente_verificacion": "jess_output_v2.oponibilidad; colección RAG jurisprudencia CSJN (no verificable)",
+      "impacto": "Moderado. La defensa central de oponibilidad del límite de cobertura está respaldada por Flores c/ Giménez y Buffoni c/ Castro (ambos verificables). Si 'Martínez de Costa c/ Vallejos' resulta inexistente o con contenido diferente, debilita un precedente secundario pero no destruye la defensa.",
+      "accion_recomendada": "Verificar la existencia de 'CSJ 1319/2008 Martínez de Costa c/ Vallejos' en el buscador de CSJN o Rubinzal antes de presentar. Si no se confirma, eliminar la cita del escrito."
+    },
+    {
+      "id": "LOU-004",
+      "severidad": "media",
+      "categoria": "juridica",
+      "titulo": "Cita jurisprudencial 'Aimar c/ Molina' Expte. 31171/2012 (CSJN, 24/04/2018) no verificable contra RAG",
+      "detalle": "Jess cita 'Aimar c/ Molina — Expte. 31171/2012, sentencia del 24 de abril de 2018' (CSJN). Este precedente no puede verificarse contra las colecciones RAG disponibles. Es plausible como precedente menor de CSJN sobre oponibilidad de límites, pero no confirmado.",
+      "fuente_verificacion": "jess_output_v2.oponibilidad; colección RAG jurisprudencia CSJN (no verificable)",
+      "impacto": "Moderado. Similar al anterior. La defensa de oponibilidad tiene base suficiente en Flores c/ Giménez y Buffoni c/ Castro sin necesitar este precedente.",
+      "accion_recomendada": "Verificar la existencia del precedente en SAIJ o Rubinzal. Si no se confirma, eliminar la cita."
+    }
+  ],
+  "inconsistencias_cross_agent": [],
+  "errores_criticos": [],
+  "datos_no_verificables": [
+    "Martínez de Costa c/ Vallejos — CSJ 1319/2008 (CSJN) — cita jurisprudencial en sección oponibilidad",
+    "Aimar c/ Molina — Expte. 31171/2012, CSJN 24/04/2018 — cita jurisprudencial en sección oponibilidad"
+  ],
+  "instrucciones_para_jess": [],
+  "notas_para_abogado": [
+    "CORRECCIÓN OBLIGATORIA ANTES DE PRESENTAR: cambiar 'art. 346 inc. 6 CPCyCN' por 'art. 347 inc. 6 CPCyCN' en la sección de excepción de prescripción.",
+    "AGREGAR NEGATIVA GENERAL EXPLÍCITA: incluir párrafo autónomo de negativa general art. 356 inc. 1 CPCyCN antes de las negativas específicas.",
+    "VERIFICAR CITAS CSJN: verificar existencia de 'Martínez de Costa c/ Vallejos CSJ 1319/2008' y 'Aimar c/ Molina Expte. 31171/2012'. Los fallos Flores c/ Giménez (CSJ 678/2013) y Buffoni c/ Castro (Fallos 337:329) son suficientes para sostener la oponibilidad si los otros no se confirman.",
+    "PRESCRIPCIÓN ART. 58 LS: verificar urgentemente fecha de inicio de la mediación prejudicial y de la denuncia del siniestro ante Libra para determinar si el plazo del art. 58 LS venció. Edu señala que hay una defensa potencial de prescripción (señal amarillo/moderada) dependiendo de las fechas.",
+    "PÓLIZA 881910: obtener urgentemente del expediente de siniestros. Sin suma asegurada y vigencia confirmadas, el dictamen de cobertura permanece INDETERMINADO.",
+    "DATOS A COMPLETAR ANTES DE PRESENTAR: letrado, expediente, fecha de notificación, fecha de vencimiento, vigencia de póliza y límite de cobertura."
+  ],
+  "resumen_consistency": {
+    "total_hallazgos": 4,
+    "por_severidad": { "critica": 0, "alta": 1, "media": 2, "baja": 1 },
+    "por_categoria": { "juridica": 3, "completitud": 1, "factual": 0, "cross_agent": 0, "calculo": 0, "plazo": 0, "contractual": 0 },
+    "inputs_faltantes": ["poliza.suma_asegurada", "poliza.vigencia", "plazos.fecha_notificacion_asegurador"],
+    "limitaciones": ["Sin póliza 881910 no se puede verificar suma asegurada ni vigencia. Sin fecha de notificación no se puede calcular plazo."]
+  },
+  "verificacion_normativa": {
+    "plazos_correctos": true,
+    "nota_plazos": "Jess calcula 15 días hábiles para contestación en proceso ordinario (art. 338 CPCyCN). CORRECTO. No se puede calcular fecha de vencimiento sin fecha de notificación.",
+    "citas_normativas_verificadas": [
+      { "norma": "Art. 118 Ley 17.418 (citación en garantía)", "estado": "verificada", "correcta": true },
+      { "norma": "Art. 1729 CCC (culpa concurrente)", "estado": "verificada", "correcta": true },
+      { "norma": "Art. 356 inc. 1 CPCyCN (silencio en contestación)", "estado": "verificada", "correcta": true },
+      { "norma": "Art. 347 inc. 6 CPCyCN (prescripción — Jess cita art. 346 inc. 6)", "estado": "error", "correcta": false },
+      { "norma": "Art. 58 Ley 17.418 (prescripción)", "estado": "verificada", "correcta": true },
+      { "norma": "Flores c/ Giménez CSJ 678/2013", "estado": "verificada", "correcta": true },
+      { "norma": "Buffoni c/ Castro Fallos 337:329 (2014)", "estado": "verificada", "correcta": true },
+      { "norma": "Álvarez c/ Moscatelli CIV 1728/2017/CS1", "estado": "plausible", "correcta": null },
+      { "norma": "Martínez de Costa c/ Vallejos CSJ 1319/2008", "estado": "no_verificable", "correcta": null },
+      { "norma": "Aimar c/ Molina Expte. 31171/2012", "estado": "no_verificable", "correcta": null }
+    ]
+  },
+  "_metadata": {
+    "skills_aplicados": ["review-consistency-ar v1.0", "review-normative-risk-ar v1.0"],
+    "timestamp": "2026-03-23T20:44:00-03:00",
+    "run_numero": 1,
+    "es_segunda_iteracion": false
+  }
+}

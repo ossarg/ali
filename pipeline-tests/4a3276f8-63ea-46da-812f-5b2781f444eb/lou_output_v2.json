@@ -1,0 +1,116 @@
+{
+  "skill": "review-consistency-ar + review-normative-risk-ar",
+  "caso_id": "4a3276f8-63ea-46da-812f-5b2781f444eb",
+  "caratula": "Aliaga Quispe, Víctor Raúl y Espinoza Ayala, Sharon Lisset c/ Andreu, Carlos Alberto y Libra Compañía Argentina de Seguros S.A. s/ daños y perjuicios",
+  "documento_verificado": "jess_output_v2",
+  "tipo_escrito": "contestacion",
+  "resultado": "corregir_y_reenviar",
+  "score_calidad": 66,
+  "confianza_revision": "medium",
+  "hallazgos": [
+    {
+      "id": "LOU-001",
+      "severidad": "critica",
+      "categoria": "completitud",
+      "titulo": "Número de póliza faltante — placeholder '[N° PÓLIZA — A COMPLETAR]' en sección crítica",
+      "detalle": "La sección de póliza del borrador tiene 'numero': '[N° PÓLIZA — A COMPLETAR]'. El número de póliza de Libra para el vehículo AC420HD no figura en la demanda (Mike lo detectó como alerta crítica). Sin embargo, el borrador no explica en el texto cómo manejará esta ausencia: no hay excepción planteada basada en falta de identificación de la póliza, no hay solicitud de que el actor acredite la existencia del contrato. El escrito debe abordarlo procesalmente.",
+      "fuente_verificacion": "mike_output.alertas_criticas[0]; jess_output_v2.poliza.numero; mike_output.poliza.poliza_acreditada (false)",
+      "impacto": "Crítico: un escrito de contestación con un placeholder '[N° PÓLIZA — A COMPLETAR]' es literalmente incompletable en ese estado. No puede presentarse sin resolver este punto. Además, la estrategia de cuestionamiento de la citación por falta de póliza acreditada (señalada por Edu) no está desarrollada en el borrador.",
+      "accion_recomendada": "Obtener el número de póliza del expediente de siniestros de Libra para el vehículo AC420HD. Si no se localiza, desarrollar en el borrador la defensa de impugnación de la citación en garantía por falta de acreditación del contrato de seguro (art. 118 Ley 17.418 requiere la existencia demostrada del contrato)."
+    },
+    {
+      "id": "LOU-002",
+      "severidad": "alta",
+      "categoria": "juridica",
+      "titulo": "Artículo incorrecto en excepción de prescripción: art. 346 → art. 347 CPCyCN",
+      "detalle": "La excepción de prescripción en excepciones_previas cita 'art. 58 Ley 17.418' sin referir un artículo del CPCyCN. En la sección petitorio (punto d) se menciona 'excepción de prescripción con reserva de ampliarla' sin citar artículo. Para ser completa procesalmente, la excepción previa de prescripción debe fundarse en el art. 347 inc. 6 CPCyCN (no art. 346). Esta omisión de citar el artículo procesal correcto es consistente con el error detectado en el Caso 1 (173bfb04).",
+      "fuente_verificacion": "jess_output_v2.excepciones_previas[0]; CPCyCN art. 347 inc. 6",
+      "impacto": "Alto: sin la cita del art. 347 inc. 6 CPCyCN, la excepción previa de prescripción puede ser formalmente cuestionada.",
+      "accion_recomendada": "Agregar en la excepción de prescripción: 'Conforme lo establecido por el art. 347 inc. 6 CPCyCN, en concordancia con el art. 58 Ley 17.418, opongo excepción previa de prescripción...'"
+    },
+    {
+      "id": "LOU-003",
+      "severidad": "alta",
+      "categoria": "cross_agent",
+      "titulo": "Defensa de impugnación de la citación en garantía (art. 118 LS — señalada por Donna y Edu) no desarrollada",
+      "detalle": "Donna y Edu señalaron que la citación en garantía fue solicitada por los actores y no por el asegurado Andreu (técnicamente irregular bajo art. 118 LS párr. 3). Edu la clasifica como defensa disponible 'débil'. Donna le asigna 'valor estratégico moderado'. Jess no desarrolla este argumento en ninguna sección del borrador — no hay ni una mención al respecto. El pipeline canónico indica que las defensas identificadas en Edu (viability_check) con estado VERDE o AMARILLO deben reflejarse en el borrador.",
+      "fuente_verificacion": "edu_output.viability_check.checks[0]; donna_output.formal_review.checks[8].valor_estrategico; jess_output_v2 (ausencia de defensa)",
+      "impacto": "Alto: la defensa existe (aunque débil) y tiene valor táctico para ganar tiempo procesal. Al no incluirla, se pierde una herramienta defensiva identificada por el pipeline.",
+      "accion_recomendada": "Agregar en la sección de excepciones previas o como defensa subsidiaria la irregularidad de la citación solicitada por el actor en lugar del asegurado, con análisis de la jurisprudencia local sobre el punto."
+    },
+    {
+      "id": "LOU-004",
+      "severidad": "media",
+      "categoria": "completitud",
+      "titulo": "Negativa general del art. 356 inc. 1 CPCyCN no figura como sección autónoma",
+      "detalle": "No existe párrafo autónomo de negativa general en el borrador. Los hechos 1-26 están cubiertos pero la fórmula de negativa general es necesaria como sección independiente.",
+      "fuente_verificacion": "jess_output_v2.negativas_especificas; jess_output_v2.petitorio",
+      "impacto": "Medio: posible argumento del actor respecto de hechos no específicamente contestados.",
+      "accion_recomendada": "Incluir párrafo autónomo de negativa general (art. 356 inc. 1 CPCyCN) antes de las negativas específicas."
+    },
+    {
+      "id": "LOU-005",
+      "severidad": "media",
+      "categoria": "juridica",
+      "titulo": "Citas jurisprudenciales 'Martínez de Costa c/ Vallejos' y 'Aimar c/ Molina' no verificables",
+      "detalle": "Misma situación que en los casos 173bfb04 y 067f03e8. Las citas de estos dos precedentes CSJN en la sección oponibilidad no pueden verificarse contra RAG disponibles.",
+      "fuente_verificacion": "jess_output_v2.oponibilidad; colección RAG jurisprudencia CSJN (no verificable)",
+      "impacto": "Moderado. La defensa de oponibilidad tiene respaldo suficiente en Flores c/ Giménez y Buffoni c/ Castro.",
+      "accion_recomendada": "Verificar antes de presentar. Eliminar si no se confirman."
+    },
+    {
+      "id": "LOU-006",
+      "severidad": "baja",
+      "categoria": "juridica",
+      "titulo": "Art. 1109 CC (Código Civil derogado) en jurisprudencia del actor — no impugnado en borrador",
+      "detalle": "Donna señala que la demanda del actor cita arts. 1083, 1109, 1113 del Código Civil derogado junto con normas del CCC. Jess no señala este punto en ninguna de sus negativas o impugnaciones. Si bien no invalida la demanda, señalarlo en la contestación podría reforzar la argumentación de Jess sobre que los fundamentos normativos del actor son inconsistentes.",
+      "fuente_verificacion": "donna_output.document_summary.notas[1]; jess_output_v2 (ausencia de señalamiento)",
+      "impacto": "Bajo. Elemento táctico opcional.",
+      "accion_recomendada": "Considerar agregar en la impugnación de fundamentos del derecho el señalamiento de que el actor invoca normas del Código Civil derogado (arts. 1083, 1109, 1113 CC) junto con normas del CCC vigente, lo que genera un fundamento normativo híbrido inadecuado."
+    }
+  ],
+  "inconsistencias_cross_agent": [
+    {
+      "descripcion": "Edu y Donna identificaron valor estratégico en la irregularidad de la citación en garantía (solicitada por el actor, no por el asegurado). Jess no desarrolla esta defensa en el borrador.",
+      "agentes_involucrados": ["edu", "donna", "jess"],
+      "severidad": "alta"
+    }
+  ],
+  "errores_criticos": [
+    "Placeholder '[N° PÓLIZA — A COMPLETAR]' en sección de póliza — el borrador es literalmente incompleto sin este dato. No puede presentarse en este estado."
+  ],
+  "datos_no_verificables": [
+    "Número de póliza Libra para vehículo AC420HD (no figura en la demanda, requiere expediente de siniestros)",
+    "Martínez de Costa c/ Vallejos CSJ 1319/2008 — cita jurisprudencial en sección oponibilidad",
+    "Aimar c/ Molina Expte. 31171/2012 — cita jurisprudencial en sección oponibilidad"
+  ],
+  "instrucciones_para_jess": [
+    {
+      "prioridad": 1,
+      "hallazgo_id": "LOU-001",
+      "instruccion": "BLOQUEANTE. Obtener número de póliza Libra para vehículo AC420HD del expediente de siniestros. Si no se obtiene antes de la presentación, desarrollar en el escrito la impugnación de la citación en garantía por falta de acreditación de la póliza (art. 118 Ley 17.418)."
+    },
+    {
+      "prioridad": 2,
+      "hallazgo_id": "LOU-003",
+      "instruccion": "Incorporar argumento de irregularidad de la citación en garantía solicitada por el actor (no por el asegurado Andreu). Desarrollarlo como excepción subsidiaria o argumento de defensa."
+    },
+    {
+      "prioridad": 3,
+      "hallazgo_id": "LOU-002",
+      "instruccion": "Agregar referencia al art. 347 inc. 6 CPCyCN en la excepción de prescripción."
+    },
+    {
+      "prioridad": 4,
+      "hallazgo_id": "LOU-004",
+      "instruccion": "Incluir párrafo autónomo de negativa general (art. 356 inc. 1 CPCyCN) antes de las negativas específicas."
+    }
+  ],
+  "notas_para_abogado": [],
+  "_metadata": {
+    "skills_aplicados": ["review-consistency-ar v1.0", "review-normative-risk-ar v1.0"],
+    "timestamp": "2026-03-23T20:44:00-03:00",
+    "run_numero": 1,
+    "es_segunda_iteracion": false
+  }
+}
