@@ -357,6 +357,74 @@ def sec_prueba(doc, d, n):
             body(doc, items, indent=0.5)
 
 
+def sec_oponibilidad(doc, d, n):
+    opon = d.get("oponibilidad", "")
+    if not opon:
+        return n
+    section_title(doc, "OPONIBILIDAD DE LAS CLÁUSULAS DE SEGURO", numero=to_roman(n))
+    # Split into paragraphs if it's a long text
+    if isinstance(opon, str):
+        for para_text in opon.split("\n\n"):
+            if para_text.strip():
+                body(doc, para_text.strip())
+    elif isinstance(opon, list):
+        for item in opon:
+            body(doc, str(item))
+    return n + 1
+
+
+def sec_defensa_juicio(doc, d, n):
+    dj = d.get("defensa_juicio_asegurado", "")
+    if not dj:
+        return n
+    section_title(doc, "DEFENSA EN JUICIO DEL ASEGURADO", numero=to_roman(n))
+    body(doc, str(dj))
+    return n + 1
+
+
+def sec_impugnacion_documental(doc, d, n):
+    docs_list = d.get("impugnacion_documental", [])
+    if not docs_list:
+        return n
+    section_title(doc, "DESCONOCE DOCUMENTAL", numero=to_roman(n))
+    body(doc,
+        "En los términos del artículo 356 inciso 1° del Código Procesal Civil y Comercial, "
+        "mi parte desconoce expresa y formalmente, por no constarle su autenticidad, veracidad, "
+        "origen, integridad, fecha cierta ni correspondencia con el hecho de autos, toda la "
+        "documentación acompañada por la actora. En particular, niego y desconozco:")
+    for item in docs_list:
+        if isinstance(item, dict):
+            desc = item.get("documento", item.get("descripcion", str(item)))
+        else:
+            desc = str(item)
+        body(doc, f"• {desc}", indent=0.5, space_after=3)
+    return n + 1
+
+
+def sec_impugnacion_montos(doc, d, n):
+    rubros = d.get("impugnacion_montos", [])
+    if not rubros:
+        return n
+    section_title(doc, "IMPUGNACIÓN DE MONTOS RECLAMADOS", numero=to_roman(n))
+    body(doc,
+        "Sin perjuicio de la negativa general, y para el hipotético e improbable supuesto de "
+        "que se admitiera parcialmente la pretensión, esta parte impugna los montos reclamados "
+        "por los siguientes rubros:")
+    for rubro in rubros:
+        if isinstance(rubro, dict):
+            nombre = rubro.get("rubro", "")
+            monto = rubro.get("monto_reclamado", "")
+            imp = rubro.get("impugnacion", "")
+            p = _para(doc, space_before=4, space_after=4, left_indent=0.5)
+            _run(p, f"{nombre}", bold=True)
+            if monto:
+                _run(p, f" ({monto})")
+            _run(p, f": {imp}")
+        else:
+            body(doc, str(rubro), indent=0.5)
+    return n + 1
+
+
 def sec_reserva_federal(doc, n):
     section_title(doc, "RESERVA DEL CASO FEDERAL", numero=to_roman(n))
     body(doc,
@@ -397,7 +465,20 @@ def build_contestacion(data: dict, output_path: str):
     sec_objeto(doc, data, n); n += 1
     sec_poliza(doc, data, n); n += 1
     sec_asume_cobertura(doc, data, n); n += 1
+    # Oponibilidad (si existe)
+    if data.get("oponibilidad"):
+        n = sec_oponibilidad(doc, data, n)
+
+    # Defensa en juicio del asegurado (si existe)
+    if data.get("defensa_juicio_asegurado"):
+        n = sec_defensa_juicio(doc, data, n)
+
     sec_negativa_general(doc, n); n += 1
+
+    # Impugnación documental (antes de negativas específicas)
+    if data.get("impugnacion_documental"):
+        n = sec_impugnacion_documental(doc, data, n)
+
     sec_negativas_especificas(doc, data, n); n += 1
 
     if data.get("excepciones_previas"):
@@ -405,6 +486,10 @@ def build_contestacion(data: dict, output_path: str):
 
     if data.get("defensas_fondo"):
         n = sec_defensas_fondo(doc, data, n)
+
+    # Impugnación de montos (después de defensas)
+    if data.get("impugnacion_montos"):
+        n = sec_impugnacion_montos(doc, data, n)
 
     sec_prueba(doc, data, n); n += 1
     sec_reserva_federal(doc, n); n += 1
