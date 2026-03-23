@@ -213,6 +213,10 @@ Extraé toda la prueba que ofrece el actor. Esto lo necesita `risk-assessment-ar
 | monto_estimativo | boolean | Si el actor usa "o lo que en más o en menos resulte" |
 | rubros | lista de objetos | Ver detalle abajo |
 | intereses | objeto o null | Tipo de tasa solicitada y desde cuándo |
+#### Consolidación del monto total
+
+Si la demanda declara un monto total explícito, usar ese valor. Si no lo declara pero los rubros individuales están identificados con montos numéricos, CALCULAR el total sumando los montos de los rubros extraídos y registrarlo en `monto_reclamado.total`. Si ningún rubro tiene monto numérico, usar `null` pero NUNCA dejar `total: null` cuando hay rubros con montos — consolidar siempre.
+
 | solicitud_astreintes | objeto o null | `{ tiene: boolean, detalle: string }` — si el actor pide astreintes, con el monto o porcentaje si se especifica |
 | solicitud_tasa_interes | objeto o null | `{ tipo_tasa, entidad_referencia, desde }` — tipo de tasa, entidad de referencia (Bco. Provincia, BNA, etc.) y desde cuándo corren |
 

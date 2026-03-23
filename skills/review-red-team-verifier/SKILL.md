@@ -164,6 +164,17 @@ Un error crítico en cualquier categoría con peso >= 10% reduce el score a < 70
 | instrucciones_correccion | string o null | Si es corregir_y_reenviar, qué debe corregirse y en qué orden |
 | overall_confidence | ConfidenceLevel | high / medium / low |
 
+### Valores permitidos para `resultado`
+
+El campo `resultado` DEBE ser exactamente uno de estos 4 valores en minúsculas snake_case. No usar variantes, mayúsculas ni espacios:
+
+- `aprobar` — el documento pasa a revisión humana sin correcciones
+- `corregir_y_reenviar` — el documento tiene problemas corregibles, devolver a Jess con instrucciones (máximo 1 vez)
+- `rechazar_y_rehacer` — problemas estructurales, revisión humana directa
+- `escalar_a_humano` — falta evidencia crítica o ambigüedad no resoluble
+
+NUNCA usar: "APROBADO", "APROBADO_CON_CONDICIONANTES", "APROBADO CON CORRECCIONES", "aprobado con correcciones", ni ninguna otra variante.
+
 ## Normativa de referencia
 
 - **CPCyCN** (colección RAG: `cpcycn`):

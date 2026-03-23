@@ -216,8 +216,21 @@ Si no hay fallecimiento o los datos no figuran en la demanda: `victima = null`.
 
 | Campo | Tipo | Descripción |
 |-------|------|-------------|
-| overall_confidence | ConfidenceLevel | high / medium / low |
+| overall_confidence | float (0.0–1.0) | Confianza global del procesamiento |
 | notas | lista de strings | Observaciones que no encajan en otros campos |
+
+`overall_confidence` DEBE ser un float entre 0.0 y 1.0 (ej: 0.88, 0.72). NUNCA usar strings como "high", "medium" o "low". El sistema downstream parsea este campo como número.
+
+Mapeo de referencia: high = 0.85-1.0, medium = 0.65-0.84, low = 0.0-0.64
+
+#### Detección de PDF escaneado
+
+Si el texto extraído del PDF tiene menos de 500 caracteres significativos o muestra signos de OCR (caracteres mal reconocidos, saltos de línea erráticos, palabras truncadas), marcar:
+- `pdf_tipo: "imagen_ocr"` en el output
+- Reducir `overall_confidence` base en 0.15 (ej: si sería 0.88, poner 0.73)
+- Agregar a `señales_atencion`: `{"tipo": "pdf_ocr", "descripcion": "PDF escaneado procesado por OCR — calidad de extracción reducida", "gravedad": "media", "confianza": 0.7}`
+
+Si el texto es nativo (PDF con texto embebido), marcar `pdf_tipo: "nativo"`.
 
 ### Ejemplo de output (JSON)
 
