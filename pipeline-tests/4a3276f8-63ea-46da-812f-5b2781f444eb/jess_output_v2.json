@@ -1,0 +1,327 @@
+{
+  "tipo_escrito": "CONTESTA DEMANDA CITADA EN GARANTÍA – OFRECE PRUEBA",
+  "tipo_intervencion": "citación en garantía",
+  "letrado": {
+    "nombre": "[NOMBRE — A COMPLETAR]",
+    "tomo": "__",
+    "folio": "__",
+    "cuit": "[CUIT — A COMPLETAR]",
+    "mail": "[MAIL — A COMPLETAR]",
+    "cuit_electronico": "[CUIT — A COMPLETAR]"
+  },
+  "caratula": "ALIAGA QUISPE VÍCTOR RAÚL Y ESPINOZA AYALA SHARON LISSET C/ ANDREU CARLOS ALBERTO Y OTRO S/ DAÑOS Y PERJUICIOS",
+  "expediente": "[N° EXPEDIENTE — A COMPLETAR]",
+  "fecha_notificacion": "[FECHA NOTIFICACIÓN — A COMPLETAR]",
+  "fecha_vencimiento": "[FECHA VENCIMIENTO — A COMPLETAR]",
+  "poliza": {
+    "numero": "[N° PÓLIZA — A COMPLETAR]",
+    "vehiculo": "VOLKSWAGEN SURAN 1.6 SEDAN 5 PUERTAS",
+    "dominio": "AC420HD",
+    "asegurado": "ANDREU CARLOS ALBERTO",
+    "vigencia_desde": "[VIGENCIA DESDE — A COMPLETAR]",
+    "vigencia_hasta": "[VIGENCIA HASTA — A COMPLETAR]",
+    "limite": "[LÍMITE DE COBERTURA — A COMPLETAR]"
+  },
+  "oponibilidad": "### OPONIBILIDAD DE LAS CLÁUSULAS DEL CONTRATO DE SEGURO\n\nLa póliza de seguro es un contrato indivisible. Sus cláusulas — condiciones generales, particulares y especiales — forman un todo unitario que no puede ser fragmentado para beneficiar selectivamente a una parte. El tercero damnificado que acciona contra la aseguradora en los términos del art. 118 de la Ley de Seguros (Ley 17.418) no adquiere más derechos que los que tiene el asegurado frente a su asegurador; el límite de la obligación de la aseguradora es siempre \"en la medida del seguro\".\n\nArt. 118 Ley 17.418: \"El damnificado puede citar en garantía al asegurador hasta que se reciba la causa a prueba. En tal caso debe interponer la demanda ante el juez del lugar del hecho o del domicilio del asegurador. El asegurador puede hacer valer todas las defensas que tenga contra el asegurado. La sentencia que se dicte hará cosa juzgada respecto del asegurador y será ejecutable contra él en la medida del seguro.\"\n\nEsta limitación no es una cláusula abusiva ni una restricción de derechos; es la esencia misma del contrato de seguro y la condición bajo la cual la aseguradora prestó su consentimiento (CCyCN arts. 957, 959, 1021 y 1022). Pretender que la aseguradora responda más allá del límite contratado importaría violar el principio de autonomía de la voluntad (art. 957 CCyCN), el derecho de propiedad (CN art. 17) y el principio de razonabilidad (CN art. 28).\n\nJurisprudencia de la Corte Suprema de Justicia de la Nación:\n\nLa CSJN ha establecido en forma reiterada y pacífica que las cláusulas del contrato de seguro son oponibles al tercero damnificado:\n\n- \"Flores c/ Giménez\" — CSJ 678/2013 (49-F)/CS1, sentencia del 6 de junio de 2017: la Corte reafirmó que la condena a la aseguradora no puede exceder el límite de cobertura pactado en la póliza, pues el tercero no puede tener más derechos que el propio asegurado. El seguro obligatorio no convierte a la aseguradora en garante ilimitado de cualquier condena.\n\n- \"Martínez de Costa c/ Vallejos\" — CSJ 1319/2008: la Corte sostuvo que las cláusulas limitativas del contrato de seguro son plenamente oponibles al tercero damnificado, en tanto la aseguradora sólo asume la obligación en la medida de lo contratado.\n\n- \"Buffoni c/ Castro\" — Fallos: 337:329 (2014): la Corte, con remisión al dictamen del Procurador General, confirmó que la franquicia pactada en el contrato de seguro es oponible al tercero damnificado y que la aseguradora no puede ser condenada más allá del límite convenido.\n\n- \"Álvarez c/ Moscatelli\" — CIV 1728/2017/CS1, sentencia del 14 de diciembre de 2023: la Corte ratificó su doctrina de oponibilidad de los límites contractuales de cobertura frente a terceros damnificados, rechazando el argumento de que el seguro obligatorio impone cobertura ilimitada.\n\n- \"Aimar c/ Molina\" — Expte. 31171/2012, sentencia del 24 de abril de 2018: la Corte reiteró que la sentencia de condena a la aseguradora debe circunscribirse a los términos y límites del contrato de seguro, sin que pueda ser extendida más allá de lo pactado.\n\nMarco normativo aplicable:\n\n- Ley 17.418 (Ley de Seguros): arts. 109-120 (seguro de responsabilidad civil), art. 118 (citación en garantía y límite \"en la medida del seguro\").\n- Ley 20.091 (Ley de Entidades Aseguradoras): arts. 1, 23-26, 64 y 67.\n- Ley 24.449 (Ley de Tránsito): art. 68 (seguro obligatorio). El seguro obligatorio impone la contratación de un piso mínimo de cobertura, no una cobertura ilimitada.\n- CCyCN: arts. 957, 959, 1021 y 1022.\n- Constitución Nacional: arts. 17 y 28.\n\nConclusión:\n\nPor todo lo expuesto, solicito a V.S. que, en caso de condenar a mi representada, la sentencia se haga extensiva a LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A. sólo hasta el límite de cobertura pactado en la póliza, conforme lo establece el art. 118 de la Ley 17.418 y la doctrina reiterada de la Corte Suprema de Justicia de la Nación. Cualquier condena que exceda ese límite será, respecto de mi representada, de cumplimiento imposible y contraria a derecho, sin perjuicio de los derechos que correspondan a los actores frente al asegurado.",
+  "defensa_juicio_asegurado": "### DEFENSA EN JUICIO DEL ASEGURADO\n\nDe conformidad con lo establecido por la cláusula tercera de la Póliza Básica del Seguro Obligatorio de Responsabilidad Civil, en caso de que el Asegurado y/o Conductor del vehículo asegurado asuman su defensa en juicio sin darle noticia oportuna a mi representada para que éste la asuma, los honorarios de los letrados de éstos quedarán a su exclusivo cargo de los mismos.",
+  "negativas_especificas": [
+    {
+      "hecho_numero": 1,
+      "hecho_original": "El 1 de octubre de 2024 alrededor de las 13.30 hs. el Sr. Aliaga Quispe conducía la motocicleta Okinoi 110 dominio A204CWH por la Av. San Juan (primer carril izquierdo) hacia la intersección con la calle Pasco, CABA.",
+      "negativa": "Niego que el co-actor Aliaga Quispe haya conducido la motocicleta dominio A204CWH por la Av. San Juan en las circunstancias, carril y sentido que describe la demanda, o que lo hiciera con la diligencia y observancia de las normas de tránsito que se le atribuye."
+    },
+    {
+      "hecho_numero": 2,
+      "hecho_original": "El demandado Andreu conducía su vehículo VW Suran 1.6 dominio AC420HD por la Av. San Juan en el carril derecho y, repentinamente, ingresó al carril izquierdo para doblar en la calle Pasco, colisionando con su lateral izquierdo en la parte frontal de la motocicleta.",
+      "negativa": "Niego que el asegurado Andreu haya realizado un cambio de carril intempestivo e injustificado ni que haya colisionado con la motocicleta de la forma y en las circunstancias que describe la demanda. La mecánica del accidente queda sujeta íntegramente a la producción de la prueba pericial mecánica."
+    },
+    {
+      "hecho_numero": 3,
+      "hecho_original": "Como consecuencia del impacto el Sr. Aliaga Quispe cayó al pavimento, sufriendo distintos traumatismos, en especial en el codo izquierdo.",
+      "negativa": "Niego que el co-actor Aliaga Quispe haya sufrido los traumatismos que describe la demanda como consecuencia directa y exclusiva del presunto accidente, o que la caída se haya producido en las circunstancias relatadas."
+    },
+    {
+      "hecho_numero": 4,
+      "hecho_original": "El mismo día fue atendido en la guardia del Hospital General de Agudos J.M. Ramos Mejía, recetándole analgésicos, reposo y crioterapia.",
+      "negativa": "Niego que la atención médica en el Hospital Ramos Mejía haya sido consecuencia directa y exclusiva del presunto accidente en los términos que describe la demanda. La autenticidad y contenido de la constancia de atención quedan sujetos a la prueba informativa ofrecida por los propios actores."
+    },
+    {
+      "hecho_numero": 5,
+      "hecho_original": "El actor no pudo cumplir con sus actividades de delivery por dos meses como consecuencia del accidente.",
+      "negativa": "Niego que el co-actor Aliaga Quispe haya visto impedida su actividad laboral de delivery por dos meses como consecuencia directa y exclusiva del presunto accidente, o que su ingreso mensual sea de $700.000 de la manera que se afirma sin acreditación documental alguna. Todo ello queda sujeto a la producción de la prueba pertinente."
+    },
+    {
+      "hecho_numero": 6,
+      "hecho_original": "Actualmente el Sr. Aliaga Quispe sufre dolores en su codo izquierdo dependiendo de los movimientos que realice.",
+      "negativa": "Niego que el co-actor Aliaga Quispe presente dolores en su codo izquierdo como consecuencia directa y exclusiva del presunto accidente, o que dicha sintomatología persista en la actualidad con la entidad que describe la demanda. El estado de salud actual del actor debe ser determinado por el perito médico."
+    },
+    {
+      "hecho_numero": 7,
+      "hecho_original": "El actor sufre desde el accidente estrés postraumático, desgano, irritabilidad, angustia, ansiedad e insomnio, encontrándose alterada su capacidad psíquica.",
+      "negativa": "Niego que el co-actor Aliaga Quispe presente la sintomatología psicológica que describe la demanda como consecuencia directa y exclusiva del presunto accidente. La existencia y entidad del daño psicológico deben ser determinadas por el perito psicólogo."
+    },
+    {
+      "hecho_numero": 8,
+      "hecho_original": "La motocicleta de la co-actora Espinoza Ayala, adquirida 0 km en diciembre de 2023, sufrió distintos daños en el accidente (cristo inferior, barrales, llanta, manubrio, apoyapié, pedal, cubre piernas, pechera, óptica, cubre óptica, soporte, bomba de freno, manija, escape y espejos).",
+      "negativa": "Niego que la motocicleta dominio A204CWH haya sufrido los daños que describe la demanda como consecuencia directa y exclusiva del presunto accidente, o que los mismos sean de la extensión y magnitud que se pretende. La determinación de los daños reales al rodado queda sujeta a la producción de la prueba pericial mecánica."
+    },
+    {
+      "hecho_numero": 9,
+      "hecho_original": "El costo de reparación de la motocicleta asciende a $1.137.900 conforme presupuesto adjunto.",
+      "negativa": "Niego que el costo de reparación de la motocicleta ascienda a la suma de $1.137.900, o que el presupuesto acompañado refleje el valor de mercado de las reparaciones y corresponda exclusivamente a daños derivados del presunto accidente. El valor real de reparación deberá ser determinado por el perito mecánico."
+    },
+    {
+      "hecho_numero": 10,
+      "hecho_original": "La incapacidad física del co-actor Aliaga Quispe es del 5%.",
+      "negativa": "Niego que el porcentaje de incapacidad física del co-actor Aliaga Quispe sea del 5% o cualquier otro valor que no resulte de la producción de la prueba pericial médica, y niego que ese porcentaje guarde relación causal adecuada con el presunto accidente en los términos que describe la demanda."
+    },
+    {
+      "hecho_numero": 11,
+      "hecho_original": "La incapacidad psíquica del co-actor Aliaga Quispe es del 5%.",
+      "negativa": "Niego que el porcentaje de incapacidad psíquica del co-actor Aliaga Quispe sea del 5% o cualquier otro valor que no resulte de la producción de la prueba pericial psicológica, y niego que ese porcentaje guarde relación causal adecuada con el presunto accidente."
+    },
+    {
+      "hecho_numero": 12,
+      "hecho_original": "El demandado Andreu violó los arts. 39 y 64 de la Ley de Tránsito 24.449 al realizar el cambio de carril sin precaución.",
+      "negativa": "Niego que el asegurado Andreu haya obrado en infracción a la Ley Nacional de Tránsito N° 24.449, y en particular que haya violado los arts. 39 y 64 de dicha norma en las condiciones y magnitud que se alega. La conducta del asegurado queda sujeta a la evaluación de la prueba pericial mecánica."
+    },
+    {
+      "hecho_numero": 13,
+      "hecho_original": "El co-actor Aliaga reclama $2.500.000 por incapacidad sobreviniente.",
+      "negativa": "Niego que la incapacidad sobreviniente del co-actor Aliaga justifique una indemnización de $2.500.000, o que dicho monto guarde relación razonable con el porcentaje de incapacidad declarado (5% físico) y las circunstancias personales del actor. El monto resulta excesivo y queda sujeto a la producción de la prueba pericial médica."
+    },
+    {
+      "hecho_numero": 14,
+      "hecho_original": "El co-actor Aliaga reclama $2.500.000 por daño psicológico.",
+      "negativa": "Niego que el daño psicológico del co-actor Aliaga justifique una indemnización de $2.500.000, o que dicho monto guarde relación razonable con el porcentaje de incapacidad psíquica declarado (5%). El monto resulta excesivo y queda sujeto a la producción de la prueba pericial psicológica."
+    },
+    {
+      "hecho_numero": 15,
+      "hecho_original": "El co-actor Aliaga reclama $1.680.000 por tratamiento psicológico (1 sesión por semana durante un año a $35.000 la sesión).",
+      "negativa": "Niego que el co-actor Aliaga requiera un tratamiento psicológico de 52 sesiones anuales al costo de $35.000 por sesión, o que dicha necesidad haya sido determinada por un profesional de la salud. El tratamiento y su costo deben ser indicados por el perito psicólogo que se designe en el proceso."
+    },
+    {
+      "hecho_numero": 16,
+      "hecho_original": "El co-actor Aliaga reclama $3.000.000 por daño moral.",
+      "negativa": "Niego que el co-actor Aliaga haya sufrido un daño moral de la intensidad y entidad que justifique la reparación de $3.000.000. El daño moral debe ser efectivamente probado y su quantum debe guardar razonable proporción con las circunstancias concretas del caso, sin que pueda establecerse como un múltiplo fijo de la incapacidad."
+    },
+    {
+      "hecho_numero": 17,
+      "hecho_original": "El co-actor Aliaga reclama $200.000 por gastos no documentados (farmacia, traslados y médicos).",
+      "negativa": "Niego que el co-actor Aliaga haya erogado gastos no documentados por la suma de $200.000 como consecuencia directa del presunto accidente. La falta de documentación respaldatoria impide verificar la realidad y cuantía de los mismos."
+    },
+    {
+      "hecho_numero": 18,
+      "hecho_original": "El co-actor Aliaga reclama $1.400.000 por lucro cesante (2 meses de ingresos a $700.000 mensuales como delivery).",
+      "negativa": "Niego que el co-actor Aliaga Quispe percibiera ingresos mensuales de $700.000 como trabajador de delivery al momento del presunto accidente, o que haya visto impedida su actividad laboral por los dos meses que reclama. Los ingresos del actor y el tiempo de inactividad deben ser debidamente acreditados con documentación fehaciente."
+    },
+    {
+      "hecho_numero": 19,
+      "hecho_original": "La co-actora Espinoza reclama $1.137.900 por daños al rodado conforme presupuesto adjunto.",
+      "negativa": "Niego que los daños al rodado de la co-actora Espinoza asciendan a la suma de $1.137.900, o que el presupuesto acompañado de Moto Extreme (Av. Pueyrredón 935, CABA) refleje los valores de plaza y corresponda exclusivamente a daños derivados del presunto accidente. El valor real de reparación deberá ser determinado por el perito mecánico."
+    },
+    {
+      "hecho_numero": 20,
+      "hecho_original": "La co-actora Espinoza reclama $140.000 por desvalorización del rodado.",
+      "negativa": "Niego que la motocicleta de la co-actora Espinoza haya sufrido una desvalorización venal de $140.000 como consecuencia del presunto accidente, o que ese monto se corresponda con el deterioro efectivo del valor de reventa del rodado. La desvalorización venal debe ser determinada por el perito mecánico."
+    },
+    {
+      "hecho_numero": 21,
+      "hecho_original": "La co-actora Espinoza reclama $1.000.000 por privación de uso de la motocicleta.",
+      "negativa": "Niego que la co-actora Espinoza haya sufrido una privación de uso de su motocicleta por el tiempo y en las condiciones que describe la demanda, o que la misma le haya irrogado un perjuicio real equivalente a la suma de $1.000.000. La privación de uso debe ser acreditada con la duración efectiva de la inmovilización del rodado y los gastos de sustitución realmente erogados."
+    },
+    {
+      "hecho_numero": 22,
+      "hecho_original": "En fecha 31/03/25 se celebró la mediación prejudicial obligatoria sin acuerdo.",
+      "negativa": "Se desconoce el contenido de la mediación prejudicial en los términos que describe la demanda, o que la misma haya transcurrido con el resultado que se pretende hacer valer. Se reserva el derecho de requerir informativa a la mediadora interviniente para verificar las tratativas y posiciones de las partes."
+    },
+    {
+      "hecho_numero": 23,
+      "hecho_original": "El actor Aliaga Quispe circulaba reglamentariamente por el primer carril izquierdo de la Av. San Juan al momento del presunto accidente.",
+      "negativa": "Niego que el co-actor Aliaga Quispe circulara estrictamente en el carril que describe, o que lo hiciera con la diligencia y cumplimiento de las normas de tránsito que se le atribuye. La conducta del actor al momento del presunto siniestro queda sujeta a la producción de la prueba pericial mecánica."
+    },
+    {
+      "hecho_numero": 24,
+      "hecho_original": "La responsabilidad del demandado es exclusiva y deriva de haber ingresado al carril izquierdo sin advertencia ni precaución.",
+      "negativa": "Niego que la responsabilidad por el presunto accidente sea exclusiva del demandado Andreu, o que no existan causas concurrentes o ajenas que hayan contribuido a la producción del evento. En particular, niego que la conducta del co-actor Aliaga no haya influido de modo alguno en la producción del siniestro."
+    },
+    {
+      "hecho_numero": 25,
+      "hecho_original": "El demandado Andreu es el titular y conductor del vehículo VW Suran dominio AC420HD causante del daño.",
+      "negativa": "Niego que el asegurado Andreu sea el responsable civil exclusivo del evento de autos en los términos que describe la demanda, reservándose el derecho de requerir la informativa pertinente a la DNRPA para verificar la titularidad registral del vehículo dominio AC420HD a la fecha del presunto siniestro."
+    },
+    {
+      "hecho_numero": 26,
+      "hecho_original": "La responsabilidad de la aseguradora Libra deriva del art. 118 de la Ley 17.418 como aseguradora del vehículo AC420HD.",
+      "negativa": "Niego que la responsabilidad de mi representada sea la que describe la demanda, o que resulten inoponibles las cláusulas contractuales de la póliza de seguros. Las cláusulas del contrato de seguro — incluida la franquicia y el límite de cobertura — son oponibles al tercero damnificado conforme la doctrina reiterada de la CSJN (Flores c/ Giménez, CSJ 678/2013, 6/6/2017 y concordantes)."
+    }
+  ],
+  "impugnacion_documental": [
+    {
+      "documento": "DNI de los actores Aliaga Quispe y Espinoza Ayala",
+      "impugnacion": "Se desconoce la autenticidad de las fotocopias de los DNI de los actores acompañadas en copia, reservándose el derecho de impugnarlas en caso de que su contenido resulte relevante para las defensas de esta parte."
+    },
+    {
+      "documento": "Cédula de la motocicleta Okinoi 110 dominio A204CWH",
+      "impugnacion": "Se desconoce la autenticidad de la cédula de la motocicleta acompañada. Se reserva el derecho de requerir informativa a la DNRPA para verificar la titularidad del rodado y su estado registral al momento del presunto siniestro."
+    },
+    {
+      "documento": "DNI y licencia de conducir del demandado Andreu",
+      "impugnacion": "Se desconoce la autenticidad de las copias del DNI y licencia de conducir del demandado acompañadas."
+    },
+    {
+      "documento": "Cédula del vehículo VW Suran dominio AC420HD",
+      "impugnacion": "Se desconoce la autenticidad de la cédula del vehículo demandado acompañada. Se reserva el derecho de requerir informativa a la DNRPA."
+    },
+    {
+      "documento": "Siete fotografías de la motocicleta",
+      "impugnacion": "Se desconoce la autenticidad de las fotografías acompañadas. Niego que las mismas correspondan al estado de la motocicleta inmediatamente después del presunto accidente, o que reflejen fielmente los daños cuya reparación se reclama. La determinación de los daños queda sujeta a la pericia mecánica."
+    },
+    {
+      "documento": "Licencia de conducir del actor Aliaga Quispe",
+      "impugnacion": "Se desconoce la autenticidad de la copia de licencia de conducir del co-actor. Se reserva el derecho de requerir informativa al Registro de Licencias correspondiente para verificar su vigencia y habilitación para conducir la motocicleta al momento del presunto siniestro."
+    },
+    {
+      "documento": "Acta de cierre de mediación prejudicial obligatoria",
+      "impugnacion": "Se desconoce la autenticidad del acta de mediación acompañada en copia. Se reserva el derecho de requerir informativa a la mediadora interviniente para verificar su autenticidad y el contenido de las tratativas."
+    },
+    {
+      "documento": "Certificado de cobertura expedido por la Caja de Seguros",
+      "impugnacion": "Se desconoce la autenticidad del certificado de cobertura de la motocicleta de la actora Espinoza. Se reserva el derecho de requerir informativa a la Caja Seguros S.A."
+    },
+    {
+      "documento": "Constancia de atención emitida por el Hospital Ramos Mejía",
+      "impugnacion": "Se desconoce la autenticidad de la constancia de atención médica acompañada en copia. Se reserva el derecho de requerir informativa al Hospital Ramos Mejía para verificar su autenticidad, y que el perito médico evalúe el alcance y correspondencia causal de la atención con el presunto accidente."
+    },
+    {
+      "documento": "Denuncia realizada ante la Caja de Seguros",
+      "impugnacion": "Se desconoce la autenticidad de la denuncia ante la aseguradora de la motocicleta. Niego que la misma implique reconocimiento de responsabilidad alguna por parte de mi representada."
+    },
+    {
+      "documento": "Factura de compra de la motocicleta (Ciudad Moto SRL, Bernardo de Irigoyen 568)",
+      "impugnacion": "Se desconoce la autenticidad de la factura de compra de la motocicleta acompañada. Se reserva el derecho de requerir informativa a Ciudad Moto SRL para verificar su autenticidad."
+    },
+    {
+      "documento": "Informe de dominio del vehículo del demandado",
+      "impugnacion": "Se desconoce la autenticidad del informe de dominio acompañado. Se reserva el derecho de requerir informativa actualizada a la DNRPA."
+    },
+    {
+      "documento": "Presupuesto de reparación de la motocicleta (Moto Extreme, Av. Pueyrredón 935, CABA)",
+      "impugnacion": "Se desconoce la autenticidad del presupuesto de reparación acompañado. Niego que el mismo refleje los daños reales sufridos por la motocicleta como consecuencia directa y exclusiva del presunto siniestro, o que los valores allí consignados sean los de plaza en el momento pertinente. La determinación del costo real de reparación queda sujeta a la pericia mecánica."
+    }
+  ],
+  "excepciones_previas": [
+    {
+      "excepcion": "Prescripción (art. 58 Ley 17.418)",
+      "estado": "A VERIFICAR — requiere confirmación de fechas",
+      "fundamento": "El siniestro ocurrió el 01/10/2024. La demanda fue firmada el 20/10/2025. La mediación prejudicial se celebró el 31/03/2025. El art. 58 de la Ley de Seguros establece un plazo de prescripción de 1 año para las acciones del contrato de seguro. La fecha de inicio de la mediación (que suspende el plazo, art. 18 Ley 26.589) no consta. Si el plazo del art. 58 LS aplica al tercero damnificado (jurisprudencia dividida), verificar si el mismo estaba cumplido al tiempo de inicio de la mediación. ACCIÓN: verificar con el expediente de siniestros.",
+      "riesgo_rechazo": "Alto. La jurisprudencia está dividida entre el plazo de 1 año del art. 58 LS y el de 3 años del art. 2561 CCC para el tercero damnificado."
+    }
+  ],
+  "defensas_fondo": [
+    {
+      "nombre": "Culpa concurrente / hecho de la víctima (art. 1729 CCC)",
+      "texto": "Sin perjuicio de la negativa general de los hechos, y para el improbable supuesto de que V.S. tuviera por acreditado el siniestro en los términos de la demanda, esta parte invoca la culpa concurrente del co-actor Aliaga Quispe. La Av. San Juan es una avenida de importante tránsito en la que los conductores deben extremar las precauciones. El art. 39 inc. b) de la Ley 24.449 impone a todos los conductores circular con cuidado y prevención, conservando en todo momento el dominio efectivo del vehículo. El co-actor Aliaga, conductor de la motocicleta, tenía la obligación de anticipar las maniobras de los demás vehículos. La determinación definitiva de la incidencia causal de cada rodado queda sujeta a la producción de la prueba pericial mecánica."
+    },
+    {
+      "nombre": "Impugnación de montos reclamados",
+      "texto": "Todos y cada uno de los montos reclamados resultan excesivos, improcedentes o insuficientemente fundados: (a) INCAPACIDAD FÍSICA ($2.500.000): el 5% de incapacidad declarado es bajo y los montos reclamados para rubros de incapacidad resultan desproporcionados en relación al grado invocado. (b) DAÑO PSICOLÓGICO ($2.500.000): ídem, el 5% de incapacidad psíquica no justifica el monto reclamado. (c) TRATAMIENTO PSICOLÓGICO ($1.680.000): 52 sesiones anuales a $35.000 sin prescripción médica documentada. (d) DAÑO MORAL ($3.000.000): desproporcionado para las lesiones descriptas (traumatismo de codo, sin cirugía ni internación). (e) LUCRO CESANTE ($1.400.000): no acreditado documentalmente ni en cuanto al ingreso declarado ni en cuanto al tiempo de inactividad. (f) DESVALORIZACIÓN RODADO ($140.000) y PRIVACIÓN DE USO ($1.000.000): montos estimativos sin soporte técnico previo a la pericia."
+    },
+    {
+      "nombre": "Oponibilidad del límite de cobertura (art. 118 Ley 17.418)",
+      "texto": "Conforme lo detallado en la sección de oponibilidad, la condena a mi representada no puede exceder el límite de cobertura pactado en la póliza. La CSJN ha establecido en forma reiterada (Flores c/ Giménez, Buffoni c/ Castro, Álvarez c/ Moscatelli) que las cláusulas del contrato de seguro son oponibles al tercero damnificado. Cualquier diferencia entre el monto de condena y el límite de la póliza deberá ser satisfecha exclusivamente por el asegurado Andreu."
+    }
+  ],
+  "impugnacion_montos": [
+    {
+      "rubro": "Incapacidad sobreviniente — co-actor Aliaga Quispe",
+      "monto_reclamado": "$2.500.000",
+      "impugnacion": "El monto de $2.500.000 reclamado por incapacidad sobreviniente del 5% resulta excesivo en relación al porcentaje declarado. Una incapacidad del 5% sin cirugía, sin internación y con lesión de codo que evoluciona favorablemente no justifica un monto de tal magnitud. El quantum indemnizatorio queda íntegramente sujeto a la pericia médica."
+    },
+    {
+      "rubro": "Daño psicológico — co-actor Aliaga Quispe",
+      "monto_reclamado": "$2.500.000",
+      "impugnacion": "El monto de $2.500.000 reclamado por daño psicológico del 5% resulta desproporcionado. Se señala que se reclama por incapacidad física e incapacidad psíquica por idénticos montos ($2.500.000 cada uno), a pesar de que cada rubro tiene naturaleza y extensión distintas. El quantum queda íntegramente sujeto a la pericia psicológica."
+    },
+    {
+      "rubro": "Tratamiento psicológico — co-actor Aliaga Quispe",
+      "monto_reclamado": "$1.680.000",
+      "impugnacion": "La prescripción de 52 sesiones anuales a $35.000 cada una carece de respaldo en una indicación médica o psicológica previa al litigio. El tratamiento necesario, su duración y su costo actual deben ser determinados por el perito psicólogo designado en el proceso."
+    },
+    {
+      "rubro": "Daño moral — co-actor Aliaga Quispe",
+      "monto_reclamado": "$3.000.000",
+      "impugnacion": "La suma de $3.000.000 es excesiva para lesiones de traumatismo de codo sin internación, sin cirugía y con evolución favorable (el actor retomó su actividad de delivery). El daño moral debe ser acreditado y guardar relación con la entidad objetiva del daño. Se impugna por excesivo."
+    },
+    {
+      "rubro": "Gastos no documentados — co-actor Aliaga Quispe",
+      "monto_reclamado": "$200.000",
+      "impugnacion": "La suma de $200.000 por gastos no documentados carece de respaldo probatorio. Si bien la jurisprudencia admite este rubro en forma moderada, el monto debe guardar proporción con las lesiones sufridas y los tratamientos necesarios. Se impugna por excesivo."
+    },
+    {
+      "rubro": "Lucro cesante — co-actor Aliaga Quispe",
+      "monto_reclamado": "$1.400.000",
+      "impugnacion": "El lucro cesante de $1.400.000 equivale a dos meses de ingresos de $700.000 mensuales como trabajador de delivery, sin que dicho ingreso esté respaldado por declaración impositiva, recibos de sueldo u otro medio fehaciente. Se impugna el monto del ingreso mensual declarado y el tiempo de inactividad invocado por falta de acreditación."
+    },
+    {
+      "rubro": "Daños al rodado — co-actora Espinoza Ayala",
+      "monto_reclamado": "$1.137.900",
+      "impugnacion": "El presupuesto de reparación de Moto Extreme fue confeccionado unilateralmente por la actora. El valor real de reparación deberá ser determinado por el perito mecánico, quien verificará si los daños listados corresponden efectivamente al presunto accidente y si los valores son los de mercado."
+    },
+    {
+      "rubro": "Desvalorización del rodado — co-actora Espinoza Ayala",
+      "monto_reclamado": "$140.000",
+      "impugnacion": "La desvalorización venal de $140.000 es un monto estimativo que queda íntegramente sujeto a la pericia mecánica. No existe fundamento técnico previo para este reclamo."
+    },
+    {
+      "rubro": "Privación de uso — co-actora Espinoza Ayala",
+      "monto_reclamado": "$1.000.000",
+      "impugnacion": "La privación de uso de $1.000.000 resulta excesiva. La actora no acredita los gastos efectivos de transporte alternativo erogados durante el tiempo de inmovilización, ni el tiempo concreto en que el vehículo estuvo fuera de servicio. El rubro debe limitarse a los gastos reales y debidamente probados."
+    }
+  ],
+  "ofrecimiento_prueba": {
+    "documental": [
+      "Poder general para juicios otorgado a favor del letrado interviniente",
+      "Póliza de seguro de Libra Compañía Argentina de Seguros S.A. para el vehículo VW Suran 1.6 dominio AC420HD, asegurado Andreu Carlos Alberto",
+      "Expediente de siniestros de Libra Compañía Argentina de Seguros S.A. correspondiente al siniestro de autos",
+      "Acta de mediación prejudicial obligatoria"
+    ],
+    "informativa": [
+      "A la DIRECCIÓN NACIONAL DEL REGISTRO DE LA PROPIEDAD AUTOMOTOR (DNRPA): que informe la titularidad dominial del vehículo VW Suran 1.6 dominio AC420HD al 01/10/2024 y en forma histórica",
+      "A la DIRECCIÓN NACIONAL DEL REGISTRO DE LA PROPIEDAD AUTOMOTOR (DNRPA): que informe la titularidad dominial de la motocicleta Okinoi 110 dominio A204CWH al 01/10/2024 y si el co-actor Aliaga Quispe se encontraba autorizado a conducirla",
+      "Al HOSPITAL GENERAL DE AGUDOS J.M. RAMOS MEJÍA: que remita copia de la historia clínica y/o constancia de atención en guardia del co-actor Aliaga Quispe (DNI 96.366.381) con motivo del presunto accidente del 01/10/2024",
+      "A MOTO EXTREME (Av. Pueyrredón 935, CABA): que se expida sobre la autenticidad del presupuesto de reparación acompañado como documental",
+      "A CIUDAD MOTO SRL (Bernardo de Irigoyen 568, CABA): que se expida sobre la autenticidad de la factura de compra de la motocicleta acompañada"
+    ],
+    "pericial": [
+      "Pericial accidentológica/mecánica: se solicita que el perito se expida sobre la mecánica del accidente, calidad de embistente/embestido de cada rodado, velocidades de circulación, daños en ambos vehículos, valor de reparación de la motocicleta, tiempo de inmovilización, desvalorización venal y todo otro punto de interés",
+      "Pericial médica: para que evalúe el estado de salud actual del co-actor Aliaga Quispe, las lesiones sufridas como consecuencia del presunto accidente, el porcentaje de incapacidad física y su relación causal con el hecho",
+      "Pericial psicológica: para que evalúe el estado psíquico del co-actor Aliaga Quispe, los eventuales trastornos psicológicos derivados del hecho, el porcentaje de incapacidad psíquica y la necesidad de tratamiento"
+    ],
+    "testimonial": [],
+    "confesional": [
+      "Absolución de posiciones del co-actor Aliaga Quispe, a tenor del pliego que se adjuntará oportunamente",
+      "Absolución de posiciones de la co-actora Espinoza Ayala, a tenor del pliego que se adjuntará oportunamente"
+    ]
+  },
+  "petitorio": {
+    "texto": "Por todo lo expuesto, de V.S. solicito:\na) Se me tenga por presentada en el carácter de citada en garantía, por parte en las presentes actuaciones, y por constituidos los domicilios procesal y electrónico denunciados.\nb) Se tenga por contestada la demanda en tiempo y forma, con la negativa general y particular de los hechos y el derecho invocados por los actores.\nc) Se tenga presente la impugnación de toda la documental acompañada por los actores.\nd) Se tenga presente la excepción de prescripción invocada, con reserva de ampliarla.\ne) Oportunamente, se rechace la demanda en todas sus partes, con expresa imposición de costas a los actores.\nf) En el improbable supuesto de que se hiciera lugar a la demanda, se tenga presente el límite de cobertura pactado en la póliza, limitándose la condena a mi representada a dicho importe, conforme lo establece el art. 118 de la Ley 17.418 y la doctrina reiterada de la Corte Suprema de Justicia de la Nación.\ng) Se tenga por ofrecida la prueba indicada precedentemente.\nh) Se tenga presente la defensa en juicio del asegurado y la consecuente responsabilidad de Andreu por los honorarios de su letrado particular en caso de que haya asumido su propia defensa sin noticia a mi representada."
+  },
+  "secciones_requieren_revision": [
+    "letrado: completar nombre, tomo, folio, CUIT y mail del letrado actuante de Libra",
+    "expediente: completar número de expediente una vez caratulado",
+    "fecha_notificacion: completar con la fecha efectiva de notificación de la citación en garantía a Libra",
+    "fecha_vencimiento: calcular días hábiles desde la notificación según el tipo de proceso (ordinario CPCCN)",
+    "poliza.numero: obtener el número de póliza del expediente de siniestros (no figura en la demanda)",
+    "poliza.vigencia_desde y poliza.vigencia_hasta: verificar vigencia al 01/10/2024",
+    "poliza.limite: verificar suma asegurada y franquicia"
+  ],
+  "notas_para_abogado": [
+    "PÓLIZA: El número de póliza no figura en la demanda. Obtener urgentemente del expediente de siniestros para completar el escrito.",
+    "PORCENTAJES DE INCAPACIDAD: Los actores declaran 5% físico y 5% psíquico para Aliaga pero reclaman $2.500.000 por cada rubro — importes desproporcionados al porcentaje. Este es el argumento central de impugnación de montos.",
+    "LUCRO CESANTE: El ingreso mensual de $700.000 como delivery no tiene respaldo documental. Solicitar en la prueba informativa o confesional que el actor acredite sus ingresos.",
+    "MOTOCICLETA AUTORIZADA: La DNRPA puede informar si el co-actor Aliaga estaba autorizado a conducir la moto de Espinoza, lo cual es relevante para la mecánica del siniestro.",
+    "MEDIACIÓN: La demanda menciona que la mediación fue el 31/03/2025. Verificar la fecha de inicio de la mediación (no solo el cierre) para calcular la suspensión del plazo de prescripción del art. 58 LS.",
+    "CULPA CONCURRENTE: El accidente ocurrió en un carril de avenida con cambio de carril. La pericia mecánica es clave para determinar si hubo conducta del motociclista que contribuyó causalmente."
+  ]
+}

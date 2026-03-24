@@ -1,0 +1,284 @@
+{
+  "tipo_escrito": "CONTESTA DEMANDA CITADA EN GARANTÍA – OFRECE PRUEBA",
+  "tipo_intervencion": "citación en garantía",
+  "letrado": {
+    "nombre": "[NOMBRE — A COMPLETAR]",
+    "tomo": "__",
+    "folio": "__",
+    "cuit": "[CUIT — A COMPLETAR]",
+    "mail": "[MAIL — A COMPLETAR]",
+    "cuit_electronico": "[CUIT — A COMPLETAR]"
+  },
+  "caratula": "KUMAZAWA GUSTAVO GABRIEL Y GAVILÁN GUILLERMO NOEL C/ OLMEDO GONZÁLEZ MARCIAL Y OTRO S/ DAÑOS Y PERJUICIOS (SUMARIO)",
+  "expediente": "[N° EXPEDIENTE — A COMPLETAR]",
+  "fecha_notificacion": "[FECHA NOTIFICACIÓN — A COMPLETAR]",
+  "fecha_vencimiento": "[FECHA VENCIMIENTO — A COMPLETAR]",
+  "poliza": {
+    "numero": "643651",
+    "vehiculo": "FIAT FIORINO",
+    "dominio": "KLR774",
+    "asegurado": "OLMEDO GONZÁLEZ MARCIAL",
+    "vigencia_desde": "[VIGENCIA DESDE — A COMPLETAR]",
+    "vigencia_hasta": "[VIGENCIA HASTA — A COMPLETAR]",
+    "limite": "[LÍMITE DE COBERTURA — A COMPLETAR]"
+  },
+  "oponibilidad": "### OPONIBILIDAD DE LAS CLÁUSULAS DEL CONTRATO DE SEGURO\n\nLa póliza de seguro es un contrato indivisible. Sus cláusulas — condiciones generales, particulares y especiales — forman un todo unitario que no puede ser fragmentado para beneficiar selectivamente a una parte. El tercero damnificado que acciona contra la aseguradora en los términos del art. 118 de la Ley de Seguros (Ley 17.418) no adquiere más derechos que los que tiene el asegurado frente a su asegurador; el límite de la obligación de la aseguradora es siempre \"en la medida del seguro\".\n\nArt. 118 Ley 17.418: \"El damnificado puede citar en garantía al asegurador hasta que se reciba la causa a prueba. En tal caso debe interponer la demanda ante el juez del lugar del hecho o del domicilio del asegurador. El asegurador puede hacer valer todas las defensas que tenga contra el asegurado. La sentencia que se dicte hará cosa juzgada respecto del asegurador y será ejecutable contra él en la medida del seguro.\"\n\nEsta limitación no es una cláusula abusiva ni una restricción de derechos; es la esencia misma del contrato de seguro y la condición bajo la cual la aseguradora prestó su consentimiento (CCyCN arts. 957, 959, 1021 y 1022). Pretender que la aseguradora responda más allá del límite contratado importaría violar el principio de autonomía de la voluntad (art. 957 CCyCN), el derecho de propiedad (CN art. 17) y el principio de razonabilidad (CN art. 28).\n\nJurisprudencia de la Corte Suprema de Justicia de la Nación:\n\nLa CSJN ha establecido en forma reiterada y pacífica que las cláusulas del contrato de seguro son oponibles al tercero damnificado:\n\n- \"Flores c/ Giménez\" — CSJ 678/2013 (49-F)/CS1, sentencia del 6 de junio de 2017: la Corte reafirmó que la condena a la aseguradora no puede exceder el límite de cobertura pactado en la póliza, pues el tercero no puede tener más derechos que el propio asegurado. El seguro obligatorio no convierte a la aseguradora en garante ilimitado de cualquier condena.\n\n- \"Martínez de Costa c/ Vallejos\" — CSJ 1319/2008: la Corte sostuvo que las cláusulas limitativas del contrato de seguro son plenamente oponibles al tercero damnificado, en tanto la aseguradora sólo asume la obligación en la medida de lo contratado.\n\n- \"Buffoni c/ Castro\" — Fallos: 337:329 (2014): la Corte, con remisión al dictamen del Procurador General, confirmó que la franquicia pactada en el contrato de seguro es oponible al tercero damnificado y que la aseguradora no puede ser condenada más allá del límite convenido.\n\n- \"Álvarez c/ Moscatelli\" — CIV 1728/2017/CS1, sentencia del 14 de diciembre de 2023: la Corte ratificó su doctrina de oponibilidad de los límites contractuales de cobertura frente a terceros damnificados, rechazando el argumento de que el seguro obligatorio impone cobertura ilimitada.\n\n- \"Aimar c/ Molina\" — Expte. 31171/2012, sentencia del 24 de abril de 2018: la Corte reiteró que la sentencia de condena a la aseguradora debe circunscribirse a los términos y límites del contrato de seguro, sin que pueda ser extendida más allá de lo pactado.\n\nMarco normativo aplicable:\n\n- Ley 17.418 (Ley de Seguros): arts. 109-120 (seguro de responsabilidad civil), art. 118 (citación en garantía y límite \"en la medida del seguro\").\n- Ley 20.091 (Ley de Entidades Aseguradoras): arts. 1, 23-26, 64 y 67. El Estado aprueba las condiciones de póliza; las cláusulas aprobadas por la Superintendencia de Seguros de la Nación son de orden público del sector asegurador y no pueden ser ignoradas por los jueces.\n- Ley 24.449 (Ley de Tránsito): art. 68 (seguro obligatorio). El seguro obligatorio impone la contratación de un piso mínimo de cobertura, no una cobertura ilimitada. La aseguradora responde hasta el límite del seguro contratado, incluyendo el mínimo obligatorio.\n- CCyCN: arts. 957 (autonomía de la voluntad), 959 (efecto vinculante del contrato), 1021 (efectos del contrato respecto de terceros) y 1022 (situación jurídica del tercero).\n- Constitución Nacional: arts. 17 (derecho de propiedad) y 28 (principio de razonabilidad).\n\nConclusión:\n\nPor todo lo expuesto, solicito a V.S. que, en caso de condenar a mi representada, la sentencia se haga extensiva a LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A. sólo hasta el límite de cobertura pactado en la póliza, conforme lo establece el art. 118 de la Ley 17.418 y la doctrina reiterada de la Corte Suprema de Justicia de la Nación. Cualquier condena que exceda ese límite será, respecto de mi representada, de cumplimiento imposible y contraria a derecho, sin perjuicio de los derechos que correspondan a los actores frente al asegurado.",
+  "defensa_juicio_asegurado": "### DEFENSA EN JUICIO DEL ASEGURADO\n\nDe conformidad con lo establecido por la cláusula tercera de la Póliza Básica del Seguro Obligatorio de Responsabilidad Civil, en caso de que el Asegurado y/o Conductor del vehículo asegurado asuman su defensa en juicio sin darle noticia oportuna a mi representada para que éste la asuma, los honorarios de los letrados de éstos quedarán a su exclusivo cargo de los mismos.",
+  "negativas_especificas": [
+    {
+      "hecho_numero": 1,
+      "hecho_original": "El co-actor Kumazawa Gustavo Gabriel, DNI 26.734.652, se encontraba conduciendo el vehículo Fiat Fiorino dominio IAJ773 al momento del presunto accidente.",
+      "negativa": "Niego que el co-actor Kumazawa Gustavo Gabriel haya conducido el vehículo Fiat Fiorino dominio IAJ773 en las circunstancias y condiciones que describe la demanda, reservándome el derecho de requerir la informativa pertinente a la DNRPA y a las actuaciones penales."
+    },
+    {
+      "hecho_numero": 2,
+      "hecho_original": "El co-actor Gavilán Guillermo Noel, DNI 39.337.010, circulaba como acompañante en el vehículo IAJ773 al momento del presunto accidente.",
+      "negativa": "Niego que el co-actor Gavilán Guillermo Noel se encontrara como acompañante en el vehículo dominio IAJ773 en el momento y lugar que describe la demanda, o que su presencia en dicho rodado haya ocurrido en las condiciones que se pretenden acreditar."
+    },
+    {
+      "hecho_numero": 3,
+      "hecho_original": "El presunto accidente ocurrió el 24 de octubre de 2023 (también mencionado como 23/10/2023 en la demanda) en la Autopista Camino del Buen Ayre, bajada con Jorge Newbery y Colpayo, Mariano Acosta.",
+      "negativa": "Niego que el presunto accidente haya ocurrido en la fecha, hora, lugar y circunstancias que describe la demanda. Se señala además la grave inconsistencia en el propio escrito de demanda, que alude al 23 de octubre de 2023 en la narrativa de hechos y al 24/10/2023 en el pliego de posiciones y documental, sin que esta inconsistencia haya sido aclarada por la parte actora."
+    },
+    {
+      "hecho_numero": 4,
+      "hecho_original": "El vehículo de los actores (Fiat Fiorino IAJ773) circulaba por el carril lento de la autopista con sentido hacia Mariano Acosta/Pontevedra.",
+      "negativa": "Niego que el vehículo de los actores dominio IAJ773 circulara por el carril lento de la Autopista Camino del Buen Ayre con la diligencia y observancia de las normas de tránsito que se le atribuye, y en particular que lo hiciera a velocidad reglamentaria y con debida atención al tránsito circundante."
+    },
+    {
+      "hecho_numero": 5,
+      "hecho_original": "El vehículo demandado Fiat Fiorino dominio KLR774, conducido por Olmedo González Marcial, circulaba por el carril del medio de la autopista en el mismo sentido que los actores.",
+      "negativa": "Niego que el vehículo dominio KLR774, conducido por el asegurado Olmedo González Marcial, circulara por el carril del medio de la autopista en el momento y lugar que describe la demanda, o que lo hiciera en las condiciones y a la velocidad que se le imputan."
+    },
+    {
+      "hecho_numero": 6,
+      "hecho_original": "El vehículo KLR774 realizó una maniobra brusca y antirreglamentaria para tomar la salida o bajada a la calle Jorge Newbery, invadiendo a exceso de velocidad el carril lento.",
+      "negativa": "Niego que el vehículo dominio KLR774 haya realizado una maniobra brusca, antirreglamentaria y a exceso de velocidad para tomar la bajada a Jorge Newbery, invadiendo el carril lento de la manera que describe la demanda. La mecánica del accidente tal como se relata es negada en todos sus términos y queda sujeta íntegramente a la producción de la prueba pericial accidentológica."
+    },
+    {
+      "hecho_numero": 7,
+      "hecho_original": "El vehículo KLR774 quedó atravesado en el medio de la autopista, interponiéndose en la trayectoria del rodado de los actores IAJ773.",
+      "negativa": "Niego que el vehículo dominio KLR774 haya quedado atravesado en el medio de la autopista de la manera que describe la demanda, o que dicha posición sea la causa determinante y exclusiva de la colisión con el vehículo de los actores. La posición final de los rodados y la localización de los daños deberán ser determinadas por el perito accidentológico."
+    },
+    {
+      "hecho_numero": 8,
+      "hecho_original": "El asegurado Olmedo González Marcial es el agente activo e iniciador del choque, siendo el automóvil KLR774 el embistente.",
+      "negativa": "Niego que el vehículo dominio KLR774 sea el único responsable del presunto siniestro o que pueda determinarse la calidad de embistente y embestido con el grado de certeza que pretende la actora sin que medie producción de la prueba pericial accidentológica que el propio actor ofrece en su demanda."
+    },
+    {
+      "hecho_numero": 9,
+      "hecho_original": "A raíz de la colisión, el co-actor Kumazawa sufrió politraumatismo, lumbalgia, cervicalgia, estrés postraumático, contusión de miembros inferiores, escoriaciones y hematomas múltiples.",
+      "negativa": "Niego que el co-actor Kumazawa Gustavo Gabriel haya sufrido las lesiones que describe en su demanda como consecuencia directa y exclusiva del presunto accidente, o que las mismas sean de la entidad y gravedad que se invoca. La determinación del estado de salud, la naturaleza de las lesiones y el porcentaje de incapacidad quedan sujetos a la producción de la prueba pericial médica y psicológica."
+    },
+    {
+      "hecho_numero": 10,
+      "hecho_original": "A raíz de la colisión, el co-actor Gavilán Guillermo Noel sufrió politraumatismo, lumbalgia, cervicalgia, estrés postraumático, contusión de miembros inferiores, escoriaciones y hematomas múltiples.",
+      "negativa": "Niego que el co-actor Gavilán Guillermo Noel haya sufrido las lesiones que describe en su demanda como consecuencia directa y exclusiva del presunto accidente, o que las mismas sean de la entidad y gravedad que se invoca. Se señala además que las lesiones descriptas para ambos actores son idénticas en todos sus términos, lo que sugiere el uso de una plantilla estándar sin adecuación al cuadro clínico individual de cada actor."
+    },
+    {
+      "hecho_numero": 11,
+      "hecho_original": "Ambos actores fueron trasladados al Hospital Héroes de Malvinas con motivo del presunto accidente.",
+      "negativa": "Niego que ambos actores hayan sido trasladados al Hospital Héroes de Malvinas como consecuencia directa e inmediata del presunto accidente en las condiciones que describe la demanda. La autenticidad y contenido de la historia clínica y/o informe médico de guardia quedan sujetos a la producción de la prueba informativa ofrecida por los propios actores."
+    },
+    {
+      "hecho_numero": 12,
+      "hecho_original": "Al día de la interposición de la demanda persisten dolores, molestias y consecuencias dañosas en ambos actores, con secuelas incapacitantes.",
+      "negativa": "Niego que al día de la interposición de la demanda persistan en los actores dolores, molestias y secuelas incapacitantes como consecuencia directa y exclusiva del presunto accidente. El estado de salud actual de cada actor y la eventual incapacidad remanente deben ser determinados por el perito médico y psicológico que se designe en el proceso."
+    },
+    {
+      "hecho_numero": 13,
+      "hecho_original": "El co-actor Kumazawa Gustavo Gabriel, nacido el 26/07/1978 (45 años al momento del accidente), se desempeñaba como empleado al momento del hecho.",
+      "negativa": "Niego que la actividad laboral del co-actor Kumazawa al momento del presunto accidente sea la que describe la demanda, o que la misma haya sido afectada en los términos y magnitud que se pretende, sin perjuicio de lo que resulte de la prueba a producir en la causa."
+    },
+    {
+      "hecho_numero": 14,
+      "hecho_original": "El co-actor Gavilán Guillermo Noel, nacido el 06/02/1996 (28 años al momento del accidente), se desempeñaba como empleado al momento del hecho.",
+      "negativa": "Niego que la actividad laboral del co-actor Gavilán al momento del presunto accidente sea la que describe la demanda, o que la misma haya sido afectada en los términos y magnitud que se pretende, sin perjuicio de lo que resulte de la prueba a producir en la causa."
+    },
+    {
+      "hecho_numero": 15,
+      "hecho_original": "Se instruyeron actuaciones penales caratuladas 'Lesiones Culposas' ante la comisaría zonal de Mariano Acosta con la Unidad Funcional de Instrucción.",
+      "negativa": "Niego que las actuaciones penales labradas establezcan la responsabilidad exclusiva del asegurado Olmedo González Marcial o que las mismas contengan elementos probatorios que acrediten la mecánica del accidente tal como la describen los actores. El estado y contenido de las actuaciones penales deberán ser acreditados mediante la prueba informativa ofrecida."
+    },
+    {
+      "hecho_numero": 16,
+      "hecho_original": "El demandado Olmedo González Marcial no respetó las señales de tránsito, manejó su vehículo a altas velocidades y perdió el control y dominio del mismo.",
+      "negativa": "Niego que el asegurado Olmedo González Marcial haya actuado con imprudencia, negligencia o impericia en las circunstancias relatadas, o que haya violado señales de tránsito o circulado a velocidad excesiva en los términos que describe la demanda. Todo ello queda sujeto a la producción de la prueba pericial accidentológica."
+    },
+    {
+      "hecho_numero": 17,
+      "hecho_original": "El co-actor Kumazawa reclama $3.000.000 por incapacidad psicofísica y daño estético.",
+      "negativa": "Niego que el co-actor Kumazawa Gustavo Gabriel haya sufrido una incapacidad psicofísica y/o daño estético de la entidad que justifique la indemnización de $3.000.000 reclamada, o que dicho monto guarde relación razonable con las lesiones descriptas y el porcentaje de incapacidad que resulte de la prueba pericial."
+    },
+    {
+      "hecho_numero": 18,
+      "hecho_original": "El co-actor Kumazawa reclama $2.000.000 por daño moral.",
+      "negativa": "Niego que el co-actor Kumazawa haya sufrido un daño moral de la intensidad y entidad que justifique la reparación de $2.000.000. El daño moral debe ser efectivamente probado y su quantum debe guardar razonable proporción con las circunstancias concretas del caso, sin que pueda ser establecido mediante afirmaciones genéricas."
+    },
+    {
+      "hecho_numero": 19,
+      "hecho_original": "El co-actor Kumazawa reclama $500.000 por gastos terapéuticos y tratamiento psicológico.",
+      "negativa": "Niego que el co-actor Kumazawa haya erogado gastos terapéuticos y de tratamiento psicológico de la magnitud reclamada ($500.000), o que los mismos sean consecuencia directa y exclusiva del presunto accidente. Los gastos deben ser debidamente acreditados con comprobantes o mediante la pericia médica que determine la necesidad de los tratamientos."
+    },
+    {
+      "hecho_numero": 20,
+      "hecho_original": "El co-actor Gavilán Guillermo Noel reclama $2.000.000 por incapacidad psicofísica y daño estético.",
+      "negativa": "Niego que el co-actor Gavilán Guillermo Noel haya sufrido una incapacidad psicofísica y/o daño estético de la entidad que justifique la indemnización de $2.000.000 reclamada, o que dicho monto guarde relación razonable con las lesiones descriptas y el porcentaje de incapacidad que resulte de la prueba pericial médica y psicológica."
+    },
+    {
+      "hecho_numero": 21,
+      "hecho_original": "El co-actor Gavilán reclama $1.000.000 por daño moral.",
+      "negativa": "Niego que el co-actor Gavilán haya sufrido un daño moral de la intensidad y entidad que justifique la reparación de $1.000.000. El daño moral debe ser efectivamente probado y su quantum debe guardar razonable proporción con las circunstancias específicas del caso."
+    },
+    {
+      "hecho_numero": 22,
+      "hecho_original": "El co-actor Gavilán reclama $500.000 por gastos terapéuticos y tratamiento psicológico.",
+      "negativa": "Niego que el co-actor Gavilán haya erogado gastos terapéuticos y de tratamiento psicológico por la suma de $500.000 como consecuencia directa y exclusiva del presunto accidente. Los gastos deben ser debidamente acreditados."
+    },
+    {
+      "hecho_numero": 23,
+      "hecho_original": "El actor Kumazawa no tuvo cobertura de ART ni Obra Social al momento del accidente.",
+      "negativa": "Niego que la ausencia de cobertura de ART u Obra Social del co-actor Kumazawa sea imputable al demandado o a mi representada, o que la misma implique un agravamiento de los daños que deba ser resarcido por encima de lo que resulte de la prueba pericial."
+    },
+    {
+      "hecho_numero": 24,
+      "hecho_original": "El actor Gavilán no tuvo cobertura de ART ni Obra Social al momento del accidente.",
+      "negativa": "Niego que la ausencia de cobertura de ART u Obra Social del co-actor Gavilán sea imputable al demandado o a mi representada, o que la misma implique un agravamiento de los daños que deba ser resarcido por encima de lo que resulte de la prueba pericial."
+    },
+    {
+      "hecho_numero": 25,
+      "hecho_original": "La responsabilidad de la aseguradora Libra emerge del contenido de la póliza 643651 y del art. 118 de la Ley 17.418, siendo inoponible cualquier franquicia o descubierto a cargo del asegurado.",
+      "negativa": "Niego que la responsabilidad de mi representada sea la que describe la demanda, o que resulten inoponibles las cláusulas contractuales de la póliza N° 643651. Las cláusulas del contrato de seguro — incluida la franquicia y el límite de cobertura — son oponibles al tercero damnificado conforme lo ha establecido la Corte Suprema de Justicia de la Nación en reiterada jurisprudencia (Flores c/ Giménez, CSJ 678/2013, 6/6/2017 y concordantes)."
+    },
+    {
+      "hecho_numero": 26,
+      "hecho_original": "El actor solicita que el monto de condena sea establecido a valores vigentes a la fecha de la sentencia.",
+      "negativa": "Niego que corresponda una actualización automática del monto de condena a valores de la fecha de sentencia sin la aplicación del régimen legal de intereses, o que dicha pretensión tenga sustento en la legislación vigente. La cuestión de los intereses y la cuantificación del daño quedan sujetas al derecho aplicable que establezca el juez."
+    }
+  ],
+  "impugnacion_documental": [
+    {
+      "documento": "Fotocopias del DNI de los co-actores Kumazawa y Gavilán",
+      "impugnacion": "Se desconoce la autenticidad de las fotocopias del DNI de los co-actores acompañadas en copia. Se señala además que en el encabezado de la demanda figura para el co-actor Gavilán el mismo DNI que para el co-actor Kumazawa (26.734.652), lo que constituye una irregularidad formal a ser subsanada por la parte actora."
+    },
+    {
+      "documento": "Acta de mediación prejudicial obligatoria",
+      "impugnacion": "Se desconoce la autenticidad del acta de mediación prejudicial acompañada en copia. Se reserva el derecho de requerir informativa al mediador interviniente para verificar la autenticidad de su contenido y el cumplimiento de los requisitos formales."
+    },
+    {
+      "documento": "Copia de la licencia de conducir del actor Kumazawa",
+      "impugnacion": "Se desconoce la autenticidad de la copia de licencia de conducir acompañada. Se reserva el derecho de requerir informativa al Registro de Licencias correspondiente para verificar su vigencia al momento del presunto siniestro."
+    },
+    {
+      "documento": "Copia de declaración testimonial en sede penal",
+      "impugnacion": "Se desconoce la autenticidad de la copia de declaración testimonial en sede penal acompañada. Se reserva el derecho de requerir la remisión ad effectum videndi de la causa penal completa para evaluar el contexto en que se prestó dicha declaración y los demás elementos probatorios obrantes en el expediente penal."
+    },
+    {
+      "documento": "Siete imágenes ilustrativas del daño del vehículo del actor",
+      "impugnacion": "Se desconoce la autenticidad de las fotografías acompañadas. Niego que las mismas correspondan al estado de los vehículos inmediatamente después del presunto accidente tal como se relata, o que reflejen fielmente los daños cuya reparación se reclama. La mecánica del accidente y la localización de los daños deberán ser determinadas por el perito accidentológico."
+    },
+    {
+      "documento": "CD de estudios médicos del co-actor",
+      "impugnacion": "Se desconoce la autenticidad del CD de estudios médicos acompañado. Se reserva el derecho de impugnar su contenido y de requerir que los estudios sean evaluados por el perito médico designado en el proceso, quien determinará su relevancia y correspondencia con el presunto accidente."
+    }
+  ],
+  "excepciones_previas": [
+    {
+      "excepcion": "Prescripción (art. 346 inc. 6 CPCyCN y art. 58 Ley 17.418)",
+      "estado": "A VERIFICAR — requiere confirmación de fechas antes de plantear",
+      "fundamento": "El siniestro ocurrió el 24/10/2023. La demanda fue firmada el 10/08/2024, es decir dentro del plazo de 3 años del art. 2561 CCC. Sin embargo, el art. 58 de la Ley de Seguros establece un plazo de prescripción de un año para las acciones del contrato de seguro. Debe verificarse urgentemente: (a) fecha de denuncia del siniestro ante Libra, (b) fecha de inicio de la mediación prejudicial que suspende el plazo (art. 18 Ley 26.589). Si la mediación fue iniciada después del 24/10/2024, el plazo del art. 58 LS podría estar vencido. ACCIÓN CRÍTICA: confirmar con el expediente de siniestros.",
+      "riesgo_rechazo": "Moderado-alto. La jurisprudencia está dividida entre el plazo de 1 año del art. 58 LS y el de 3 años del art. 2561 CCC para el tercero damnificado. Consultar con la letrada antes de plantear."
+    }
+  ],
+  "defensas_fondo": [
+    {
+      "nombre": "Culpa concurrente / hecho de la víctima (art. 1729 CCC)",
+      "texto": "Sin perjuicio de la negativa general de los hechos, y para el improbable supuesto de que V.S. tuviera por acreditado el siniestro en los términos de la demanda, esta parte invoca la culpa concurrente de los actores en la producción del evento. La Autopista Camino del Buen Ayre es una vía de circulación rápida que impone a todos los conductores el deber de atención, previsión y dominio efectivo del rodado (art. 39 inc. b) Ley 24.449). El co-actor Kumazawa, conductor del vehículo IAJ773, no ha aportado prueba alguna de que circulara a velocidad reglamentaria, con debida atención al tránsito circundante y con capacidad de maniobra evasiva ante situaciones de emergencia. La determinación definitiva de la incidencia causal de cada vehículo queda sujeta a la producción de la prueba pericial accidentológica."
+    },
+    {
+      "nombre": "Impugnación de montos reclamados",
+      "texto": "Todos y cada uno de los montos reclamados por los actores resultan excesivos, improcedentes o insuficientemente fundados: (a) INCAPACIDAD PSICOFÍSICA: la demanda no especifica el porcentaje de incapacidad de ninguno de los dos actores, lo que hace imposible verificar la razonabilidad de los montos reclamados ($3.000.000 para Kumazawa y $2.000.000 para Gavilán). La cuantificación del rubro queda íntegramente sujeta a la pericia médica y psicológica. (b) DAÑO MORAL: los montos de $2.000.000 y $1.000.000 para Kumazawa y Gavilán respectivamente son desproporcionados para lesiones de tipo contusiones, escoriaciones y hematomas en ausencia de fracturas o lesiones graves documentadas. El daño moral debe ser efectivamente probado. (c) GASTOS TERAPÉUTICOS: los $500.000 reclamados por cada actor no están respaldados por comprobantes ni por una cuantificación médica del tratamiento necesario. Los gastos deben ser debidamente acreditados."
+    },
+    {
+      "nombre": "Oponibilidad del límite de cobertura (art. 118 Ley 17.418)",
+      "texto": "Conforme lo detallado en la sección de oponibilidad, la condena a mi representada no puede exceder el límite de cobertura pactado en la póliza N° 643651. La CSJN ha establecido en forma reiterada (Flores c/ Giménez, Buffoni c/ Castro, Álvarez c/ Moscatelli) que las cláusulas del contrato de seguro son oponibles al tercero damnificado. Cualquier diferencia entre el monto de condena y el límite de la póliza deberá ser satisfecha exclusivamente por el asegurado Olmedo González Marcial."
+    }
+  ],
+  "impugnacion_montos": [
+    {
+      "rubro": "Incapacidad psicofísica y daño estético — co-actor Kumazawa",
+      "monto_reclamado": "$3.000.000",
+      "impugnacion": "La demanda no especifica el porcentaje de incapacidad del co-actor Kumazawa, limitándose a enunciar un conjunto de lesiones (politraumatismo, lumbalgia, cervicalgia, estrés postraumático, contusiones, escoriaciones y hematomas) que son genéricas e idénticas a las descriptas para el co-actor Gavilán. Sin porcentaje de incapacidad determinado, el monto de $3.000.000 carece de sustento técnico. La cuantificación del rubro queda íntegramente sujeta a la pericia médica y psicológica. Se impugna el monto por excesivo y especulativo."
+    },
+    {
+      "rubro": "Daño moral — co-actor Kumazawa",
+      "monto_reclamado": "$2.000.000",
+      "impugnacion": "La suma de $2.000.000 es desproporcionada para el cuadro lesional descripto (contusiones, escoriaciones y hematomas) en ausencia de fracturas documentadas, cirugías o internaciones prolongadas. El daño moral debe ser efectivamente probado y su quantum debe guardar razonable proporción con la entidad objetiva de las lesiones. Se impugna por excesivo."
+    },
+    {
+      "rubro": "Gastos terapéuticos y tratamiento psicológico — co-actor Kumazawa",
+      "monto_reclamado": "$500.000",
+      "impugnacion": "La suma de $500.000 en concepto de gastos terapéuticos y tratamiento psicológico no está respaldada por comprobante alguno ni por una prescripción médica que cuantifique el tratamiento necesario. Los gastos deben ser debidamente acreditados. Se impugna por falta de fundamento."
+    },
+    {
+      "rubro": "Incapacidad psicofísica y daño estético — co-actor Gavilán",
+      "monto_reclamado": "$2.000.000",
+      "impugnacion": "Ídem a lo señalado respecto del co-actor Kumazawa. Las lesiones descriptas son idénticas para ambos actores, lo que sugiere el uso de una plantilla genérica. Sin porcentaje de incapacidad determinado, el monto de $2.000.000 carece de sustento técnico. Se impugna el monto por excesivo y especulativo, reservándose para la etapa pericial."
+    },
+    {
+      "rubro": "Daño moral — co-actor Gavilán",
+      "monto_reclamado": "$1.000.000",
+      "impugnacion": "La suma de $1.000.000 es desproporcionada para el cuadro lesional descripto. Se señala además que el daño moral no puede presumirse en abstracto ni establecerse en proporción fija con el rubro de incapacidad: debe ser individualmente probado para cada actor. Se impugna por excesivo."
+    },
+    {
+      "rubro": "Gastos terapéuticos y tratamiento psicológico — co-actor Gavilán",
+      "monto_reclamado": "$500.000",
+      "impugnacion": "La suma de $500.000 en concepto de gastos terapéuticos no está respaldada por comprobante alguno. Se impugna por falta de fundamento y por excesiva."
+    }
+  ],
+  "ofrecimiento_prueba": {
+    "documental": [
+      "Poder general para juicios otorgado a favor del letrado interviniente",
+      "Póliza N° 643651 emitida por Libra Compañía Argentina de Seguros S.A. para el vehículo Fiat Fiorino dominio KLR774, asegurado Olmedo González Marcial",
+      "Expediente de siniestros de Libra Compañía Argentina de Seguros S.A. correspondiente al siniestro de autos",
+      "Acta de mediación prejudicial obligatoria"
+    ],
+    "informativa": [
+      "A la DIRECCIÓN NACIONAL DEL REGISTRO DE LA PROPIEDAD AUTOMOTOR (DNRPA): que informe la titularidad dominial del automotor Fiat Fiorino dominio KLR774 a la fecha del presunto siniestro (24/10/2023) y en forma histórica",
+      "A la DIRECCIÓN NACIONAL DEL REGISTRO DE LA PROPIEDAD AUTOMOTOR (DNRPA): que informe la titularidad dominial del automotor Fiat Fiorino dominio IAJ773 a la fecha del presunto siniestro",
+      "Al HOSPITAL HÉROES DE MALVINAS: que informe si los co-actores Kumazawa Gustavo Gabriel (DNI 26.734.652) y Gavilán Guillermo Noel (DNI 39.337.010) fueron atendidos en ese establecimiento con motivo del presunto accidente del 24/10/2023, y en su caso remita copia de las historias clínicas y/o informes médicos de guardia",
+      "A la UNIDAD FUNCIONAL DE INSTRUCCIÓN (UFI) de Mariano Acosta: que informe si existe actuación penal labrada caratulada 'Lesiones Culposas' con motivo del presunto accidente del 24/10/2023 en la Autopista Camino del Buen Ayre, y en su caso remita ad effectum videndi et probandi copia certificada de las mismas"
+    ],
+    "pericial": [
+      "Pericial accidentológica/mecánica: se solicita que el perito se expida sobre la mecánica del accidente, calidad de embistente/embestido de cada automotor, velocidades de circulación, lugar de impacto, daños en ambos rodados y todo otro punto que resulte de interés para la litis",
+      "Pericial médica: para que evalúe el estado de salud actual de los co-actores, las lesiones sufridas como consecuencia del presunto accidente, el porcentaje de incapacidad física y su relación causal con el hecho",
+      "Pericial psicológica: para que evalúe el estado psíquico de los co-actores, los eventuales trastornos psicológicos derivados del hecho y el porcentaje de incapacidad psíquica"
+    ],
+    "testimonial": [],
+    "confesional": [
+      "Absolución de posiciones del co-actor Kumazawa Gustavo Gabriel, a tenor del pliego que se adjuntará oportunamente",
+      "Absolución de posiciones del co-actor Gavilán Guillermo Noel, a tenor del pliego que se adjuntará oportunamente"
+    ]
+  },
+  "petitorio": {
+    "texto": "Por todo lo expuesto, de V.S. solicito:\na) Se me tenga por presentada en el carácter de citada en garantía, por parte en las presentes actuaciones, y por constituidos los domicilios procesal y electrónico denunciados.\nb) Se tenga por contestada la demanda en tiempo y forma, con la negativa general y particular de los hechos y el derecho invocados por los actores.\nc) Se tenga presente la impugnación de toda la documental acompañada por los actores.\nd) Se tenga presente la excepción de prescripción con la reserva de ampliarla una vez confirmadas las fechas del trámite administrativo y mediación prejudicial.\ne) Oportunamente, se rechace la demanda en todas sus partes, con expresa imposición de costas a los actores.\nf) En el improbable supuesto de que se hiciera lugar a la demanda, se tenga presente el límite de cobertura pactado en la póliza N° 643651, limitándose la condena a mi representada a dicho importe, conforme lo establece el art. 118 de la Ley 17.418 y la doctrina reiterada de la Corte Suprema de Justicia de la Nación.\ng) Se tenga por ofrecida la prueba indicada precedentemente.\nh) Se tenga presente la defensa en juicio del asegurado y la consecuente responsabilidad de Olmedo González Marcial por los honorarios de su letrado particular en caso de que haya asumido su propia defensa sin noticia a mi representada."
+  },
+  "secciones_requieren_revision": [
+    "letrado: completar nombre, tomo, folio, CUIT y mail del letrado actuante de Libra",
+    "expediente: completar número de expediente una vez caratulado",
+    "fecha_notificacion: completar con la fecha efectiva de notificación de la citación en garantía a Libra",
+    "fecha_vencimiento: calcular 15 días hábiles desde la fecha de notificación (proceso sumario PBA)",
+    "poliza.vigencia_desde y poliza.vigencia_hasta: verificar vigencia al 24/10/2023 en expediente de siniestros",
+    "poliza.limite: verificar suma asegurada y franquicia en la póliza 643651",
+    "excepciones_previas: verificar urgentemente la fecha de inicio de la mediación prejudicial y la fecha de denuncia del siniestro ante Libra para evaluar prescripción art. 58 LS",
+    "DNI demandado: verificar DNI correcto de Olmedo González Marcial (la demanda indica 46.541.971 en el objeto y un número diferente en el pliego de posiciones) — solicitar informe DNRPA"
+  ],
+  "notas_para_abogado": [
+    "INCONSISTENCIA FECHAS: La demanda menciona '23 de octubre de 2023' en la narrativa de hechos y '24/10/2023' en el pliego de posiciones y documental. Verificar la fecha correcta con la causa penal y el expediente de siniestros. La inconsistencia puede ser señalada en la contestación.",
+    "INCONSISTENCIA DNI: El demandado Olmedo González Marcial figura con DNI 46.541.971 en la sección OBJETO y con un número diferente (93.151.019) en el pliego confesional. Esta inconsistencia puede ser base para una excepción de defecto legal (art. 347 inc. 5 CPCC) o al menos debe ser señalada como irregularidad formal.",
+    "LESIONES IDÉNTICAS: Ambos actores describen exactamente las mismas lesiones en los mismos términos, lo que sugiere el uso de una plantilla. Esto puede ser señalado en la contestación para cuestionar la individualización del daño de cada actor.",
+    "PORCENTAJE DE INCAPACIDAD: La demanda no especifica el porcentaje de incapacidad de ninguno de los dos actores. La falta de este dato hace que los montos reclamados sean completamente especulativos antes de la pericia médica.",
+    "PÓLIZA: Obtener urgentemente la póliza N° 643651 completa (condiciones generales, particulares y especiales) para verificar suma asegurada, franquicia, exclusiones y vigencia al 24/10/2023.",
+    "CAUSA PENAL: Solicitar copia de la causa penal 'Lesiones Culposas' ante la UFI de Mariano Acosta para evaluar los elementos probatorios preconstituidos y el grado de responsabilidad del asegurado."
+  ]
+}

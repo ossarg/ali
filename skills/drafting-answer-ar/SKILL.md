@@ -114,6 +114,35 @@ Para CADA hecho de la lista de Mike (`claim_summary.hechos`), generá la negativ
 
 **REGLA CLAVE**: "Deben reconocer o negar categóricamente cada uno de los hechos expuestos en la demanda" (art. 356 inc. 1). El silencio puede ser tomado como reconocimiento.
 
+### Formato de negativas — regla de capitalización
+
+Cada negativa empieza con "Que" seguido de minúscula. NUNCA mayúscula después de "Que":
+
+✅ Correcto:
+- "Que el demandado Olmedo haya circulado..."
+- "Que al día de la interposición..."
+- "Que a raíz de la colisión..."
+- "Que se hayan producido las lesiones..."
+
+❌ Incorrecto:
+- "Que El demandado Olmedo..."
+- "Que Al día de la interposición..."
+- "Que A raíz de la colisión..."
+- "Que Se hayan producido..."
+
+La palabra después de "Que" siempre va en minúscula salvo que sea un nombre propio (ej: "Que Libra Seguros haya..."). Esto es estándar procesal argentino — verificar cada negativa antes de incluirla.
+
+### Principio de las negativas — carga de la prueba
+
+La negativa específica cumple una función procesal crítica: al negar cada hecho, la carga de la prueba recae sobre el actor (art. 377 CPCyCN). Si un hecho no se niega, puede considerarse reconocido (art. 356 inc. 1 CPCyCN).
+
+Reglas:
+- Negar CADA hecho afirmado en la demanda, sin excepción
+- No parafrasear los hechos del actor — usar su propio texto cuando sea posible, negándolo
+- Las negativas no requieren fundamentación — son una mera negación del hecho
+- Diferenciar entre NIEGO (el hecho no ocurrió) y DESCONOZCO (no tengo conocimiento del hecho por no haber estado presente)
+- Los hechos que el demandado reconoce deben ser explícitamente reconocidos — el silencio es riesgoso
+
 #### 5. Versión de los hechos de la aseguradora (DINAMICO)
 - Descripción del siniestro desde la perspectiva de la aseguradora
 - Basada en los datos de `claim-summary-ar` (versión del actor) y datos del expediente de siniestro si están disponibles

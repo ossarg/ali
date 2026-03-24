@@ -1,0 +1,257 @@
+{
+  "tipo_escrito": "CONTESTA DEMANDA CITADA EN GARANTÍA – OFRECE PRUEBA",
+  "tipo_intervencion": "citación en garantía",
+  "tipo_caso": "ART — acción de repetición art. 39 inc. 5 LRT",
+  "letrado": {
+    "nombre": "[NOMBRE — A COMPLETAR]",
+    "tomo": "__",
+    "folio": "__",
+    "cuit": "[CUIT — A COMPLETAR]",
+    "mail": "[MAIL — A COMPLETAR]",
+    "cuit_electronico": "[CUIT — A COMPLETAR]"
+  },
+  "caratula": "ASOCIART S.A. ART C/ ROJAS JUAN CARLOS Y OTRO S/ COBRO DE SUMAS DE DINERO",
+  "expediente": "[N° EXPEDIENTE — A COMPLETAR]",
+  "fecha_notificacion": "[FECHA NOTIFICACIÓN — A COMPLETAR]",
+  "fecha_vencimiento": "[FECHA VENCIMIENTO — A COMPLETAR]",
+  "poliza": {
+    "numero": "[N° PÓLIZA — A COMPLETAR]",
+    "vehiculo": "CHEVROLET CLASSIC TAXI",
+    "dominio": "MDP995",
+    "asegurado": "ROJAS JUAN CARLOS",
+    "vigencia_desde": "[VIGENCIA DESDE — A COMPLETAR]",
+    "vigencia_hasta": "[VIGENCIA HASTA — A COMPLETAR]",
+    "limite": "[LÍMITE DE COBERTURA — A COMPLETAR]"
+  },
+  "nota_caso_art": "CASO ART — REPETICIÓN ART. 39 INC. 5 LRT. La actora no es el damnificado directo sino Asociart S.A. ART que reclama repetición de las prestaciones pagadas al trabajador Cabito. La estructura de la contestación debe abordar: (1) negativa de los hechos del accidente, (2) cuestionar la liquidación y montos abonados por Asociart, (3) plantear la oponibilidad del límite de cobertura frente a la ART (no frente al damnificado), (4) impugnar la cuantificación de cada rubro. Monto reclamado: $39.792.327,30.",
+  "oponibilidad": "### OPONIBILIDAD DE LAS CLÁUSULAS DEL CONTRATO DE SEGURO\n\nLa póliza de seguro es un contrato indivisible. Sus cláusulas — condiciones generales, particulares y especiales — forman un todo unitario que no puede ser fragmentado para beneficiar selectivamente a una parte. La ART actora que ejercita la acción de repetición del art. 39 inc. 5 de la Ley 24.557 se subroga en los derechos del demandado Rojas frente a su asegurador; consecuentemente, no puede tener más derechos que el propio asegurado frente a su aseguradora, y la condena a mi representada queda limitada al contenido del contrato de seguro. El límite de la obligación de la aseguradora es siempre \"en la medida del seguro\" (art. 118 Ley 17.418).\n\nArt. 118 Ley 17.418: \"El damnificado puede citar en garantía al asegurador hasta que se reciba la causa a prueba. En tal caso debe interponer la demanda ante el juez del lugar del hecho o del domicilio del asegurador. El asegurador puede hacer valer todas las defensas que tenga contra el asegurado. La sentencia que se dicte hará cosa juzgada respecto del asegurador y será ejecutable contra él en la medida del seguro.\"\n\nEsta limitación no es una cláusula abusiva ni una restricción de derechos; es la esencia misma del contrato de seguro y la condición bajo la cual la aseguradora prestó su consentimiento (CCyCN arts. 957, 959, 1021 y 1022). Pretender que la aseguradora responda más allá del límite contratado importaría violar el principio de autonomía de la voluntad (art. 957 CCyCN), el derecho de propiedad (CN art. 17) y el principio de razonabilidad (CN art. 28).\n\nJurisprudencia de la Corte Suprema de Justicia de la Nación:\n\nLa CSJN ha establecido en forma reiterada y pacífica que las cláusulas del contrato de seguro son oponibles:\n\n- \"Flores c/ Giménez\" — CSJ 678/2013 (49-F)/CS1, sentencia del 6 de junio de 2017: la Corte reafirmó que la condena a la aseguradora no puede exceder el límite de cobertura pactado en la póliza. El seguro obligatorio no convierte a la aseguradora en garante ilimitado de cualquier condena.\n\n- \"Buffoni c/ Castro\" — Fallos: 337:329 (2014): la Corte confirmó que la franquicia pactada en el contrato de seguro es oponible y que la aseguradora no puede ser condenada más allá del límite convenido.\n\n- \"Álvarez c/ Moscatelli\" — CIV 1728/2017/CS1, sentencia del 14 de diciembre de 2023: ratificación de la doctrina de oponibilidad de los límites contractuales de cobertura.\n\n- \"Aimar c/ Molina\" — Expte. 31171/2012, sentencia del 24 de abril de 2018: la sentencia de condena a la aseguradora debe circunscribirse a los términos y límites del contrato de seguro.\n\nMarco normativo aplicable:\n\n- Ley 17.418: arts. 109-120 y art. 118 (límite \"en la medida del seguro\").\n- Ley 20.091: arts. 1, 23-26, 64 y 67 (aprobación de condiciones por la SSN).\n- Ley 24.449: art. 68 (seguro obligatorio — piso mínimo, no cobertura ilimitada).\n- CCyCN: arts. 957, 959, 1021 y 1022.\n- Constitución Nacional: arts. 17 y 28.\n\nConclusión:\n\nPor todo lo expuesto, solicito a V.S. que, en caso de condenar a mi representada, la sentencia se haga extensiva a LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A. sólo hasta el límite de cobertura pactado en la póliza, conforme lo establece el art. 118 de la Ley 17.418 y la doctrina reiterada de la Corte Suprema de Justicia de la Nación.",
+  "defensa_juicio_asegurado": "### DEFENSA EN JUICIO DEL ASEGURADO\n\nDe conformidad con lo establecido por la cláusula tercera de la Póliza Básica del Seguro Obligatorio de Responsabilidad Civil, en caso de que el Asegurado y/o Conductor del vehículo asegurado asuman su defensa en juicio sin darle noticia oportuna a mi representada para que éste la asuma, los honorarios de los letrados de éstos quedarán a su exclusivo cargo de los mismos.",
+  "negativas_especificas": [
+    {
+      "hecho_numero": 1,
+      "hecho_original": "El 8 de enero de 2024 aproximadamente a las 17.20 horas el trabajador Cabito Guido Hernán circulaba en motocicleta Honda por la Av. General Paz sentido Riachuelo.",
+      "negativa": "Niego que el trabajador Cabito Guido Hernán haya circulado en motocicleta por la Av. General Paz en las circunstancias, horario y sentido que describe la demanda, reservándome el derecho de producir la prueba informativa a la causa penal y al expediente laboral para verificar la mecánica del evento."
+    },
+    {
+      "hecho_numero": 2,
+      "hecho_original": "A la altura de Nazarre, el taxi Chevrolet Classic dominio MDP 995 conducido por el demandado Rojas embistió a la motocicleta de Cabito al realizar una maniobra de giro brusco hacia su derecha para tomar la salida hacia Nazarre.",
+      "negativa": "Niego que el vehículo dominio MDP 995 conducido por el demandado Rojas haya realizado la maniobra brusca de giro que describe la demanda, o que dicha maniobra sea la causa determinante y exclusiva del accidente relatado. La mecánica del accidente queda sujeta íntegramente a la producción de la prueba pericial mecánica y a las constancias de la causa penal."
+    },
+    {
+      "hecho_numero": 3,
+      "hecho_original": "El trabajador Cabito circulaba reglamentariamente por el carril derecho de la Av. General Paz cuando fue violentamente embestido por el vehículo del demandado que circulaba a la izquierda de la motocicleta.",
+      "negativa": "Niego que el trabajador Cabito haya circulado estrictamente por el carril que describe la demanda o que lo hiciera con la diligencia y cumplimiento de las normas de tránsito que se le atribuye. La conducta del trabajador al momento del presunto siniestro queda sujeta a la producción de la prueba pericial mecánica y a las constancias de la causa penal caratulada 'Lesiones Culposas' DEN 1128930/MPF 958902."
+    },
+    {
+      "hecho_numero": 4,
+      "hecho_original": "El Chevrolet Classic embistió con su lateral derecho a Cabito y a la motocicleta, provocando que el trabajador saliera despedido y cayera sobre la calzada.",
+      "negativa": "Niego que el vehículo dominio MDP 995 haya embestido al trabajador Cabito con su lateral derecho de la manera que describe la demanda, o que la dinámica del impacto haya sido la que se relata. La calidad de embistente y embestido y la forma del impacto deben ser determinadas por el perito mecánico."
+    },
+    {
+      "hecho_numero": 5,
+      "hecho_original": "El trabajador Cabito sufrió lesiones en su columna cervical y lumbar y otros daños físicos y psicológicos que le generaron una incapacidad laboral psicofísica del 22% de la total obrera (12% física y 10% psíquica).",
+      "negativa": "Niego que el trabajador Cabito haya sufrido las lesiones y la incapacidad laboral permanente del 22% que describe la demanda como consecuencia directa y exclusiva del presunto accidente de tránsito en cuestión. La existencia, naturaleza y causalidad de las lesiones respecto del accidente de autos deben ser acreditadas por la actora con prueba pericial específica en este proceso, y no pueden tenerse por establecidas por la mera invocación de lo resuelto en el expediente laboral (Expte. 45378/2024, JNIT N° 63) en el que mi representada no fue parte."
+    },
+    {
+      "hecho_numero": 6,
+      "hecho_original": "Asociart abonó al trabajador la suma de $29.000.000 en concepto de prestación dineraria por incapacidad laboral permanente, según acuerdo homologado en el expediente laboral Expte. 45378/2024.",
+      "negativa": "Niego que el pago de $29.000.000 realizado por Asociart en el expediente laboral Expte. 45378/2024 sea oponible a mi representada en su totalidad, o que dicho importe refleje el valor de las prestaciones que hubiera correspondido abonar en función de la incapacidad real del trabajador. Mi representada no fue parte en ese expediente judicial, no tuvo posibilidad de controlar la pericia médica allí producida ni de impugnar el acuerdo homologado. La sentencia o acuerdo del juicio laboral hace cosa juzgada entre las partes de ese proceso (Asociart y el trabajador) pero no es oponible a esta parte en el presente litigio como prueba de la cuantía de los daños."
+    },
+    {
+      "hecho_numero": 7,
+      "hecho_original": "Asociart abonó $375.678,22 en prestaciones en especie (atención médica, hospitalización, rehabilitación, farmacia, traslados).",
+      "negativa": "Niego que todas las prestaciones en especie por las que se reclama $375.678,22 hayan sido realizadas exclusivamente como consecuencia del accidente de tránsito de autos, o que dicho monto sea el que corresponde según los baremos aplicables y los precios de mercado. La actora debe acreditar en este proceso cada erogación con los comprobantes respectivos y demostrar su correspondencia causal con el hecho de autos."
+    },
+    {
+      "hecho_numero": 8,
+      "hecho_original": "Asociart abonó $629.573,08 en concepto de Incapacidad Laboral Temporaria (ILT).",
+      "negativa": "Niego que el monto de $629.573,08 en concepto de ILT sea el que correspondía abonar según el régimen de la LRT y los ingresos del trabajador acreditados en el expediente de siniestro, o que dicha suma sea completamente atribuible al accidente de autos como causa exclusiva. La actora debe acreditar el salario base del cálculo y el período de ILT efectivamente reconocido."
+    },
+    {
+      "hecho_numero": 9,
+      "hecho_original": "El monto total reclamado asciende a $39.792.327,30, con más intereses capitalizados conforme art. 770 inc. b) CCyCN desde la fecha de cada erogación.",
+      "negativa": "Niego que el monto total de $39.792.327,30 sea el que corresponde reclamar en el presente proceso, o que la capitalización de intereses solicitada conforme el art. 770 inc. b) CCyCN resulte procedente en las circunstancias del caso. La cuantificación definitiva de los rubros queda sujeta a la producción de la prueba pericial contable en la causa."
+    },
+    {
+      "hecho_numero": 10,
+      "hecho_original": "El demandado Rojas es civilmente responsable por el accidente por ser conductor y guardián del vehículo MDP 995, habiendo realizado una maniobra negligente de giro brusco sin advertir la circulación de la motocicleta.",
+      "negativa": "Niego que el demandado Rojas haya actuado con la negligencia, impericia o imprudencia que describe la demanda, o que su conducta sea la causa determinante y exclusiva del presunto accidente. La atribución de responsabilidad civil queda sujeta a la producción de la prueba pericial mecánica y a las constancias de la causa penal."
+    },
+    {
+      "hecho_numero": 11,
+      "hecho_original": "El accidente constituyó un accidente de trabajo in itinere conforme el art. 6 inc. 1 de la LRT, identificado internamente por Asociart con el siniestro N° 0-586544.",
+      "negativa": "Niego que el presunto accidente haya ocurrido estrictamente en el trayecto habitual del trabajador Cabito entre su lugar de trabajo y su domicilio particular, o que las circunstancias que describe la demanda sean exactamente las que constan en el expediente de siniestro N° 0-586544. La acreditación de las circunstancias del accidente de trabajo in itinere y su correspondencia con el accidente de tránsito de autos queda sujeta a la producción de la prueba."
+    },
+    {
+      "hecho_numero": 12,
+      "hecho_original": "La ART Asociart tiene acción directa de repetición contra el responsable civil del accidente conforme el art. 39 inc. 5 de la LRT.",
+      "negativa": "Sin negar la existencia de la acción de repetición del art. 39 inc. 5 LRT, niego que Asociart haya demostrado en este proceso todos los presupuestos de la misma: (a) la responsabilidad civil del demandado Rojas por el accidente, (b) el nexo causal entre ese accidente y las lesiones del trabajador, y (c) que el monto reclamado corresponde al valor real de las prestaciones abonadas. Todos estos extremos deben ser acreditados por la actora en este proceso."
+    },
+    {
+      "hecho_numero": 13,
+      "hecho_original": "Edenor S.A. tenía contratado seguro de riesgos del trabajo con Asociart a la fecha del accidente (08/01/2024) y el trabajador Cabito integraba su nómina de empleados.",
+      "negativa": "Niego que la relación contractual entre Edenor S.A. y Asociart y la cobertura del trabajador Cabito sean hechos que deban tenerse por ciertos en el presente proceso sin la acreditación documental correspondiente. Dichos extremos deberán ser acreditados por la actora mediante la prueba informativa y pericial contable ofrecida."
+    },
+    {
+      "hecho_numero": 14,
+      "hecho_original": "El trabajador Cabito fue atendido en el Hospital Vélez Sarsfield y derivado posteriormente a la Clínica Solis de San Justo y al Centro Médico Asociart de Morón.",
+      "negativa": "Niego que todas las prestaciones médicas brindadas al trabajador Cabito en los centros mencionados sean consecuencia directa y exclusiva del accidente de autos, o que los costos de dichas prestaciones sean los que figuran en el 'Reporte de Gastos' acompañado. La autenticidad y correspondencia causal de cada prestación debe ser verificada por el perito contable."
+    },
+    {
+      "hecho_numero": 15,
+      "hecho_original": "La causa penal fue labrada con DEN 1128930/MPF 958902 (Sumario 13698/2024) por Lesiones Culposas art. 94 CP, damnificado Cabito, imputado Rojas.",
+      "negativa": "Niego que las actuaciones penales establezcan la responsabilidad exclusiva del demandado Rojas o que las mismas contengan elementos probatorios que acrediten la mecánica del accidente tal como la describe la demanda. El estado y contenido de las actuaciones penales deberán ser evaluados en este proceso mediante la prueba informativa ofrecida."
+    },
+    {
+      "hecho_numero": 16,
+      "hecho_original": "El acuerdo homologado en el expediente laboral Expte. 45378/2024 fijó la prestación dineraria del trabajador en $29.000.000 de capital, sobre la base de una incapacidad del 22% determinada por pericia médica.",
+      "negativa": "Niego que el acuerdo homologado en el expediente laboral sea oponible a mi representada como prueba de la incapacidad del trabajador y del monto de la prestación, dado que mi representada no fue parte en dicho proceso y no tuvo posibilidad de controlar la pericia médica allí producida. La incapacidad del trabajador derivada del accidente de autos debe ser determinada en este proceso mediante prueba pericial independiente."
+    },
+    {
+      "hecho_numero": 17,
+      "hecho_original": "Asociart reclama además el importe de las costas del expediente laboral incluido en los $38.787.076 del rubro 'ILP / Pagos Juicio'.",
+      "negativa": "Niego que las costas del expediente laboral (entre las partes de ese proceso: Asociart y el trabajador Cabito) sean imputables al demandado Rojas ni a mi representada. Las costas del juicio laboral son consecuencia de la relación entre la ART y el trabajador, y no del accidente de tránsito de autos, por lo que no son recuperables mediante la acción del art. 39 inc. 5 LRT."
+    },
+    {
+      "hecho_numero": 18,
+      "hecho_original": "Se solicita que al capital de condena se le adicionen intereses a tasa activa desde la fecha de cada erogación hasta el efectivo pago, con capitalización conforme art. 770 inc. b) CCyCN.",
+      "negativa": "Niego que la capitalización de intereses conforme el art. 770 inc. b) CCyCN sea procedente en la forma en que la reclama la actora, o que la tasa activa del Banco de la Nación Argentina sea la que corresponde aplicar para cada uno de los rubros reclamados. La determinación de la tasa aplicable y la procedencia de la capitalización quedan sujetas a la decisión del juez."
+    },
+    {
+      "hecho_numero": 19,
+      "hecho_original": "La mediación prejudicial fue realizada ante la mediadora Ana Lorena Torres (Hab. MJYDH N° 4650), cerrándose sin acuerdo.",
+      "negativa": "Se desconoce el contenido de la mediación prejudicial en los términos que describe la demanda, o que la misma haya transcurrido con el resultado que se pretende hacer valer. Se reserva el derecho de requerir informativa a la mediadora interviniente."
+    },
+    {
+      "hecho_numero": 20,
+      "hecho_original": "La responsabilidad de la aseguradora Libra deriva del art. 118 de la Ley 17.418 como aseguradora del vehículo Chevrolet Classic dominio MDP 995.",
+      "negativa": "Niego que la responsabilidad de mi representada sea la que describe la demanda, o que resulten inoponibles las cláusulas contractuales de la póliza de seguros. Las cláusulas del contrato de seguro — incluida la franquicia y el límite de cobertura — son oponibles en la medida del seguro conforme la doctrina reiterada de la CSJN (Flores c/ Giménez, CSJ 678/2013, 6/6/2017 y concordantes). En caso de condena, la misma se extiende a mi representada solo hasta el límite de cobertura pactado en la póliza."
+    },
+    {
+      "hecho_numero": 21,
+      "hecho_original": "El monto abonado por Asociart en el expediente laboral ($29.000.000 de capital más costas) constituye el objeto principal de la repetición del art. 39 inc. 5 LRT.",
+      "negativa": "Niego que el monto total pagado en el juicio laboral (incluyendo costas) sea el monto que corresponde recuperar mediante la acción de repetición del art. 39 inc. 5 LRT en su totalidad. La acción de repetición alcanza el 'valor de las prestaciones' previstas en la LRT — que son las tarifadas legalmente — y no necesariamente el importe de cualquier acuerdo o condena que haya obtenido el trabajador mediante negociación en sede judicial. El monto recuperable queda sujeto a la pericia contable."
+    },
+    {
+      "hecho_numero": 22,
+      "hecho_original": "Asociart es la única ART que cubrió a Edenor S.A. y al trabajador Cabito al momento del accidente del 08/01/2024.",
+      "negativa": "Niego que se haya acreditado en este proceso que Asociart era la ART contratada por Edenor S.A. para cubrir al trabajador Cabito con vigencia al 08/01/2024, o que no existan otras coberturas concurrentes. Dichos extremos deben ser acreditados por la actora mediante prueba documental e informativa."
+    }
+  ],
+  "impugnacion_documental": [
+    {
+      "documento": "Copia de Poder General Judicial del Dr. Francisco Eloy Sánchez",
+      "impugnacion": "Se desconoce la autenticidad de la copia del poder acompañada. Se reserva el derecho de requerir que el original sea exhibido en el proceso."
+    },
+    {
+      "documento": "Reporte con detalle de los gastos y prestaciones brindadas por el siniestro (Reporte de Gastos, siniestro N° 0-586544)",
+      "impugnacion": "Se desconoce la autenticidad del Reporte de Gastos acompañado. Niego que el mismo refleje fielmente los gastos efectivamente erogados como consecuencia directa y exclusiva del accidente de tránsito de autos. El Reporte fue confeccionado unilateralmente por la parte actora; su contenido debe ser verificado por el perito contable designado, quien tendrá acceso a los libros y registros de Asociart."
+    },
+    {
+      "documento": "Comprobantes de atención médica / alta médica",
+      "impugnacion": "Se desconoce la autenticidad de los comprobantes de atención médica acompañados en copia. Se reserva el derecho de impugnarlos en caso de que su contenido resulte relevante. La correspondencia causal de cada prestación con el accidente de autos debe ser verificada por el perito médico y contable."
+    },
+    {
+      "documento": "Pericia médica producida en el expediente laboral Expte. 45378/2024",
+      "impugnacion": "Se desconoce la autenticidad de la copia de pericia médica acompañada. Más allá de su autenticidad, se impugna su valor probatorio en este proceso: la pericia fue producida en un juicio en el que mi representada no fue parte, sin posibilidad de controlar su producción, de proponer puntos de pericia ni de impugnar sus conclusiones. La incapacidad del trabajador derivada del accidente de autos debe ser objeto de pericia independiente en estas actuaciones."
+    },
+    {
+      "documento": "Acuerdo y homologación judicial referida a prestación e indemnización por incapacidad laboral (Expte. 45378/2024)",
+      "impugnacion": "Se desconoce la autenticidad de la copia del acuerdo homologado acompañada. Más allá de su autenticidad, niego que el acuerdo homologado entre Asociart y el trabajador Cabito sea oponible a mi representada como determinación de la incapacidad ni del quantum de las prestaciones recuperables, dado que mi representada no participó en ese proceso y el acuerdo pudo haber incluido compensaciones o rubros que no corresponden a la acción de repetición del art. 39 inc. 5 LRT."
+    },
+    {
+      "documento": "Constancias de pago, escrito y comprobante de transferencia",
+      "impugnacion": "Se desconoce la autenticidad de los comprobantes de pago acompañados en copia. La efectivización de los pagos y su correspondencia con los rubros reclamados deben ser verificados por el perito contable designado en la causa."
+    }
+  ],
+  "excepciones_previas": [
+    {
+      "excepcion": "Prescripción — verificar plazo aplicable",
+      "estado": "A VERIFICAR",
+      "fundamento": "La acción de repetición del art. 39 inc. 5 LRT es de naturaleza civil. El plazo de prescripción podría ser el del art. 2561 CCC (3 años) para responsabilidad civil extracontractual, o el del art. 58 Ley 17.418 (1 año) para la acción contra el asegurador. El accidente ocurrió el 08/01/2024. La mediación prejudicial fue realizada (acta adjunta). Verificar las fechas para evaluar la defensa.",
+      "riesgo_rechazo": "Moderado. Consultar con la letrada."
+    }
+  ],
+  "defensas_fondo": [
+    {
+      "nombre": "Inoponibilidad del expediente laboral como prueba de incapacidad y cuantía en este proceso",
+      "texto": "La acción de repetición del art. 39 inc. 5 LRT exige que la ART actora demuestre en este proceso civil: (a) la responsabilidad civil del demandado por el accidente de tránsito, (b) el nexo causal entre ese accidente y las lesiones del trabajador, y (c) el monto de las prestaciones efectivamente abonadas. La ART no puede limitarse a invocar lo resuelto en el expediente laboral (Expte. 45378/2024, JNIT N° 63) como prueba de la incapacidad del trabajador y del quantum de la prestación, dado que mi representada no fue parte en ese proceso, no tuvo posibilidad de controlar la pericia médica allí producida ni de impugnar el acuerdo homologado. La resolución del juicio laboral hace cosa juzgada entre Asociart y el trabajador Cabito, pero no es oponible a esta parte en la presente causa. Por ende, la ART debe acreditar de manera independiente en este proceso todos los presupuestos de la repetición."
+    },
+    {
+      "nombre": "Culpa concurrente / hecho de la víctima (art. 1729 CCC)",
+      "texto": "Sin perjuicio de la negativa general de los hechos, y para el improbable supuesto de que V.S. tuviera por acreditado el siniestro en los términos de la demanda, esta parte invoca la culpa concurrente del trabajador Cabito en la producción del evento. El trabajador Cabito circulaba en motocicleta por la Av. General Paz, una arteria de alta velocidad, con la obligación de mantener en todo momento el dominio efectivo de su rodado y de anticipar las maniobras de los demás vehículos (art. 39 inc. b) Ley 24.449). La determinación definitiva de la incidencia causal de cada rodado queda sujeta a la producción de la prueba pericial mecánica y a las constancias de la causa penal."
+    },
+    {
+      "nombre": "Impugnación de montos y rubros reclamados — costas del expediente laboral no son recuperables",
+      "texto": "Las costas del expediente laboral Expte. 45378/2024 incluidas en el rubro 'ILP / Pagos Juicio' ($38.787.076 según la demanda) no son recuperables mediante la acción del art. 39 inc. 5 LRT. Dicha norma otorga a la ART el derecho a recuperar 'el valor de las prestaciones' previstas en la LRT, que son las tarifadas legalmente por los arts. 7, 8, 13, 14 y 20 de la LRT. Las costas del proceso judicial son un accesorio del pleito entre Asociart y el trabajador, derivadas de la relación entre esas dos partes, y no de la responsabilidad civil del demandado Rojas por el accidente de tránsito. Su inclusión en el reclamo de repetición extiende la acción más allá de su fundamento legal."
+    },
+    {
+      "nombre": "Oponibilidad del límite de cobertura (art. 118 Ley 17.418)",
+      "texto": "Conforme lo detallado en la sección de oponibilidad, la condena a mi representada no puede exceder el límite de cobertura pactado en la póliza. La ART actora, al ejercitar la acción de repetición, se subroga en la posición del demandado asegurado y no puede tener más derechos que éste frente a su aseguradora. En consecuencia, la condena a Libra queda limitada al límite de cobertura pactado en la póliza, cualquiera sea el monto de condena contra el demandado Rojas."
+    }
+  ],
+  "impugnacion_montos": [
+    {
+      "rubro": "Prestaciones en especie",
+      "monto_reclamado": "$375.678,22",
+      "impugnacion": "El monto de $375.678,22 en prestaciones en especie fue determinado unilateralmente por Asociart según su propio Reporte de Gastos. Mi representada no tuvo acceso a los comprobantes ni a los criterios de facturación de los prestadores. La actora debe acreditar cada erogación con los comprobantes originales y demostrar su correspondencia causal con el accidente de autos. La pericia contable deberá verificar la realidad y cuantía de cada pago."
+    },
+    {
+      "rubro": "Incapacidad Laboral Temporaria (ILT)",
+      "monto_reclamado": "$629.573,08",
+      "impugnacion": "El monto de $629.573,08 en ILT debe ser verificado por la pericia contable en función del salario base del trabajador Cabito acreditado documentalmente y del período de ILT efectivamente reconocido. Niego que el cálculo realizado por Asociart sea el que corresponde según el régimen de la LRT."
+    },
+    {
+      "rubro": "Incapacidad Laboral Permanente — Pagos en juicio (ILP)",
+      "monto_reclamado": "$38.787.076",
+      "impugnacion": "El monto de $38.787.076 incluye el capital de $29.000.000 fijado en el acuerdo judicial homologado más costas del proceso laboral. Se impugna: (a) el capital de $29.000.000, determinado en un proceso en el que mi representada no fue parte y no pudo controlar la pericia ni el acuerdo; (b) las costas del juicio laboral, que no son recuperables por la vía del art. 39 inc. 5 LRT; (c) la totalidad del monto, que excede en su mayor parte el límite de cobertura de la póliza. La incapacidad del trabajador y el quantum de la prestación deben ser determinados en este proceso con prueba pericial independiente."
+    },
+    {
+      "rubro": "Intereses con capitalización art. 770 inc. b) CCyCN",
+      "monto_reclamado": "A liquidar",
+      "impugnacion": "Se impugna la procedencia de la capitalización de intereses conforme el art. 770 inc. b) CCyCN sobre el total de los rubros reclamados, en especial sobre las costas del juicio laboral que — como se señaló — no son recuperables. La aplicación del art. 770 CCyCN queda sujeta a la evaluación del juez conforme las circunstancias del caso."
+    }
+  ],
+  "ofrecimiento_prueba": {
+    "documental": [
+      "Poder general para juicios otorgado a favor del letrado interviniente de Libra",
+      "Póliza de seguro de Libra Compañía Argentina de Seguros S.A. para el vehículo Chevrolet Classic dominio MDP 995, asegurado Juan Carlos Rojas",
+      "Expediente de siniestros de Libra Compañía Argentina de Seguros S.A. correspondiente al siniestro de autos"
+    ],
+    "informativa": [
+      "A la DIRECCIÓN NACIONAL DEL REGISTRO DE LA PROPIEDAD AUTOMOTOR (DNRPA): que informe la titularidad dominial del automotor Chevrolet Classic dominio MDP 995 a la fecha del presunto accidente (08/01/2024) y en forma histórica",
+      "A la UNIDAD FUNCIONAL DE FLAGRANCIA — UNIDAD FISCAL OESTE DEL MINISTERIO PÚBLICO FISCAL CABA: que remita ad effectum videndi et probandi copia de la causa penal DEN 1128930/MPF 958902 (Sumario 13698/2024) por Lesiones Culposas, damnificado Cabito Guido Hernán, imputado Juan Carlos Rojas",
+      "Al JUZGADO NACIONAL DE PRIMERA INSTANCIA DEL TRABAJO N° 63: que remita ad effectum videndi et probandi los autos 'CABITO GUIDO HERNAN C/ ASOCIART S.A. ART S/ RECURSO LEY 27348' (Expte. 45378/2024) o copia certificada de sus partes pertinentes, en especial la pericia médica producida y el acuerdo homologado",
+      "A la SUPERINTENDENCIA DE RIESGOS DEL TRABAJO: que informe si Edenor S.A. tenía celebrado contrato de seguro de riesgos del trabajo con Asociart S.A. ART con vigencia al 08/01/2024 y remita copia del Expediente SRT 128193/24"
+    ],
+    "pericial": [
+      "Pericial accidentológica/mecánica: que el perito se expida sobre la mecánica del accidente ocurrido el 08/01/2024 en Av. General Paz a la altura de Nazarre, calidad de embistente/embestido de cada rodado, velocidades de circulación, y todo otro aspecto de interés",
+      "Pericial médica: que evalúe las lesiones sufridas por el trabajador Cabito Guido Hernán (DNI 34.148.179) como consecuencia del accidente de autos, el grado de incapacidad resultante y su correspondencia causal con el hecho de la demanda — independientemente de lo resuelto en el expediente laboral",
+      "Pericial contable: que verifique la realidad y cuantía de cada erogación efectuada por Asociart con causa en el siniestro N° 0-586544, su correspondencia con las prestaciones previstas en la LRT, y determine el importe efectivamente recuperable mediante la acción del art. 39 inc. 5 LRT"
+    ],
+    "testimonial": [],
+    "confesional": [
+      "Absolución de posiciones del representante legal de Asociart S.A. ART, a tenor del pliego que se adjuntará oportunamente, en especial sobre las circunstancias del accidente, la fecha de denuncia del siniestro y los parámetros utilizados para calcular las prestaciones"
+    ]
+  },
+  "petitorio": {
+    "texto": "Por todo lo expuesto, de V.S. solicito:\na) Se me tenga por presentada en el carácter de citada en garantía, por parte en las presentes actuaciones, y por constituidos los domicilios procesal y electrónico denunciados.\nb) Se tenga por contestada la demanda en tiempo y forma, con la negativa general y particular de los hechos y el derecho invocados por la actora Asociart.\nc) Se tenga presente la impugnación de toda la documental acompañada por la actora.\nd) Se tenga presente la excepción de prescripción con reserva de ampliarla.\ne) Oportunamente, se rechace la demanda en todas sus partes, con expresa imposición de costas a la actora.\nf) En subsidio, para el improbable supuesto de que se hiciera lugar a la demanda, se tenga presente: (i) que las costas del expediente laboral Expte. 45378/2024 no son recuperables por vía del art. 39 inc. 5 LRT; (ii) que el límite de cobertura pactado en la póliza opera como tope de la condena a mi representada conforme el art. 118 de la Ley 17.418 y la doctrina reiterada de la CSJN.\ng) Se tenga por ofrecida la prueba indicada precedentemente.\nh) Se tenga presente la defensa en juicio del asegurado y la consecuente responsabilidad de Rojas por los honorarios de su letrado particular en caso de que haya asumido su propia defensa sin noticia a mi representada."
+  },
+  "secciones_requieren_revision": [
+    "letrado: completar nombre, tomo, folio, CUIT y mail del letrado actuante de Libra",
+    "expediente: completar número de expediente una vez caratulado",
+    "fecha_notificacion: completar con la fecha efectiva de notificación de la citación en garantía a Libra",
+    "fecha_vencimiento: calcular 30 días hábiles desde la notificación (juicio ordinario CPCCN)",
+    "poliza.numero: obtener el número de póliza del expediente de siniestros (no figura en la demanda)",
+    "poliza.vigencia_desde y poliza.vigencia_hasta: verificar vigencia al 08/01/2024",
+    "poliza.limite: verificar suma asegurada — DATO CRÍTICO dado el monto reclamado de $39,8M"
+  ],
+  "notas_para_abogado": [
+    "CASO ART — ESTRUCTURA DIFERENTE: Este no es un caso RC Auto estándar. La actora es una ART que reclama repetición del art. 39 inc. 5 LRT por $39,8M (en su mayor parte pagos del juicio laboral homologado). La defensa central es que el expediente laboral no es oponible a Libra como prueba de incapacidad ni de cuantía.",
+    "COSTAS DEL JUICIO LABORAL NO RECUPERABLES: Del total de $38.787.076 del rubro ILP, la porción que corresponde a costas del juicio laboral NO es recuperable mediante el art. 39 inc. 5 LRT. Revisar el desglose en el comprobante de pago adjunto.",
+    "SUMA ASEGURADA — DATO CRÍTICO: El monto reclamado es de $39,8M. Obtener urgentemente la póliza para conocer la suma asegurada. Si la suma asegurada es inferior al monto reclamado (lo cual es muy probable), la responsabilidad de Libra queda acotada a ese límite.",
+    "PERICIA MÉDICA INDEPENDIENTE: Solicitar específicamente en la prueba pericial que el perito médico evalúe la incapacidad del trabajador en forma independiente del expediente laboral (Expte. 45378/2024). La incapacidad fijada en ese proceso fue de 22% pero mi representada no participó en su determinación.",
+    "CAUSA PENAL: Solicitar copia de la causa penal (DEN 1128930/MPF 958902) para evaluar la mecánica del accidente. La causa penal es por 'Lesiones Culposas' (no dolo), lo que descarta exclusiones por culpa grave del asegurado.",
+    "CAPITALIZACIÓN ART. 770: La actora pide capitalización de intereses desde la fecha de cada erogación. Impugnar expresamente sobre las costas del juicio laboral que no son recuperables."
+  ]
+}
