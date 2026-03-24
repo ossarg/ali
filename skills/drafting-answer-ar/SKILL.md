@@ -55,6 +55,20 @@ Trabajás para el área de litigios de una aseguradora argentina. Tu tarea es ge
 
 NO generás argumentación jurídica original. Generás un borrador basado en los análisis upstream. Las secciones que requieren criterio jurídico que no fue resuelto por triage se marcan explícitamente para revisión del abogado.
 
+### Paso 0b: Determinar el tipo de caso
+
+Antes de redactar, identificar el tipo de caso a partir de `claim-summary-ar.tipo_siniestro`:
+
+| Tipo | Característica | Impacto en redacción |
+|------|----------------|---------------------|
+| **Accidente de tránsito con lesiones** | Caso más común. Citación en garantía o acción directa. | Usar lista completa de hechos a negar (sección 4). Impugnar incapacidad, daño moral, gastos médicos, lucro cesante. |
+| **Daño material / choque sin lesiones** | Sin rubros de incapacidad ni daño psicológico. | Negativas enfocadas en mecánica del accidente, valuación de daños, nexo causal. Rubros: daño emergente, privación de uso, desvalorización. |
+| **Robo / hurto total o parcial** | Demanda directa contra la aseguradora. No hay asegurado codemandado típico. | Foco en cumplimiento de cargas contractuales (art. 47 LS), documentación entregada, plazo de pago (art. 49 LS). Sección III se transforma en "CONTRATO DE SEGURO" (ver modelo real). |
+| **Incumplimiento contractual (no siniestro vial)** | Actora reclama mora, daño punitivo, LDC. | Desarrollar defensa de LDC inaplicabilidad, impugnar intereses compensatorios y punitorios, plantear inexistencia de mora. |
+| **Siniestro con exclusión de cobertura** | Aseguradora no asume cobertura. | No incluir sección "ASUME COBERTURA". Desarrollar la exclusión como defensa principal. |
+
+Si el tipo es robo/incumplimiento contractual, la lista de negativas específicas (punto 4) debe adaptarse al tipo — las 20 negativas estándar de accidente de tránsito no aplican.
+
 ### Paso 0: Determinar el encuadre procesal
 
 Antes de redactar, determiná el encuadre de la contestación a partir de `claim-summary-ar`:
@@ -83,10 +97,12 @@ El encuadre cambia la fórmula de presentación, la sección de limitación al m
 
 **Regla de cantidad**: Generá UNA negativa por CADA hecho afirmado en la demanda. Los hechos vienen de `claim_summary.hechos` (lista que extrajo Mike) o del resumen narrativo de Donna. Si no hay lista estructurada, identificá los hechos uno por uno leyendo la demanda. **Mínimo 15 negativas** en un caso típico de accidente de tránsito. Los modelos reales de Libra tienen entre 20 y 50 negativas específicas.
 
-**Formato canónico**: cada negativa es un ítem numerado con el texto:
+**Formato canónico** (confirmado con modelos reales de Libra): cada negativa es un ítem numerado con el texto:
 - `"Niego que [hecho textual de la demanda tal como lo afirmó el actor]."` — para hechos a negar
 - `"Desconozco [hecho ajeno al conocimiento directo de la aseguradora]."` — para hechos periféricos
 - `"Reconozco que [hecho incontrovertible]."` — solo cuando sea estrictamente necesario
+
+**Encabezado canónico de la sección**: `"De manera específica, se niegan las siguientes afirmaciones de la actora:"`
 
 **Qué negar en un caso típico de accidente de tránsito** (mínimo):
 1. La mecánica del accidente tal como la describe el actor
@@ -116,21 +132,44 @@ Para CADA hecho de la lista de Mike (`claim_summary.hechos`), generá la negativ
 
 ### Formato de negativas — regla de capitalización
 
-Cada negativa empieza con "Que" seguido de minúscula. NUNCA mayúscula después de "Que":
+**Formato canónico confirmado con modelos reales de Libra**: cada ítem numerado usa la fórmula completa:
+
+- `"Niego que [hecho afirmado por el actor — minúscula después de 'que']."` → para hechos a negar
+- `"Desconozco [hecho periférico]."` → para hechos ajenos al conocimiento de la aseguradora
+- `"Reconozco que [hecho incontrovertible]."` → solo cuando sea estrictamente necesario
+
+**Encabezado de la sección**: usar exactamente esta frase (confirmada en modelos reales):
+> "De manera específica, se niegan las siguientes afirmaciones de la actora:"
+
+**Regla de capitalización**: la palabra inmediatamente después de "que" siempre va en MINÚSCULA, salvo que sea un nombre propio:
 
 ✅ Correcto:
-- "Que el demandado Olmedo haya circulado..."
-- "Que al día de la interposición..."
-- "Que a raíz de la colisión..."
-- "Que se hayan producido las lesiones..."
+- "Niego que el demandado Olmedo haya circulado..."
+- "Niego que al día de la interposición..."
+- "Niego que a raíz de la colisión..."
+- "Niego que se hayan producido las lesiones..."
+- "Niego que Libra Seguros haya..." ← nombre propio: mayúscula
 
 ❌ Incorrecto:
-- "Que El demandado Olmedo..."
-- "Que Al día de la interposición..."
-- "Que A raíz de la colisión..."
-- "Que Se hayan producido..."
+- "Niego que El demandado Olmedo..."
+- "Niego que Al día de la interposición..."
+- "Niego que A raíz de la colisión..."
+- "Niego que Se hayan producido..."
 
-La palabra después de "Que" siempre va en minúscula salvo que sea un nombre propio (ej: "Que Libra Seguros haya..."). Esto es estándar procesal argentino — verificar cada negativa antes de incluirla.
+**IMPORTANTE — negativas de cierre obligatorias**: los modelos reales de Libra siempre terminan las negativas específicas con estas negativas estándar de cierre (agregar siempre al final de la lista):
+
+```
+[N-cierre-1]. Niego la aplicabilidad de los fallos citados por la actora.
+[N-cierre-2]. Niego que resulte aplicable la doctrina citada.
+[N-cierre-3]. Niego que resulte aplicable la normativa citada.
+[N-cierre-4]. Niego que resulte procedente la demanda.
+```
+
+Si la demanda invoca la Ley de Defensa del Consumidor, agregar también:
+```
+[N-cierre-5]. Niego que la actora revista la calidad de consumidora en los términos invocados.
+[N-cierre-6]. Niego que resulte aplicable al caso la Ley de Defensa del Consumidor.
+```
 
 ### Principio de las negativas — carga de la prueba
 
@@ -214,30 +253,48 @@ Si el asegurado tiene letrado propio identificado en los datos upstream, agregar
 
 #### 11. IMPUGNACIÓN DE DOCUMENTACIÓN (SIEMPRE — DINAMICO)
 
-**Esta sección es OBLIGATORIA.** Negar y desconocer cada documento adjuntado por el actor, listándolos uno por uno.
+**Esta sección es OBLIGATORIA.** Negar y desconocer la documentación del actor, primero con una fórmula general, luego ítem por ítem.
 
-Mike extrae la lista de documentos en `claim_summary.prueba_documental`. Usá esa lista. Para cada documento:
+**Formato confirmado en modelos reales de Libra** — incluir SIEMPRE ambas partes:
 
+**Parte A — Fórmula general de desconocimiento** (insertar verbatim):
 ```
-"Niego y desconozco la autenticidad, veracidad y/o valor probatorio de [nombre del documento], acompañado como [número de anexo] de la demanda, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco."
+"En los términos del artículo 356 inciso 1° del Código Procesal Civil y Comercial, mi parte
+desconoce expresa y formalmente, por no constarle su autenticidad, veracidad, origen,
+integridad, fecha cierta ni correspondencia con el hecho de autos, toda la documentación
+acompañada por la actora, así como aquella que eventualmente se incorpore en el futuro
+sin los recaudos legales pertinentes. En tal sentido, niego expresamente la documental
+acompañada por parte actora que haya sido emitida por esta parte o no se encuentre en
+copia certificada o instrumento público, por no constarme su origen ni autenticidad."
+```
+
+**Parte B — Listado específico**: para cada documento de `claim_summary.prueba_documental`:
+```
+"Niego y desconozco la autenticidad, veracidad y/o valor probatorio de [nombre del documento],
+acompañado como [número de anexo] de la demanda, cuya autenticidad, correspondencia
+con los originales y valor probatorio no reconozco."
 ```
 
 Documentos típicos en accidentes de tránsito a impugnar:
+- Acta de mediación prejudicial obligatoria
+- Acta policial / actuaciones policiales
 - Historia clínica del actor
-- Facturas médicas y de farmacia
+- Certificados médicos y de incapacidad
+- Facturas médicas y de farmacia / recibos
+- Constancias de tratamientos médicos y psicológicos
 - Presupuestos de reparación del rodado
 - Fotografías del lugar del accidente y/o rodados
+- Video fílmico (si existe)
 - Informe pericial médico extrajudicial
 - Informe psicológico extrajudicial
 - Liquidación de sueldos / recibos de haberes
-- Acta policial / actuaciones policiales
-- Certificados de incapacidad
-- Constancias de tratamientos médicos
+- Cédula de identificación del vehículo / título del automotor
+- Licencia de conducir del actor y/o demandado
 - Cualquier otro documento adjuntado por el actor
 
-Si Mike no extrajo la lista, generar el placeholder:
-```
-[IMPUGNACIÓN DOCUMENTAL — A COMPLETAR con la lista de documentos adjuntados por el actor]
+Si Mike no extrajo la lista, igualmente insertar la **Parte A** (fórmula general verbatim) y luego marcar en `secciones_requieren_revision`:
+```json
+{ "seccion": "Impugnación documental — Parte B (listado específico)", "razon": "Mike no extrajo lista de documentos adjuntados por el actor", "prioridad": "urgente" }
 ```
 
 #### 12. IMPUGNACIÓN DE MONTOS POR RUBRO (SIEMPRE — DINAMICO)
@@ -284,6 +341,20 @@ Siempre incluir, en subsidio. Datos de `policy-summary-ar`:
 - Sublímites por cobertura si existen
 - Referencia al art. 118 Ley 17.418
 
+#### 13b. CUMPLIMIENTO DE LA OBLIGACIÓN (DINAMICO — solo si la aseguradora ya pagó)
+
+**Solo incluir cuando `claim-summary-ar` o los datos del caso indiquen que la aseguradora ya realizó un pago al actor.**
+
+Cuando ya hubo pago, esta sección es **estratégicamente crítica**: establece que no hay capital pendiente y circunscribe la litis a accesorios (intereses, daño moral, daño punitivo).
+
+Estructura:
+1. Afirmar el pago: monto, fecha, modalidad (transferencia bancaria / cheque / etc.)
+2. Calificar el pago como cancelatorio de la obligación principal
+3. Aclarar que el objeto procesal queda circunscripto a accesorios cuya procedencia se controvierte
+4. Sentar que no puede configurarse incumplimiento cuando la prestación principal fue satisfecha
+
+Si no hubo pago: omitir la sección silenciosamente.
+
 #### 14. Reconvención (DINAMICO — solo si aplica)
 Evaluar si corresponde reconvenir (art. 357 CPCyCN). Raro para aseguradoras, pero posible en:
 - Fraude de seguro: el asegurado provocó el siniestro intencionalmente
@@ -291,8 +362,28 @@ Evaluar si corresponde reconvenir (art. 357 CPCyCN). Raro para aseguradoras, per
 
 Si no aplica (mayoría de los casos), omitir la sección silenciosamente. Si hay indicios de fraude en los datos upstream, marcar para revisión del abogado.
 
+#### 14b. OPOSICIÓN A PRUEBA (DINAMICO — incluir siempre que haya base)
+
+**Esta sección aparece en todos los modelos reales de Libra.** Oponerse a los medios de prueba ofrecidos por el actor que sean inconducentes, superabundantes o improcedentes.
+
+Analizar la prueba ofrecida por el actor (de `claim_summary.prueba_ofrecida_actor`). Para cada medio que corresponda oponerse:
+
+- **Prueba confesional del representante legal de mi mandante**: oponerse siempre que la aseguradora haya asumido cobertura, pues no hay hechos controvertidos sobre los que absolver posiciones.
+- **Prueba pericial contable**: oponerse cuando no sea relevante para los hechos controvertidos. Advertir que los gastos quedarán a cargo exclusivo del actor si insiste.
+- **Prueba informativa a entidades**: oponerse a oficios que solo ratifican instrumentos unilaterales del actor sin agregar valor probatorio (ej: oficio a consultorio médico solo para autenticar un certificado del propio médico del actor).
+
+Si el actor no ofreció ninguna prueba objetable o no hay datos upstream, omitir esta subsección silenciosamente.
+
 #### 15. Reserva del caso federal (ESTATICO)
-- Fórmula estándar de reserva
+
+**Fórmula confirmada en modelos reales**:
+```
+"Para el hipotético e improbable caso de que V.S. haga lugar al planteo realizado, dejo
+expresa reserva del caso federal previsto en el art. 14 de la Ley 48, por considerar vulnerados,
+en tal improbable supuesto, las garantías constitucionales de mis representados, plasmadas
+en los principios constitucionales de defensa en juicio, igualdad ante la ley, propiedad, y
+debido proceso. (Arts. 16, 17, 18)."
+```
 
 #### 16. Ofrecimiento de prueba (ESTATICO + DINAMICO)
 - Art. 333 CPCyCN
@@ -300,8 +391,40 @@ Si no aplica (mayoría de los casos), omitir la sección silenciosamente. Si hay
 - Informativa, pericial, testimonial: adaptar según el caso y lo que ofreció el actor (de `claim-summary-ar`)
 - Confesional: siempre ofrecer
 
+#### 16b. AUTORIZA (ESTATICO — siempre presente)
+
+**Esta sección aparece en todos los modelos reales de Libra y es obligatoria.**
+
+Incluir siempre antes del petitorio. Lista a los colaboradores del estudio habilitados para operar en el expediente.
+
+**Fórmula confirmada en modelos reales**:
+```
+"Solicito se autorice a [LISTA DE AUTORIZADOS — A COMPLETAR], a solicitar el expediente
+en mesa de entradas, presentar escritos, extraer fotocopias, retirar oficios, exhortos,
+testimonios, copias de escritos y/o pericias, hacer desgloses y cuanto más sea necesario
+a los efectos de controlar el estado del juicio (R.N.J. Art. 63, inc. A modificado por la
+Acordada de la C.S.J.N. 5.3.54). Para el caso de que los autorizados procediesen a retirar
+copias de escritos y/o pericias de los cuales se hubiera corrido vista o traslado, queda
+entendido que dicho retiro implica la notificación del suscripto de tal vista o traslado."
+```
+
+Si el letrado no es Mike-extraído, usar el placeholder `[LISTA DE AUTORIZADOS — A COMPLETAR]`. El abogado completará con el equipo estándar de Libra.
+
 #### 17. Petitorio (ESTATICO)
-- "Se rechace la demanda en todas sus partes con expresa imposición de costas"
+
+**Fórmula confirmada en modelos reales** (siempre con estos 4-6 ítems):
+```
+"Atento lo expuesto, solicito a V.S.:
+1.- Me tenga por presentado, parte en el carácter invocado, y por constituido el domicilio legal.
+2.- Por contestada la [demanda/citación en garantía] en legal tiempo y forma.
+3.- Por ofrecida la prueba.
+4.- Por introducida la cuestión federal.
+5.- Oportunamente se rechace la demanda con costas.
+6.- Se tengan presentes las autorizaciones conferidas.
+
+Proveer de conformidad,
+SERÁ JUSTICIA."
+```
 
 ## Output esperado
 
@@ -369,6 +492,11 @@ Si no aplica (mayoría de los casos), omitir la sección silenciosamente. Si hay
 | reconvencion | objeto o null | null si no aplica |
 | reconvencion.procede | boolean | Si se recomienda reconvenir |
 | reconvencion.motivo | string o null | Fraude / subrogación / otro |
+| oposicion_prueba | lista | Oposiciones a la prueba del actor |
+| oposicion_prueba[].medio | string | Tipo de prueba (confesional, pericial contable, etc.) |
+| oposicion_prueba[].fundamento | string | Razón de la oposición |
+| autoriza | lista de strings | Lista de personas autorizadas a operar en el expediente (placeholder si no disponible) |
+| reserva_caso_federal.texto | string | Fórmula completa (usar la fórmula canónica de los modelos reales) |
 
 ### Prueba
 
@@ -426,7 +554,7 @@ Si no aplica (mayoría de los casos), omitir la sección silenciosamente. Si hay
 - Marcá CLARAMENTE qué secciones requieren revisión del abogado, con razón y prioridad.
 - No inventés hechos ni cláusulas de póliza. Los datos vienen de extraction, las conclusiones de triage.
 - Si no tenés datos suficientes para una sección, indicalo en notas_para_abogado y marcá la sección para revisión.
-- NUNCA dejar placeholders `[A COMPLETAR]` inline en el texto del escrito judicial. Todo campo faltante debe ir como entrada en el array `secciones_requieren_revision` con `seccion` y `motivo`. El texto del escrito debe fluir sin interrupciones — los placeholders los ve el abogado en la página de notas, no en el cuerpo del escrito.
+- Los placeholders `[A COMPLETAR]` están PERMITIDOS en el JSON output para campos de datos concretos faltantes (ej: número de póliza, nombre del letrado, fecha de notificación). Lo que NO puede quedar inline en el texto redactado del escrito son SECCIONES enteras incompletas o argumentos sin desarrollar. Regla práctica: si es un dato (fecha, nombre, número) → placeholder inline en el JSON. Si es una sección completa que no puede redactarse por falta de información → entrada en `secciones_requieren_revision`.
 - El tono debe ser profesional y apropiado para un escrito judicial.
 - Usá los templates (contestacion_base.md, negativas_standard.md, excepciones_catalog.md) como base para las partes estáticas y semi-estáticas.
 - No re-analicés lo que ya analizó triage. Si `viability-check-ar` dice ROJO en prescripción, no incluyas excepción de prescripción. Si dice VERDE, incluila.
@@ -434,8 +562,11 @@ Si no aplica (mayoría de los casos), omitir la sección silenciosamente. Si hay
 - Si hay hechos de la demanda que no pudiste responder (negar/reconocer/desconocer) con los datos disponibles, listalos en `hechos_no_cubiertos` — esto es un riesgo procesal (art. 356 inc. 1: el silencio puede ser tomado como reconocimiento).
 - La sección OPONIBILIDAD DE LAS CLÁUSULAS siempre se incluye — nunca omitir.
 - La sección DEFENSA EN JUICIO DEL ASEGURADO siempre se incluye — nunca omitir.
-- La sección IMPUGNACIÓN DE DOCUMENTACIÓN siempre se incluye — si no hay datos, dejar placeholder.
-- La sección IMPUGNACIÓN DE MONTOS POR RUBRO siempre se incluye — si no hay datos, dejar placeholder.
+- La sección IMPUGNACIÓN DE DOCUMENTACIÓN siempre se incluye — la fórmula general (Parte A) siempre va verbatim incluso si no hay listado específico.
+- La sección IMPUGNACIÓN DE MONTOS POR RUBRO siempre se incluye — si no hay datos, marcar en `secciones_requieren_revision`.
+- La sección AUTORIZA siempre se incluye — con placeholder si no hay datos.
+- La sección OPOSICIÓN A PRUEBA se incluye cuando hay medios de prueba del actor que sean objetables; omitir silenciosamente si no aplica.
+- Las negativas específicas siempre terminan con las 4 negativas de cierre estándar (jurisprudencia, doctrina, normativa, procedencia). Si la demanda invoca LDC, agregar también las 2 negativas de consumidor.
 
 ## Paso siguiente obligatorio — generación del DOCX
 
