@@ -1,0 +1,333 @@
+{
+  "metadata": {
+    "case_id": "bb0760cd-161b-497e-a20d-bebfd1a173ca",
+    "caratula": "ASOCIART S.A. ART c/ ROJAS, JUAN CARLOS Y OTRO s/ COBRO DE SUMAS DE DINERO",
+    "skill_version": "drafting-answer-ar v3 (adaptive)",
+    "generated_at": "2026-03-24",
+    "tipo_caso": "Acción de repetición ART — art. 39 inc. 5 Ley 24.557. NO es RC Auto típico. Actor es ART que reclama contra tercero responsable. Citación en garantía de Libra como aseguradora del vehículo del demandado."
+  },
+  "encabezamiento": {
+    "tribunal": "[TRIBUNAL CIVIL — A COMPLETAR]",
+    "expediente": "[EXPEDIENTE — A COMPLETAR]",
+    "caratula": "ASOCIART S.A. ART c/ ROJAS, JUAN CARLOS Y OTRO s/ COBRO DE SUMAS DE DINERO",
+    "tipo_escrito": "CONTESTA DEMANDA",
+    "encuadre_procesal": "citacion_garantia",
+    "datos_presentante": {
+      "aseguradora": "LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A.",
+      "cuit": "30-71233282-0",
+      "domicilio": "Olazábal 1515 Piso 5°, Of. 505, CABA",
+      "poliza": "[N° PÓLIZA — A VERIFICAR: no consta en la demanda. Buscar por vehículo MDP 995 en sistemas internos de Libra]",
+      "asegurado": "Rojas, Juan Carlos",
+      "vehiculo_asegurado": "Chevrolet Classic, dominio MDP 995 (taxi)"
+    }
+  },
+  "formula_presentacion": "LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A., CUIT 30-71233282-0, con domicilio en Olazábal 1515 Piso 5°, Of. 505, CABA, compareciendo por la representación que surge de las actuaciones, con el patrocinio letrado del Dr./Dra. [LETRADO — A COMPLETAR], constituyendo domicilio procesal en [DOMICILIO PROCESAL — A COMPLETAR] y domicilio electrónico en [CUIL/CUIT — A COMPLETAR], a V.S. se presenta y en legal tiempo y forma comparece en calidad de CITADA EN GARANTÍA en los términos del art. 118 de la Ley 17.418 y contesta la demanda interpuesta por ASOCIART S.A. ASEGURADORA DE RIESGOS DEL TRABAJO en autos.\n\nPRELIMINAR: Mi representada señala que la demanda no adjunta la póliza de seguro del automotor Chevrolet Classic dominio MDP 995 ni menciona su número, limitándose el actor a afirmar 'en conocimiento de la existencia de póliza de seguro'. Esta circunstancia, que se señala expresamente, será objeto de análisis en la primera sección del presente escrito.",
+
+  "objeto": {
+    "texto": "Que en el carácter invocado y en los términos del art. 118 de la Ley 17.418, Libra Compañía Argentina de Seguros S.A. se presenta y contesta la demanda ordinaria incoada por ASOCIART S.A. ASEGURADORA DE RIESGOS DEL TRABAJO (en adelante 'Asociart'), en su carácter de ART que ejerce acción de repetición conforme el art. 39 inc. 5 de la Ley 24.557 (LRT), contra Juan Carlos Rojas y contra mi representada como citada en garantía. La intervención de mi representada se circunscribe exclusivamente a los términos y límites del contrato de seguro que eventualmente vincule a Libra con el asegurado Rojas respecto del vehículo taxi Chevrolet Classic dominio MDP 995, conforme lo establece el art. 118 de la Ley 17.418.",
+    "fecha_notificacion": "[FECHA NOTIFICACIÓN — A COMPLETAR]",
+    "plazo_vencimiento": "[FECHA VENCIMIENTO — A COMPLETAR]"
+  },
+
+  "poliza": {
+    "numero": "[N° PÓLIZA — A COMPLETAR URGENTE: gestionar en sistemas internos de Libra por vehículo MDP 995 / titular Juan Carlos Rojas al 08/01/2024]",
+    "aseguradora": "Libra Compañía Argentina de Seguros S.A.",
+    "tomador_asegurado": "Juan Carlos Rojas (a confirmar), conductor del taxi Chevrolet Classic MDP 995",
+    "vehiculo_asegurado": "Chevrolet Classic, dominio MDP 995 (taxi)",
+    "suma_asegurada": "[SUMA ASEGURADA — A COMPLETAR]",
+    "franquicia": "[FRANQUICIA — A COMPLETAR]",
+    "vigencia": "[VIGENCIA — A COMPLETAR: verificar vigencia al 08/01/2024]",
+    "ramo": "Responsabilidad Civil Automotores",
+    "uso_declarado": "[VERIFICAR SI EL USO DECLARADO ES PARTICULAR O COMERCIAL/TAXI — DATO CRÍTICO PARA EVALUACIÓN DE EXCLUSIONES]"
+  },
+
+  "asume_cobertura": {
+    "texto": "A los efectos de la presente contestación y SIN PERJUICIO DE LA RESERVA DE COBERTURA QUE SE EFECTÚA A CONTINUACIÓN, mi representada asume provisoriamente la intervención en autos como citada en garantía, sujeto a la verificación de: (a) existencia de la póliza RC para el vehículo MDP 995; (b) vigencia al 08/01/2024; (c) uso declarado (particular vs. comercial/taxi); (d) suma asegurada; y (e) exclusiones contractuales aplicables. Libra Compañía Argentina de Seguros S.A. hace expresa reserva de TODAS las defensas emergentes del contrato de seguro, en especial la defensa de ausencia de cobertura para vehículos de uso comercial como taxi si el uso declarado fuera particular.",
+    "reserva_exclusiones": true
+  },
+
+  "negativa_general": {
+    "texto": "Que en el carácter invocado, y de conformidad con lo establecido por el art. 356 del Código Procesal Civil y Comercial de la Nación, mi representada NIEGA todos y cada uno de los hechos expuestos en la demanda que no sean objeto de expreso reconocimiento en el presente escrito, negativa que comprende los fundamentos de derecho invocados por la actora en cuanto no coincidan con los que aquí se exponen, la procedencia de los rubros reclamados en la acción de repetición, su cuantificación, la relación causal alegada, la responsabilidad atribuida al asegurado, la extensión de los daños y la totalidad de las prestaciones abonadas por Asociart que la actora pretende recuperar."
+  },
+
+  "desconoce_documental": {
+    "texto": "En los términos del artículo 356 inciso 1° del Código Procesal Civil y Comercial, mi parte desconoce expresa y formalmente, por no constarle su autenticidad, veracidad, origen, integridad, fecha cierta ni correspondencia con el hecho de autos, toda la documentación acompañada por la actora, así como aquella que eventualmente se incorpore en el futuro sin los recaudos legales pertinentes. En tal sentido, niego expresamente la documental acompañada por la actora que haya sido emitida por esta parte o no se encuentre en copia certificada o instrumento público, por no constarme su origen ni autenticidad.",
+    "documentos_especificos": [
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la copia del Poder General Judicial adjunto, cuya autenticidad y vigencia no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del Reporte de Gastos adjunto (detalle de gastos y prestaciones del siniestro N° 0-586544), cuya autenticidad, exactitud y correspondencia con los valores reales de mercado no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de las copias de comprobantes de atención médica y alta médica adjuntas, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la pericia médica producida en el expediente laboral Expte. 45378/2024 JNTrab N° 63, cuya autenticidad, metodología y conclusiones no reconozco respecto del presente proceso civil, pues mi representada no fue parte en dicho expediente.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del acuerdo y homologación judicial del expediente laboral 45378/2024, cuya autenticidad no reconozco en cuanto no me fue notificado ni participé en dicho proceso.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de las constancias de pago y comprobante de transferencia adjuntos, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del acta de cierre de mediación prejudicial sin acuerdo, cuya autenticidad y valor probatorio no reconozco."
+    ]
+  },
+
+  "negativas_especificas": {
+    "encabezado": "De manera específica, se niegan las siguientes afirmaciones de la actora:",
+    "items": [
+      {
+        "numero": 1,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el día 8 de enero de 2024, aproximadamente a las 17.20 horas, el trabajador Cabito Guido Hernán circulara conduciendo una motocicleta marca Honda por la Av. General Paz sentido Riachuelo en esta Ciudad de Buenos Aires de la manera y en las circunstancias descriptas en la demanda."
+      },
+      {
+        "numero": 2,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que aproximadamente a la altura de la calle Nazarre el trabajador Cabito fuera embestido por el automotor taxi Chevrolet Classic dominio MDP 995 conducido por el demandado Rojas de la manera y en las circunstancias descriptas en la demanda."
+      },
+      {
+        "numero": 3,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el trabajador Cabito circulara reglamentariamente por la Av. General Paz, por el carril del lado derecho, de la manera y con los alcances que afirma la actora."
+      },
+      {
+        "numero": 4,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el demandado Rojas, que conducía el automotor Chevrolet Classic por la misma avenida a la izquierda de la motocicleta, efectuara de manera brusca y totalmente sorpresiva una maniobra de giro hacia su derecha para intentar tomar la salida hacia la arteria Nazarre de la manera y con los alcances descriptos en la demanda."
+      },
+      {
+        "numero": 5,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el Chevrolet Classic embistiera con su lateral derecho a Cabito y a la motocicleta de la manera, intensidad y con las consecuencias que describe la actora."
+      },
+      {
+        "numero": 6,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la responsabilidad del accidente sea exclusiva del demandado Rojas y que el trabajador Cabito no haya tenido ninguna participación causal en el evento dañoso."
+      },
+      {
+        "numero": 7,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el trabajador Cabito Guido Hernán sufriera lesiones en su columna cervical y lumbar y otros daños físicos y psicológicos de la entidad, extensión y carácter descripto en la demanda, en especial el porcentaje de incapacidad del 22% VOT (12% física + 10% psíquica) como consecuencia directa, exclusiva y adecuada del accidente del 08/01/2024."
+      },
+      {
+        "numero": 8,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que las prestaciones en especie abonadas por Asociart asciendan a la suma de $375.678,22 de la manera, con el detalle y en los valores descriptos en la demanda, y que todas ellas sean consecuencia necesaria y directa del accidente del 08/01/2024."
+      },
+      {
+        "numero": 9,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que las prestaciones dinerarias por Incapacidad Laboral Temporaria abonadas por Asociart asciendan a la suma de $629.573,08 de la manera, con el detalle y en los valores descriptos en la demanda."
+      },
+      {
+        "numero": 10,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el acuerdo homologado en el expediente laboral Expte. 45378/2024 (JNTrab N° 63) por la suma de $29.000.000 en concepto de incapacidad laboral permanente del 22% VOT sea oponible a esta parte como citada en garantía, toda vez que mi representada no fue parte de dicho proceso laboral, no fue notificada del mismo y no tuvo oportunidad de participar en la determinación del porcentaje de incapacidad ni en la fijación del capital de la prestación."
+      },
+      {
+        "numero": 11,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el monto total del rubro ILP/pagos en juicio ascienda a $38.787.076, y en especial niego que las costas del expediente laboral 45378/2024 —proceso en el que mi representada no fue parte— asciendan a la diferencia entre el capital homologado ($29.000.000) y el total reclamado por dicho rubro ($38.787.076) y que dichas costas sean exigibles a mi representada como citada en garantía."
+      },
+      {
+        "numero": 12,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el monto total reclamado de PESOS TREINTA Y NUEVE MILLONES SETECIENTOS NOVENTA Y DOS MIL TRESCIENTOS VEINTISIETE CON 30/100 ($39.792.327,30) sea razonable, fundado y correspondiente a prestaciones necesariamente causadas por el accidente del 08/01/2024 de la manera y en la extensión descriptos."
+      },
+      {
+        "numero": 13,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la actora Asociart haya tenido derecho a tramitar en forma alguna el acuerdo homologado en el expediente laboral 45378/2024 en los términos y condiciones en que fue celebrado, sin notificación ni participación de esta parte."
+      },
+      {
+        "numero": 14,
+        "tipo_respuesta": "desconozco",
+        "texto": "Desconozco el contenido y alcances del contrato de seguro de riesgos del trabajo celebrado entre Asociart y Edenor S.A., los términos de la nómina de personal cubierto, los criterios de determinación de prestaciones aplicados y la metodología de cálculo de los montos reclamados en la acción de repetición."
+      },
+      {
+        "numero": 15,
+        "tipo_respuesta": "desconozco",
+        "texto": "Desconozco los detalles y circunstancias exactas del accidente laboral in itinere del trabajador Cabito del 08/01/2024, la causa penal DEN 1128930/MPF 958902 (Sumario 13698/2024), las actuaciones ante la Superintendencia de Riesgos del Trabajo (Expte. SRT 128193/24) y el expediente laboral Expte. 45378/2024, cuyo contenido no me consta directamente."
+      },
+      {
+        "numero": 16,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la capitalización de intereses prevista en el art. 770 inc. b) CCyCN sea aplicable desde la fecha de cada erogación efectuada por Asociart en los términos reclamados en la demanda y que dicha capitalización resulte procedente y razonable conforme las circunstancias del caso."
+      },
+      {
+        "numero": 17,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que las costas y gastos del expediente laboral Expte. 45378/2024 (JNTrab N° 63) entre Cabito y Asociart — en el que mi representada no fue parte — constituyan 'consecuencias dañosas del accidente' exigibles a Juan Carlos Rojas y/o a Libra Compañía Argentina de Seguros S.A. en el presente juicio civil."
+      }
+    ]
+  },
+
+  "descripcion_siniestro_aseguradora": {
+    "texto": "Conforme los antecedentes disponibles y sin perjuicio de las reservas efectuadas, el siniestro denunciado habría ocurrido el día 8 de enero de 2024, aproximadamente a las 17.20 hs., en la Av. General Paz a la altura de la calle Nazarre, CABA. El trabajador Cabito Guido Hernán, empleado de Edenor S.A. cubierto por Asociart ART, habría circulado en motocicleta cuando el taxi Chevrolet Classic dominio MDP 995 conducido por el demandado Rojas habría efectuado una maniobra de giro brusco causando la colisión. Mi representada toma conocimiento del hecho exclusivamente a través de la demanda de autos. El presente caso se encuadra como una ACCIÓN DE REPETICIÓN ART (art. 39 inc. 5 LRT), en la que la actora reclama la repetición de las prestaciones laborales pagadas al trabajador damnificado. Esta estructura procesal es diferente de un caso típico de RC Auto: el actor es la ART (no la víctima), y el monto reclamado incluye no solo el capital de las prestaciones laborales sino también las costas del expediente laboral previo (Expte. 45378/2024 JNTrab N° 63), en el que Libra no fue parte. La póliza de seguro del vehículo MDP 995 no fue adjuntada a la demanda."
+  },
+
+  "referencias_poliza": [
+    {
+      "clausula": "Póliza de Libra para el vehículo MDP 995 — Condiciones Generales de RC Auto",
+      "texto_relevante": "[A COMPLETAR URGENTE: obtener número de póliza, condiciones, uso declarado, suma asegurada y franquicia por vehículo MDP 995 / titular Rojas al 08/01/2024]",
+      "aplicacion": "CRÍTICO: Si el uso declarado en la póliza es 'particular' y el vehículo operaba como taxi, puede existir exclusión por uso no declarado. Verificar."
+    },
+    {
+      "clausula": "Art. 118 Ley 17.418",
+      "texto_relevante": "La sentencia que se dicte hará cosa juzgada respecto del asegurador y será ejecutable contra él en la medida del seguro.",
+      "aplicacion": "Límite de responsabilidad de Libra: monto de suma asegurada conforme art. 118 Ley 17.418."
+    }
+  ],
+
+  "defensas_fondo": [
+    {
+      "defensa": "Falta de legitimación pasiva — Póliza no acreditada",
+      "desarrollo": "La demanda no adjunta la póliza de seguro del automotor Chevrolet Classic dominio MDP 995 (taxi) ni menciona su número, limitándose a afirmar 'en conocimiento de la existencia de póliza de seguro'. La citación en garantía del art. 118 Ley 17.418 requiere la existencia y acreditación del contrato de seguro como condición de procedencia. Mi representada cuestionará la citación hasta tanto la actora Asociart acredite fehacientemente la existencia de una póliza de seguro de RC Auto emitida por Libra que estuviera vigente al 08/01/2024 para el vehículo MDP 995. Si de la gestión interna resulta que Libra no es aseguradora del vehículo MDP 995 o que la póliza no estaba vigente al momento del siniestro, esta defensa se transformará en el argumento principal. Se reserva el derecho de ampliar esta defensa una vez completada la gestión interna.",
+      "normativa": "Art. 118 Ley 17.418; arts. 94, 347 CPCyCN",
+      "fuente_triage": "viability_check — criterio falta de legitimación pasiva — resultado amarillo — fortaleza moderada",
+      "riesgo_judicial": "Moderado — si la póliza existe (aunque no fue adjuntada), el cuestionamiento se debilita en etapas posteriores."
+    },
+    {
+      "defensa": "Impugnación de la inclusión de costas del proceso laboral como objeto de la repetición",
+      "desarrollo": "El rubro ILP/pagos en juicio reclamado por la actora ($38.787.076) incluye el capital del acuerdo homologado en el expediente laboral 45378/2024 ($29.000.000) más una diferencia de aproximadamente $9.787.076 en concepto de costas, honorarios y gastos del proceso laboral entre Cabito Guido Hernán y Asociart ART. Mi representada impugna expresamente la inclusión de las costas del proceso laboral en el monto de la acción de repetición. Las costas del expediente 45378/2024 son gastos procesales derivados de la relación laboral entre Cabito y Asociart — proceso en el que Libra Compañía Argentina de Seguros S.A. no fue parte, no fue notificada, y en el que no tuvo oportunidad de ejercer defensa alguna. El art. 39 inc. 5 LRT habilita a la ART a repetir 'el valor de las prestaciones que hubiera abonado', referido a las prestaciones laborales establecidas en la LRT (en especie e ILT/ILP), no a las costas de los procesos judiciales internos de la ART con sus asegurados. Las costas del proceso laboral no son 'consecuencias dañosas del accidente' a cargo de Rojas/Libra sino gastos de Asociart en la gestión de su propio negocio. Solicito que V.S. discrimine en su pronunciamiento el capital de las prestaciones LRT ($ 29.000.000) de las costas del proceso laboral (diferencia), condenando a mi representada exclusivamente en la medida de las prestaciones LRT debidamente acreditadas.",
+      "normativa": "Art. 39 inc. 5 Ley 24.557; arts. 20, 7, 13, 14 LRT; art. 109 Ley 17.418",
+      "fuente_triage": "coverage_opinion — rubro ILP incluye costas del juicio laboral — puntos fuertes",
+      "riesgo_judicial": "Moderado. La jurisprudencia sobre acción de repetición ART varía. Algunos tribunales incluyen todos los costos de la ART; otros limitan el recupero al capital de la prestación."
+    },
+    {
+      "defensa": "Inoponibilidad del acuerdo homologado (Expte. 45378/2024) a Libra",
+      "desarrollo": "El acuerdo homologado ante el JNTrab N° 63 (Expte. 45378/2024) fue celebrado entre Cabito Guido Hernán y Asociart ART sin participación de Libra Compañía Argentina de Seguros S.A. ni del demandado Rojas. Mi representada no fue notificada de la existencia de dicho proceso, no tuvo oportunidad de controlar la pericia médica que determinó el 22% de incapacidad ni de cuestionar los parámetros de cuantificación del capital. El principio de inoponibilidad de la cosa juzgada a quienes no fueron parte (art. 347 inc. 6 CPCyCN; arts. 96 y 96 Ley 17.418) protege a Libra de ser vinculada por los resultados de un proceso en el que no participó. En consecuencia, esta parte tiene derecho a producir prueba propia sobre: (a) la mecánica del accidente y la responsabilidad del demandado Rojas; (b) las lesiones reales del trabajador Cabito y el porcentaje de incapacidad permanente; (c) la cuantía de las prestaciones efectivamente pagadas. La actora Asociart no puede imponer a Libra los resultados de un proceso en el que ésta no tuvo participación.",
+      "normativa": "Art. 347 inc. 6 CPCyCN; arts. 96 Ley 17.418; art. 39 inc. 5 Ley 24.557",
+      "fuente_triage": "viability_check — criterio cosa juzgada — resultado amarillo",
+      "riesgo_judicial": "Moderado. La jurisprudencia en acciones de repetición ART reconoce en general la validez del pago como fundamento del recupero; sin embargo, Libra puede impugnar la cuantía de las prestaciones."
+    },
+    {
+      "defensa": "Posible exclusión por uso del vehículo como taxi (uso comercial no declarado)",
+      "desarrollo": "El vehículo Chevrolet Classic dominio MDP 995 operaba como TAXI al momento del accidente (01/08/2024). Si la póliza RC emitida por Libra cubre uso 'particular' del vehículo y no uso comercial como servicio de transporte público remunerado (taxi), podría configurarse una exclusión por uso fuera de lo pactado. Esta defensa queda supeditada a la obtención de la póliza y la verificación del uso declarado. Si el uso era 'particular' y el vehículo operaba como taxi, Libra puede invocar la exclusión por uso no declarado conforme las condiciones generales de la póliza.",
+      "normativa": "Arts. 984-989 CCC; art. 37 Ley 24.240; condiciones generales de la póliza (a verificar)",
+      "fuente_triage": "coverage_opinion — exclusiones analizadas — uso como taxi — probabilidad media",
+      "riesgo_judicial": "Alto si la exclusión no está claramente redactada y destacada (art. 37 LDC). Los taxis generalmente declaran el uso comercial."
+    }
+  ],
+
+  "oponibilidad_clausulas": {
+    "incluida": true,
+    "razon_inclusion": "Libra es citada en garantía (tipo_intervencion = citacion_garantia)",
+    "boilerplate_flores": false,
+    "razon_flores": "La actora Asociart no anticipó argumentos de inoponibilidad del límite. Se incluye texto base de oponibilidad.",
+    "numero_poliza": "[N° PÓLIZA — A COMPLETAR]",
+    "texto": "La póliza de seguro es un contrato indivisible. Sus cláusulas — condiciones generales, particulares y especiales — forman un todo unitario que no puede ser fragmentado para beneficiar selectivamente a una parte. El tercero que acciona contra la aseguradora en los términos del art. 118 de la Ley de Seguros (Ley 17.418) no adquiere más derechos que los que tiene el asegurado frente a su asegurador; el límite de la obligación de la aseguradora es siempre 'en la medida del seguro'. Esta regla es aplicable tanto cuando el reclamante es la víctima directa del accidente como cuando, como en el presente caso, el reclamante es una ART que ejerce acción de repetición en los términos del art. 39 inc. 5 LRT. La subrogación de la ART en los derechos del damnificado no puede generar un derecho mayor al que tendría el propio damnificado frente a la aseguradora.\n\nArt. 118 Ley 17.418: 'La sentencia que se dicte hará cosa juzgada respecto del asegurador y será ejecutable contra él en la medida del seguro.'\n\nLa CSJN ha establecido en forma reiterada y pacífica que las cláusulas del contrato de seguro son oponibles al tercero reclamante:\n\n'Flores c/ Giménez' — CSJ 678/2013 (49-F)/CS1, sentencia del 6 de junio de 2017. 'Martínez de Costa c/ Vallejos' — CSJ 1319/2008. 'Buffoni c/ Castro' — Fallos: 337:329 (2014). 'Álvarez c/ Moscatelli' — CIV 1728/2017/CS1, sentencia del 14 de diciembre de 2023. 'Aimar c/ Molina' — Expte. 31171/2012, sentencia del 24 de abril de 2018.\n\nMarco normativo: Ley 17.418 arts. 109-120, art. 118; Ley 20.091 arts. 1, 23-26, 64 y 67; Ley 24.449 art. 68; CCyCN arts. 957, 959, 1021 y 1022; CN arts. 17 y 28.\n\nPor todo lo expuesto, solicito a V.S. que, en caso de condenar a mi representada, la sentencia se haga extensiva a LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A. sólo hasta el límite de cobertura pactado en la póliza, conforme lo establece el art. 118 de la Ley 17.418 y la doctrina reiterada de la Corte Suprema de Justicia de la Nación."
+  },
+
+  "defensa_juicio_asegurado": {
+    "incluida": true,
+    "razon_inclusion": "Libra es citada en garantía (tipo_intervencion = citacion_garantia)",
+    "asegurado_tiene_letrado_propio": false,
+    "texto": "De conformidad con lo establecido por la cláusula tercera de la Póliza Básica del Seguro Obligatorio de Responsabilidad Civil, en caso de que el Asegurado y/o Conductor del vehículo asegurado asuman su defensa en juicio sin darle noticia oportuna a mi representada para que éste la asuma, los honorarios de los letrados de éstos quedarán a su exclusivo cargo de los mismos."
+  },
+
+  "impugnacion_montos": [
+    {
+      "rubro": "Prestaciones en especie (art. 20 LRT)",
+      "monto_reclamado": "$375.678,22",
+      "texto_impugnacion": "Impugno el monto de $375.678,22 en concepto de prestaciones en especie en cuanto el 'Reporte de Gastos' adjunto es un instrumento unilateral de Asociart que no ha sido confeccionado con intervención de esta parte y cuya exactitud, razonabilidad y correspondencia con el siniestro del 08/01/2024 no reconozco. La pericia contable deberá acreditar que cada prestación fue efectivamente brindada como consecuencia directa y necesaria del accidente de tránsito de autos y que los valores informados corresponden a los precios de mercado conforme la Resolución SRT 1240/2010. Los gastos de traslado, movilidad y demás gastos administrativos internos de Asociart que pudieran estar incluidos en este rubro son impugnados como no constitutivos de 'prestaciones' LRT repetibles conforme el art. 39 inc. 5."
+    },
+    {
+      "rubro": "Incapacidad Laboral Temporaria (ILT)",
+      "monto_reclamado": "$629.573,08",
+      "texto_impugnacion": "Impugno el monto de $629.573,08 en concepto de ILT en cuanto el 'Reporte de Gastos' adjunto es un instrumento unilateral. La pericia contable deberá acreditar que cada pago de ILT fue efectivamente realizado al empleador/trabajador como consecuencia directa del accidente del 08/01/2024, con detalle de fechas y montos. La duración del período de ILT y su relación causal con el accidente deberán ser acreditados."
+    },
+    {
+      "rubro": "Incapacidad Laboral Permanente (ILP) / Pagos en juicio",
+      "monto_reclamado": "$38.787.076",
+      "texto_impugnacion": "Impugno el monto de $38.787.076 reclamado en concepto de ILP/pagos en juicio por las siguientes razones: (1) El acuerdo homologado en el Expte. 45378/2024 (JNTrab N° 63) fue celebrado sin participación de Libra, sin notificación a esta parte y sin posibilidad de controlar la pericia médica que determinó el 22% de incapacidad. El acuerdo homologado en el fuero laboral no hace cosa juzgada contra Libra, que no fue parte del proceso. (2) La diferencia entre el capital homologado ($29.000.000) y el total reclamado ($38.787.076), equivalente a aproximadamente $9.787.076 en concepto de costas y honorarios del proceso laboral, no es exigible a Libra como citada en garantía por las razones expuestas en las defensas de fondo. (3) El porcentaje de incapacidad del 22% VOT fue determinado en sede laboral con criterios tarifados de la LRT que no necesariamente coinciden con los parámetros de la responsabilidad civil extracontractual — Libra tiene derecho a producir prueba médica propia sobre la incapacidad real del trabajador en el presente proceso civil."
+    }
+  ],
+
+  "anti_indexacion": {
+    "incluida": true,
+    "razon_inclusion": "La actora pide expresamente capitalización de intereses conforme el art. 770 inc. b) CCyCN ('intereses capitalizados') desde la fecha de cada erogación",
+    "texto": "La actora solicita intereses capitalizados en la forma prevista en el art. 770 inc. b) CCyCN, calculados a tasa activa desde la fecha de cada erogación efectuada y hasta su efectivo pago. Esta parte impugna la aplicación de la capitalización de intereses del art. 770 inc. b) CCyCN desde la fecha de cada erogación, por las siguientes razones: (1) El art. 770 inc. b) CCyCN autoriza la capitalización de intereses 'cuando liquidada la deuda judicialmente con los intereses, el juez mandase pagar la suma resultante y el deudor fuese moroso en hacerlo'. Este supuesto requiere previa liquidación judicial — no es aplicable desde la fecha de cada erogación extrajudicial de Asociart. (2) La capitalización de intereses desde la fecha de cada pago individual efectuado por la ART en el período 2024-2025 generaría un enriquecimiento desproporcionado que no guarda relación con el daño sufrido, vulnerando el principio del art. 1740 CCC (reparación plena sin enriquecimiento sin causa). (3) La capitalización sí corresponde desde la notificación de la demanda, conforme el art. 770 inc. b) CCyCN in fine, pero no antes. Solicito que V.S. fije los intereses a tasa activa sin capitalización desde la fecha de cada erogación, admitiendo la capitalización únicamente desde la notificación de la demanda en adelante, y sin que la misma resulte en un monto total desproporcionado en violación del principio de razonabilidad (CN art. 28)."
+  },
+
+  "pluspeticion": {
+    "incluida": true,
+    "razon_inclusion": "El monto reclamado de $39.792.327,30 incluye costas de un proceso laboral ajeno a Libra (~$9.787.076) — rubro identificado como desproporcionado e infundado respecto de la citada en garantía",
+    "texto": "Sin perjuicio de las demás defensas opuestas, esta parte plantea la PLUSPETICIÓN INEXCUSABLE prevista en el art. 72 del CPCCN respecto del rubro de costas del expediente laboral 45378/2024 incluido en el monto de repetición. La actora Asociart reclama como parte del rubro ILP/pagos en juicio la diferencia entre el capital homologado ($29.000.000) y el total del rubro ($38.787.076), equivalente a aproximadamente $9.787.076 en concepto de costas, honorarios y gastos del proceso laboral. Dicho importe corresponde a las costas del proceso laboral entre Cabito y Asociart — proceso en el que Libra no fue parte —, y por ende no es exigible a Libra como consecuencia del accidente de tránsito. La inclusión de dichas costas en la acción de repetición contra Libra constituye un reclamo manifiestamente infundado respecto de la citada en garantía, configurando la pluspetición inexcusable del art. 72 CPCCN. Para el caso de que V.S. rechace dicho rubro, solicita que las costas correspondientes al mismo se impongan a la actora Asociart."
+  },
+
+  "art_730": {
+    "incluida": true,
+    "razon_inclusion": "Monto reclamado $39.792.327,30 es significativo (> $5M) con riesgo de superar $50M con intereses capitalizados",
+    "texto": "Sin perjuicio de las demás defensas opuestas, y para el caso de condena, solicito a V.S. que al momento de regular honorarios y distribuir las costas del proceso, haga aplicación del tope establecido por el art. 730 del Código Civil y Comercial de la Nación, en cuanto prevé que la responsabilidad por el pago de las costas no puede exceder del veinticinco por ciento (25%) del monto de la sentencia, laudo, transacción o instrumento que ponga fin al diferendo. En el presente caso, dado el monto reclamado y el riesgo de que los intereses capitalizados incrementen sustancialmente el total, la aplicación del art. 730 CCyCN resulta de especial importancia para acotar la responsabilidad de mi representada en materia de costas."
+  },
+
+  "limitacion_poliza": {
+    "texto": "Sin perjuicio de todo lo expuesto y para el hipotético e improbable caso de condena, la misma no puede exceder los límites establecidos en la póliza emitida por Libra Compañía Argentina de Seguros S.A. para el vehículo Chevrolet Classic dominio MDP 995. La responsabilidad de mi representada, en su carácter de citada en garantía, se circunscribe estrictamente a los términos del contrato de seguro y no puede superar la suma asegurada pactada, de conformidad con el art. 118 de la Ley 17.418. La subrogación de Asociart en los derechos del trabajador damnificado no puede generar un derecho mayor al que correspondería al propio damnificado frente a la aseguradora — y en ningún caso la acción de repetición puede extenderse más allá de los límites del contrato de seguro.",
+    "suma_asegurada": "[SUMA ASEGURADA — A COMPLETAR]",
+    "franquicia": "[FRANQUICIA — A COMPLETAR]"
+  },
+
+  "autoriza": {
+    "incluida": true,
+    "texto": "Solicito se autorice a [LISTA DE AUTORIZADOS — A COMPLETAR], a solicitar el expediente en mesa de entradas, presentar escritos, extraer fotocopias, retirar oficios, exhortos, testimonios, copias de escritos y/o pericias, hacer desgloses y cuanto más sea necesario a los efectos de controlar el estado del juicio (R.N.J. Art. 63, inc. A modificado por la Acordada de la C.S.J.N. 5.3.54). Para el caso de que los autorizados procediesen a retirar copias de escritos y/o pericias de los cuales se hubiera corrido vista o traslado, queda entendido que dicho retiro implica la notificación del suscripto de tal vista o traslado."
+  },
+
+  "reserva_caso_federal": {
+    "texto": "Para el hipotético e improbable caso de que V.S. haga lugar al planteo realizado, dejo expresa reserva del caso federal previsto en el art. 14 de la Ley 48, por considerar vulnerados, en tal improbable supuesto, las garantías constitucionales de mis representados, plasmadas en los principios constitucionales de defensa en juicio, igualdad ante la ley, propiedad, y debido proceso. (Arts. 16, 17, 18)."
+  },
+
+  "ofrecimiento_prueba": {
+    "documental": [
+      "Póliza de Libra Compañía Argentina de Seguros S.A. para el vehículo Chevrolet Classic dominio MDP 995 con todas sus condiciones generales, particulares y especiales vigentes al 08/01/2024 [A OBTENER del sistema interno de Libra]",
+      "Actuaciones del expediente de siniestros de Libra vinculado al vehículo MDP 995 y al siniestro del 08/01/2024",
+      "Toda documentación adicional que resulte conducente para acreditar los términos de la cobertura y el uso declarado del vehículo"
+    ],
+    "informativa": [
+      "A la DNRPA: titularidad dominial histórica del automotor Chevrolet Classic dominio MDP 995 al 08/01/2024; constancia del uso declarado (taxi/remis/particular)",
+      "Al Juzgado Nacional de Primera Instancia del Trabajo N° 63: expediente completo 'Cabito Guido Hernán c/ Asociart S.A. ART s/ Recurso Ley 27348', Expte. 45378/2024, incluyendo pericia médica, acuerdo homologado y discriminación de capital vs. costas",
+      "A la UFDCyFE / Unidad Fiscal Oeste CABA: actuaciones de la causa penal DEN 1128930/MPF 958902 (Sumario 13698/2024) por Lesiones Culposas art. 94 CP, damnificado Cabito, imputado Rojas",
+      "A la Superintendencia de Riesgos del Trabajo: expediente administrativo SRT 128193/24"
+    ],
+    "pericial": [
+      "Pericial médica judicial: determinar el porcentaje real de incapacidad psicofísica del trabajador Cabito Guido Hernán como consecuencia directa del accidente del 08/01/2024, con baremos del derecho civil (distintos de los baremos LRT usados en el proceso laboral)",
+      "Pericial contable (sobre libros de Asociart): verificar la existencia, fecha, concepto y monto de cada erogación individual reclamada en la acción de repetición; discriminar prestaciones LRT de costas del proceso laboral",
+      "Contrapericia accidentológica (si se produce en la causa penal o por iniciativa propia): determinar la mecánica del accidente, la conducta de ambos conductores y la eventual contribución causal del motociclista"
+    ],
+    "confesional": true
+  },
+
+  "petitorio": {
+    "texto": "Atento lo expuesto, solicito a V.S.:\n1.- Me tenga por presentado, parte en el carácter invocado, y por constituido el domicilio legal.\n2.- Por contestada la citación en garantía en legal tiempo y forma.\n3.- Por ofrecida la prueba.\n4.- Por introducida la cuestión federal.\n5.- Oportunamente se rechace la demanda con costas.\n6.- Se tengan presentes las autorizaciones conferidas.\n\nProveer de conformidad,\nSERÁ JUSTICIA."
+  },
+
+  "secciones_adaptativas_incluidas": [
+    { "seccion": "Oponibilidad de cláusulas", "razon": "Libra es citada en garantía (tipo_intervencion = citacion_garantia)" },
+    { "seccion": "Defensa en juicio del asegurado", "razon": "Libra es citada en garantía" },
+    { "seccion": "Impugnación de montos por rubro", "razon": "Actora reclama montos cuantificados por rubro (3 rubros con montos específicos)" },
+    { "seccion": "Anti-indexación (capitalización art. 770 CCyCN)", "razon": "Actora pide expresamente capitalización de intereses conforme art. 770 inc. b) CCyCN desde la fecha de cada erogación — mecanismo que esta parte impugna como inaplicable desde el inicio" },
+    { "seccion": "Art. 730 CCyCN", "razon": "Monto reclamado $39.792.327,30 con riesgo de superar $50M con capitalización de intereses" },
+    { "seccion": "Pluspetición inexcusable", "razon": "Las costas del proceso laboral 45378/2024 (~$9.787.076) son un rubro desproporcionado e infundado respecto de Libra" }
+  ],
+
+  "secciones_adaptativas_no_incluidas": [
+    { "seccion": "Excepción de prescripción", "razon": "NO se incluye: el siniestro fue el 08/01/2024 y la demanda fue firmada el 04/11/2025 (~22 meses). El plazo de 3 años del art. 2561 CCC para la acción de repetición ART (acción civil extracontractual) está claramente vigente. Edu confirmó que la prescripción está en ROJO (no aplica)." },
+    { "seccion": "Doctrina Samudio (intereses)", "razon": "NO se incluye como sección separada: no aplica en su modalidad estándar porque el actor NO es la víctima sino la ART. Los intereses en la acción de repetición ART tienen un régimen propio. La impugnación de la capitalización (art. 770 CCyCN) está cubierta por la sección anti-indexación/capitalización incluida." },
+    { "seccion": "Cumplimiento de obligación", "razon": "NO se incluye: no hay dato de pago previo por parte de Libra a la actora Asociart." },
+    { "seccion": "Defecto legal (excepción previa)", "razon": "NO se incluye: la demanda de Asociart es clara y cumple los requisitos del art. 330 CPCyCN. Edu calificó el defecto legal en ROJO para este caso." }
+  ],
+
+  "secciones_requieren_revision": [
+    { "seccion": "Número de póliza — CRÍTICO", "razon": "La póliza de Libra para el vehículo MDP 995 NO consta en la demanda. Gestión interna URGENTE: verificar si existe póliza vigente al 08/01/2024 para el vehículo MDP 995 / titular Juan Carlos Rojas. Si NO existe: reformular la contestación como excepción de falta de legitimación pasiva. Si SÍ existe: completar datos de suma asegurada, franquicia y uso declarado.", "prioridad": "urgente" },
+    { "seccion": "Uso declarado del vehículo (particular vs. taxi)", "razon": "El vehículo MDP 995 es un taxi. Si la póliza declara uso 'particular', existe posible exclusión por uso no declarado. Verificar con las condiciones particulares de la póliza.", "prioridad": "urgente" },
+    { "seccion": "Discriminación capital vs. costas del Expte. 45378/2024", "razon": "Obtener el expediente laboral completo para determinar exactamente cuánto corresponde al capital homologado ($29.000.000) y cuánto a costas (~$9.787.076). Este dato es clave para la impugnación del monto.", "prioridad": "urgente" },
+    { "seccion": "Fecha de notificación al asegurador", "razon": "El plazo de contestación no puede calcularse sin la fecha de notificación a Libra.", "prioridad": "urgente" },
+    { "seccion": "Autoriza — lista de autorizados", "razon": "Completar con el equipo estándar de Libra.", "prioridad": "standard" }
+  ],
+
+  "notas_para_abogado": [
+    "CASO ATÍPICO: Esta es una ACCIÓN DE REPETICIÓN ART (art. 39 inc. 5 LRT), no un caso típico de RC Auto. El actor es Asociart ART, no la víctima del accidente. La estructura procesal y las defensas disponibles son diferentes.",
+    "CRÍTICO: La póliza de Libra para el vehículo MDP 995 (taxi Chevrolet Classic) NO fue adjuntada a la demanda. Gestión interna urgente antes de contestar.",
+    "ARGUMENTO CLAVE: Las costas del proceso laboral 45378/2024 (~$9.787.076) NO son exigibles a Libra como citada en garantía — Libra no fue parte de ese proceso y no puede ser vinculada por sus resultados.",
+    "El acuerdo homologado en sede laboral (incapacidad 22% VOT, $29.000.000) no hace cosa juzgada contra Libra. Esta parte tiene derecho a producir prueba médica propia sobre la incapacidad real del trabajador.",
+    "La capitalización de intereses desde la fecha de cada erogación (art. 770 inc. b CCyCN) puede duplicar o triplicar el capital reclamado — impugnar expresamente su aplicación desde antes de la notificación de la demanda.",
+    "El vehículo MDP 995 era un taxi. Verificar si el uso declarado en la póliza era 'particular' — de ser así, hay posible exclusión por uso no declarado (uso comercial como transporte público).",
+    "La causa penal DEN 1128930/MPF (Lesiones Culposas, imputado Rojas) puede generar prueba favorable o desfavorable. Solicitar las actuaciones en la etapa informativa.",
+    "Escalar al gerente por monto ($39.8M + intereses capitalizados) y complejidad (estructura ART + expediente laboral previo + causa penal)."
+  ],
+
+  "overall_confidence": "medium",
+  "longitud_estimada_chars": 38000
+}

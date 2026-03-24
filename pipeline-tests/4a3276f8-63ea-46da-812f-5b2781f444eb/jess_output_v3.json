@@ -1,0 +1,366 @@
+{
+  "metadata": {
+    "case_id": "4a3276f8-63ea-46da-812f-5b2781f444eb",
+    "caratula": "Aliaga Quispe, Víctor Raúl y Espinoza Ayala, Sharon Lisset c/ Andreu, Carlos Alberto y Libra Compañía Argentina de Seguros S.A. s/ daños y perjuicios",
+    "skill_version": "drafting-answer-ar v3 (adaptive)",
+    "generated_at": "2026-03-24",
+    "tipo_caso": "RC Auto — colisión moto vs. automóvil, 2 actores (lesiones + daños materiales), citación en garantía"
+  },
+  "encabezamiento": {
+    "tribunal": "[TRIBUNAL — A COMPLETAR]",
+    "expediente": "[EXPEDIENTE — A COMPLETAR]",
+    "caratula": "Aliaga Quispe, Víctor Raúl y Espinoza Ayala, Sharon Lisset c/ Andreu, Carlos Alberto y Libra Compañía Argentina de Seguros S.A. s/ daños y perjuicios",
+    "tipo_escrito": "CONTESTA DEMANDA",
+    "encuadre_procesal": "citacion_garantia",
+    "datos_presentante": {
+      "aseguradora": "LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A.",
+      "cuit": "30-71233282-0",
+      "domicilio": "Olazábal 1515 Piso 11 Of. 1111, CABA",
+      "poliza": "[N° PÓLIZA — A VERIFICAR: no consta en la demanda]",
+      "asegurado": "Andreu, Carlos Alberto (presunto)",
+      "vehiculo_asegurado": "Volkswagen Suran 1.6 Sedan 5 puertas, dominio AC420HD"
+    }
+  },
+  "formula_presentacion": "LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A., CUIT 30-71233282-0, con domicilio en Olazábal 1515 Piso 11 Of. 1111, CABA, compareciendo por la representación que surge de las actuaciones, con el patrocinio letrado del Dr./Dra. [LETRADO — A COMPLETAR], constituyendo domicilio procesal en [DOMICILIO PROCESAL — A COMPLETAR] y domicilio electrónico en [CUIL/CUIT — A COMPLETAR], a V.S. se presenta y en legal tiempo y forma comparece en calidad de CITADA EN GARANTÍA en los términos del art. 118 de la Ley 17.418 y contesta la demanda interpuesta por Víctor Raúl Aliaga Quispe y Sharon Lisset Espinoza Ayala en autos.",
+
+  "objeto": {
+    "texto": "Que en el carácter invocado y en los términos del art. 118 de la Ley 17.418, Libra Compañía Argentina de Seguros S.A. se presenta y contesta la demanda incoada por los Sres. Víctor Raúl Aliaga Quispe, DNI 96.366.381, y Sharon Lisset Espinoza Ayala, DNI 94.844.046, en los presentes autos, como aseguradora del automotor Volkswagen Suran 1.6 dominio AC420HD de titularidad del demandado Carlos Alberto Andreu. La intervención de mi representada se circunscribe exclusivamente a los términos y límites del contrato de seguro de responsabilidad civil, conforme lo establece el art. 118 de la Ley de Seguros 17.418. Nótese que la póliza de seguro que vincula a mi representada con el demandado Andreu no fue adjuntada a la demanda ni se menciona su número, circunstancia que es señalada expresamente sin perjuicio de lo que resulte del expediente de siniestros.",
+    "fecha_notificacion": "[FECHA NOTIFICACIÓN — A COMPLETAR]",
+    "plazo_vencimiento": "[FECHA VENCIMIENTO — A COMPLETAR]"
+  },
+
+  "poliza": {
+    "numero": "[N° PÓLIZA — A COMPLETAR: verificar en expediente de siniestros por vehículo AC420HD al 01/10/2024]",
+    "aseguradora": "Libra Compañía Argentina de Seguros S.A.",
+    "tomador_asegurado": "Andreu, Carlos Alberto, DNI 16.069.108 (a verificar)",
+    "vehiculo_asegurado": "Volkswagen Suran 1.6 Sedan 5 puertas, dominio AC420HD",
+    "suma_asegurada": "[SUMA ASEGURADA — A COMPLETAR desde expediente de siniestros]",
+    "franquicia": "[FRANQUICIA — A COMPLETAR desde expediente de siniestros]",
+    "vigencia": "[VIGENCIA — A COMPLETAR: verificar vigencia al 01/10/2024]",
+    "ramo": "Responsabilidad Civil Automotores"
+  },
+
+  "asume_cobertura": {
+    "texto": "A los efectos de la presente contestación y sin perjuicio de la reserva general de cobertura que aquí se efectúa, mi representada asume provisoriamente la cobertura del siniestro en los términos y límites de la póliza que vincula a Libra con el asegurado Carlos Alberto Andreu respecto del vehículo Volkswagen Suran dominio AC420HD, sujeto a la verificación de vigencia al 01/10/2024, suma asegurada, franquicia y condiciones generales y particulares. Libra Compañía Argentina de Seguros S.A. hace expresa reserva de todas las defensas emergentes del contrato de seguro. NOTA: La póliza de Libra para el vehículo AC420HD no fue adjuntada a la demanda ni se menciona su número. Se ha iniciado gestión interna para confirmar la existencia y condiciones de la cobertura. El número de póliza y los datos de cobertura deberán ser incorporados antes de la presentación del escrito.",
+    "reserva_exclusiones": true
+  },
+
+  "negativa_general": {
+    "texto": "Que en el carácter invocado, y de conformidad con lo establecido por el art. 356 del Código Procesal Civil y Comercial de la Nación, mi representada NIEGA todos y cada uno de los hechos expuestos en la demanda que no sean objeto de expreso reconocimiento en el presente escrito, negativa que comprende los fundamentos de derecho invocados por los actores en cuanto no coincidan con los que aquí se exponen, la procedencia de los rubros indemnizatorios reclamados, su cuantificación, la relación causal alegada, la responsabilidad atribuida al asegurado y la extensión de los daños descriptos."
+  },
+
+  "desconoce_documental": {
+    "texto": "En los términos del artículo 356 inciso 1° del Código Procesal Civil y Comercial, mi parte desconoce expresa y formalmente, por no constarle su autenticidad, veracidad, origen, integridad, fecha cierta ni correspondencia con el hecho de autos, toda la documentación acompañada por los actores, así como aquella que eventualmente se incorpore en el futuro sin los recaudos legales pertinentes. En tal sentido, niego expresamente la documental acompañada por parte actora que haya sido emitida por esta parte o no se encuentre en copia certificada o instrumento público, por no constarme su origen ni autenticidad.",
+    "documentos_especificos": [
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del DNI de los actores Aliaga Quispe y Espinoza Ayala, cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la cédula de la motocicleta dominio A204CWH, cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del DNI del demandado Andreu, cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la cédula del vehículo del demandado dominio AC420HD, cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de las siete fotografías de la moto acompañadas, cuya autenticidad, origen y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la licencia de conducir del demandado y del actor Aliaga, cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del acta de cierre de mediación prejudicial obligatoria de fecha 31/03/2025, cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del certificado de cobertura expedido por la Caja de Seguros, el cual corresponde a la motocicleta de los actores y no al vehículo del demandado, y cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la constancia de atención emitida por el Hospital Ramos Mejía, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la denuncia realizada ante la Caja de Seguros, cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la factura de compra de la motocicleta, cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del informe de dominio del vehículo del demandado AC420HD, cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la póliza de seguro de la motocicleta ante la Caja de Seguros por responsabilidad civil, cuya autenticidad y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del presupuesto de reparación de la motocicleta emitido por Moto Extreme (Av. Pueyrredón 935, CABA), cuya autenticidad, razonabilidad y correspondencia con los daños producidos no reconozco."
+    ]
+  },
+
+  "negativas_especificas": {
+    "encabezado": "De manera específica, se niegan las siguientes afirmaciones de los actores:",
+    "items": [
+      {
+        "numero": 1,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el 1 de octubre de 2024 alrededor de las 13.30 hs. el Sr. Aliaga Quispe conduciera la motocicleta marca Okinoi, modelo Okinoi 110, dominio A204CWH, de titularidad de la actora Espinoza, por la Av. San Juan (primer carril izquierdo) hacia la intersección con la calle Pasco de esta Ciudad de la manera y en las circunstancias descriptas en la demanda."
+      },
+      {
+        "numero": 2,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el demandado Andreu conduciera su vehículo marca Volkswagen modelo SURAN 1.6, tipo Sedan 5 puertas, dominio AC420HD por la misma avenida y mismo sentido por el carril de la derecha."
+      },
+      {
+        "numero": 3,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el demandado Andreu ingresara repentinamente al carril por el que iba el actor para doblar en la calle Pasco colisionando con su lateral izquierdo en la parte frontal de la motocicleta de la forma descripta en la demanda."
+      },
+      {
+        "numero": 4,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la responsabilidad del accidente sea exclusiva del demandado Andreu y que el actor Aliaga Quispe haya circulado en todo momento en forma reglamentaria y sin contribución causal alguna al evento dañoso."
+      },
+      {
+        "numero": 5,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que como consecuencia del impacto el Sr. Aliaga Quispe cayera al pavimento sufriendo traumatismo en el codo izquierdo de la entidad y extensión descriptas, y que el mismo día fuera atendido en la guardia del Hospital General de Agudos J.M. Ramos Mejía con el diagnóstico y tratamiento indicados."
+      },
+      {
+        "numero": 6,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el actor Aliaga Quispe, al momento del accidente, trabajara por su cuenta como delivery con la moto, que no pudiera cumplir con sus actividades por dos meses como consecuencia exclusiva del accidente y que ello le ocasionara el perjuicio económico reclamado."
+      },
+      {
+        "numero": 7,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que actualmente el Sr. Aliaga Quispe sufra dolores en su codo izquierdo dependiendo de los movimientos que realice, que dichos dolores sean consecuencia directa y exclusiva del accidente del 01/10/2024."
+      },
+      {
+        "numero": 8,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que desde el accidente el actor sufra estrés postraumático, desgano, irritabilidad, angustia, ansiedad e insomnio de la entidad descripta y que se encuentre alterada su capacidad psíquica como consecuencia directa y exclusiva del evento de autos."
+      },
+      {
+        "numero": 9,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la incapacidad que presenta el actor Aliaga Quispe sea del 5% y que dicho porcentaje sea suficientemente fundado con los estudios extrajudiciales acompañados. La determinación de la incapacidad permanente corresponde a la pericia médica judicial."
+      },
+      {
+        "numero": 10,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la incapacidad sobreviniente del actor Aliaga Quispe deba indemnizarse en la suma de PESOS DOS MILLONES QUINIENTOS MIL ($2.500.000) de la manera reclamada."
+      },
+      {
+        "numero": 11,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el daño psicológico del actor Aliaga Quispe deba indemnizarse en la suma de PESOS DOS MILLONES QUINIENTOS MIL ($2.500.000) de la manera reclamada y que exista la certeza de daño psicológico permanente de la entidad invocada."
+      },
+      {
+        "numero": 12,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el tratamiento psicológico del actor Aliaga Quispe deba indemnizarse en la suma de PESOS UN MILLÓN SEISCIENTOS OCHENTA MIL ($1.680.000) de la manera reclamada y que dicho monto sea razonable, fundado y necesario."
+      },
+      {
+        "numero": 13,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el daño moral del actor Aliaga Quispe deba indemnizarse en la suma de PESOS TRES MILLONES ($3.000.000) de la manera reclamada y que dicho monto sea proporcional a la entidad del daño sufrido."
+      },
+      {
+        "numero": 14,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que los gastos no documentados del actor Aliaga Quispe asciendan a la suma de PESOS DOSCIENTOS MIL ($200.000) de la manera reclamada y que dichos gastos sean acreditables sin respaldo documental."
+      },
+      {
+        "numero": 15,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el lucro cesante del actor Aliaga Quispe, por no haber podido trabajar como delivery durante dos meses, ascienda a la suma de PESOS UN MILLÓN CUATROCIENTOS MIL ($1.400.000) de la manera reclamada, y que el actor haya acreditado fehacientemente su actividad laboral como delivery, sus ingresos habituales y la imposibilidad de trabajar durante ese período."
+      },
+      {
+        "numero": 16,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que como consecuencia del impacto la motocicleta marca Okinoi 110 dominio A204CWH sufriera los daños descriptos en la demanda (cristo inferior, barrales completos, llanta delantera, manubrio, apoyapié de conductor, pedal de freno, cubre piernas, pechera, óptica delantera, cubre óptica, soporte de óptica, bomba de freno, manija de freno, escape, espejos) y que el valor total de reparación sea de $1.137.900 conforme el presupuesto acompañado."
+      },
+      {
+        "numero": 17,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la desvalorización del vehículo motocicleta dominio A204CWH deba indemnizarse en la suma de PESOS CIENTO CUARENTA MIL ($140.000) de la manera reclamada."
+      },
+      {
+        "numero": 18,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la privación de uso de la motocicleta deba indemnizarse en la suma de PESOS UN MILLÓN ($1.000.000) y que el período de indisponibilidad y el monto reclamado sean razonables y fundados."
+      },
+      {
+        "numero": 19,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el monto total reclamado de PESOS TRECE MILLONES QUINIENTOS CINCUENTA Y SIETE MIL NOVECIENTOS ($13.557.900) sea razonable, fundado y correspondiente a los daños efectivamente causados por el siniestro del 01/10/2024."
+      },
+      {
+        "numero": 20,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que exista una relación de causalidad adecuada y exclusiva entre la conducta del demandado Andreu y la totalidad de los daños reclamados por ambos actores de la manera y en la extensión descriptos en la demanda."
+      },
+      {
+        "numero": 21,
+        "tipo_respuesta": "desconozco",
+        "texto": "Desconozco las condiciones de circulación de la motocicleta al momento del accidente, en particular si el actor Aliaga Quispe portaba casco reglamentario, si las luces de la moto se encontraban en funcionamiento, la velocidad a la que circulaba y las condiciones de visibilidad del carril izquierdo de la Av. San Juan, extremos que no me constan directamente."
+      }
+    ]
+  },
+
+  "descripcion_siniestro_aseguradora": {
+    "texto": "Conforme los antecedentes disponibles y sin perjuicio de las reservas efectuadas, el siniestro denunciado habría ocurrido el día 1° de octubre de 2024 alrededor de las 13:30 hs. en la Av. San Juan intersección con calle Pasco, CABA. El actor Aliaga Quispe conducía la motocicleta Okinoi 110 dominio A204CWH por el carril izquierdo de la Av. San Juan, cuando el demandado Andreu, que circulaba por el carril derecho de la misma arteria, habría ingresado al carril izquierdo para doblar en la calle Pasco, produciéndose la colisión. La mecánica del accidente tal como la descripta por los actores será objeto de análisis pericial mecánico en autos, correspondiendo a los actores acreditar la relación de causalidad entre el hecho y los daños reclamados. Resulta relevante señalar que la demanda no adjunta la póliza de seguro de Libra para el vehículo AC420HD ni menciona su número, lo que requiere gestión interna urgente de mi representada para confirmar la existencia y condiciones de la cobertura."
+  },
+
+  "referencias_poliza": [
+    {
+      "clausula": "Póliza de Libra para el vehículo AC420HD — Condiciones Generales de RC Auto",
+      "texto_relevante": "[A COMPLETAR: Obtener número de póliza y condiciones del expediente de siniestros de Libra por vehículo AC420HD al 01/10/2024]",
+      "aplicacion": "Hasta tanto se confirme el número y condiciones de la póliza, la contestación se basa en la cobertura provisoriamente asumida conforme la citación en garantía."
+    },
+    {
+      "clausula": "Art. 118 Ley 17.418",
+      "texto_relevante": "La sentencia que se dicte hará cosa juzgada respecto del asegurador y será ejecutable contra él en la medida del seguro.",
+      "aplicacion": "La responsabilidad de Libra queda limitada al monto de la suma asegurada."
+    }
+  ],
+
+  "defensas_fondo": [
+    {
+      "defensa": "Culpa o hecho concurrente de la víctima",
+      "desarrollo": "Sin perjuicio de la negativa general, y en forma subsidiaria, esta parte plantea la posible concurrencia causal del actor Aliaga Quispe en el evento dañoso. El accidente involucra una colisión entre un vehículo automóvil (carril derecho) y una motocicleta (carril izquierdo) en el contexto de una maniobra de doblar. La pericia mecánica judicial deberá determinar la velocidad de la motocicleta al momento del impacto, si la moto llevaba casco reglamentario, si las luces de la moto funcionaban, y si la maniobra del demandado pudo ser advertida y evitada por el motociclista con la debida diligencia. El propio art. 64 de la Ley 24.449 invocado por los actores establece que la presunción de responsabilidad puede ser enerved si el damnificado pudo evitar el accidente voluntariamente y no lo hizo. Cualquier contribución causal del actor Aliaga Quispe deberá traducirse en una reducción proporcional del monto de condena.",
+      "normativa": "Arts. 1729 y 1773 CCC; art. 64 Ley 24.449",
+      "fuente_triage": "viability_check — criterio culpa o hecho de la víctima — resultado amarillo — fortaleza moderada",
+      "riesgo_judicial": "Moderado. El cambio de carril del demandado es el hecho central de responsabilidad. Requiere pericia mecánica favorable para prosperar."
+    }
+  ],
+
+  "oponibilidad_clausulas": {
+    "incluida": true,
+    "razon_inclusion": "Libra es citada en garantía (tipo_intervencion = citacion_garantia)",
+    "boilerplate_flores": false,
+    "razon_flores": "Los actores no anticiparon en la demanda el argumento de inoponibilidad del límite o franquicia. Se incluye texto base de oponibilidad sin el desarrollo completo de Flores.",
+    "numero_poliza": "[N° PÓLIZA — A COMPLETAR]",
+    "texto": "La póliza de seguro es un contrato indivisible. Sus cláusulas — condiciones generales, particulares y especiales — forman un todo unitario que no puede ser fragmentado para beneficiar selectivamente a una parte. El tercero damnificado que acciona contra la aseguradora en los términos del art. 118 de la Ley de Seguros (Ley 17.418) no adquiere más derechos que los que tiene el asegurado frente a su asegurador; el límite de la obligación de la aseguradora es siempre 'en la medida del seguro'.\n\nArt. 118 Ley 17.418: 'El damnificado puede citar en garantía al asegurador hasta que se reciba la causa a prueba. En tal caso debe interponer la demanda ante el juez del lugar del hecho o del domicilio del asegurador. El asegurador puede hacer valer todas las defensas que tenga contra el asegurado. La sentencia que se dicte hará cosa juzgada respecto del asegurador y será ejecutable contra él en la medida del seguro.'\n\nEsta limitación no es una cláusula abusiva ni una restricción de derechos; es la esencia misma del contrato de seguro y la condición bajo la cual la aseguradora prestó su consentimiento (CCyCN arts. 957, 959, 1021 y 1022). Pretender que la aseguradora responda más allá del límite contratado importaría violar el principio de autonomía de la voluntad (art. 957 CCyCN), el derecho de propiedad (CN art. 17) y el principio de razonabilidad (CN art. 28).\n\nLa CSJN ha establecido en forma reiterada y pacífica que las cláusulas del contrato de seguro son oponibles al tercero damnificado:\n\n'Flores c/ Giménez' — CSJ 678/2013 (49-F)/CS1, sentencia del 6 de junio de 2017. 'Martínez de Costa c/ Vallejos' — CSJ 1319/2008. 'Buffoni c/ Castro' — Fallos: 337:329 (2014). 'Álvarez c/ Moscatelli' — CIV 1728/2017/CS1, sentencia del 14 de diciembre de 2023. 'Aimar c/ Molina' — Expte. 31171/2012, sentencia del 24 de abril de 2018.\n\nMarco normativo: Ley 17.418 arts. 109-120, art. 118; Ley 20.091 arts. 1, 23-26, 64 y 67; Ley 24.449 art. 68; CCyCN arts. 957, 959, 1021 y 1022; CN arts. 17 y 28.\n\nPor todo lo expuesto, solicito a V.S. que, en caso de condenar a mi representada, la sentencia se haga extensiva a LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A. sólo hasta el límite de cobertura pactado en la póliza, conforme lo establece el art. 118 de la Ley 17.418 y la doctrina reiterada de la Corte Suprema de Justicia de la Nación."
+  },
+
+  "defensa_juicio_asegurado": {
+    "incluida": true,
+    "razon_inclusion": "Libra es citada en garantía (tipo_intervencion = citacion_garantia)",
+    "asegurado_tiene_letrado_propio": false,
+    "texto": "De conformidad con lo establecido por la cláusula tercera de la Póliza Básica del Seguro Obligatorio de Responsabilidad Civil, en caso de que el Asegurado y/o Conductor del vehículo asegurado asuman su defensa en juicio sin darle noticia oportuna a mi representada para que éste la asuma, los honorarios de los letrados de éstos quedarán a su exclusivo cargo de los mismos."
+  },
+
+  "impugnacion_montos": [
+    {
+      "rubro": "Incapacidad sobreviniente — Aliaga Quispe",
+      "monto_reclamado": "$2.500.000",
+      "texto_impugnacion": "Impugno el monto de $2.500.000 reclamado por incapacidad sobreviniente en cuanto resulta excesivo, arbitrario e infundado. La demanda invoca un 5% de incapacidad 'según certificado de parte', con la fórmula 'sujeto a lo que en más o en menos resulte de la prueba pericial'. El certificado médico extrajudicial no tiene el valor de una pericia médica judicial. La determinación definitiva del porcentaje de incapacidad psicofísica permanente corresponde exclusivamente al perito médico judicial designado por el juzgado. El monto de $2.500.000 por un 5% de incapacidad resulta desproporcionado respecto de los parámetros jurisprudenciales vigentes para el fuero civil de CABA."
+    },
+    {
+      "rubro": "Daño psicológico — Aliaga Quispe",
+      "monto_reclamado": "$2.500.000",
+      "texto_impugnacion": "Impugno el monto de $2.500.000 reclamado por daño psicológico en cuanto resulta excesivo, arbitrario e infundado. La demanda describe síntomas de estrés postraumático, desgano, irritabilidad, angustia, ansiedad e insomnio sin fundamento técnico objetivo. La determinación del daño psicológico corresponde al perito psicólogo judicial. Asimismo, se señala que la acumulación de incapacidad sobreviniente ($2.500.000) y daño psicológico ($2.500.000) puede implicar una indebida duplicación de rubros que responden a un mismo deterioro funcional del actor, extremo que esta parte impugna."
+    },
+    {
+      "rubro": "Tratamiento psicológico — Aliaga Quispe",
+      "monto_reclamado": "$1.680.000",
+      "texto_impugnacion": "Impugno el monto de $1.680.000 reclamado por tratamiento psicológico en cuanto resulta excesivo e infundado. Los gastos futuros de tratamiento psicológico son hipotéticos y su necesidad, frecuencia y costo deben ser determinados por el perito psicólogo judicial, no por estimación unilateral del actor. El monto reclamado no tiene respaldo en ningún plan de tratamiento prescripto por médico tratante."
+    },
+    {
+      "rubro": "Daño moral — Aliaga Quispe",
+      "monto_reclamado": "$3.000.000",
+      "texto_impugnacion": "Impugno el monto de $3.000.000 reclamado por daño moral en cuanto resulta excesivo y desproporcionado. El daño moral exige prueba efectiva de la afectación espiritual sufrida. La mera circunstancia de haber sufrido un accidente de tránsito con lesiones menores (traumatismo de codo, 5% de incapacidad) no justifica un daño moral de $3.000.000. Solicito que, en caso de admitirse el rubro, sea fijado prudencialmente por V.S. según las constancias de autos."
+    },
+    {
+      "rubro": "Gastos no documentados — Aliaga Quispe",
+      "monto_reclamado": "$200.000",
+      "texto_impugnacion": "Impugno el monto de $200.000 reclamado por gastos no documentados. Los gastos no respaldados documentalmente no pueden ser acreditados ni percibidos como indemnización. La ausencia de comprobantes es un hecho que obra en contra de la procedencia del rubro."
+    },
+    {
+      "rubro": "Lucro cesante — Aliaga Quispe",
+      "monto_reclamado": "$1.400.000",
+      "texto_impugnacion": "Impugno el monto de $1.400.000 reclamado por lucro cesante en cuanto resulta excesivo, arbitrario y carente de toda base probatoria. El actor afirma haber trabajado como delivery, actividad informal que no ha sido acreditada con ningún comprobante: no se acompaña constancia de inscripción como monotributista o autónomo, recibo de haberes, declaración jurada ante AFIP, contrato de prestación de servicios con alguna plataforma de delivery, ni ningún otro elemento que acredite la existencia de la actividad y sus ingresos habituales. Un rubro de lucro cesante requiere acreditación estricta de la actividad laboral, los ingresos habituales y la imposibilidad de trabajar durante el período invocado. En ausencia de dicha acreditación, el rubro resulta improcedente. Se invoca pluspetición inexcusable respecto de este rubro en los términos del art. 72 CPCCN.",
+      "nota_pluspeticion": "PLUSPETICIÓN ACTIVADA: El lucro cesante sin documentación alguna sobre la actividad laboral del actor es el rubro identificado como carente de base probatoria."
+    },
+    {
+      "rubro": "Daños del rodado — Espinoza Ayala",
+      "monto_reclamado": "$1.137.900",
+      "texto_impugnacion": "Impugno el monto de $1.137.900 reclamado por Espinoza Ayala por daños del rodado en cuanto el presupuesto extrajudicial de 'Moto Extreme' (Av. Pueyrredón 935, CABA) es un instrumento unilateral que no ha sido confeccionado con intervención de esta parte y cuyo valor probatorio se desconoce. La determinación del costo real de reparación y su relación con los daños efectivamente producidos en el accidente corresponde al perito mecánico judicial."
+    },
+    {
+      "rubro": "Desvalorización del vehículo — Espinoza Ayala",
+      "monto_reclamado": "$140.000",
+      "texto_impugnacion": "Impugno el monto de $140.000 reclamado por desvalorización en cuanto resulta estimativo y sin base técnica. La desvalorización venal debe ser determinada pericialmente en función del estado previo del vehículo, la extensión de los daños y los valores de mercado."
+    },
+    {
+      "rubro": "Privación de uso — Espinoza Ayala",
+      "monto_reclamado": "$1.000.000",
+      "texto_impugnacion": "Impugno el monto de $1.000.000 reclamado por privación de uso en cuanto resulta excesivo e infundado. La actora Espinoza no acredita haber contratado vehículo de reemplazo ni sufrido perjuicio económico concreto acreditable. El período de indisponibilidad debe ser determinado por el perito mecánico."
+    }
+  ],
+
+  "pluspeticion": {
+    "incluida": true,
+    "razon_inclusion": "El actor Aliaga Quispe reclama lucro cesante por actividad como delivery sin ningún respaldo documental — rubro identificado como sin base probatoria",
+    "texto": "Sin perjuicio de las demás defensas opuestas, y especialmente respecto del rubro LUCRO CESANTE reclamado por el actor Aliaga Quispe por la suma de $1.400.000, esta parte plantea la PLUSPETICIÓN INEXCUSABLE prevista en el art. 72 del CPCCN. El actor afirma haber trabajado como delivery con la motocicleta durante los dos meses anteriores al accidente y no haber podido hacerlo durante dos meses a causa del mismo. Sin embargo, no adjunta ningún elemento probatorio que acredite la existencia y naturaleza de dicha actividad laboral, sus ingresos habituales ni la imposibilidad de trabajar durante el período invocado. No se acompaña: (i) constancia de inscripción como monotributista; (ii) declaración jurada ante AFIP; (iii) contrato o constancia de trabajo con plataforma de delivery; (iv) recibos de pago; (v) certificado médico de reposo laboral. La cuantificación del rubro ($1.400.000 por 2 meses, equivalente a $700.000 mensuales) carece de toda base objetiva. Por lo expuesto, para el caso de que V.S. rechace el rubro de lucro cesante, solicita que las costas correspondientes a dicho rubro se impongan al actor demandante conforme el art. 72 CPCCN."
+  },
+
+  "doctrina_samudio": {
+    "incluida": true,
+    "razon_inclusion": "El actor Aliaga Quispe reclama daños personales (lesiones, incapacidad sobreviniente, daño psicológico)",
+    "texto": "Respecto de los intereses que eventualmente correspondan sobre los rubros de daños personales del actor Aliaga Quispe (incapacidad sobreviniente, daño psicológico, tratamiento psicológico, daño moral), esta parte deja sentada su posición: la doctrina emanada de la CSJN en 'Samudio de Martínez, Ladislaa c/ Transportes Doscientos Setenta S.A.' (Fallos: 332:616) estableció la aplicación de la tasa activa del Banco de la Nación Argentina desde el momento del hecho dañoso hasta el efectivo pago. Sin embargo, en aquellos casos donde el capital de condena se cuantifica a valores actuales del momento de la sentencia (o se actualiza por cualquier mecanismo), no corresponde aplicar simultáneamente la tasa activa plena desde el hecho — pues ello implicaría una doble actualización que configura un enriquecimiento sin causa (art. 1794 CCC). En consecuencia, esta parte se reserva el derecho de impugnar la tasa de interés aplicada en caso de que los rubros de daños personales sean cuantificados a valores actuales mediante el uso de parámetros de actualización, solicitando en tal caso la aplicación de la tasa pasiva o una tasa diferencial que evite la doble indexación."
+  },
+
+  "art_730": {
+    "incluida": true,
+    "razon_inclusion": "Monto reclamado $13.557.900 > $5.000.000 y hay 2 actores",
+    "texto": "Sin perjuicio de las demás defensas opuestas, y para el caso de condena, solicito a V.S. que al momento de regular honorarios y distribuir las costas del proceso, haga aplicación del tope establecido por el art. 730 del Código Civil y Comercial de la Nación, en cuanto prevé que la responsabilidad por el pago de las costas no puede exceder del veinticinco por ciento (25%) del monto de la sentencia, laudo, transacción o instrumento que ponga fin al diferendo. Si las regulaciones de honorarios, practicadas conforme a las leyes arancelarias o de acuerdo a lo que establezcan los jueces, superan dicho porcentaje, el juez debe reducir el monto de tales honorarios hasta dicha proporción, de oficio, antes de que el obligado efectúe el pago."
+  },
+
+  "limitacion_poliza": {
+    "texto": "Sin perjuicio de todo lo expuesto y para el hipotético e improbable caso de condena, la misma no puede exceder los límites establecidos en la póliza emitida por Libra Compañía Argentina de Seguros S.A. para el vehículo AC420HD. La responsabilidad de mi representada, en su carácter de citada en garantía, se circunscribe estrictamente a los términos del contrato de seguro y no puede superar la suma asegurada pactada, de conformidad con el art. 118 de la Ley 17.418.",
+    "suma_asegurada": "[SUMA ASEGURADA — A COMPLETAR]",
+    "franquicia": "[FRANQUICIA — A COMPLETAR]"
+  },
+
+  "autoriza": {
+    "incluida": true,
+    "texto": "Solicito se autorice a [LISTA DE AUTORIZADOS — A COMPLETAR], a solicitar el expediente en mesa de entradas, presentar escritos, extraer fotocopias, retirar oficios, exhortos, testimonios, copias de escritos y/o pericias, hacer desgloses y cuanto más sea necesario a los efectos de controlar el estado del juicio (R.N.J. Art. 63, inc. A modificado por la Acordada de la C.S.J.N. 5.3.54). Para el caso de que los autorizados procediesen a retirar copias de escritos y/o pericias de los cuales se hubiera corrido vista o traslado, queda entendido que dicho retiro implica la notificación del suscripto de tal vista o traslado."
+  },
+
+  "reserva_caso_federal": {
+    "texto": "Para el hipotético e improbable caso de que V.S. haga lugar al planteo realizado, dejo expresa reserva del caso federal previsto en el art. 14 de la Ley 48, por considerar vulnerados, en tal improbable supuesto, las garantías constitucionales de mis representados, plasmadas en los principios constitucionales de defensa en juicio, igualdad ante la ley, propiedad, y debido proceso. (Arts. 16, 17, 18)."
+  },
+
+  "ofrecimiento_prueba": {
+    "documental": [
+      "Póliza de Libra Compañía Argentina de Seguros S.A. para el vehículo Volkswagen Suran dominio AC420HD con todas sus condiciones generales, particulares y especiales vigentes al 01/10/2024 [A OBTENER del expediente de siniestros]",
+      "Actuaciones del expediente de siniestros de Libra Compañía Argentina de Seguros S.A. vinculado al vehículo AC420HD",
+      "Toda documentación adicional del expediente de siniestros que resulte conducente"
+    ],
+    "informativa": [
+      "A la DNRPA: titularidad dominial del vehículo Volkswagen Suran dominio AC420HD al 01/10/2024 y del motovehículo A204CWH; verificar autorización del actor Aliaga para conducir el vehículo A204CWH",
+      "A Libra Compañía Argentina de Seguros S.A. (área de siniestros): número de póliza, condiciones de cobertura, suma asegurada y franquicia para el vehículo AC420HD al 01/10/2024",
+      "Al Hospital General de Agudos J.M. Ramos Mejía: autenticidad de la constancia de atención del actor Aliaga Quispe del 01/10/2024"
+    ],
+    "pericial": [
+      "Pericial médica (contrapericia): determinar las lesiones reales del actor Aliaga Quispe, el porcentaje de incapacidad psicofísica permanente con los baremos correspondientes, el carácter permanente o transitorio de las secuelas y la necesidad y costo de tratamientos futuros",
+      "Pericial psicológica (contrapericia): determinar la incapacidad psicológica del actor, la relación causal con el hecho y el costo de tratamientos",
+      "Pericial mecánica: determinar la mecánica del accidente, la velocidad de ambos vehículos al momento del impacto, la calidad de embistente y embestido, la razonabilidad del presupuesto de reparación de la motocicleta y la desvalorización venal",
+      "Pericial contable: [reservar para el caso de que la aseguradora niegue la cobertura — se omite provisoriamente dado el reconocimiento provisional de la cobertura]"
+    ],
+    "confesional": true
+  },
+
+  "petitorio": {
+    "texto": "Atento lo expuesto, solicito a V.S.:\n1.- Me tenga por presentado, parte en el carácter invocado, y por constituido el domicilio legal.\n2.- Por contestada la citación en garantía en legal tiempo y forma.\n3.- Por ofrecida la prueba.\n4.- Por introducida la cuestión federal.\n5.- Oportunamente se rechace la demanda con costas.\n6.- Se tengan presentes las autorizaciones conferidas.\n\nProveer de conformidad,\nSERÁ JUSTICIA."
+  },
+
+  "secciones_adaptativas_incluidas": [
+    { "seccion": "Oponibilidad de cláusulas", "razon": "Libra es citada en garantía (tipo_intervencion = citacion_garantia)" },
+    { "seccion": "Defensa en juicio del asegurado", "razon": "Libra es citada en garantía" },
+    { "seccion": "Impugnación de montos por rubro", "razon": "Ambos actores reclaman montos cuantificados por rubro (9 rubros con montos específicos)" },
+    { "seccion": "Doctrina Samudio", "razon": "Actor Aliaga Quispe reclama daños personales (lesiones, incapacidad, daño psicológico)" },
+    { "seccion": "Art. 730 CCyCN", "razon": "Monto $13.557.900 > $5M y 2 actores" },
+    { "seccion": "Pluspetición inexcusable", "razon": "Actor reclama lucro cesante por actividad como delivery sin ningún respaldo documental — rubro identificado como sin base probatoria" }
+  ],
+
+  "secciones_adaptativas_no_incluidas": [
+    { "seccion": "Excepción de prescripción", "razon": "NO se incluye: el siniestro ocurrió el 01/10/2024 y la demanda fue interpuesta en 2025 (dentro del año del art. 58 LS, con mediación que suspendió el plazo). Edu confirmó que la prescripción está en ROJO (no aplica)." },
+    { "seccion": "Anti-indexación", "razon": "NO se incluye: la demanda pide intereses a tasa activa BNA pero no pide expresamente actualización monetaria por IPC/CER. Los intereses a tasa activa BNA son el mecanismo legal admitido — no hay pedido de indexación prohibida. Por duda → no incluir." },
+    { "seccion": "Cumplimiento de obligación", "razon": "NO se incluye: no hay dato de pago previo por parte de Libra." },
+    { "seccion": "Defecto legal (excepción previa)", "razon": "NO se incluye: Edu identificó defecto legal en ROJO (no procede) para este caso. La demanda cumple los requisitos del art. 330 CPCyCN." }
+  ],
+
+  "secciones_requieren_revision": [
+    { "seccion": "Número de póliza — CRÍTICO", "razon": "La póliza de Libra para el vehículo AC420HD NO consta en la demanda ni se adjunta. Gestión interna urgente: localizar la póliza por el vehículo AC420HD al 01/10/2024 en los sistemas de Libra. Sin este dato el escrito no puede presentarse.", "prioridad": "urgente" },
+    { "seccion": "Suma asegurada y franquicia", "razon": "Datos de póliza no disponibles. Completar una vez obtenida la póliza.", "prioridad": "urgente" },
+    { "seccion": "Fecha de notificación al asegurador", "razon": "El plazo de contestación no puede calcularse sin la fecha de notificación a Libra.", "prioridad": "urgente" },
+    { "seccion": "Autoriza — lista de autorizados", "razon": "Completar con el equipo estándar de Libra.", "prioridad": "standard" }
+  ],
+
+  "notas_para_abogado": [
+    "CRÍTICO: La póliza de Libra para el vehículo AC420HD NO fue adjuntada a la demanda ni se menciona su número. Confirmar la existencia de la póliza URGENTEMENTE antes de contestar.",
+    "El lucro cesante por actividad de delivery sin documentación alguna es el rubro más impugnable. Se incluyó pluspetición inexcusable respecto de este rubro.",
+    "La incapacidad del 5% solo consta en 'certificado de parte' — impugnar como insuficiente para establecer incapacidad permanente sin pericia judicial.",
+    "Los rubros de incapacidad sobreviniente ($2.500.000) + daño psicológico ($2.500.000) suman $5M por lesiones de incapacidad 5% — clara desproporción que debe señalarse.",
+    "La citación en garantía fue solicitada por los actores (no por el asegurado Andreu), lo que es técnicamente irregular según el art. 118 LS. Edu lo calificó como defensa de fortaleza débil. No se incluyó como excepción previa por baja probabilidad de éxito.",
+    "La demanda adjunta el certificado de cobertura de la CAJA DE SEGUROS (aseguradora de la moto de los actores), NO de Libra. Señalarlo expresamente."
+  ],
+
+  "overall_confidence": "medium",
+  "longitud_estimada_chars": 37000
+}

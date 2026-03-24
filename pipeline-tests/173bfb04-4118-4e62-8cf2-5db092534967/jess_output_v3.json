@@ -1,0 +1,369 @@
+{
+  "metadata": {
+    "case_id": "173bfb04-4118-4e62-8cf2-5db092534967",
+    "caratula": "Soria, Adriana Angélica c/ Gómez, Germán y otro s/ daños y perjuicios por accidente de tránsito",
+    "skill_version": "drafting-answer-ar v3 (adaptive)",
+    "generated_at": "2026-03-24",
+    "tipo_caso": "RC Auto — colisión frontal en autopista (daños materiales, sin lesiones físicas)"
+  },
+  "encabezamiento": {
+    "tribunal": "[TRIBUNAL — A COMPLETAR]",
+    "expediente": "[EXPEDIENTE — A COMPLETAR]",
+    "caratula": "Soria, Adriana Angélica c/ Gómez, Germán y otro s/ daños y perjuicios por accidente de tránsito",
+    "tipo_escrito": "CONTESTA DEMANDA — OPONE EXCEPCIONES",
+    "encuadre_procesal": "citacion_garantia",
+    "datos_presentante": {
+      "aseguradora": "LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A.",
+      "cuit": "30-71233282-0",
+      "domicilio": "Olazábal 1515, Piso 5°, Of. 505, CABA",
+      "poliza": "881910",
+      "asegurado": "Germán Gómez",
+      "vehiculo_asegurado": "Fiat Uno Fire 1242 MPI 8V, dominio ENA060"
+    }
+  },
+  "formula_presentacion": "LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A., CUIT 30-71233282-0, con domicilio en Olazábal 1515, Piso 5°, Of. 505, CABA, compareciendo por la representación que surge de las actuaciones, con el patrocinio letrado del Dr./Dra. [LETRADO — A COMPLETAR], constituyendo domicilio procesal en [DOMICILIO PROCESAL — A COMPLETAR] y domicilio electrónico en [CUIL/CUIT — A COMPLETAR], a V.S. se presenta y en legal tiempo y forma comparece en calidad de CITADA EN GARANTÍA en los términos del art. 118 de la Ley 17.418 y contesta la demanda interpuesta por Adriana Angélica Soria.",
+
+  "objeto": {
+    "texto": "Que en el carácter invocado y en los términos del art. 118 de la Ley 17.418, Libra Compañía Argentina de Seguros S.A. se presenta y contesta la demanda incoada por la Sra. Adriana Angélica Soria, DNI 16.276.262, en los presentes autos, con fundamento en la póliza N° 881910 oportunamente emitida. La intervención de mi representada se circunscribe exclusivamente a los términos y límites del contrato de seguro de responsabilidad civil, conforme lo establece el art. 118 de la Ley de Seguros 17.418.",
+    "fecha_notificacion": "[FECHA NOTIFICACIÓN — A COMPLETAR]",
+    "plazo_vencimiento": "[FECHA VENCIMIENTO — A COMPLETAR]"
+  },
+
+  "poliza": {
+    "numero": "881910",
+    "aseguradora": "Libra Compañía Argentina de Seguros S.A.",
+    "tomador_asegurado": "Germán Gómez, DNI 37.109.487",
+    "vehiculo_asegurado": "Fiat Uno Fire 1242 MPI 8V, dominio ENA060",
+    "suma_asegurada": "[SUMA ASEGURADA — A COMPLETAR desde expediente de siniestros]",
+    "franquicia": "[FRANQUICIA — A COMPLETAR desde expediente de siniestros]",
+    "vigencia": "[VIGENCIA — A COMPLETAR: verificar vigencia al 23/10/2023]",
+    "ramo": "Responsabilidad Civil Automotores"
+  },
+
+  "asume_cobertura": {
+    "texto": "A los efectos de la presente contestación y sin perjuicio de las reservas que oportunamente se efectuarán, mi representada asume provisoriamente la cobertura del siniestro en los términos y límites de la póliza N° 881910, sujeto a la verificación de vigencia, franquicia y condiciones generales y particulares de la misma. Libra Compañía Argentina de Seguros S.A. hace expresa reserva de todas las defensas emergentes del contrato de seguro, incluyendo pero no limitado a las exclusiones de cobertura, franquicias, sublímites y condiciones particulares de la póliza, cuyo análisis queda supeditado a la obtención del texto completo de la misma del expediente de siniestros.",
+    "reserva_exclusiones": true
+  },
+
+  "negativa_general": {
+    "texto": "Que en el carácter invocado, y de conformidad con lo establecido por el art. 356 del Código Procesal Civil y Comercial de la Nación, mi representada NIEGA todos y cada uno de los hechos expuestos en la demanda que no sean objeto de expreso reconocimiento en el presente escrito, negativa que comprende los fundamentos de derecho invocados por la actora en cuanto no coincidan con los que aquí se exponen, la procedencia de los rubros indemnizatorios reclamados, su cuantificación, la relación causal alegada, la responsabilidad atribuida al asegurado y la extensión de los daños descriptos."
+  },
+
+  "desconoce_documental": {
+    "texto": "En los términos del artículo 356 inciso 1° del Código Procesal Civil y Comercial, mi parte desconoce expresa y formalmente, por no constarle su autenticidad, veracidad, origen, integridad, fecha cierta ni correspondencia con el hecho de autos, toda la documentación acompañada por la actora, así como aquella que eventualmente se incorpore en el futuro sin los recaudos legales pertinentes. En tal sentido, niego expresamente la documental acompañada por parte actora que haya sido emitida por esta parte o no se encuentre en copia certificada o instrumento público, por no constarme su origen ni autenticidad.",
+    "documentos_especificos": [
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del DNI de la actora Adriana Angélica Soria, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del acta de cierre de mediación prejudicial obligatoria de fecha 19/02/2025, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la constancia de pago de arancel de mediación, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la factura N° 00000579 de la mediadora Gisele Villanueva (20/02/2025), cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del título del automotor de la actora, dominio PGZ814, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la cédula de identificación del vehículo de la actora, dominio PGZ814, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la licencia de conducir de la actora, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del certificado de cobertura emitido por Provincia Seguros S.A., cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la denuncia administrativa emitida por la aseguradora Provincia Seguros S.A., cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de las catorce (14) fotografías de los automotores acompañadas, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del croquis del accidente acompañado, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del DNI del demandado Germán Gómez, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la cédula de identificación del vehículo dominio ENA060, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio de la licencia de conducir del demandado Germán Gómez, cuya autenticidad, correspondencia con los originales y valor probatorio no reconozco.",
+      "Niego y desconozco la autenticidad, veracidad y/o valor probatorio del presupuesto emitido por el taller 'Talleres MRM Carrocería y Pintura' (Aquino 1591, Ituzaingó, 17/02/2025), cuya autenticidad, correspondencia con los originales, vigencia y valor probatorio no reconozco."
+    ]
+  },
+
+  "negativas_especificas": {
+    "encabezado": "De manera específica, se niegan las siguientes afirmaciones de la actora:",
+    "items": [
+      {
+        "numero": 1,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el día 23 de octubre del 2023, siendo aproximadamente las 14:45 hs., la actora se encontrara circulando a bordo de su automotor conduciendo la misma y encontrándose el Sr. Carlos José Liniers Lázaro, su cónyuge, en el asiento del acompañante."
+      },
+      {
+        "numero": 2,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que en la fecha y hora indicadas la actora circulara por el carril lento (derecha) de la Autopista Acceso Oeste en sentido Provincia de Buenos Aires bajo leve llovizna."
+      },
+      {
+        "numero": 3,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el automotor dominio ENA060, conducido por el aquí demandado, viniera circulando por el tercer carril (el de la izquierda), más adelantado que el automotor de la actora."
+      },
+      {
+        "numero": 4,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el automotor dominio ENA060 realizara un giro hacia la derecha, pasara por el carril del medio y terminara quedando en sentido Capital Federal, de modo que impactara de frente al automotor de la actora."
+      },
+      {
+        "numero": 5,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el contacto se produjera a la altura de la óptica izquierda de ambos automotores de la manera descripta en la demanda."
+      },
+      {
+        "numero": 6,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el vehículo de la actora fuera desplazado hacia la derecha hasta impactar contra el guardarrail con su lado derecho como consecuencia exclusiva de la maniobra del demandado."
+      },
+      {
+        "numero": 7,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el demandado Gómez fuera titular registral del automotor Fiat Uno Fire 1242 MPI 8V, dominio ENA060, al momento del siniestro, en los términos y con los alcances que afirma la actora."
+      },
+      {
+        "numero": 8,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el automotor ENA060 realizara la maniobra descripta de manera intempestiva y en contramano de la forma que afirma la actora."
+      },
+      {
+        "numero": 9,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la responsabilidad del accidente sea exclusiva del demandado Gómez y que la actora haya circulado en todo momento en forma reglamentaria, correcta y sin contribución causal alguna al evento dañoso."
+      },
+      {
+        "numero": 10,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que los daños al automotor marca Renault, modelo Clio MIO, dominio PGZ814 de la actora asciendan a la suma de PESOS CUATRO MILLONES CIENTO SETENTA Y CUATRO MIL DOSCIENTOS SETENTA Y CINCO CON OCHENTA Y DOS CENTAVOS ($4.174.275,82) en concepto de reparación del rodado."
+      },
+      {
+        "numero": 11,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el presupuesto emitido por el taller 'Talleres MRM Carrocería y Pintura' de fecha 17/02/2025 por la suma de $3.277.000 refleje fielmente los daños ocasionados al rodado PGZ814 como consecuencia exclusiva del siniestro del 23/10/2023, que dicho presupuesto sea razonable y que la actualización efectuada resulte procedente."
+      },
+      {
+        "numero": 12,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la desvalorización del valor venal del rodado PGZ814 de la actora ascienda a la suma de PESOS QUINIENTOS MIL ($500.000) en los términos reclamados en la demanda."
+      },
+      {
+        "numero": 13,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la privación de uso del vehículo de la actora justifique el reclamo de la suma de PESOS CIEN MIL ($100.000) y que el período de inmovilización haya sido de catorce días o más de la manera descripta."
+      },
+      {
+        "numero": 14,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la actora haya experimentado angustia, padecimientos, incertidumbre y alteración de su vida cotidiana de la entidad, magnitud y extensión que afirma, y que el daño moral reclamado en la suma de PESOS QUINIENTOS MIL ($500.000) sea procedente y razonablemente estimado."
+      },
+      {
+        "numero": 15,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que los gastos de mediación prejudicial obligatoria asciendan a la suma de PESOS CINCUENTA Y UN MIL CUARENTA ($51.040), integrada por la suma de $1.400 en concepto de arancel de inicio más $49.640 en concepto de gastos entregados a la mediadora, de la forma y en los montos descriptos en la demanda."
+      },
+      {
+        "numero": 16,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que el monto total reclamado de PESOS CINCO MILLONES TRESCIENTOS VEINTICINCO MIL TRESCIENTOS QUINCE CON OCHENTA Y DOS CENTAVOS ($5.325.315,82) sea razonable, fundado y correspondiente a los daños efectivamente causados por el siniestro del 23/10/2023."
+      },
+      {
+        "numero": 17,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que con posterioridad al siniestro se haya reclamado el resarcimiento a través de la vía administrativa con la compañía aseguradora citada en garantía de la manera y con los resultados descriptos por la actora, y que de dichas gestiones pueda inferirse reconocimiento de responsabilidad o de los montos reclamados."
+      },
+      {
+        "numero": 18,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que la actora haya tenido que recurrir a la mediación prejudicial obligatoria ante la demora en llegar a un acuerdo con la compañía aseguradora en los términos descriptos."
+      },
+      {
+        "numero": 19,
+        "tipo_respuesta": "desconozco",
+        "texto": "Desconozco las circunstancias exactas de visibilidad, estado de las luces, señalización y condiciones del pavimento en el lugar y hora del siniestro, que no me constan directamente."
+      },
+      {
+        "numero": 20,
+        "tipo_respuesta": "niego",
+        "texto": "Niego que exista una relación de causalidad adecuada y exclusiva entre la conducta del demandado Gómez y la totalidad de los daños reclamados por la actora de la manera y en la extensión descriptos en la demanda."
+      }
+    ]
+  },
+
+  "descripcion_siniestro_aseguradora": {
+    "texto": "Conforme los antecedentes obrantes en el expediente de siniestros N° 1-4-2188170 y sin perjuicio de las reservas efectuadas, el siniestro denunciado habría ocurrido el día 23 de octubre de 2023 en la Autopista Acceso Oeste, a la altura del Partido de Morón, Provincia de Buenos Aires. Mi representada toma conocimiento del hecho a través de la denuncia efectuada. La mecánica del accidente tal como la descripta por la actora será objeto de análisis pericial en autos, correspondiendo a la actora acreditar la relación de causalidad entre el hecho y los daños reclamados, su extensión y entidad, extremos que se controvierten expresamente. Los daños al rodado PGZ814 serán determinados por pericia mecánica judicial, cuyo resultado podría diferir del presupuesto extrajudicial acompañado. El monto del presupuesto de 'Talleres MRM Carrocería y Pintura' presenta además una inconsistencia que merece señalarse: el cuerpo de la demanda expresa en letras la cifra de PESOS DOS MILLONES SETECIENTOS TREINTA Y DOS MIL QUINIENTOS OCHENTA ($2.732.580), mientras que el numeral indicado es $4.174.275,82, diferencia que evidencia la arbitrariedad de la cuantificación efectuada."
+  },
+
+  "referencias_poliza": [
+    {
+      "clausula": "Póliza N° 881910 — Condiciones Generales de RC Auto",
+      "texto_relevante": "[A COMPLETAR: Obtener condiciones generales y particulares de la póliza 881910 del expediente de siniestros]",
+      "aplicacion": "Las condiciones generales y particulares determinan la extensión de la cobertura, la suma asegurada y la franquicia aplicable. Deben ser invocadas para limitar la responsabilidad de Libra a los términos del contrato."
+    },
+    {
+      "clausula": "Art. 118 Ley 17.418",
+      "texto_relevante": "La sentencia que se dicte hará cosa juzgada respecto del asegurador y será ejecutable contra él en la medida del seguro.",
+      "aplicacion": "La responsabilidad de Libra queda limitada al monto de la suma asegurada conforme art. 118 Ley 17.418."
+    }
+  ],
+
+  "excepciones_previas": [
+    {
+      "tipo": "prescripcion",
+      "titulo": "EXCEPCIÓN DE PRESCRIPCIÓN (art. 346 y 347 inc. 6 CPCyCN, art. 58 Ley 17.418)",
+      "fundamento_normativo": "Art. 58 Ley 17.418; art. 2561 CCC; art. 18 Ley 26.589; art. 346 CPCyCN",
+      "desarrollo": "El siniestro ocurrió el día 23 de octubre de 2023. La demanda fue firmada el 17 de octubre de 2025, esto es, casi dos años después del hecho. El art. 58 de la Ley 17.418 establece un plazo de prescripción de UN (1) AÑO para las acciones derivadas del contrato de seguro. Dicho plazo corre desde que la correspondiente obligación es exigible. Sin perjuicio de que la mediación prejudicial obligatoria suspende el cómputo de la prescripción durante su tramitación (art. 18 Ley 26.589), para que la defensa sea viable resulta indispensable conocer la fecha exacta de inicio de dicha mediación. Conforme las constancias adjuntadas, el acta de cierre de mediación luce fechada el 19/02/2025, pero no consta la fecha de inicio. De confirmarse que transcurrió más de un año entre el siniestro (23/10/2023) y el inicio de la mediación, el plazo del art. 58 Ley 17.418 se encontraría vencido al momento de la demanda. Se opone esta excepción con carácter previo, solicitando que V.S. requiera al actor la acreditación fehaciente de la fecha de inicio de la mediación prejudicial, a efectos de determinar si la prescripción de la acción respecto de la aseguradora se ha consumado. Asimismo, el trámite administrativo previo ante la aseguradora mencionado en la demanda no constituye acto interruptivo de la prescripción en los términos del art. 2545 CCC, puesto que no importa reconocimiento del derecho del acreedor por parte de mi representada.",
+      "fuente_triage": "viability_check — criterio prescripción — resultado amarillo — fortaleza moderada",
+      "riesgo_judicial": "Moderado-alto. El actor puede argumentar que el plazo de 3 años del art. 2561 CCC rige para la citación en garantía por acción directa del tercero. Además, el trámite administrativo previo podría interpretarse como acto interruptivo. Depende de la fecha de inicio de la mediación."
+    }
+  ],
+
+  "defensas_fondo": [
+    {
+      "defensa": "Impugnación de montos — Inconsistencia en la cuantificación del rubro reparación",
+      "desarrollo": "La demanda incurre en una inconsistencia notoria en la cuantificación del rubro de reparación del rodado: mientras el cuerpo del escrito expresa en letras 'PESOS DOS MILLONES SETECIENTOS TREINTA Y DOS MIL QUINIENTOS OCHENTA' (= $2.732.580), el numeral indica $4.174.275,82 — diferencia de $1.441.695,82. Esta discordancia entre letras y numerales pone de manifiesto la arbitrariedad de la cuantificación efectuada y demuestra que el monto reclamado no responde a una liquidación seria y fundada. El monto del presupuesto base es de $3.277.000 (Talleres MRM, 17/02/2025) — ajeno al siniestro del 23/10/2023 por más de 16 meses —, al que se le agregaron intereses Samudio para llegar al numeral reclamado. Dicha metodología de actualización del presupuesto con tasa de intereses comerciales es cuestionable, y la determinación definitiva del costo de reparación debe quedar supeditada a la pericia mecánica judicial.",
+      "normativa": "Art. 1740 CCC; art. 356 inc. 1 CPCyCN",
+      "fuente_triage": "viability_check + coverage_opinion — puntos_fuertes",
+      "riesgo_judicial": "Bajo-medio. El juez suele resolver el costo de reparación por pericia judicial."
+    },
+    {
+      "defensa": "Limitación al límite de cobertura de la póliza",
+      "desarrollo": "Sin perjuicio de las demás defensas, y para el hipotético e improbable caso de condena, la misma no puede exceder el límite de cobertura establecido en la póliza N° 881910 conforme lo establece el art. 118 de la Ley 17.418.",
+      "normativa": "Art. 118 Ley 17.418",
+      "fuente_triage": "coverage_opinion — obligaciones_asegurador",
+      "riesgo_judicial": "Bajo — doctrina CSJN consolidada en Flores, Buffoni, Álvarez"
+    }
+  ],
+
+  "oponibilidad_clausulas": {
+    "incluida": true,
+    "razon_inclusion": "Libra es citada en garantía (tipo_intervencion = citacion_garantia)",
+    "boilerplate_flores": false,
+    "razon_flores": "El actor no anticipó argumentos de inoponibilidad del límite en la demanda — se incluye texto base de oponibilidad sin el desarrollo completo de Flores para economizar el escrito",
+    "numero_poliza": "881910",
+    "texto": "La póliza de seguro es un contrato indivisible. Sus cláusulas — condiciones generales, particulares y especiales — forman un todo unitario que no puede ser fragmentado para beneficiar selectivamente a una parte. El tercero damnificado que acciona contra la aseguradora en los términos del art. 118 de la Ley de Seguros (Ley 17.418) no adquiere más derechos que los que tiene el asegurado frente a su asegurador; el límite de la obligación de la aseguradora es siempre 'en la medida del seguro'.\n\nArt. 118 Ley 17.418: 'El damnificado puede citar en garantía al asegurador hasta que se reciba la causa a prueba. En tal caso debe interponer la demanda ante el juez del lugar del hecho o del domicilio del asegurador. El asegurador puede hacer valer todas las defensas que tenga contra el asegurado. La sentencia que se dicte hará cosa juzgada respecto del asegurador y será ejecutable contra él en la medida del seguro.'\n\nEsta limitación no es una cláusula abusiva ni una restricción de derechos; es la esencia misma del contrato de seguro y la condición bajo la cual la aseguradora prestó su consentimiento (CCyCN arts. 957, 959, 1021 y 1022). Pretender que la aseguradora responda más allá del límite contratado importaría violar el principio de autonomía de la voluntad (art. 957 CCyCN), el derecho de propiedad (CN art. 17) y el principio de razonabilidad (CN art. 28).\n\nLa CSJN ha establecido en forma reiterada y pacífica que las cláusulas del contrato de seguro son oponibles al tercero damnificado:\n\n'Flores c/ Giménez' — CSJ 678/2013 (49-F)/CS1, sentencia del 6 de junio de 2017: la Corte reafirmó que la condena a la aseguradora no puede exceder el límite de cobertura pactado en la póliza, pues el tercero no puede tener más derechos que el propio asegurado. El seguro obligatorio no convierte a la aseguradora en garante ilimitado de cualquier condena.\n\n'Martínez de Costa c/ Vallejos' — CSJ 1319/2008: las cláusulas limitativas del contrato de seguro son plenamente oponibles al tercero damnificado, en tanto la aseguradora sólo asume la obligación en la medida de lo contratado.\n\n'Buffoni c/ Castro' — Fallos: 337:329 (2014): la franquicia pactada en el contrato de seguro es oponible al tercero damnificado y la aseguradora no puede ser condenada más allá del límite convenido.\n\n'Álvarez c/ Moscatelli' — CIV 1728/2017/CS1, sentencia del 14 de diciembre de 2023: la Corte ratificó su doctrina de oponibilidad de los límites contractuales de cobertura frente a terceros damnificados.\n\n'Aimar c/ Molina' — Expte. 31171/2012, sentencia del 24 de abril de 2018: la sentencia de condena a la aseguradora debe circunscribirse a los términos y límites del contrato de seguro.\n\nMarco normativo: Ley 17.418 arts. 109-120, art. 118; Ley 20.091 arts. 1, 23-26, 64 y 67; Ley 24.449 art. 68; CCyCN arts. 957, 959, 1021 y 1022; CN arts. 17 y 28.\n\nPor todo lo expuesto, solicito a V.S. que, en caso de condenar a mi representada, la sentencia se haga extensiva a LIBRA COMPAÑÍA ARGENTINA DE SEGUROS S.A. sólo hasta el límite de cobertura pactado en la póliza N° 881910, conforme lo establece el art. 118 de la Ley 17.418 y la doctrina reiterada de la Corte Suprema de Justicia de la Nación."
+  },
+
+  "defensa_juicio_asegurado": {
+    "incluida": true,
+    "razon_inclusion": "Libra es citada en garantía (tipo_intervencion = citacion_garantia)",
+    "asegurado_tiene_letrado_propio": false,
+    "texto": "De conformidad con lo establecido por la cláusula tercera de la Póliza Básica del Seguro Obligatorio de Responsabilidad Civil, en caso de que el Asegurado y/o Conductor del vehículo asegurado asuman su defensa en juicio sin darle noticia oportuna a mi representada para que éste la asuma, los honorarios de los letrados de éstos quedarán a su exclusivo cargo de los mismos."
+  },
+
+  "impugnacion_montos": [
+    {
+      "rubro": "Reparación del rodado",
+      "monto_reclamado": "$4.174.275,82",
+      "texto_impugnacion": "Impugno el monto de $4.174.275,82 por reparación del rodado en cuanto resulta excesivo, arbitrario, infundado y carente de todo respaldo probatorio suficiente. En primer lugar, debe señalarse la grave inconsistencia entre el monto en letras que surge del cuerpo de la demanda ('PESOS DOS MILLONES SETECIENTOS TREINTA Y DOS MIL QUINIENTOS OCHENTA' = $2.732.580) y el numeral reclamado ($4.174.275,82), diferencia de $1.441.695,82 que pone en evidencia la falta de rigor en la cuantificación. El presupuesto extrajudicial de 'Talleres MRM Carrocería y Pintura' (17/02/2025) —fecha que ya supone más de 16 meses posteriores al siniestro— es un instrumento unilateral que no ha sido confeccionado con intervención de esta parte y cuyo valor probatorio se desconoce. La metodología de actualizar el presupuesto mediante intereses comerciales (plenario Samudio) no resulta el procedimiento técnico adecuado para determinar el costo real de reparación a la fecha de la demanda. La determinación definitiva del costo de reparación corresponde al perito mecánico judicial, y cuyo resultado podrá diferir sustancialmente del presupuesto unilateral acompañado."
+    },
+    {
+      "rubro": "Desvalorización del valor venal del rodado",
+      "monto_reclamado": "$500.000",
+      "texto_impugnacion": "Impugno el monto de $500.000 por desvalorización del valor venal del rodado en cuanto resulta estimativo, arbitrario e infundado. La propia actora reconoce que la cifra es 'provisoria sujeta a determinación por perito mecánico'. Sin pericia técnica que determine el porcentaje real de desvalorización del vehículo siniestrado respecto de uno similar en perfectas condiciones, el monto reclamado carece de toda base objetiva. La desvalorización venal depende de múltiples variables (año del vehículo, kilometraje, extensión de los daños, calidad de la reparación) que sólo pueden ser determinadas por un perito mecánico judicial con acceso a los vehículos y a tablas de valuación actualizadas."
+    },
+    {
+      "rubro": "Privación de uso",
+      "monto_reclamado": "$100.000",
+      "texto_impugnacion": "Impugno el monto de $100.000 por privación de uso del vehículo en cuanto resulta excesivo e infundado. La actora no acredita haber contratado vehículo de reemplazo ni sufrido perjuicio económico concreto acreditable por la indisponibilidad del rodado. El período de inmovilización de 14 días invocado es meramente estimativo y deberá ser determinado por el perito mecánico judicial en función del tiempo técnicamente necesario para la reparación de los daños efectivamente constatados. El rubro privación de uso requiere acreditación concreta y no puede fijarse arbitrariamente."
+    },
+    {
+      "rubro": "Daño moral",
+      "monto_reclamado": "$500.000",
+      "texto_impugnacion": "Impugno el monto de $500.000 por daño moral en cuanto resulta excesivo y desproporcionado respecto de la entidad del daño alegado. El presente caso se circunscribe a daños materiales al rodado — sin lesiones físicas a la actora ni a su acompañante —, lo que reduce significativamente la entidad del padecimiento moral invocado. El daño moral derivado de un accidente con daños exclusivamente patrimoniales exige prueba efectiva de la afectación espiritual sufrida, y la simple alegación de 'angustia, padecimientos e incertidumbre' no es suficiente para justificar un monto de $500.000. Solicito que, en caso de admitirse el rubro, sea fijado prudencialmente por V.S. en la suma que razonablemente surja de las constancias de autos."
+    },
+    {
+      "rubro": "Gastos de mediación",
+      "monto_reclamado": "$51.040",
+      "texto_impugnacion": "Impugno el monto de $51.040 en concepto de gastos de mediación prejudicial en cuanto no resultan gastos del proceso judicial sino del trámite extrajudicial previo, cuya inclusión como rubros indemnizatorios a cargo del demandado resulta improcedente. Sin perjuicio de ello, desconozco la autenticidad y correspondencia con los originales de los comprobantes acompañados (arancel y factura de la mediadora), cuyo valor probatorio no reconozco."
+    }
+  ],
+
+  "art_730": {
+    "incluida": true,
+    "razon_inclusion": "Monto total reclamado $5.325.315,82 > $5.000.000 (umbral orientativo del skill)",
+    "texto": "Sin perjuicio de las demás defensas opuestas, y para el caso de condena, solicito a V.S. que al momento de regular honorarios y distribuir las costas del proceso, haga aplicación del tope establecido por el art. 730 del Código Civil y Comercial de la Nación, en cuanto prevé que la responsabilidad por el pago de las costas no puede exceder del veinticinco por ciento (25%) del monto de la sentencia, laudo, transacción o instrumento que ponga fin al diferendo. Si las regulaciones de honorarios, practicadas conforme a las leyes arancelarias o de acuerdo a lo que establezcan los jueces, superan dicho porcentaje, el juez debe reducir el monto de tales honorarios hasta dicha proporción, de oficio, antes de que el obligado efectúe el pago."
+  },
+
+  "anti_indexacion": {
+    "incluida": true,
+    "razon_inclusion": "La demanda pide expresamente 'actualización monetaria si al momento del dictado de la sentencia así correspondiere' (texto literal del petitorio)",
+    "texto": "La actora solicita en su petitorio la 'actualización monetaria si al momento del dictado de la sentencia así correspondiere'. Dicho pedido resulta legalmente improcedente. Las Leyes 23.928, 25.561 y 24.283 prohíben expresamente la indexación de obligaciones expresadas en moneda nacional. El art. 7° de la Ley 23.928 (mantenido por el art. 4° de la Ley 25.561) dispone expresamente que en ningún caso se admitirá la actualización monetaria, indexación por precios, variación de costos o repotenciación de deudas, cualquiera fuere su causa. La Ley 24.283 establece la prohibición de establecer cláusulas de ajuste en contratos celebrados en moneda nacional. En consecuencia, solicito a V.S. que rechace cualquier mecanismo de actualización monetaria, indexación por índice de precios (IPC, CER o similar), variación de costos o repotenciación de deudas que la actora pretenda incorporar en la condena, ello sin perjuicio de los intereses que pudieran corresponder por las tasas legalmente aplicables."
+  },
+
+  "limitacion_poliza": {
+    "texto": "Sin perjuicio de todo lo expuesto y para el hipotético e improbable caso de condena, la misma no puede exceder los límites establecidos en la póliza N° 881910 emitida por Libra Compañía Argentina de Seguros S.A. La responsabilidad de mi representada, en su carácter de citada en garantía, se circunscribe estrictamente a los términos del contrato de seguro y no puede superar la suma asegurada pactada, ni puede hacerse extensiva a ningún monto que exceda los límites contratados, de conformidad con el art. 118 de la Ley 17.418.",
+    "suma_asegurada": "[SUMA ASEGURADA — A COMPLETAR]",
+    "franquicia": "[FRANQUICIA — A COMPLETAR]"
+  },
+
+  "oposicion_prueba": {
+    "incluida": true,
+    "razon_inclusion": "La actora ofreció prueba confesional del representante legal de la aseguradora y prueba pericial contable (en subsidio) que puede objetarse",
+    "items": [
+      {
+        "medio": "Prueba confesional del representante legal de Libra Compañía Argentina de Seguros S.A.",
+        "fundamento": "La actora intimó a Libra a absolver posiciones (ver intimación art. 388 CPCCN en la demanda). Habiendo Libra comparecido a contestar la demanda y asumido defensa en autos, no hay hechos propios sobre los que su representante deba absolver posiciones. En efecto, la prueba confesional se dirige a acreditar hechos de conocimiento personal del absolvente (art. 405 CPCyCN), circunstancia que no concurre respecto de los hechos del accidente, que son ajenos al conocimiento directo de la aseguradora. Se opone la admisión de dicha prueba por inconducente a los fines del proceso."
+      },
+      {
+        "medio": "Prueba pericial contable — puntos referidos a los libros de Libra (en subsidio)",
+        "fundamento": "La actora ofrece prueba pericial contable 'en subsidio, solo si la citada en garantía niega la cobertura del vehículo ENA060'. Habiendo mi representada reconocido provisoriamente la cobertura del siniestro bajo póliza N° 881910, dicha condición no se verifica y la pericial contable carece de objeto. Se opone la admisión de la prueba pericial contable sobre los libros de Libra por inconducente e improcedente dado el reconocimiento de la cobertura efectuado. Los gastos del peritaje, de insistirse en el mismo, quedarán a cargo exclusivo de la actora."
+      }
+    ]
+  },
+
+  "autoriza": {
+    "incluida": true,
+    "texto": "Solicito se autorice a [LISTA DE AUTORIZADOS — A COMPLETAR], a solicitar el expediente en mesa de entradas, presentar escritos, extraer fotocopias, retirar oficios, exhortos, testimonios, copias de escritos y/o pericias, hacer desgloses y cuanto más sea necesario a los efectos de controlar el estado del juicio (R.N.J. Art. 63, inc. A modificado por la Acordada de la C.S.J.N. 5.3.54). Para el caso de que los autorizados procediesen a retirar copias de escritos y/o pericias de los cuales se hubiera corrido vista o traslado, queda entendido que dicho retiro implica la notificación del suscripto de tal vista o traslado."
+  },
+
+  "reserva_caso_federal": {
+    "texto": "Para el hipotético e improbable caso de que V.S. haga lugar al planteo realizado, dejo expresa reserva del caso federal previsto en el art. 14 de la Ley 48, por considerar vulnerados, en tal improbable supuesto, las garantías constitucionales de mis representados, plasmadas en los principios constitucionales de defensa en juicio, igualdad ante la ley, propiedad, y debido proceso. (Arts. 16, 17, 18)."
+  },
+
+  "ofrecimiento_prueba": {
+    "documental": [
+      "Póliza N° 881910 emitida por Libra Compañía Argentina de Seguros S.A. con todas sus condiciones generales, particulares y especiales vigentes al 23/10/2023",
+      "Actuaciones del expediente de siniestros N° 1-4-2188170 de Libra Compañía Argentina de Seguros S.A.",
+      "Toda documentación adicional que surja del expediente de siniestros y resulte conducente a la determinación de los hechos y la cobertura"
+    ],
+    "informativa": [
+      "A la DNRPA: titularidad dominial histórica del automotor Fiat Uno ENA060 al 23/10/2023",
+      "A Talleres MRM Carrocería y Pintura: autenticidad, fecha y condiciones del presupuesto adjuntado como documental N° 15 de la demanda; informe sobre el estado del rodado al momento del presupuesto",
+      "A Provincia Seguros S.A.: autenticidad y contenido del certificado de cobertura y denuncia de siniestro acompañados"
+    ],
+    "pericial": [
+      "Pericial mecánica: determinar la mecánica del accidente; calidad de embistente/embestido; daños reales al rodado PGZ814; costo de reparación a valores actuales; desvalorización venal; período de inmovilización para reparaciones; velocidades de los rodados al momento del impacto; consistencia del presupuesto extrajudicial acompañado con los daños constatados",
+      "Contrapericia respecto de toda pericial médica u otras pericias que ofrezca la actora"
+    ],
+    "confesional": true
+  },
+
+  "petitorio": {
+    "texto": "Atento lo expuesto, solicito a V.S.:\n1.- Me tenga por presentado, parte en el carácter invocado, y por constituido el domicilio legal.\n2.- Por contestada la citación en garantía en legal tiempo y forma.\n3.- Por ofrecida la prueba.\n4.- Por introducida la cuestión federal.\n5.- Oportunamente se rechace la demanda con costas.\n6.- Se tengan presentes las autorizaciones conferidas.\n\nProveer de conformidad,\nSERÁ JUSTICIA."
+  },
+
+  "secciones_adaptativas_incluidas": [
+    { "seccion": "Oponibilidad de cláusulas", "razon": "Libra es citada en garantía (tipo_intervencion = citacion_garantia)" },
+    { "seccion": "Defensa en juicio del asegurado", "razon": "Libra es citada en garantía (tipo_intervencion = citacion_garantia)" },
+    { "seccion": "Excepción de prescripción", "razon": "Edu identificó prescripción art. 58 LS como defensa procesal amarillo/moderada" },
+    { "seccion": "Impugnación de montos por rubro", "razon": "Actor reclama montos cuantificados por rubro (5 rubros con montos específicos)" },
+    { "seccion": "Art. 730 CCyCN", "razon": "Monto reclamado $5.325.315,82 supera el umbral orientativo de $5M" },
+    { "seccion": "Anti-indexación", "razon": "Actor pide expresamente actualización monetaria en el petitorio de la demanda" },
+    { "seccion": "Oposición a prueba", "razon": "Actor ofreció confesional del representante legal de Libra y pericial contable (en subsidio) — ambas objetables" }
+  ],
+
+  "secciones_adaptativas_no_incluidas": [
+    { "seccion": "Doctrina Samudio", "razon": "NO se incluye: el caso NO tiene rubros de daños personales (lesiones, incapacidad, daño psicológico). La actora solo reclama daños materiales y daño moral por un accidente sin lesiones físicas. La condición de la sección ('daños personales') no se cumple." },
+    { "seccion": "Pluspetición inexcusable", "razon": "NO se incluye: si bien hay inconsistencia entre letras y numerales del rubro reparación, Edu no identificó explícitamente ningún rubro como 'sin base probatoria o manifiestamente desproporcionado' en el sentido del art. 72 CPCCN. Por duda → no incluir." },
+    { "seccion": "Cumplimiento de obligación", "razon": "NO se incluye: no hay dato upstream que indique pago previo al actor por parte de Libra." },
+    { "seccion": "Defensa excusión / reconvención", "razon": "NO se incluye: no hay indicios de fraude ni acción de subrogación." }
+  ],
+
+  "secciones_requieren_revision": [
+    { "seccion": "Póliza — suma asegurada y franquicia", "razon": "Datos de póliza 881910 no disponibles en la demanda. Requiere obtención del expediente de siniestros antes de presentar el escrito.", "prioridad": "urgente" },
+    { "seccion": "Excepción de prescripción — fecha inicio mediación", "razon": "La viabilidad de la excepción de prescripción art. 58 LS depende de la fecha de inicio de la mediación. Confirmar con el expediente de mediación antes de presentar la excepción.", "prioridad": "urgente" },
+    { "seccion": "Fecha de notificación al asegurador", "razon": "El plazo de contestación no puede calcularse sin la fecha de notificación a Libra. Verificar urgentemente.", "prioridad": "urgente" },
+    { "seccion": "Autoriza — lista de autorizados", "razon": "Completar con el equipo estándar de Libra.", "prioridad": "standard" },
+    { "seccion": "Domicilio procesal y letrado patrocinante", "razon": "Datos del letrado patrocinante de Libra no disponibles.", "prioridad": "urgente" }
+  ],
+
+  "notas_para_abogado": [
+    "INCONSISTENCIA CLAVE: El rubro de reparación del rodado presenta una discordancia entre monto en letras ($2.732.580) y numeral ($4.174.275,82) de $1.441.695,82. Explotar este argumento en la impugnación de montos.",
+    "La demanda no contiene rubros de daños personales (lesiones físicas, incapacidad, daño psicológico). El reclamo es exclusivamente por daños materiales más daño moral por accidente sin lesiones. Confirmar con la demanda.",
+    "La prescripción art. 58 LS es el único argumento procesal significativo. Su viabilidad depende de la fecha de inicio de la mediación — verificar URGENTEMENTE.",
+    "Obtener póliza 881910 del expediente de siniestros antes de presentar el escrito para completar datos de suma asegurada y franquicia.",
+    "El actor pidió 'actualización monetaria' en el petitorio — se incluyó sección anti-indexación Leyes 25.561/24.283.",
+    "La mecánica del accidente (giro en U de contramano) es desfavorable para la defensa de responsabilidad. Foco principal: impugnación de montos.",
+    "Pericial contable ofrecida en subsidio 'solo si la aseguradora niega la cobertura' — habiendo Libra reconocido la cobertura, esta prueba debe oponerse como inconducente."
+  ],
+
+  "overall_confidence": "medium",
+  "longitud_estimada_chars": 34000
+}
