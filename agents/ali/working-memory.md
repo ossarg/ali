@@ -1,13 +1,13 @@
 # Working Memory — Ali
-**Actualizado:** 2026-03-23 23:00
+**Actualizado:** 2026-03-24 23:00
 
 ---
 
 ## Contexto inmediato para la próxima sesión
 
 ### ✅ Estado estable
-- **Backup DB**: ✅ ocho días consecutivos OK (16→23/03, ~228KB/día). No es alerta activa.
-- **`main`** — último commit: 0fbd113 (chore(ali): nightly extraction 2026-03-21). Sin cambios en 3 días.
+- **Backup DB**: ✅ nueve días consecutivos OK (16→24/03, ~228KB/día). No es alerta activa.
+- **`main`** — último commit: `5d83946` (chore(ali): nightly extraction 2026-03-23). Sin cambios en 2 días.
 - **`development`** tiene 5 commits sobre main pendientes de PR: c654fb4 (DeepAgents), 53387fa (Woz specs), c9e2624 (Edu/Jess), 89dc08f (Lou first-class), 950f604 (canonical naming).
 
 ---
@@ -42,7 +42,7 @@
 
 ---
 
-## Contexto arquitectural — estado real del repo (2026-03-23)
+## Contexto arquitectural — estado real del repo (2026-03-24)
 
 ### Pipeline (ORCHESTRATION.md)
 ```
@@ -64,7 +64,7 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 | Ali    | system-audit, orchestration-pipeline-runner |
 
 ### Branches activas
-- `main` — sin cambios desde 2026-03-21 23:00 (último nightly commit)
+- `main` — sin cambios desde 2026-03-23 23:00 (último nightly commit)
 - `development` — 5 commits sobre main, pendiente PR
 - `feature/agreements-ux` — rama adicional de Woz (UI acuerdos)
 - `sesion/2025-12-23` — 13 skills + ORCHESTRATION.md. PR no abierto.
@@ -95,7 +95,7 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 - Docker stack activo en producción (`backend/docker-compose.yml`)
 - Auth: JWT real, sesiones persistentes
 - SISE integrado: GetClaimByNumber, GetPolicySummary, GetProducerByCode. TTL buffer −60s, retry-on-401.
-- Backup DB: ✅ funcionando, racha de 8 días (16→23/03, ~228KB/día)
+- Backup DB: ✅ funcionando, racha de 9 días (16→24/03, ~228KB/día)
 
 ### Model routing (Juan, 2026-03-06)
 - Planeamiento/complejo → Opus
