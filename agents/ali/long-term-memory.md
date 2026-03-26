@@ -37,11 +37,12 @@ _Metadata: [trust:0-1|src:direct/observed/inferred|used:FECHA|hits:N]_
 - [trust:1.0|src:observed|used:2026-03-15|hits:2] Activity: 2 tabs (Pendientes/Aprobados), columna siniestro, paginación. Pendientes sin siniestro van al final.
 - [trust:1.0|src:observed|used:2026-03-17|hits:2] Módulo Agreements implementado y mergeado a main (PR #24, 2026-03-15). Tabla `agreements` con FK case_event_id + case_id. Auto-creación en pending al aprobar evento tipo acuerdo (mail_type=4). Extracción de datos por pipeline: pendiente.
 - [trust:1.0|src:observed|used:2026-03-17|hits:2] DI container extraído a `internal/di/container.go` (refactor 2026-03-15). main.go ahora es boot-only.
-- [trust:1.0|src:observed|used:2026-03-24|hits:7] ✅ Script backup DB restaurado desde 2026-03-16. Backups 14/03 y 15/03 perdidos (20 bytes vacíos). Racha actual: 16→24/03 (nueve días consecutivos, 223→228KB). Último backup válido anterior al fallo: libra_legal_20260313_0300.sql.gz (227618 bytes).
+- [trust:1.0|src:observed|used:2026-03-25|hits:8] ✅ Script backup DB restaurado desde 2026-03-16. Backups 14/03 y 15/03 perdidos (20 bytes vacíos). Racha actual: 16→25/03 (diez días consecutivos, 223→228KB). Último backup válido anterior al fallo: libra_legal_20260313_0300.sql.gz (227618 bytes).
 - [trust:1.0|src:observed|used:2026-03-09|hits:1] Docker stack en producción: docker-compose activo = `backend/docker-compose.yml`. El raíz fue renombrado a `docker-compose.yml.bak` (2026-03-09, confirmado en main 2026-03-17).
 - [trust:1.0|src:observed|used:2026-03-09|hits:1] Auth JWT real: AuthContext usa authService.login(), token persistido en localStorage. Mock hardcodeado eliminado el 2026-03-09.
 - [trust:1.0|src:observed|used:2026-03-09|hits:1] VITE_API_URL vacío en producción → axios usa proxy Vite (requests relativas al origen). No hardcodear URL del backend.
 - [trust:1.0|src:observed|used:2026-03-09|hits:1] CaseEventSchema usa nullish() en todos los campos opcionales — el backend Go puede devolver null.
+- [trust:1.0|src:observed|used:2026-03-25|hits:1] Skill drafting-answer-ar (Jess): REESCRITO COMPLETO el 2026-03-25 desde 35 contestaciones reales del equipo Díaz Mariana. 22 secciones (era 13), 3 tipos de caso, 15 boilerplates verbatim, 16 señales condicionales. Targets: 35-55K chars, 30-54 negativas. Commits: 1b83a71 + da853d7 en main. Jess PROMPT.md alineado.
 - [trust:1.0|src:observed|used:2026-03-17|hits:1] Skill email-triage-router-ar (Rachel): iteration-1 benchmark — 0.81 mean pass rate con skill vs 0.58 sin skill (+0.23 delta). 3 evals: sentencia (100%), embargo (83%), acuerdo-ambiguo (60%). Debilidad: tabla disambiguation acuerdo vs reclamo_pago necesita refinamiento. Skill en main desde PR #26 (2026-03-17).
 - [trust:1.0|src:observed|used:2026-03-17|hits:1] PR #26 mergeado (development → main, 2026-03-17 20:06). Incorpora: AgentOrgChart, AgentDetailPanel, CommandPalette, KanbanBoard, LiveActivityFeed, PipelineStepper, /agents, /contestaciones, /documentos pages nuevas; skill email-triage-router-ar + eval workspace; diario Ali 2026-03-09 en main.
 - [trust:1.0|src:observed|used:2026-03-09|hits:1] docs/design-system.md creado (345 líneas, 2026-03-09).
@@ -50,14 +51,14 @@ _Metadata: [trust:0-1|src:direct/observed/inferred|used:FECHA|hits:N]_
 
 ## Operational — Contexto activo, se archiva a los 30 días sin uso
 
-- [trust:1.0|src:direct|used:2026-03-24|hits:11] Branch `sesion/2025-12-23`: 13 skills + ORCHESTRATION.md mergeados. PR aún no abierto. Branch activa secundaria.
+- [trust:1.0|src:direct|used:2026-03-25|hits:12] Branch `sesion/2025-12-23`: 13 skills + ORCHESTRATION.md mergeados. PR aún no abierto. Branch activa secundaria.
 - [trust:1.0|src:direct|used:2025-12-23|hits:1] Rachel configurada con bot propio de Discord. Pendiente prueba en #rachel.
 - [trust:0.8|src:observed|used:2025-12-23|hits:1] Loop 6 del artículo de AtlasForge: irrelevante según Juan.
 - [trust:1.0|src:direct|used:2025-12-23|hits:1] Loops 1-5 implementados. Loops 7-9 en Fase B/C.
-- [trust:1.0|src:observed|used:2026-03-24|hits:21] Actividad sin sesión humana con Ali: miércoles, jueves, fines de semana y viernes exclusivamente Woz/Nacho. Ali solo corre en crons.
-- [trust:1.0|src:direct|used:2026-03-24|hits:11] Model routing: Opus → planeamiento/complejo; Sonnet → ejecución/diario; Haiku → heartbeats/sencillos.
-- [trust:1.0|src:direct|used:2026-03-24|hits:11] Pipeline: Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess (Drafting) → Review (Red Team) → Abogado.
-- [trust:1.0|src:direct|used:2026-03-24|hits:11] Canal #litigios = ID 1478558938352844891. Mensajes de Juan no llegan a Ali — pendiente debug.
+- [trust:1.0|src:observed|used:2026-03-25|hits:22] Actividad sin sesión humana con Ali: miércoles, jueves, fines de semana y viernes exclusivamente Woz/Nacho. Ali solo corre en crons. (Excepción: 25/03 miércoles con sesión humana activa — trabajo en Jess/drafting-answer-ar.)
+- [trust:1.0|src:direct|used:2026-03-25|hits:12] Model routing: Opus → planeamiento/complejo; Sonnet → ejecución/diario; Haiku → heartbeats/sencillos.
+- [trust:1.0|src:direct|used:2026-03-25|hits:12] Pipeline: Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess (Drafting) → Review (Red Team) → Abogado.
+- [trust:1.0|src:direct|used:2026-03-25|hits:12] Canal #litigios = ID 1478558938352844891. Mensajes de Juan no llegan a Ali — pendiente debug.
 - [trust:1.0|src:observed|used:2026-03-17|hits:2] feature/agreements mergeado a main (PR #24, 2026-03-15). feature/agreements-ux existe como branch adicional.
 - [trust:1.0|src:observed|used:2026-03-09|hits:2] fix duplicación pagos en re-sync SISE aplicado (2026-03-08). Pagos ya no se duplican al re-sincronizar siniestros.
-- [trust:1.0|src:observed|used:2026-03-24|hits:7] development tiene commits que AÚN NO están en main: c654fb4 (DeepAgents analysis), 53387fa (Woz specs), c9e2624 (Edu/Jess prompts), 89dc08f (Lou como agente first-class + pipeline-canon.md), 950f604 (canonical naming). Pendiente nuevo PR development → main.
+- [trust:1.0|src:observed|used:2026-03-25|hits:8] development tiene commits que AÚN NO están en main: c654fb4 (DeepAgents analysis), 53387fa (Woz specs), c9e2624 (Edu/Jess prompts), 89dc08f (Lou como agente first-class + pipeline-canon.md), 950f604 (canonical naming). Pendiente nuevo PR development → main.

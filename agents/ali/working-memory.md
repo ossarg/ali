@@ -1,14 +1,20 @@
 # Working Memory — Ali
-**Actualizado:** 2026-03-24 23:00
+**Actualizado:** 2026-03-25 23:00
 
 ---
 
 ## Contexto inmediato para la próxima sesión
 
 ### ✅ Estado estable
-- **Backup DB**: ✅ nueve días consecutivos OK (16→24/03, ~228KB/día). No es alerta activa.
-- **`main`** — último commit: `5d83946` (chore(ali): nightly extraction 2026-03-23). Sin cambios en 2 días.
+- **Backup DB**: ✅ diez días consecutivos OK (16→25/03, ~228KB/día). No es alerta activa.
+- **`main`** — últimos commits: `da853d7` (feat(jess): complete rewrite drafting-answer-ar) y `1b83a71` (feat: add 33 contestaciones). Ambos del 25/03.
 - **`development`** tiene 5 commits sobre main pendientes de PR: c654fb4 (DeepAgents), 53387fa (Woz specs), c9e2624 (Edu/Jess), 89dc08f (Lou first-class), 950f604 (canonical naming).
+
+### 🆕 Cambio importante: Jess renovada
+- `skills/drafting-answer-ar/SKILL.md` reescrito desde cero (476 líneas, 22 secciones).
+- 15 boilerplates verbatim del equipo legal en `skills/drafting-answer-ar/references/boilerplates/`.
+- `agents/jess/PROMPT.md` alineado al nuevo skill.
+- Calibrado en 33+ contestaciones reales; `reference/contestaciones/pattern_analysis.md` disponible.
 
 ---
 
@@ -25,10 +31,10 @@
 - [ ] **Trigger Modo 1 en ORCHESTRATION.md** — definir cuándo Ali dispara el pipeline automáticamente.
 - [ ] **Resolver #litigios** — canal ID 1478558938352844891, mensajes de Juan no llegan. Pendiente debug.
 - [ ] **Actualizar friction-log.md** — qué cambios de infra/config puede hacer Ali vs. Woz.
-- [ ] **Capturar conocimiento legal en long-term-memory.md** — patrones contestaciones argentinas (9 PDFs).
-- [ ] **Verificar prompts Jess con schema Donna** — compatibilidad negativas específicas con output actual de Donna.
+- [ ] **Verificar prompts Jess con schema Donna** — compatibilidad negativas específicas con output actual de Donna (nueva Jess puede generar negativas distintas).
 - [ ] **Actualizar regressions.md** — guardrail `git log --oneline -10` al inicio de sesión.
 - [ ] **Decidir destino archivos untracked** — `pipeline-tests/garcia-c-ramoa/` y `docs/plan-batch-20-demandas.md`.
+- [ ] **Branch `sesion/2025-12-23`** — PR aún no abierto.
 
 ### Pendientes de Juan
 - Skills de todos los agentes para revisar y alinear prompts
@@ -38,11 +44,11 @@
 - Decisión sobre endpoint agent-key para claims / acceso SISE desde pipeline
 - Branch `sesion/2025-12-23` — PR aún no abierto
 - Aprobación plan-batch-20-demandas.md
-- **Definir quién extrae datos de agreements** (campo extraction_status siempre pending hasta que el pipeline lo complete)
+- **Definir quién extrae datos de agreements** (campo extraction_status siempre pending)
 
 ---
 
-## Contexto arquitectural — estado real del repo (2026-03-24)
+## Contexto arquitectural — estado real del repo (2026-03-25)
 
 ### Pipeline (ORCHESTRATION.md)
 ```
@@ -59,12 +65,12 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 | Donna  | ingestion-document-summary-ar, ingestion-formal-review-ar |
 | Mike   | extraction-claim-summary-ar, extraction-policy-summary-ar |
 | Edu    | triage-risk-assessment-ar, triage-coverage-opinion-ar, triage-viability-check-ar |
-| Jess   | drafting-answer-ar, drafting-coverage-denial-ar |
+| Jess   | drafting-answer-ar (**REESCRITO 25/03**), drafting-coverage-denial-ar |
 | Review | review-red-team-verifier |
 | Ali    | system-audit, orchestration-pipeline-runner |
 
 ### Branches activas
-- `main` — sin cambios desde 2026-03-23 23:00 (último nightly commit)
+- `main` — últimos commits: da853d7 + 1b83a71 (25/03 mañana)
 - `development` — 5 commits sobre main, pendiente PR
 - `feature/agreements-ux` — rama adicional de Woz (UI acuerdos)
 - `sesion/2025-12-23` — 13 skills + ORCHESTRATION.md. PR no abierto.
@@ -79,6 +85,13 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 - En `skills/email-triage-router-ar/SKILL.md` (171 líneas) + `references/event-types.md` (196 líneas).
 - Iteration-1 benchmark: 0.81 mean pass rate (vs 0.58 sin skill, +0.23 delta).
 - ⚠️ Debilidad: disambiguation table `acuerdo vs reclamo_pago` + extracción nro_siniestro desde carátula embebida.
+
+### Skill drafting-answer-ar (REESCRITO — 2026-03-25)
+- `skills/drafting-answer-ar/SKILL.md` (476 líneas, 22 secciones)
+- `skills/drafting-answer-ar/references/boilerplates/` (15 archivos verbatim)
+- `skills/drafting-answer-ar/references/conditional-sections.md` (16 señales→secciones)
+- Calibrado desde `reference/contestaciones/pattern_analysis.md` (35 contestaciones únicas)
+- Targets: 35-55K chars, 30-54 negativas, estilo Díaz Mariana
 
 ### Estado webapp (vigente)
 - **Activity**: 2 tabs Pendientes/Aprobados, columna siniestro, paginación, pendientes sin siniestro al final
@@ -95,7 +108,7 @@ Rachel → Donna (Ingestion) → Mike (Extraction) → Edu (Triage x3) → Jess 
 - Docker stack activo en producción (`backend/docker-compose.yml`)
 - Auth: JWT real, sesiones persistentes
 - SISE integrado: GetClaimByNumber, GetPolicySummary, GetProducerByCode. TTL buffer −60s, retry-on-401.
-- Backup DB: ✅ funcionando, racha de 9 días (16→24/03, ~228KB/día)
+- Backup DB: ✅ funcionando, racha de 10 días (16→25/03, ~228KB/día)
 
 ### Model routing (Juan, 2026-03-06)
 - Planeamiento/complejo → Opus
