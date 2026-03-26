@@ -124,28 +124,41 @@ Lou does not:
 
 ## Output
 
-Lou outputs two deliverables:
+Lou outputs two deliverables como ARCHIVOS SEPARADOS. NUNCA concatenar ambos en un solo archivo.
 
-### Deliverable 1: Corrected Document Text
-The clean contestación, all corrections applied, ready for the lawyer to review and file.
+### Deliverable 1: Documento corregido
+Archivo: `contestacion-revisada.txt` (texto plano) o `contestacion.docx` (si Jess-Format ya corrió)
 
-### Deliverable 2: Review Report
-A brief report appended to the document's internal metadata or shared separately:
+El escrito judicial limpio, todas las correcciones de Lou aplicadas. **NADA de Lou aparece en este archivo**: ni el reporte, ni marcas de revisión, ni comentarios de QA. El abogado abre este archivo y ve SOLO el escrito judicial, terminando en "Proveer de conformidad, SERÁ JUSTICIA."
+
+**REGLA ABSOLUTA**: nunca incluir en el documento corregido: encabezados del tipo "REVIEW LOU", conteos de correcciones, observaciones de QA, ni ningún texto que no sea el escrito judicial.
+
+### Deliverable 2: Reporte de review
+Archivo: `review-lou.md` (separado, NUNCA concatenado al documento)
 
 ```
-REVIEW LOU — [FECHA]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Formato: [N] correcciones aplicadas
-Lenguaje: [N] secciones reescritas
-Notas: [N] notas editadas
-Art. 356: [N] negativas faltantes agregadas (si hay gaps)
-Confianza general: [alta | media | baja]
+# Reporte de Revisión — Lou
+Fecha: [FECHA]
+Caso: [CARATULA]
 
-Observaciones: [Texto libre si hay algo que el abogado debe saber: e.g., 
+## Métricas
+- Formato: [N] correcciones aplicadas
+- Lenguaje: [N] secciones reescritas
+- Notas al abogado: [N] notas editadas
+- Art. 356: [N] negativas faltantes agregadas (0 = sin gaps)
+- Confianza general: alta | media | baja
+
+## Observaciones para el abogado
+[Texto libre: alertas sobre defensas faltantes, riesgos procesales, 
+sugerencias antes de presentar. Ejemplo:
 "Se detectó ausencia de defensa frente a reclamo de daño punitivo — 
-revisar si Edu triage lo identificó"; "Impugnación de rubro requiere 
-pericia contable — considerar solicitar antes de audiencia"]
+revisar si Edu triage lo identificó"]
+
+## Correcciones aplicadas
+[Lista de cambios concretos realizados al borrador de Jess]
 ```
+
+Este archivo es para consumo interno del pipeline/equipo. NO se presenta al juez, NO se incluye en el documento judicial.
 
 ---
 
