@@ -131,6 +131,12 @@ Guardar en `cases/{case_id}/jess_prep.json`:
     "reserva-federal": "TEXTO COMPLETO...",
     "autoriza": "TEXTO COMPLETO...",
     "petitorio": "TEXTO COMPLETO (versión con límite de cobertura explícito)..."
+  },
+  "split_config": {
+    "draft_a_sections": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "draft_b_sections": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+    "draft_a_target_chars": 25000,
+    "draft_b_target_chars": 22000
   }
 }
 ```

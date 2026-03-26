@@ -108,6 +108,16 @@ Argentine civil procedure (CPC) Art. 356 requires explicit denial of all plainti
 
 Example: If demand alleges "El demandado recibió la factura el 15 de marzo", the contestación must include *"Niego que haya recibido factura alguna el 15 de marzo..."* — not just "Impugno el rubro" without addressing the specific fact.
 
+### 3.5 Check especial: coherencia del merge
+
+El borrador se genera en dos mitades (secciones 1-9 y 10-22) por subagentes separados.
+Verificar especialmente la transición entre la sección 9 (DESCONOCE DOCUMENTAL) y la sección 10 (LA VERDAD DE LOS HECHOS):
+- [ ] ¿El tono es consistente entre ambas mitades?
+- [ ] ¿Hay argumentos repetidos entre las negativas (sec 8) y la verdad de los hechos (sec 10)?
+- [ ] ¿Las referencias cruzadas son coherentes? (si sec 8 menciona algo, sec 10 no lo contradice)
+- [ ] ¿La transición se lee como un documento continuo, no como dos documentos pegados?
+Si hay inconsistencia, corregir para lograr un flujo narrativo natural.
+
 ---
 
 ## What Lou Does NOT Do

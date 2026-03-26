@@ -5,10 +5,14 @@ description: Genera borrador completo de contestación de demanda para Libra Seg
 
 > **Misión del borrador**: generar un documento con >95% de confianza en su contenido. Las secciones estándar (objeto, negativas, derecho, prueba) deben salir correctas y completas, sin necesidad de corrección. El formato, redacción y estilo deben ser 10/10. El tiempo del abogado debe ir al fondo de la cuestión, no a ajustes formales. El abogado construye arriba del borrador, no lo corrige.
 
-> **Flujo de ejecución**: este skill define la estructura y reglas de la contestación. La ejecución se splitea en dos pasos:
-> - **`drafting-prep-ar`** (Haiku): lee todos los inputs y boilerplates, produce `jess_prep.json` con boilerplates inline.
-> - **`drafting-draft-ar`** (Sonnet): lee solo `jess_prep.json` + `style-guide-ar.md`, genera el borrador completo.
-> Ver `pipeline/run-case.md` para el playbook completo de ejecución.
+> **NOTA DE EJECUCIÓN (2026-03-26)**
+> Este skill define la estructura canónica de 22 secciones y las reglas de la contestación.
+> La ejecución se splitea en tres pasos:
+> 1. `drafting-prep-ar` — planificación, Haiku subagente (~3 min)
+> 2. `drafting-draft-a-ar` — secciones 1-9, Sonnet subagente (~5 min)
+> 3. `drafting-draft-b-ar` — secciones 10-22, Sonnet subagente (~5 min)
+> Después del merge local (`scripts/merge_drafts.py`), Lou revisa el documento completo.
+> Ver `pipeline/run-case.md` para el playbook completo.
 
 # Contestación de Demanda — Libra Compañía Argentina de Seguros S.A.
 

@@ -136,17 +136,43 @@ Guardar `cases/{case_id}/jess_prep.json` con:
 
 ---
 
-## Paso 6: Jess-Draft — Redacción (Sonnet)
+## Paso 6a: Jess-Draft-A — Secciones 1-9 (Sonnet, subagente)
 
-Skill: `skills/drafting-draft-ar/SKILL.md`
+Skill: `skills/drafting-draft-a-ar/SKILL.md`
 
-Leer **SOLO**:
+Leer:
+- `skills/drafting-draft-a-ar/SKILL.md`
 - `cases/{case_id}/jess_prep.json`
 - `skills/drafting-answer-ar/references/style-guide-ar.md`
 
-Generar contestación completa y guardar `cases/{case_id}/jess_draft.txt`.
+Generar secciones 1-9 (~25k chars) y guardar `cases/{case_id}/jess_draft_a.txt`.
 
-**Verificar:** `wc -c cases/{case_id}/jess_draft.txt` debe ser >= target_chars del prep.
+**Verificar:** archivo termina con `[FIN_DRAFT_A — CONTINÚA EN DRAFT_B]`
+
+## Paso 6b: Jess-Draft-B — Secciones 10-22 (Sonnet, subagente)
+
+Skill: `skills/drafting-draft-b-ar/SKILL.md`
+
+Leer:
+- `skills/drafting-draft-b-ar/SKILL.md`
+- `cases/{case_id}/jess_prep.json`
+- `skills/drafting-answer-ar/references/style-guide-ar.md`
+
+Generar secciones 10-22 (~22k chars) y guardar `cases/{case_id}/jess_draft_b.txt`.
+
+**NOTA:** 6a y 6b pueden correr en PARALELO. Son independientes, leen el mismo prep JSON.
+
+**Verificar:** archivo empieza con `[INICIO_DRAFT_B — CONTINUACIÓN DE DRAFT_A]`
+
+## Paso 6c: Merge (local, NO LLM)
+
+```bash
+python3 ~/ali/scripts/merge_drafts.py cases/{case_id}/
+```
+
+Resultado: `cases/{case_id}/jess_draft.txt`
+
+**Verificar:** `wc -c cases/{case_id}/jess_draft.txt` debe ser >= 35.000 chars. El script valida automáticamente.
 
 ---
 
@@ -220,8 +246,10 @@ cases/{case_id}/
 ├── edu_risk.json        # Paso 4
 ├── edu_coverage.json    # Paso 4
 ├── edu_viability.json   # Paso 4
-├── jess_prep.json       # Paso 5 (con boilerplates inline)
-├── jess_draft.txt       # Paso 6
+├── jess_prep.json       # Paso 5 (con boilerplates inline + split_config)
+├── jess_draft_a.txt     # Paso 6a (secciones 1-9)
+├── jess_draft_b.txt     # Paso 6b (secciones 10-22)
+├── jess_draft.txt       # Paso 6c (merge)
 ├── contestacion-revisada.txt  # Paso 7 (escrito limpio)
 ├── review-lou.md        # Paso 7 (reporte QA, separado)
 └── contestacion.docx    # Paso 8 (output final)
