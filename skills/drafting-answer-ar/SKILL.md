@@ -3,6 +3,8 @@ name: drafting-answer-ar
 description: Genera borrador completo de contestación de demanda para Libra Seguros, estilo Díaz Mariana, en español jurídico formal argentino. Estructura de 22 secciones con boilerplates verbatim y lógica condicional por tipo de caso.
 ---
 
+> **Misión del borrador**: generar un documento con >95% de confianza en su contenido. Las secciones estándar (objeto, negativas, derecho, prueba) deben salir correctas y completas, sin necesidad de corrección. El formato, redacción y estilo deben ser 10/10. El tiempo del abogado debe ir al fondo de la cuestión, no a ajustes formales. El abogado construye arriba del borrador, no lo corrige.
+
 # Contestación de Demanda — Libra Compañía Argentina de Seguros S.A.
 
 Genera borrador de contestación de demanda listo para revisión letrada. Reproduce fielmente el estilo, estructura, tono y doctrina de las contestaciones reales de Libra (corpus de 33 escritos, estilo Díaz Mariana).
@@ -10,6 +12,14 @@ Genera borrador de contestación de demanda listo para revisión letrada. Reprod
 ## Principio rector
 
 Este skill NO genera argumentación jurídica original. Ensambla secciones a partir de boilerplates verbatim extraídos de contestaciones reales, sustituyendo variables con datos del caso. Las secciones dinámicas (negativas particulares, verdad de los hechos, impugnación de rubros) se generan siguiendo patrones y tono del corpus.
+
+---
+
+## Directiva de estilo
+
+Antes de redactar, leé `references/style-guide-ar.md`. Aplicá su registro, tono y patrones por sección. La guía de estilo es el estándar de calidad: si hay que elegir entre ensamblaje mecánico y prosa persuasiva, elegí prosa persuasiva.
+
+El borrador tiene que ser indistinguible de lo que escribiría un abogado litigante experimentado. Las secciones estáticas se copian verbatim. Las secciones dinámicas (negativas, impugnación de rubros, verdad de los hechos, análisis de derecho) se redactan con el lenguaje y los patrones de la guía de estilo.
 
 ---
 
@@ -403,13 +413,19 @@ Para el mapeo completo de "si la demanda menciona X → incluir sección Y", le�
 
 El output es el texto plano del escrito judicial completo, listo para copiar a un procesador de textos. NO es JSON estructurado.
 
-### Formato
+### Formato del documento Word
 
-- Texto corrido, sin markdown
-- Secciones separadas por títulos en MAYÚSCULAS
-- Negativas numeradas
-- Párrafos separados por doble salto de línea
-- Sin encabezados de nivel (#, ##)
+El output es un documento .docx con formato profesional listo para presentación judicial:
+
+- **Títulos de sección**: Heading 1 (H1), en mayúsculas (ej: "NEGATIVAS GENERALES Y PARTICULARES")
+- **Subtítulos**: Heading 2 (H2) (ej: "Sobre los daños de Servifamy S.R.L.")
+- **Texto**: justificado, con indent de primera línea en cada párrafo
+- **Listas numeradas**: usar listas numeradas de Word (no numeración manual "1.", "2.")
+- **Negativas**: en prosa continua (no numeradas), agrupadas por tema
+- **Espaciado**: sin espaciado espurio entre secciones. Cada sección empieza inmediatamente después del título
+- **Campos COMPLETAR**: entre corchetes, MAYÚSCULA, rojo: `[COMPLETAR — ABOGADO: descripción]`
+- **Notas internas**: entre corchetes, cursiva: `[NOTA INTERNA: descripción]`
+- **Cierre**: "Proveer de conformidad, SERÁ JUSTICIA." en negrita
 
 ### Metadata al final del documento
 
@@ -451,6 +467,7 @@ Notas para el abogado:
 6. **El silencio es reconocimiento** (art. 356 inc. 1 CPCCN). Si no podés negar un hecho por falta de datos, incluilo en la sección de metadata como "hecho no cubierto" con advertencia de riesgo procesal.
 7. **Largo mínimo**: una contestación de RC auto con solo daños materiales no debe bajar de 35.000 chars. Si queda corta, expandir negativas y desarrollo de impugnación de rubros.
 8. **Castellano**: todo el escrito en español. Sin anglicismos, sin términos en inglés.
+9. **Jurisprudencia solo del corpus**: solo citá fallos que aparezcan en los boilerplates de referencia o en la base de jurisprudencia del sistema. No busqués ni inventés citas. Si una sección se beneficiaría de jurisprudencia y no hay disponible, marcá: `[NOTA INTERNA: Este argumento se fortalecería con jurisprudencia sobre [TEMA]. Verificar en la base de precedentes de Libra.]`
 
 ---
 
