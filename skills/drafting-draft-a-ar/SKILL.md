@@ -56,13 +56,25 @@ Boilerplate `limite-cobertura` VERBATIM (es el bloque doctrinal más largo, ~870
 ### Sección 7: DEFENSA EN JUICIO DEL ASEGURADO
 Boilerplate `defensa-juicio-asegurado` con variables sustituidas.
 
-### Sección 8: CONTESTA DEMANDA — NEGATIVAS GENERALES Y PARTICULARES
+### Sección 8: LA VERDAD DE LOS HECHOS
+Narración desde la perspectiva de la aseguradora. Reencuadrar los hechos (reframing) — no copiar el relato de la demanda. Usar los datos del prep JSON y la técnica de reposicionamiento de la style guide (sección B.3).
+- Presentar la versión favorable a la defensa
+- Cuestionar la mecánica si hay inconsistencias
+- Señalar omisiones del actor
+- **IMPORTANTE**: usar "el conductor del rodado actor, Sr. [nombre]" si el conductor ≠ actor (verificar en prep JSON si conductor_vehiculo_actor es distinto del actor).
+
+### Sección 9: CONTESTA DEMANDA — NEGATIVAS GENERALES Y PARTICULARES
 La sección más dinámica del bloque A.
 - Boilerplate `negativa-general` como apertura
 - Negativas particulares: generadas por el LLM basándose en `hechos_a_negar` del prep JSON
 - FORMATO: prosa continua con conectores (NO listas numeradas, NO bullets)
 - Cada negativa debe ser específica, no genérica
-- Art. 356 CPCCN: el silencio equivale a admisión. Negar TODO lo que no sea expresamente reconocido
+- Art. 356 CPCCN: el silencio equivale a admisión. Negar los hechos que, de ser ciertos, perjudicarían al asegurado o a Libra.
+- **REGLA CRÍTICA DE NEGATIVAS — NUNCA perjudicar al asegurado:**
+  - Solo negar hechos afirmados por la ACTORA que, de ser ciertos, perjudicarían al asegurado o a Libra.
+  - NUNCA negar hechos que impliquen admisión de culpa del asegurado. Si la demanda dice "el demandado conducía a exceso de velocidad", negar eso. Si la demanda dice "el demandado circulaba por su mano de circulación", NO negar eso — negarlo implica que no circulaba por su mano, lo cual perjudica al asegurado.
+  - NUNCA negar que el asegurado conservaba el dominio del rodado, que circulaba correctamente, o que respetaba las normas de tránsito — salvo que la demanda afirme lo contrario y negarlo beneficie la defensa.
+  - Ante la duda, OMITIR la negativa. Es mejor no negar algo que negar algo que te perjudica.
 - Seguir la style guide sección B.1 (NEGATIVAS ESPECÍFICAS)
 - **NO generar un bloque de negativas de montos individuales** (ej: "Niego $12.187.600... Niego $1.100.000..."). Esto es redundante porque cada rubro se impugna en detalle en la sección XIII (Draft-B). Cerrar las negativas con: *"Niego la procedencia y el quantum de todos y cada uno de los rubros reclamados, los que serán impugnados de manera individual y circunstanciada en la sección correspondiente de este escrito."*
 - **Numeración romana consecutiva**: numerar esta sección con el número que corresponda en secuencia (no saltear números)

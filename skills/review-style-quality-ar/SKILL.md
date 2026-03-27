@@ -118,6 +118,14 @@ Verificar especialmente la transición entre la sección 9 (DESCONOCE DOCUMENTAL
 - [ ] ¿La transición se lee como un documento continuo, no como dos documentos pegados?
 Si hay inconsistencia, corregir para lograr un flujo narrativo natural.
 
+### 3.6 Validación de [COMPLETAR] contra datos disponibles
+
+Revisar cada `[COMPLETAR]` en el borrador. Para cada uno, verificar si el dato está disponible en la extracción de Mike (`mike_output.json`). Si el dato ESTÁ disponible y fue extraído, reemplazar el `[COMPLETAR]` con el valor real. Solo dejar `[COMPLETAR]` para datos que genuinamente no están disponibles (póliza de SISE, suma asegurada, datos que no constan en la demanda).
+
+**Ejemplo de [COMPLETAR] falso:** si la demanda dice que la desvalorización es de $300.000 (10%) y Mike lo extrajo, el borrador no debe tener `[COMPLETAR — VERIFICAR MONTO DE DESVALORIZACIÓN]`. Debe tener "$300.000".
+
+**Ejemplo de [COMPLETAR] legítimo:** `[COMPLETAR — ABOGADO: NÚMERO DE PÓLIZA SEGÚN SISE]` — Libra no tiene este dato sin consultar SISE.
+
 ---
 
 ## What Lou Does NOT Do

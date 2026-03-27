@@ -1,10 +1,71 @@
 #!/usr/bin/env python3
 """
 Merge jess_draft_a.txt y jess_draft_b.txt en jess_draft.txt.
-Elimina las señales de corte y valida integridad básica.
+Elimina señales de corte, filtra leaks, renumera secciones, valida integridad.
 """
 import sys
+import re
 from pathlib import Path
+
+# Roman numeral utilities
+ROMAN_MAP = [
+    (1000,'M'),(900,'CM'),(500,'D'),(400,'CD'),(100,'C'),(90,'XC'),
+    (50,'L'),(40,'XL'),(10,'X'),(9,'IX'),(5,'V'),(4,'IV'),(1,'I')
+]
+
+def to_roman(n):
+    result = ''
+    for value, numeral in ROMAN_MAP:
+        while n >= value:
+            result += numeral
+            n -= value
+    return result
+
+def from_roman(s):
+    s = s.upper().strip().rstrip('.')
+    result = 0
+    i = 0
+    roman_vals = {'M':1000,'D':500,'C':100,'L':50,'X':10,'V':5,'I':1}
+    while i < len(s):
+        if i+1 < len(s) and roman_vals.get(s[i],0) < roman_vals.get(s[i+1],0):
+            result += roman_vals[s[i+1]] - roman_vals[s[i]]
+            i += 2
+        else:
+            result += roman_vals.get(s[i], 0)
+            i += 1
+    return result
+
+
+def fix_numbering(text):
+    """Find all Roman numeral section headings and renumber sequentially."""
+    # Pattern: line starts with Roman numeral followed by . or .- and title
+    # Examples: "I. OBJETO", "VIII. NEGATIVAS", "X. LA VERDAD"
+    pattern = re.compile(r'^([IVXLC]+)\.\s*[-–]?\s*(.+)$', re.MULTILINE)
+
+    matches = list(pattern.finditer(text))
+    if not matches:
+        return text, 0
+
+    # Check if numbering has gaps
+    numbers = [from_roman(m.group(1)) for m in matches]
+    expected = list(range(1, len(numbers) + 1))
+
+    if numbers == expected:
+        return text, 0  # Already correct
+
+    # Renumber
+    fixes = 0
+    # Work backwards to not shift positions
+    for i, match in reversed(list(enumerate(matches))):
+        new_num = to_roman(i + 1)
+        old_text = match.group(0)
+        new_text = f"{new_num}. {match.group(2)}"
+        if old_text != new_text:
+            text = text[:match.start()] + new_text + text[match.end():]
+            fixes += 1
+
+    return text, fixes
+
 
 def merge(case_dir: str):
     case = Path(case_dir)
@@ -31,10 +92,14 @@ def merge(case_dir: str):
     merged = text_a + "\n\n" + text_b
 
     # Filtrar leaks internos del pipeline
-    import re
     merged = re.sub(r'\s*\(Draft [AB]\)', '', merged)
     merged = re.sub(r'Draft[ -]?[AB]', '', merged)
     merged = merged.replace('anatocistmo', 'anatocismo')
+
+    # Fix 1: Renumerar secciones romanas si hay saltos
+    merged, num_fixes = fix_numbering(merged)
+    if num_fixes:
+        print(f"  Numeración: {num_fixes} secciones renumeradas")
 
     # Validaciones básicas
     errors = []

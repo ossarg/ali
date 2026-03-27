@@ -24,13 +24,10 @@ Sonnet 4.6
 
 ## Secciones que generás
 
-### Sección 10: LA VERDAD DE LOS HECHOS
-Narración desde la perspectiva de la aseguradora. NO copiar los hechos de la demanda; reencuadrarlos (reframing). Usar los datos del prep JSON y la técnica de reposicionamiento de la style guide (sección B.3).
-- Presentar la versión de los hechos favorable a la defensa
-- Cuestionar la mecánica del accidente si hay inconsistencias
-- Señalar omisiones del actor en su relato
+### NOTA: La Verdad de los Hechos ahora va en Draft-A (sección 8), antes de Negativas.
+Draft-B NO genera "La Verdad de los Hechos". Empieza directamente con Culpa de la Víctima o Derecho.
 
-### Sección 11: CULPA DE LA VÍCTIMA / HECHO DEL DAMNIFICADO (condicional)
+### Sección (condicional): CULPA DE LA VÍCTIMA / HECHO DEL DAMNIFICADO
 Solo si `jess_prep.json` indica que aplica (motocicleta, exceso de velocidad, cruce imprudente, etc.). Si no aplica, OMITIR esta sección.
 
 ### Sección 12: DERECHO
@@ -38,6 +35,8 @@ Fundamentos jurídicos de la defensa. Seguir la style guide sección B.4. Artíc
 - Citación en garantía: Art. 118 Ley 17.418, Art. 1757-1758 CCyC
 - Acción directa: Art. 109, 118 Ley 17.418
 - Repetición ART: Ley 24.557, Art. 39
+
+**DETECTOR DE NORMATIVA DEROGADA**: Revisar los artículos citados por la actora en su demanda. Si invoca artículos del Código Civil derogado (Código de Vélez: arts. 512, 902, 1068, 1069, 1078, 1083, 1096, 1109, 1110, 1113, o cualquier otro artículo del CC en causas con hechos posteriores al 01/08/2015), señalarlo en esta sección: *"Cabe advertir que la actora funda su pretensión, entre otras normas, en los arts. [LISTAR] del Código Civil derogado por la Ley 26.994, los cuales no resultan aplicables a hechos acaecidos con posterioridad al 1° de agosto de 2015 (art. 7 CCyC). Sin perjuicio de ello, esta parte contesta la demanda conforme la normativa vigente."*
 
 ### Sección 13: IMPUGNACIÓN DE RUBROS
 La sección más dinámica del bloque B. Para CADA rubro reclamado en `rubros_reclamados` del prep JSON:
