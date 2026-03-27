@@ -80,12 +80,14 @@ func (cc *ClaimController) Get(c echo.Context) error {
 // @Tags         claims
 // @Produce      json
 // @Security     BearerAuth
+// @Security     AgentKeyAuth
 // @Param        nro_stro  query     string  true  "SISE claim number"
 // @Success      200       {object}  dto.ClaimLookupResponse
 // @Failure      400       {object}  map[string]string
 // @Failure      401       {object}  map[string]string
 // @Failure      404       {object}  map[string]string
 // @Router       /api/v1/claims/lookup [get]
+// @Router       /api/v1/agents/claims/lookup [get]
 func (cc *ClaimController) Lookup(c echo.Context) error {
 	nroStro := c.QueryParam("nro_stro")
 	if nroStro == "" {
