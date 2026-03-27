@@ -1,7 +1,7 @@
 ---
 name: drafting-prep-ar
-description: Paso 1 del pipeline de borrador (Jess-Prep). Lee la demanda, los outputs de análisis y los boilerplates necesarios, y produce jess_prep.json con los boilerplates embebidos inline. Modelo recomendado: Haiku. Siempre corre antes de drafting-draft-ar.
-model: haiku
+description: Paso 1 del pipeline de borrador (Jess-Prep). Lee la demanda, los outputs de análisis, determina estructura del caso. Modelo recomendado: Sonnet (Haiku trunca boilerplates). inject_boilerplates.py corre después como red de seguridad para garantizar boilerplates verbatim.
+model: sonnet
 ---
 
 # Jess-Prep — Planificación del Borrador de Contestación

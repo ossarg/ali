@@ -79,8 +79,12 @@ La sección más dinámica del bloque A.
 - **NO generar un bloque de negativas de montos individuales** (ej: "Niego $12.187.600... Niego $1.100.000..."). Esto es redundante porque cada rubro se impugna en detalle en la sección XIII (Draft-B). Cerrar las negativas con: *"Niego la procedencia y el quantum de todos y cada uno de los rubros reclamados, los que serán impugnados de manera individual y circunstanciada en la sección correspondiente de este escrito."*
 - **Numeración romana consecutiva**: numerar esta sección con el número que corresponda en secuencia (no saltear números)
 
-### Sección 9: DESCONOCE DOCUMENTAL
-Boilerplate `desconoce-documental` como base. PERO: la enumeración de documentos de la contraparte sale de interpretar la demanda (datos en el prep JSON). Un script no puede hacer esto, necesitás criterio para identificar qué documentos acompañó la actora y desconocer cada uno de forma específica.
+### Sección 10: DESCONOCE DOCUMENTAL
+Boilerplate `desconoce-documental` como base. La enumeración de documentos sale de `documental_actora` en el prep JSON.
+- Listar CADA documento individualmente (no "toda la documentación")
+- Para presupuestos de taller: desconocer con fundamento específico ("por tratarse de presupuesto privado emitido por [NOMBRE TALLER], sin intervención de perito independiente")
+- Para fotografías: desconocer fecha, autenticidad y correspondencia con el hecho
+- Para certificados médicos: desconocer si son de parte o ratificados en sede judicial
 
 ## Reglas de generación
 

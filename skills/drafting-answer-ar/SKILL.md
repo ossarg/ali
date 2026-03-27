@@ -7,11 +7,13 @@ description: Genera borrador completo de contestación de demanda para Libra Seg
 
 > **NOTA DE EJECUCIÓN (2026-03-26)**
 > Este skill define la estructura canónica de 22 secciones y las reglas de la contestación.
-> La ejecución se splitea en tres pasos:
-> 1. `drafting-prep-ar` — planificación, Haiku subagente (~3 min)
-> 2. `drafting-draft-a-ar` — secciones 1-9, Sonnet subagente (~5 min)
-> 3. `drafting-draft-b-ar` — secciones 10-22, Sonnet subagente (~5 min)
-> Después del merge local (`scripts/merge_drafts.py`), Lou revisa el documento completo.
+> La ejecución se splitea en estos pasos:
+> 1. `drafting-prep-ar` — planificación, Sonnet subagente (~5 min)
+> 2. `scripts/inject_boilerplates.py` — inyección local de boilerplates verbatim
+> 3. `drafting-draft-a-ar` — secciones 1-10 (incluyendo Hechos), Sonnet subagente (~5 min)
+> 4. `drafting-draft-b-ar` — secciones 11-22, Sonnet subagente (~5 min) — paralelo con 3
+> 5. `scripts/merge_drafts.py` — merge + renumeración + validación
+> 6. Lou (`review-style-quality-ar`) — quality review, Sonnet subagente
 > Ver `pipeline/run-case.md` para el playbook completo.
 
 # Contestación de Demanda — Libra Compañía Argentina de Seguros S.A.

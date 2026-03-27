@@ -14,7 +14,8 @@
 | Edu risk | triage-risk-assessment-ar | Haiku | scoring con reglas definidas |
 | Edu coverage | triage-coverage-opinion-ar | Haiku | 3 escenarios con lógica clara |
 | Edu viability | triage-viability-check-ar | Haiku | semáforo con criterios explícitos |
-| Jess-Prep | drafting-prep-ar | Haiku | planificación, no genera texto largo |
+| Jess-Prep | drafting-prep-ar | **Sonnet** | Haiku trunca boilerplates — Sonnet para lógica confiable |
+| Inject boilerplates | local script | — | inject_boilerplates.py garantiza boilerplates verbatim |
 | Jess-Draft | drafting-draft-ar | **Sonnet** | genera ~45k chars de lenguaje jurídico |
 | Lou | review-style-quality-ar | **Sonnet** | criterio de calidad, reescribe secciones |
 | Format | local script | — | python-docx, no requiere LLM |
@@ -122,7 +123,7 @@ No generar 70k chars de contestación que potencialmente no corresponde presenta
 
 ---
 
-## Paso 5: Jess-Prep — Planificación (Haiku)
+## Paso 5: Jess-Prep — Planificación (Sonnet)
 
 Skill: `skills/drafting-prep-ar/SKILL.md`
 
@@ -139,11 +140,23 @@ Guardar `cases/{case_id}/jess_prep.json` con:
 - `notas_triage`: resumen de edu_coverage
 - `target_chars`: según tipo de caso
 
-**Verificar:** el JSON debe contener el campo `boilerplates_inline` con texto real (no vacío).
+**Verificar:** el JSON debe existir y tener `pipeline_blocked` = false para continuar.
 
 ---
 
-## Paso 6a: Jess-Draft-A — Secciones 1-9 (Sonnet, subagente)
+## Paso 5b: Inject Boilerplates (local, NO LLM)
+
+```bash
+python3 ~/ali/scripts/inject_boilerplates.py cases/{case_id}/
+```
+
+Inyecta los 15 boilerplates verbatim desde el filesystem al `jess_prep.json`. Garantiza que los textos sean completos independientemente de lo que el LLM haya producido.
+
+**Verificar:** output debe decir "✓ Listo para Draft A/B" con 15 boilerplates y ~35k chars.
+
+---
+
+## Paso 6a: Jess-Draft-A — Secciones 1-10 (Sonnet, subagente)
 
 Skill: `skills/drafting-draft-a-ar/SKILL.md`
 
@@ -152,7 +165,7 @@ Leer:
 - `cases/{case_id}/jess_prep.json`
 - `skills/drafting-answer-ar/references/style-guide-ar.md`
 
-Generar secciones 1-9 (~25k chars) y guardar `cases/{case_id}/jess_draft_a.txt`.
+Generar secciones 1-10 (~25k chars) incluyendo Verdad de los Hechos (ahora sección 8, antes de Negativas). Guardar `cases/{case_id}/jess_draft_a.txt`.
 
 **Verificar:** archivo termina con `[FIN_DRAFT_A — CONTINÚA EN DRAFT_B]`
 

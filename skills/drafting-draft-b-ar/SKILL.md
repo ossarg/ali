@@ -75,6 +75,8 @@ Boilerplate `oposicion-prueba-actora` como base. Pero cuáles oposiciones aplica
 - Oposición a confesional de la citada en garantía (siempre en citación garantía)
 - Oposición a pericia contable sobre libros de la aseguradora (siempre)
 - Otras oposiciones según prueba ofrecida por la actora
+- **Testigos**: si Mike extrajo nombres de testigos, formular reserva de repreguntas para cada uno. Ejemplo: *"Respecto del testigo [NOMBRE], cuya declaración fue ofrecida por la parte actora, esta parte formula expresa reserva de repreguntas en los términos del art. 213 CPCCN."*
+- **Puntos de pericia**: si Mike extrajo puntos de pericia de la actora, formular adhesión con ampliación de puntos propios orientados a la defensa, o impugnación de puntos que excedan el objeto de la pericia.
 
 ### Sección 18: ART. 730 CCyC — TOPE DE COSTAS
 Boilerplate `tope-costas-730` VERBATIM. Solicitar que las costas no excedan el 25% del monto de la sentencia.
@@ -133,5 +135,7 @@ Primera línea del archivo:
 [FIN_DRAFT_B — DOCUMENTO COMPLETO]
 ```
 
-## Restricciones de tiempo
+## Restricciones de tiempo y archivos
 Tenés ~5 minutos. Todo está pre-digerido en el prep JSON. Enfocate en calidad de redacción.
+
+**NO leer jess_draft_a.txt.** NO verificar numeración ni contenido de Draft-A. El merge script se encarga de la continuidad y renumeración. Si leés Draft-A, gastás tiempo en I/O y te cortás el timeout.
