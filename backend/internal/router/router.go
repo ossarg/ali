@@ -46,6 +46,7 @@ func InitRouter(cfg *config.Config, authController *controllers.AuthController, 
 	agents.POST("/attachments", attachmentController.Upload)
 	agents.PATCH("/agreements/:id", agreementController.AgentUpdate)
 	agents.GET("/agreements/pending", agreementController.ListPending)
+	agents.GET("/claims/lookup", claimController.Lookup)
 
 	// Protected routes (JWT) — registered last so /api/v1/agents is not captured here
 	api := e.Group("/api/v1", appMiddleware.JWTMiddleware())
