@@ -59,8 +59,24 @@ Según las señales condicionales (conditional-sections.md), determinar qué boi
 
 Leer cada archivo de boilerplate identificado. Copiar el texto del bloque de código (``` ```) al campo `boilerplates_inline` del JSON. VERBATIM — sin modificar, sin resumir.
 
-### Paso 7: Registrar alertas para el abogado
-Extraer de edu_coverage las alertas críticas (cobertura INDETERMINADO, causa penal, denuncia a otra aseguradora, etc.).
+### Paso 7: Evaluar si el pipeline debe bloquearse
+
+**REGLA DE BLOQUEO:** Si la denuncia de siniestro fue presentada ante otra aseguradora (no Libra), marcar `"pipeline_blocked": true` en el JSON. No continuar con Draft A/B. Devolver al pipeline solo la alerta para que el abogado resuelva la cuestión de legitimación antes de generar el borrador.
+
+Si hay denuncia a otra aseguradora:
+```json
+"pipeline_blocked": true,
+"block_reason": "Denuncia de siniestro presentada ante [OTRA ASEGURADORA], no ante Libra. Verificar en SISE. Si Libra no cubría, corresponde excepción de falta de legitimación pasiva."
+```
+
+Si no hay bloqueo:
+```json
+"pipeline_blocked": false,
+"block_reason": null
+```
+
+### Paso 8: Registrar alertas para el abogado (si pipeline NO bloqueado)
+Extraer de edu_coverage las alertas no bloqueantes (causa penal activa, mediación no acreditada, póliza no disponible, etc.).
 
 ## Output
 

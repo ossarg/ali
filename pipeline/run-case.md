@@ -113,6 +113,13 @@ Output: `cases/{case_id}/edu_viability.json`
 
 **Si escalación requerida = true en edu_risk.json**: notificar al abogado antes de continuar con Jess.
 
+**REGLA DE BLOQUEO — Cobertura INDETERMINADO por aseguradora incorrecta:**
+Si `edu_coverage.json` indica cobertura INDETERMINADO porque la denuncia de siniestro se presentó ante otra aseguradora (no Libra), el pipeline se DETIENE. No pasar a Jess. Notificar al abogado con las dos opciones:
+1. Verificar en SISE → si Libra cubría el vehículo, continuar pipeline normal
+2. Si otra aseguradora cubría → generar escrito de excepción de falta de legitimación pasiva (no contestación completa)
+
+No generar 70k chars de contestación que potencialmente no corresponde presentar.
+
 ---
 
 ## Paso 5: Jess-Prep — Planificación (Haiku)

@@ -30,6 +30,12 @@ def merge(case_dir: str):
     # Merge con separación limpia
     merged = text_a + "\n\n" + text_b
 
+    # Filtrar leaks internos del pipeline
+    import re
+    merged = re.sub(r'\s*\(Draft [AB]\)', '', merged)
+    merged = re.sub(r'Draft[ -]?[AB]', '', merged)
+    merged = merged.replace('anatocistmo', 'anatocismo')
+
     # Validaciones básicas
     errors = []
     total_chars = len(merged)

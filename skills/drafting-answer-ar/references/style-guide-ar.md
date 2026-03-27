@@ -98,16 +98,21 @@ de reparación del rodado.
 
 #### B. Daño Moral
 
+> **REGLA CLAVE (RC auto con lesiones):** NO argumentar que el daño moral no es in re ipsa. La jurisprudencia mayoritaria de CNCiv presume daño moral en accidentes con lesiones. Concentrarse en el QUANTUM, no en la procedencia.
+
 **Patrón completo:**
 ```
-El monto reclamado en concepto de daño moral resulta manifiestamente excesivo y carente
-de fundamento legal. Se desconoce e impugna el informe/declaración aportado por la
-actora por tratarse de documentación privada no ratificada en autos.
+No se discute que todo accidente de tránsito genera un padecimiento moral en quien lo
+sufre; lo que se cuestiona es la manifiesta desproporción del monto pretendido respecto
+de los parámetros jurisprudenciales del fuero para casos análogos.
 
-En primer lugar, la actora no ha acreditado el daño extraordinario que justifique la
-suma pretendida. En segundo lugar, la mera invocación de sufrimiento resulta insuficiente
-para acreditar el daño moral compensable. En tercer lugar, queda sujeto a la prueba
-a producirse en autos la determinación de la entidad del menoscabo psicológico alegado.
+En primer lugar, el quantum solicitado de $[MONTO] excede significativamente los valores
+que los tribunales del fuero civil reconocen para siniestros de la entidad que aquí se
+ventila. En segundo lugar, la determinación del monto resarcitorio debe ponderar las
+satisfacciones sustitutivas y compensatorias que la suma reconocida pueda procurar (art.
+1741 CCCN), no la mera invocación de sufrimiento sin cuantificación objetiva. En tercer
+lugar, queda sujeto a la prueba a producirse en autos la acreditación de la entidad
+concreta del menoscabo espiritual alegado.
 
 Niego que la accionante tenga derecho a percibir la suma de $[MONTO] en concepto
 de daño moral.

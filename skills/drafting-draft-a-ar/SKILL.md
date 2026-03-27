@@ -64,6 +64,8 @@ La sección más dinámica del bloque A.
 - Cada negativa debe ser específica, no genérica
 - Art. 356 CPCCN: el silencio equivale a admisión. Negar TODO lo que no sea expresamente reconocido
 - Seguir la style guide sección B.1 (NEGATIVAS ESPECÍFICAS)
+- **NO generar un bloque de negativas de montos individuales** (ej: "Niego $12.187.600... Niego $1.100.000..."). Esto es redundante porque cada rubro se impugna en detalle en la sección XIII (Draft-B). Cerrar las negativas con: *"Niego la procedencia y el quantum de todos y cada uno de los rubros reclamados, los que serán impugnados de manera individual y circunstanciada en la sección correspondiente de este escrito."*
+- **Numeración romana consecutiva**: numerar esta sección con el número que corresponda en secuencia (no saltear números)
 
 ### Sección 9: DESCONOCE DOCUMENTAL
 Boilerplate `desconoce-documental` como base. PERO: la enumeración de documentos de la contraparte sale de interpretar la demanda (datos en el prep JSON). Un script no puede hacer esto, necesitás criterio para identificar qué documentos acompañó la actora y desconocer cada uno de forma específica.
@@ -80,6 +82,10 @@ Boilerplate `desconoce-documental` como base. PERO: la enumeración de documento
 - Prosa continua, lenguaje jurídico argentino.
 - Sin bullets ni listas numeradas en el cuerpo del escrito.
 - Sin emojis, sin markdown (esto es texto plano para un escrito judicial).
+
+### Numeración romana
+- Numerar todas las secciones con números romanos consecutivos (I, II, III...).
+- **No referenciar "Draft A" ni "Draft B"** en el texto del escrito ni en las notas internas. Son conceptos internos del pipeline.
 
 ### Notas al abogado
 - Tipo 1 (datos faltantes): `[COMPLETAR: descripción de qué falta]` — se renderiza en rojo en el docx final.

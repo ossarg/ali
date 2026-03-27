@@ -47,13 +47,15 @@ La sección más dinámica del bloque B. Para CADA rubro reclamado en `rubros_re
 - Si hay privación de uso: usar `impugna-privacion-uso` (doctrina Valenza)
 - Si hay daño punitivo: desarrollo doctrinal extenso (arts. 18, 19, 28 CN)
 - NUNCA minimizar un rubro sin fundamento legal. Cada impugnación debe tener base normativa o jurisprudencial.
+- **Bloque doctrinal Bustamante Alsina**: reducir a 2-3 párrafos centrales: (1) el daño debe ser cierto y subsistente, (2) debe probarse nexo causal, (3) la indemnización no debe generar enriquecimiento. No transcribir citas intermedias que repiten el mismo concepto. El valor está en la impugnación rubro por rubro, no en el preámbulo genérico.
+- **Daño moral en RC auto con lesiones**: NO argumentar que el daño moral no es in re ipsa. La jurisprudencia mayoritaria de CNCiv lo presume en accidentes con lesiones. Concentrarse en el QUANTUM: *"No se discute que todo accidente genera un padecimiento moral; lo que se cuestiona es la desproporción del monto pretendido respecto de los parámetros jurisprudenciales del fuero para casos análogos."*
 
 ### Sección 14: IMPUGNA LIQUIDACIÓN
 Impugnación de la liquidación presentada por la actora. Cuestionar base de cálculo, tasas, capitalización.
 
 ### Sección 15: CONTESTA PLANTEO DE INTERESES
 Si la demanda plantea intereses (especialmente tasa activa):
-- Boilerplate `contesta-intereses-samudio` VERBATIM (bloque Samudio con cadena Sala E/G/M)
+- Boilerplate `contesta-intereses-samudio` como base, pero **reducir a 1 cadena de citas principal**. El boilerplate tiene 3 cadenas (Sala E, Sala G, Sala M) que dicen lo mismo: tasa activa + valores actuales = enriquecimiento indebido. Usar la más reciente o contundente como cita principal. Las otras dos, mencionar brevemente: "en igual sentido, Sala G... Sala M..." sin transcribir los párrafos completos. El argumento central se dice una vez bien, no tres veces.
 - Variables [PORCENTAJE_INTERES] y [EFECTO_DUPLICACION] requieren juicio: evaluar qué efecto tiene la tasa activa pretendida sobre el monto reclamado en este caso concreto
 - Si no hay planteo de intereses, sección breve de reserva
 
@@ -67,6 +69,7 @@ Si la demanda plantea intereses (especialmente tasa activa):
   - Psicológica: si hay reclamo de daño psicológico (distinguir de daño moral)
   - Contable: si hay discusión sobre montos, intereses, actualización
 - Las pericias condicionales dependen de qué rubros reclama la actora. No es un checkbox, requiere criterio sobre qué prueba es necesaria y pertinente.
+- **Pericia contable subsidiaria**: si la actora ofrece pericia contable y la defensa se opone en sección 17, ofrecer subsidiariamente pericia contable propia con puntos de pericia defensivos, o al menos reservar expresamente el derecho de proponer puntos de pericia conforme art. 459 CPCCN. No quedar sin puntos propios si el juez admite la pericia de la actora.
 
 ### Sección 17: OPOSICIÓN A PRUEBA DE LA ACTORA
 Boilerplate `oposicion-prueba-actora` como base. Pero cuáles oposiciones aplican depende del caso:
@@ -103,6 +106,11 @@ Terminar con: "Proveer de conformidad, SERÁ JUSTICIA."
 - Style guide para tono, conectores, asertividad.
 - Prosa continua, lenguaje jurídico argentino.
 - Sin bullets, sin listas numeradas, sin emojis, sin markdown.
+
+### Numeración romana
+- Numerar todas las secciones con números romanos consecutivos, continuando la secuencia de Draft-A.
+- Si una sección condicional se omite (ej: Culpa de la Víctima no aplica), renumerar las siguientes para que no haya saltos. El juez no debe encontrar un número faltante en la secuencia.
+- **No referenciar "Draft A" ni "Draft B"** en el texto del escrito ni en las notas internas. Son conceptos internos del pipeline, invisibles para el abogado.
 
 ### Notas al abogado
 - Tipo 1: `[COMPLETAR: qué falta]` (rojo en docx)
